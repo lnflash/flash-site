@@ -23,8 +23,9 @@
         </a>
       </div>
       <nav>
-        <img src="assets/img/nav-open.svg" alt="Menu" class="mobile-only">
-        <ul class="main-nav">
+        <img src="assets/img/nav-open.svg" alt="Open Menu" id="open-nav" class="mobile-only">
+        <ul class="main-nav" id="main-nav" data-mob-state="closed" aria-hidden="false">
+          <li><img src="assets/img/nav-close.svg" alt="Close Menu" id="close-nav" class="mobile-only"></li>
           <li><a href="#pg-download" class="nav-link">Download</a></li>
           <li><a href="#pg-about" class="nav-link">About</a></li>
           <li><a href="#pg-faq" class="nav-link">FAQ</a></li>
@@ -76,7 +77,7 @@
             <img src="assets/img/iphone11-frame.png" alt="" class="phone-frame">
             <!-- Screenshots go here -->
           </div>
-          <div class="slider-content">
+          <!-- <div class="slider-content"> -->
             <div class="slider-tabs">
               <div class="slider-tab app active" tabindex="">
                 <h3>FlashApp</h3>
@@ -94,10 +95,12 @@
                 <img src="assets/img/bucket-bitcoin.png" alt="bitcoins in popcorn bag">
               </div>
             </div>
-            <div class="slider-msg">
-              <p>Flash lets you do business at lightning speed! Experience the ease with which you can move money around the world. Sell products and services globally to anyone, all from your smartphone.</p>
+            <div class="slider-msg-container">
+              <div class="slider-msg">
+                <p>Flash lets you do business at lightning speed! Experience the ease with which you can move money around the world. Sell products and services globally to anyone, all from your smartphone.</p>
+              </div>
             </div>
-          </div>
+          <!-- </div> -->
         </div>
       </div>
     </section>
@@ -108,20 +111,22 @@
         <h2>Frequently Asked Questions</h2>
         <div class="accordion">
           <div class="accordion-tab">
-            <div class="accordion-head">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                <!-- DO NOT DELETE "DEFS"! -->
-                <defs>
-                  <g id="plus">
-                    <rect class="vert" x="8" y="0" width="4" height="20" rx="2" ry="2"/>
-                    <rect class="hori" x="8" y="0" width="4" height="20" rx="2" ry="2" transform="translate(0 20) rotate(-90)"/>
-                  </g>
-                </defs>
-                <use href="#plus" class="plus"></use>
-              </svg>
-              <p class="accordion-label">Why is Flash powered by Bitcoin?</p>
-            </div>
-            <div class="accordion-body">
+            <h3 id="faq1-label">
+              <button class="accordion-head" aria-controls="faq1-answer" aria-expanded="false">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" aria-hidden="true">
+                  <!-- DO NOT DELETE "DEFS"! -->
+                  <defs>
+                    <g id="plus">
+                      <rect class="vert" x="8" y="0" width="4" height="20" rx="2" ry="2"/>
+                      <rect class="hori" x="8" y="0" width="4" height="20" rx="2" ry="2" transform="translate(0 20) rotate(-90)"/>
+                    </g>
+                  </defs>
+                  <use href="#plus" class="plus"></use>
+                </svg>
+                <span class="accordion-label">Why is Flash powered by Bitcoin?</span>
+              </button>
+            </h3>
+            <div class="accordion-body" id="faq1-answer" aria-labelledby="faq1-label" role="region" hidden>
               <p>Bitcoin is a decentralized digital currency that offers several benefits over traditional currencies and payment methods. Here are some of those benefits:</p>
               <ol>
                 <li>Decentralization: Bitcoin is a decentralized currency, meaning it is not controlled by any government or financial institution. This gives users more control over their money and eliminates the need for intermediaries.</li>
@@ -133,69 +138,81 @@
               <p>Overall, Bitcoin offers several advantages over traditional currencies and payment methods.</p>
             </div>
           </div>
-          <div class="accordion-tab active">
-            <div class="accordion-head">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                <use href="#plus" class="plus"></use>
-              </svg>
-              <p class="accordion-label">What does Flash do?</p>
-            </div>
-            <div class="accordion-body">
+          <div class="accordion-tab">
+            <h3 id="faq2-label">
+              <button class="accordion-head" aria-controls="faq2-answer" aria-expanded="false">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" aria-hidden="true">
+                  <use href="#plus" class="plus"></use>
+                </svg>
+                <span class="accordion-label">What does Flash do?</span>
+              </button>
+            </h3>
+            <div class="accordion-body" id="faq2-answer" aria-labelledby="faq2-label" role="region" hidden>
               <p>Flash acts as a digital wallet that you can use to send money to others or to make payments. It’s a revolutionary new way to do business.</p>
             </div>
           </div>
           <div class="accordion-tab">
-            <div class="accordion-head">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                <use href="#plus" class="plus"></use>
-              </svg>
-              <p class="accordion-label">Does the person I’m sending to/receiving from need to have Flash?</p>
-            </div>
-            <div class="accordion-body">
+            <h3 id="faq3-label">
+              <button class="accordion-head" aria-controls="faq3-answer" aria-expanded="false">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" aria-hidden="true">
+                  <use href="#plus" class="plus"></use>
+                </svg>
+                <span class="accordion-label">Does the person I’m sending to/receiving from need to have Flash?</span>
+              </button>
+            </h3>
+            <div class="accordion-body" id="faq3-answer" aria-labelledby="faq3-label" role="region" hidden>
               <p>No. Flash can send to and receive from many apps across the globe, including Cashapp, Bitnob and Osmo wallet.</p>
             </div>
           </div>
           <div class="accordion-tab">
-            <div class="accordion-head">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                <use href="#plus" class="plus"></use>
-              </svg>
-              <p class="accordion-label">Can I cash out in the app and move the money to a bank account?</p>
-            </div>
-            <div class="accordion-body">
+            <h3 id="faq4-label">
+              <button class="accordion-head" aria-controls="faq4-answer" aria-expanded="false">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" aria-hidden="true">
+                  <use href="#plus" class="plus"></use>
+                </svg>
+                <span class="accordion-label">Can I cash out in the app and move the money to a bank account?</span>
+              </button>
+            </h3>
+            <div class="accordion-body" id="faq4-answer" aria-labelledby="faq4-label" role="region" hidden>
               <p>While flash does provide you with a wallet for handling your money, you are the one in complete control of it. At any point you can choose to withdraw or deposit money at one of our local cash-in/cash-out locations.</p>
             </div>
           </div>
           <div class="accordion-tab">
-            <div class="accordion-head">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                <use href="#plus" class="plus"></use>
-              </svg>
-              <p class="accordion-label">Can I have multiple Flash accounts?</p>
-            </div>
-            <div class="accordion-body">
+            <h3 id="faq5-label">
+              <button class="accordion-head" aria-controls="faq5-answer" aria-expanded="false">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" aria-hidden="true">
+                  <use href="#plus" class="plus"></use>
+                </svg>
+                <span class="accordion-label">Can I have multiple Flash accounts?</span>
+              </button>
+            </h3>
+            <div class="accordion-body" id="faq5-answer" aria-labelledby="faq5-label" role="region" hidden>
               <p>Yes.</p>
             </div>
           </div>
           <div class="accordion-tab">
-            <div class="accordion-head">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                <use href="#plus" class="plus"></use>
-              </svg>
-              <p class="accordion-label">How can I join the waitlist?</p>
-            </div>
-            <div class="accordion-body">
+            <h3 id="faq6-label">
+              <button class="accordion-head" aria-controls="faq6-answer" aria-expanded="false">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" aria-hidden="true">
+                  <use href="#plus" class="plus"></use>
+                </svg>
+                <span class="accordion-label">How can I join the waitlist?</span>
+              </button>
+            </h3>
+            <div class="accordion-body" id="faq6-answer" aria-labelledby="faq6-label" role="region" hidden>
               <p>Click <a href="#pg-contact" class="greenlink">here</a> and enter your email address to be put on the waitlist.</p>
             </div>
           </div>
           <div class="accordion-tab">
-            <div class="accordion-head">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                <use href="#plus" class="plus"></use>
-              </svg>
-              <p class="accordion-label">I have a specific question, how can I contact you?</p>
-            </div>
-            <div class="accordion-body">
+            <h3 id="faq7-label">
+              <button class="accordion-head" aria-controls="faq7-answer" aria-expanded="false">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" aria-hidden="true">
+                  <use href="#plus" class="plus"></use>
+                </svg>
+                <span class="accordion-label">I have a specific question, how can I contact you?</span>
+              </button>
+            </h3>
+            <div class="accordion-body" id="faq7-answer" aria-labelledby="faq7-label" role="region" hidden>
               <p>Click <a href="#pg-contact" class="greenlink">here</a> and fill out our contact form. We would love to hear from you and we will get back to you as soon as possible!</p>
             </div>
           </div>
@@ -206,41 +223,43 @@
     <!-- Page: Contact -->
     <section id="pg-contact" class="pg-contact">
       <div class="container">
-        <h2>Contact Us</h2>
-        <div class="col-3">
-          <form action="" class="contact-form">
-            <label for="c-name">Name</label>
-            <input type="text" name="c-name" id="c-name">
-            <label for="c-email">Email</label>
-            <input type="email" name="c-email" id="c-email">
-            <label for="c-msg">Message</label>
-            <textarea name="c-msg" id="c-msg"></textarea>
-            <div class="button-container">
-              <button id="send-msg-btn" class="button-1">Send
-                <svg id="icon-send" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32.35 24.23">
-                  <path d="m2.9,22.12l7.29-10.03L2.81,2.12l26.7,9.97L2.9,22.12Zm7.2-9.97h19.32" fill="none" fill-rule="evenodd" stroke="#000" stroke-miterlimit="10" stroke-width="2"/>
-                </svg>
-              </button>
-            </div>
-          </form>
-          <p class="contact-or">or</p>
-          <form action="" class="waitlist-form">
-            <p>Sign up for the waitlist with your email address to receive news and updates.</p>
-            <input type="email" name="w-email" id="w-email" placeholder="Your Email Address">
-            <div class="button-container">
-              <button id="send-msg-btn" class="button-2">Sign up
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                  <use href="#plus" class="plus"></use>
-                </svg>
-              </button>
-            </div>
-          </form>
+        <div class="forms-bg">
+          <h2>Contact Us</h2>
+          <div class="col-3">
+            <form action="" class="contact-form">
+              <label for="c-name">Name</label>
+              <input type="text" name="c-name" id="c-name">
+              <label for="c-email">Email</label>
+              <input type="email" name="c-email" id="c-email">
+              <label for="c-msg">Message</label>
+              <textarea name="c-msg" id="c-msg"></textarea>
+              <div class="button-container">
+                <button id="send-msg-btn" class="button-1">Send
+                  <svg id="icon-send" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32.35 24.23" aria-hidden="true">
+                    <path d="m2.9,22.12l7.29-10.03L2.81,2.12l26.7,9.97L2.9,22.12Zm7.2-9.97h19.32" fill="none" fill-rule="evenodd" stroke="#000" stroke-miterlimit="10" stroke-width="2"/>
+                  </svg>
+                </button>
+              </div>
+            </form>
+            <p class="contact-or">or</p>
+            <form action="" class="waitlist-form">
+              <p>Sign up for the waitlist with your email address to receive news and updates.</p>
+              <input type="email" name="w-email" id="w-email" placeholder="Your Email Address">
+              <div class="button-container">
+                <button id="send-msg-btn" class="button-2">Sign up
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" aria-hidden="true">
+                    <use href="#plus" class="plus"></use>
+                  </svg>
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
     </section>
 
     <!-- Dark Mode Switch -->
-    <div class="darkmode">
+    <div class="darkmode" id="darkmode">
       <div class="container">
         <label for="dark-switch" class="switch-container">
           <svg id="icon-sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 23.65 23.65">
@@ -272,8 +291,8 @@
         <div class="footer-links">
           <img src="assets/img/logo-black.png" alt="Flash" class="light logo">
           <img src="assets/img/logo-white.png" alt="" class="dark logo">
-          <img src="assets/img/google-play-badge.png" alt="Get it on Google Play" class="badge">
-          <img src="assets/img/ios-badge.svg" alt="Download on the App Store" class="badge ios">
+          <img src="assets/img/google-play-badge.png" alt="Get it on Google Play" class="badge desktop-only">
+          <img src="assets/img/ios-badge.svg" alt="Download on the App Store" class="badge ios desktop-only">
         </div>
         <p>Powered by Bitcoin.</p>
       </div>
@@ -281,7 +300,20 @@
     <div class="footer-btm">
       <div class="container">
         <p class="copyright"><span>&copy;</span> 2023 Flash. All rights reserved.</p>
-        <div class="socials"></div>
+        <div class="socials">
+          <a href="https://twitter.com/LNFlash" target="_blank" class="no-style">
+            <img src="assets/img/twitter-logo.svg" alt="Twitter">
+          </a>
+          <a href="https://www.facebook.com" target="_blank" class="no-style">
+            <img src="assets/img/facebook-logo.svg" alt="Facebook">
+          </a>
+          <a href="https://www.instagram.com" target="_blank" class="no-style">
+            <img src="assets/img/instagram-logo.svg" alt="Instagram">
+          </a>
+          <a href="https://github.com" target="_blank" class="no-style">
+            <img src="assets/img/github-logo.svg" alt="Github">
+          </a>
+        </div>
       </div>
     </div>
   </footer>
