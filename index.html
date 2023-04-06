@@ -11,7 +11,7 @@
   <!-- CSS -->
   <link rel="stylesheet" href="css/main.css">
 
-  <title>Flash | Mobile Bitcoin App</title>
+  <title>Flash | Bitcoin App</title>
 </head>
 <body class="light-mode">
   <header>
@@ -22,29 +22,45 @@
           <img src="assets/img/logo-white.png" alt="Flash" class="dark">
         </a>
       </div>
+      <!-- Navigation -->
       <nav>
-        <img src="assets/img/nav-open.svg" alt="Open Menu" id="open-nav" class="mobile-only">
+        <svg id="open-nav" class="nav-icon mobile-only" aria-label="close menu" width="41" height="15" viewBox="0 0 41 15" xmlns="http://www.w3.org/2000/svg">
+          <line x1="2" y1="2" x2="39" y2="2" stroke="#161313" stroke-width="4" stroke-linecap="round"/>
+          <line x1="15" y1="13" x2="39" y2="13" stroke="#161313" stroke-width="4" stroke-linecap="round"/>
+        </svg>
+        <!-- <img src="assets/img/nav-open.svg" alt="Open Menu" id="open-nav" class="mobile-only"> -->
         <ul class="main-nav" id="main-nav" data-mob-state="closed" aria-hidden="false">
-          <li><img src="assets/img/nav-close.svg" alt="Close Menu" id="close-nav" class="mobile-only"></li>
+          <li>
+            <svg id="close-nav" class="nav-icon mobile-only" aria-label="close menu" width="26" height="26" viewBox="0 0 26 26" xmlns="http://www.w3.org/2000/svg">
+              <path d="M23.2129 2L1.99969 23.2132" stroke="black" stroke-width="4" stroke-linecap="round"/>
+              <path d="M2.21289 2L23.4261 23.2132" stroke="black" stroke-width="4" stroke-linecap="round"/>
+            </svg>
+          </li>
           <li><a href="#pg-download" class="nav-link">Download</a></li>
           <li><a href="#pg-about" class="nav-link">About</a></li>
           <li><a href="#pg-faq" class="nav-link">FAQ</a></li>
           <li><a href="#pg-contact" class="nav-link">Contact</a></li>
         </ul>
       </nav>
+      <!-- End of Navigation -->
     </div>
   </header>
 
   <main>
     <!-- Page: Download / Hero -->
     <section id="pg-download" class="pg-download">
+      <canvas id="lightning-storm"></canvas>
       <div class="container col-2-even">
         <div class="banner-left">
           <h1 class="banner-txt">Global businness in a <span class="banner-highlight">flash</span></h1>
           <p>Flash is a bitcoin app that lets you do business at lightning speed.</p>
           <div class="downloads-container">
-            <img src="assets/img/google-play-badge.png" alt="Get it on Google Play" id="googleplay-link">
-            <img src="assets/img/ios-badge.svg" alt="Download on the App Store" id="appstore-link">
+            <a href="https://play.google.com" target="_blank" id="googleplay-link">
+              <img src="assets/img/google-play-badge.png" alt="Get it on Google Play">
+            </a>
+            <a href="https://www.apple.com/app-store" target="_blank" id="appstore-link">
+              <img src="assets/img/ios-badge.svg" alt="Download on the App Store">
+            </a>
           </div>
         </div>
         <div class="banner-right">
@@ -52,6 +68,7 @@
         </div>
       </div>
     </section>
+    <!-- End of Page: Download / Hero -->
 
     <!-- Page: About -->
     <section id="pg-about" class="pg-about">
@@ -60,7 +77,7 @@
           <div class="about-banner-left">
             <h2>Flash uses Bitcoin:</h2>
             <p>The first global peer-to-peer electronic cash network.</p>
-            <h3 class="mar-top-60">Making money is expensive.</h3>
+            <h3 class="mar-top-60">Moving money is expensive.</h3>
             <p>Bitcoin removes the middlemen when moving money, lowering cost and increasing the speed of transactions.</p>
           </div>
           <div class="about-banner-right">
@@ -73,55 +90,80 @@
       <div class="about-modes container">
         <h2>1 App, 3 Modes</h2>
         <div class="slider-container">
+          <!-- Slider Images -->
           <div class="slider-imgs">
-            <img src="assets/img/iphone11-frame.png" alt="" class="phone-frame">
-            <!-- Screenshots go here -->
+            <!-- Screenshots go in here -->
+            <ul id="slides" class="slides">
+              <li class="slide">
+                <img src="assets/img/slide-1.png" alt="Image of FlashApp">
+              </li>
+              <li class="slide">
+                <img src="assets/img/slide-2.png" alt="Image of FlashCash">
+              </li>
+              <li class="slide">
+                <img src="assets/img/slide-3.png" alt="Image of FlashPay">
+              </li>
+            </ul>
+            <!-- Phone Frame -->
+            <div class="frame-container">
+              <img src="assets/img/frame-black.png" alt="" class="dark phone-frame">
+              <img src="assets/img/frame-light.png" alt="" class="light phone-frame">
+              <div class="slider-overlay a"></div>
+              <div class="slider-overlay b"></div>
+            </div>
           </div>
-          <!-- <div class="slider-content"> -->
-            <div class="slider-tabs">
-              <div class="slider-tab app active" tabindex="">
-                <h3>FlashApp</h3>
-                <p>Consumer app for sending and receiving value globally.</p>
-                <img src="assets/img/pop-bitcoin.png" alt="bitcoins in popcorn bag">
-              </div>
-              <div class="slider-tab app" tabindex="">
-                <h3>FlashCash</h3>
-                <p>Merchant only app for providing cash in and cash out locations.</p>
-                <img src="assets/img/safe-bitcoin.png" alt="bitcoins in popcorn bag">
-              </div>
-              <div class="slider-tab app" tabindex="">
-                <h3>FlashPay</h3>
-                <p>Web app for accepting Bitcoin and Lightning via Point of Sale.</p>
-                <img src="assets/img/bucket-bitcoin.png" alt="bitcoins in popcorn bag">
-              </div>
+          <!-- End of Slider Images -->
+          <!-- Slider Tabs -->
+          <div class="slider-tabs">
+            <div class="slider-tab app" tabindex="">
+              <h3>FlashApp</h3>
+              <p>Consumer app for sending and receiving value globally.</p>
+              <img src="assets/img/pop-bitcoin.png" alt="bitcoins in popcorn bag">
             </div>
-            <div class="slider-msg-container">
-              <div class="slider-msg">
-                <p>Flash lets you do business at lightning speed! Experience the ease with which you can move money around the world. Sell products and services globally to anyone, all from your smartphone.</p>
-              </div>
+            <div class="slider-tab app"  tabindex="">
+              <h3>FlashCash</h3>
+              <p>Merchant only app for providing cash in and cash out locations.</p>
+              <img src="assets/img/safe-bitcoin.png" alt="bitcoins in popcorn bag">
             </div>
-          <!-- </div> -->
+            <div class="slider-tab app" tabindex="">
+              <h3>FlashPay</h3>
+              <p>Web app for accepting Bitcoin and Lightning via Point of Sale.</p>
+              <img src="assets/img/bucket-bitcoin.png" alt="bitcoins in popcorn bag">
+            </div>
+          </div>
+          <!-- End of Slider Tabs -->
+          <div class="slider-msg-container">
+            <div class="slider-msg">
+              <p>Flash lets you do business at lightning speed! Experience the ease with which you can move money around the world. Sell products and services globally to anyone, all from your smartphone.</p>
+            </div>
+          </div>
         </div>
       </div>
     </section>
+    <!-- End of Page: About -->
 
     <!-- Page: FAQ -->
     <section id="pg-faq">
       <div class="container">
         <h2>Frequently Asked Questions</h2>
         <div class="accordion">
-          <div class="accordion-tab">
+          <!-- Tab 1 -->
+          <div class="accordion-tab" data-active="inactive">
             <h3 id="faq1-label">
               <button class="accordion-head" aria-controls="faq1-answer" aria-expanded="false">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" aria-hidden="true">
-                  <!-- DO NOT DELETE "DEFS"! -->
-                  <defs>
+                  <!-- DO NOT DELETE SYMBOLS! -->
+                  <symbol>
                     <g id="plus">
                       <rect class="vert" x="8" y="0" width="4" height="20" rx="2" ry="2"/>
                       <rect class="hori" x="8" y="0" width="4" height="20" rx="2" ry="2" transform="translate(0 20) rotate(-90)"/>
                     </g>
-                  </defs>
+                  </symbol>
+                  <symbol>
+                    <rect id="minus" x="8" y="0" width="4" height="20" rx="2" ry="2" transform="translate(0 20) rotate(-90)"/>
+                  </symbol>
                   <use href="#plus" class="plus"></use>
+                  <use href="#minus" class="minus"></use>
                 </svg>
                 <span class="accordion-label">Why is Flash powered by Bitcoin?</span>
               </button>
@@ -138,11 +180,14 @@
               <p>Overall, Bitcoin offers several advantages over traditional currencies and payment methods.</p>
             </div>
           </div>
-          <div class="accordion-tab">
+          <!-- End of Tab 1 -->
+          <!-- Tab 2 -->
+          <div class="accordion-tab" data-active="inactive">
             <h3 id="faq2-label">
               <button class="accordion-head" aria-controls="faq2-answer" aria-expanded="false">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" aria-hidden="true">
                   <use href="#plus" class="plus"></use>
+                  <use href="#minus" class="minus"></use>
                 </svg>
                 <span class="accordion-label">What does Flash do?</span>
               </button>
@@ -151,11 +196,14 @@
               <p>Flash acts as a digital wallet that you can use to send money to others or to make payments. It’s a revolutionary new way to do business.</p>
             </div>
           </div>
-          <div class="accordion-tab">
+          <!-- End of Tab 2 -->
+          <!-- Tab 3 -->
+          <div class="accordion-tab" data-active="inactive">
             <h3 id="faq3-label">
               <button class="accordion-head" aria-controls="faq3-answer" aria-expanded="false">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" aria-hidden="true">
                   <use href="#plus" class="plus"></use>
+                  <use href="#minus" class="minus"></use>
                 </svg>
                 <span class="accordion-label">Does the person I’m sending to/receiving from need to have Flash?</span>
               </button>
@@ -164,11 +212,14 @@
               <p>No. Flash can send to and receive from many apps across the globe, including Cashapp, Bitnob and Osmo wallet.</p>
             </div>
           </div>
-          <div class="accordion-tab">
+          <!-- End of Tab 3 -->
+          <!-- Tab 4 -->
+          <div class="accordion-tab" data-active="inactive">
             <h3 id="faq4-label">
               <button class="accordion-head" aria-controls="faq4-answer" aria-expanded="false">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" aria-hidden="true">
                   <use href="#plus" class="plus"></use>
+                  <use href="#minus" class="minus"></use>
                 </svg>
                 <span class="accordion-label">Can I cash out in the app and move the money to a bank account?</span>
               </button>
@@ -177,11 +228,14 @@
               <p>While flash does provide you with a wallet for handling your money, you are the one in complete control of it. At any point you can choose to withdraw or deposit money at one of our local cash-in/cash-out locations.</p>
             </div>
           </div>
-          <div class="accordion-tab">
+          <!-- End of Tab 4 -->
+          <!-- Tab 5 -->
+          <div class="accordion-tab" data-active="inactive">
             <h3 id="faq5-label">
               <button class="accordion-head" aria-controls="faq5-answer" aria-expanded="false">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" aria-hidden="true">
                   <use href="#plus" class="plus"></use>
+                  <use href="#minus" class="minus"></use>
                 </svg>
                 <span class="accordion-label">Can I have multiple Flash accounts?</span>
               </button>
@@ -190,11 +244,14 @@
               <p>Yes.</p>
             </div>
           </div>
-          <div class="accordion-tab">
+          <!-- End of Tab 5 -->
+          <!-- Tab 6 -->
+          <div class="accordion-tab" data-active="inactive">
             <h3 id="faq6-label">
               <button class="accordion-head" aria-controls="faq6-answer" aria-expanded="false">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" aria-hidden="true">
                   <use href="#plus" class="plus"></use>
+                  <use href="#minus" class="minus"></use>
                 </svg>
                 <span class="accordion-label">How can I join the waitlist?</span>
               </button>
@@ -203,11 +260,14 @@
               <p>Click <a href="#pg-contact" class="greenlink">here</a> and enter your email address to be put on the waitlist.</p>
             </div>
           </div>
-          <div class="accordion-tab">
+          <!-- End of Tab 6 -->
+          <!-- Tab 7 -->
+          <div class="accordion-tab" data-active="inactive">
             <h3 id="faq7-label">
               <button class="accordion-head" aria-controls="faq7-answer" aria-expanded="false">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" aria-hidden="true">
                   <use href="#plus" class="plus"></use>
+                  <use href="#minus" class="minus"></use>
                 </svg>
                 <span class="accordion-label">I have a specific question, how can I contact you?</span>
               </button>
@@ -216,9 +276,11 @@
               <p>Click <a href="#pg-contact" class="greenlink">here</a> and fill out our contact form. We would love to hear from you and we will get back to you as soon as possible!</p>
             </div>
           </div>
+          <!-- End of Tab 7 -->
         </div>
       </div>
     </section>
+    <!-- End of Page: FAQ -->
 
     <!-- Page: Contact -->
     <section id="pg-contact" class="pg-contact">
@@ -226,37 +288,61 @@
         <div class="forms-bg">
           <h2>Contact Us</h2>
           <div class="col-3">
+            <!-- Contact Form -->
             <form action="" class="contact-form">
-              <label for="c-name">Name</label>
-              <input type="text" name="c-name" id="c-name">
-              <label for="c-email">Email</label>
-              <input type="email" name="c-email" id="c-email">
-              <label for="c-msg">Message</label>
-              <textarea name="c-msg" id="c-msg"></textarea>
-              <div class="button-container">
-                <button id="send-msg-btn" class="button-1">Send
-                  <svg id="icon-send" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32.35 24.23" aria-hidden="true">
-                    <path d="m2.9,22.12l7.29-10.03L2.81,2.12l26.7,9.97L2.9,22.12Zm7.2-9.97h19.32" fill="none" fill-rule="evenodd" stroke="#000" stroke-miterlimit="10" stroke-width="2"/>
-                  </svg>
-                </button>
+              <div class="formfields">
+                <label for="c-name">Name</label>
+                <input type="text" name="c-name" id="c-name">
+                <label for="c-email">Email</label>
+                <input type="email" name="c-email" id="c-email">
+                <label for="c-msg">Message</label>
+                <textarea name="c-msg" id="c-msg" class="c-msg" placeholder=""></textarea>
+                <div class="button-container">
+                  <button id="send-msg-btn" class="button-1">Send
+                    <svg id="icon-send" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32.35 24.23" aria-hidden="true">
+                      <path d="m2.9,22.12l7.29-10.03L2.81,2.12l26.7,9.97L2.9,22.12Zm7.2-9.97h19.32" fill="none" fill-rule="evenodd" stroke="#000" stroke-miterlimit="10" stroke-width="2"/>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+              <div class="success-msg form-success">
+                <h2>Message Sent!</h2>
+                <!-- SVG -->
+                <p>Thanks for reaching out to us!</p>
               </div>
             </form>
+            <!-- End of Contact Form -->
             <p class="contact-or">or</p>
+            <!-- Waitlist Form -->
             <form action="" class="waitlist-form">
-              <p>Sign up for the waitlist with your email address to receive news and updates.</p>
-              <input type="email" name="w-email" id="w-email" placeholder="Your Email Address">
-              <div class="button-container">
-                <button id="send-msg-btn" class="button-2">Sign up
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" aria-hidden="true">
-                    <use href="#plus" class="plus"></use>
-                  </svg>
-                </button>
+              <div class="formfields">
+                <p>Sign up for the waitlist with your email address to receive news and updates.</p>
+                <input type="email" name="w-email" id="w-email" placeholder="Your Email Address">
+                <div class="button-container">
+                  <button id="sign-up-btn" class="button-2">Sign up
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" aria-hidden="true">
+                      <use href="#plus" class="plus"></use>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+              <div class="success-waitlist form-success">
+                <h2>You've been added to our waitlist!</h2>
+                <p>We'll reach out to you soon with the latest on Flash!</p>
               </div>
             </form>
+            <!-- End of Waitlist Form -->
           </div>
         </div>
       </div>
     </section>
+    <!-- End of Page: Contact -->
+
+    <div class="loading-screen" id="loading-screen">
+      <img src="assets/img/logo-black.png" alt="" class="light">
+      <img src="assets/img/logo-white.png" alt="" class="dark">
+      <div class="progress-bar"></div>
+    </div>
 
     <!-- Dark Mode Switch -->
     <div class="darkmode" id="darkmode">
@@ -283,6 +369,7 @@
         </label>
       </div>
     </div>
+    <!-- End of Dark Mode Switch -->
   </main>
 
   <footer>
@@ -291,8 +378,12 @@
         <div class="footer-links">
           <img src="assets/img/logo-black.png" alt="Flash" class="light logo">
           <img src="assets/img/logo-white.png" alt="" class="dark logo">
-          <img src="assets/img/google-play-badge.png" alt="Get it on Google Play" class="badge desktop-only">
-          <img src="assets/img/ios-badge.svg" alt="Download on the App Store" class="badge ios desktop-only">
+          <a href="https://play.google.com" target="_blank">
+            <img src="assets/img/google-play-badge.png" alt="Get it on Google Play" class="badge desktop-only">
+          </a>
+          <a href="https://www.apple.com/app-store" target="_blank">
+            <img src="assets/img/ios-badge.svg" alt="Download on the App Store" class="badge ios desktop-only">
+          </a>
         </div>
         <p>Powered by Bitcoin.</p>
       </div>
@@ -318,7 +409,14 @@
     </div>
   </footer>
 
+  <!-- jQuery CDN -->
+  <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
+  <!-- Local jQuery (uncomment if prefer not to use CDN and comment out CDN instead) -->
+  <!-- <script src="js/jquery-3.6.4.min.js"></script> -->
+  
+  <!-- Custom JS -->
   <script src="js/lightning.js"></script>
+  <script src="js/slider.js"></script>
   <script src="js/main.js"></script>
 </body>
 </html>
