@@ -541,6 +541,9 @@ header .container {
 }
 
 /* FAQ Page */
+/* .accordion {
+  height: auto;
+} */
 .accordion-tab {
   --_head-height: 50px;
   margin-bottom: 5px;
@@ -591,19 +594,21 @@ header .container {
 }
 .accordion-body {
   color: var(--text-colour);
-  /* max-height: 0; */
-  /* transition: max-height var(--transition-time); */
+  max-height: 0;
+  overflow: hidden;
+  padding: 0 70px;
+  will-change: max-height;
+  transition: max-height var(--transition-time) ease-out;
+}
+.accordion-body > *:first-child {
+  margin-top: var(--padding-gen);
+}
+.accordion-body > *:last-child {
+  margin-bottom: var(--padding-gen);
 }
 .accordion-body > * {
   opacity: 0;
-  transition: opacity 150ms var(--transition-time);
-}
-/* .accordion-tab[data-active='inactive'] .accordion-body {
-  height: 0;
-} */
-.accordion-tab[data-active='active'] .accordion-body {
-  padding: var(--padding-gen) 70px;
-  /* max-height: 1000px; */
+  transition: opacity var(--transition-time);
 }
 .accordion-tab[data-active='active'] .accordion-body > *  {
   opacity: 1;
@@ -699,6 +704,10 @@ header .container {
 .form-success {
   display: none;
   text-align: center;
+}
+.envelope path,
+.envelope line {
+  stroke: var(--text-colour);
 }
 .contact-or {
   font-size: 96px;

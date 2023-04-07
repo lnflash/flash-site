@@ -14,8 +14,10 @@ const closeNavIcon = document.getElementById('close-nav');
 function changeMobileNavState() {
   if (mainNav.dataset.mobState === 'closed') {
     mainNav.dataset.mobState = 'open';
+    mainNav.setAttribute('aria-hidden', false);
   } else {
     mainNav.dataset.mobState = 'closed';
+    mainNav.setAttribute('aria-hidden', true);
   }
 }
 
@@ -58,13 +60,22 @@ function changeTab(activeTab) {
   });
   tabs.forEach(tab => {
     tab.dataset.active = 'inactive';
+    tab.querySelector('.accordion-body').style.maxHeight = null;
   });
   answers.forEach(answer => {
-    answer.setAttribute('hidden', '');
+    answer.setAttribute('aria-hidden', true);
   });
   activeTab.dataset.active = 'active';
   activeTab.querySelector('.accordion-head').setAttribute('aria-expanded', true);
-  activeTab.querySelector('.accordion-body').removeAttribute('hidden');
+  activeTab.querySelector('.accordion-body').setAttribute('aria-hidden', false);
+  let tabHeight = activeTab.querySelector('.accordion-body').scrollHeight + "px";
+  $(activeTab).find('.accordion-body').css('maxHeight', tabHeight);
+}
+function closeTab(activeTab) {
+  activeTab.querySelector('.accordion-head').setAttribute('aria-expanded', false);
+  activeTab.dataset.active = 'inactive';
+  activeTab.querySelector('.accordion-body').style.maxHeight = null;
+  activeTab.querySelector('.accordion-body').setAttribute('aria-hidden', true);
 }
 
 // Contact & Waitlist Forms
@@ -201,14 +212,15 @@ function loadScreen() {
     $('#loading-screen').fadeOut('fast');
   }, 2000);
 }
-
+// Remember theme preference during session
 if (sessionStorage.getItem('theme')) {
   changeTheme(sessionStorage.getItem('theme'));
 } else {
   checkThemePreference();
 }
+// Hide nav list items from screen readers if nav is collapsed on small screens
 if (window.innerWidth < 800) {
-  mainNav.ariaHidden = true;
+  mainNav.setAttribute('aria-hidden', true);
 }
 
 window.onload = () => {
@@ -242,8 +254,15 @@ window.onload = () => {
   // Accordion
   accordion.addEventListener('click', (e)=>{
     const activeTab = e.target.closest('.accordion-tab');
+    const headClick = e.target.closest('.accordion-head');
     if (!activeTab) return;
-    changeTab(activeTab);
+    if (activeTab.dataset.active == 'inactive') {
+      changeTab(activeTab);
+    } else {
+      // Only close the tab if they click on the tab head
+      if (!headClick) return;
+      closeTab(activeTab);
+    }
   });
   // Send Message
   sendMsgBtn.addEventListener('click', (e)=>{
