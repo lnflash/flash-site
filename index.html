@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html class="no-js" lang="en" dir="ltr">
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -81,13 +81,15 @@
             <p>Bitcoin removes the middlemen when moving money, lowering cost and increasing the speed of transactions.</p>
           </div>
           <div class="about-banner-right">
-            <div class="mtn-img-container">
+            <div class="mtn-img-container" id="mtn-img-container">
               <img src="assets/img/Bitcoin in stone 1.png" alt="" class="mtn-img">
+              <img src="assets/img/clouds-mtn.png" alt="" id="mtn-clouds">
+              <canvas id="mtn-lightning"></canvas>
             </div>
           </div>
         </div>
       </div>
-      <div class="about-modes container">
+      <div class="about-modes container" id="about-modes">
         <h2>1 App, 3 Modes</h2>
         <div class="slider-container">
           <!-- Slider Images -->
@@ -275,11 +277,12 @@
     <!-- Page: Contact -->
     <section id="pg-contact" class="pg-contact">
       <div class="container">
-        <div class="forms-bg">
+        <div class="forms-bg" id="forms-bg">
+          <canvas id="lightning-contact"></canvas>
           <h2>Contact Us</h2>
           <div class="col-3">
             <!-- Contact Form -->
-            <form action="" class="contact-form">
+            <form class="contact-form">
               <div class="formfields">
                 <label for="c-name">Name</label>
                 <input type="text" name="c-name" id="c-name">
@@ -307,11 +310,18 @@
                 </svg>
                 <p>Thanks for reaching out to us!</p>
               </div>
+              <!-- Error Notice: Contact Form -->
+              <div class="error-msg form-error hidden">
+                <p>We're sorry! Something went wrong and your message didn't get sent.</p>
+                <div class="btn-container">
+                  <button id="close-error-msg" class="button-2">Close</button>
+                </div>
+              </div>
             </form>
             <!-- End of Contact Form -->
             <p class="contact-or">or</p>
             <!-- Waitlist Form -->
-            <form action="" class="waitlist-form">
+            <form class="waitlist-form">
               <div class="formfields">
                 <p>Sign up for the waitlist with your email address to receive news and updates.</p>
                 <input type="email" name="w-email" id="w-email" placeholder="Your Email Address">
@@ -326,6 +336,13 @@
               <div class="success-waitlist form-success">
                 <h2>You've been added to our waitlist!</h2>
                 <p>We'll reach out to you soon with the latest on Flash!</p>
+              </div>
+              <!-- Error Notice: Waitlist Form -->
+              <div class="error-waitlist form-error hidden">
+                <p>We're sorry! Something went wrong and we couldn't add you to our waitlist.</p>
+                <div class="btn-container">
+                  <button id="close-error-wtlist" class="button-2">Close</button>
+                </div>
               </div>
             </form>
             <!-- End of Waitlist Form -->
@@ -423,7 +440,7 @@
   <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
   <!-- Local jQuery (uncomment if prefer not to use CDN and comment out CDN instead) -->
   <!-- <script src="js/jquery-3.6.4.min.js"></script> -->
-  
+
   <!-- Custom JS -->
   <script src="js/lightning.js"></script>
   <script src="js/slider.js"></script>

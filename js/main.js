@@ -81,6 +81,8 @@ function closeTab(activeTab) {
 // Contact & Waitlist Forms
 const sendMsgBtn = document.getElementById('send-msg-btn');
 const signUpBtn = document.getElementById('sign-up-btn');
+const errMsgBtn = document.getElementById('close-error-msg');
+const errWtlBtn = document.getElementById('close-error-wtlist');
 function checkEmpty(val) {
   if(val.length == 0 || val == " ") {
     return false;
@@ -155,11 +157,12 @@ function patternCheck(form) {
   return [noError, values];
 }
 function sendMsg(values) {
-  const name = values.name;
-  const email = values.email;
-  const msg = values.email;
+  const name = values[0].name;
+  const email = values[1].email;
+  const msg = values[2].msg;
+  console.log(`${name} ${email} ${msg}`);
   let sendMsg = $.ajax({
-    url: ".assets/services/sendMessage.php",
+    url: "./assets/services/sendMessage.php",
     type: "POST",
     data: {
       user: name,
@@ -170,7 +173,7 @@ function sendMsg(values) {
   });
   sendMsg.fail(function (jqXHR, textStatus) {
     console.error("Something went wrong! (sendMsg)" + textStatus);
-    // Add failure notice
+    $('.error-msg').fadeIn('fast');
   });
   sendMsg.done(function (data) {
     if (data.error.id == 0) {
@@ -182,7 +185,7 @@ function sendMsg(values) {
 function addToWaitlist(values) {
   const email = values;
   let sendMsg = $.ajax({
-    url: ".assets/services/addToWaitlist.php",
+    url: "./assets/services/addToWaitlist.php",
     type: "POST",
     data: {
       email: email
@@ -190,8 +193,8 @@ function addToWaitlist(values) {
     dataType: "json"
   });
   sendMsg.fail(function (jqXHR, textStatus) {
-    console.error("Something went wrong! (sendMsg)" + textStatus);
-    // Add failure notice
+    console.error("Something went wrong! (sendMsg) " + textStatus);
+    $('.error-waitlist').fadeIn('fast');
   });
   sendMsg.done(function (data) {
     if (data.error.id == 0) {
@@ -202,7 +205,7 @@ function addToWaitlist(values) {
 }
 
 
-  // ****** Start-up Functions ******
+// ****** Start-up Functions ******
 function loadScreen() {
   $('section').hide();
   progressBar = document.querySelector('.progress-bar');
@@ -268,6 +271,7 @@ window.onload = () => {
   sendMsgBtn.addEventListener('click', (e)=>{
     e.preventDefault();
     const checkResult = patternCheck('msg');
+    // console.log(checkResult[1]);
     if (checkResult[0]) {
       sendMsg(checkResult[1]);
     }
@@ -279,4 +283,14 @@ window.onload = () => {
       addToWaitlist(checkResult[1]);
     }
   });
+  // Close Form Error
+  errMsgBtn.addEventListener('click', (e)=> {
+    e.preventDefault();
+    $('.error-msg').fadeOut('fast');
+  });
+  errWtlBtn.addEventListener('click', (e)=> {
+    e.preventDefault();
+    $('.error-waitlist').fadeOut('fast');
+  });
+  
 }

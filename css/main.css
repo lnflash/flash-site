@@ -194,7 +194,7 @@ button:not(.accordion-head) {
   border-color: var(--flash-black);
   color: var(--flash-white);
 }
-.dark-mode .button-1{
+.dark-mode .button-1 {
   background-color: var(--flash-yellow);
   border-color: var(--flash-yellow);
   color: var(--flash-black);
@@ -313,9 +313,9 @@ header .container {
   height: 100%;
 }
 .banner-right {
-  --padding-top: 65px;
-  padding-top: var(--padding-top);
-  height: calc(100vh - var(--padding-top));
+  --_padding-top: 65px;
+  padding-top: var(--_padding-top);
+  height: calc(100vh - var(--_padding-top));
 }
 .banner-right .hero-img {
   position: relative;
@@ -353,7 +353,19 @@ header .container {
   height: auto;
   display: block;
 }
-.mtn-img-container::before {
+.mtn-img-container {
+  position: relative;
+}
+.mtn-img-container #mtn-clouds {
+  position: absolute;
+  top: 40%;
+  left: -20%;
+  z-index: 2;
+}
+.mtn-img-container canvas {
+  position: absolute;
+}
+/* .mtn-img-container::before {
   content: url('../assets/img/clouds-mtn.png');
   position: absolute;
   top: 40%;
@@ -362,7 +374,7 @@ header .container {
   height: auto;
   z-index: 2;
   transform: translateX(-70%);
-}
+} */
 .dark-mode .mtn-img-container::after {
   content: '';
   position: absolute;
@@ -396,6 +408,7 @@ header .container {
   border-bottom-width: 4px;
   border-bottom-color: var(--text-colour);
   border-radius: var(--border-radius);
+  background-color: var(--bg-body);
   padding: calc(var(--padding-gen) * 2) var(--padding-gen) calc(var(--padding-gen) * 3);
   position: relative;
   height: min-content;
@@ -460,7 +473,6 @@ header .container {
 	width: 100%;
 	height: 100%;
 	display: grid;
-  /* grid-template-rows: 1fr max-content 1fr; */
   grid-template-areas: "a" "frame" "b";
 	grid-row: 1/-1;
 	grid-column: 1/-1;
@@ -541,9 +553,6 @@ header .container {
 }
 
 /* FAQ Page */
-/* .accordion {
-  height: auto;
-} */
 .accordion-tab {
   --_head-height: 50px;
   margin-bottom: 5px;
@@ -626,12 +635,51 @@ header .container {
 
 /* Contact Page */
 .forms-bg {
+  /* --_contact-padding ensures canvas stays properly aligned */
+  --_contact-padding: var(--padding-gen);
   background-color: var(--flash-off-white);
-  padding: var(--padding-gen);
+  padding: var(--_contact-padding);
   border-radius: var(--border-radius);
+  position: relative;
+}
+.forms-bg::before {
+  content: url(../assets/img/clouds-white-top-1200.png);
+  position: absolute;
+  display: block;
+  z-index: 2;
+  top: 0;
+  left: 0;
+  max-width: 100%;
+  height: auto;
+  overflow: hidden;
+}
+.forms-bg::after {
+  content: url(../assets/img/clouds-white-btm.png);
+  position: absolute;
+  display: block;
+  z-index: 1;
+  bottom: 0;
+  right: 0;
+  max-width: 100%;
+  height: auto;
+  overflow: hidden;
 }
 .dark-mode .forms-bg {
   background-color: transparent;
+}
+.dark-mode .forms-bg::before,
+.dark-mode .forms-bg::after {
+  opacity: .05;
+}
+.forms-bg > *:not(canvas) {
+  position: relative;
+  z-index: 2;
+}
+.forms-bg canvas {
+  position: absolute;
+  z-index: 1;
+  margin-left: calc(var(--_contact-padding)* -1);
+  margin-top: calc(var(--_contact-padding)* -1);
 }
 .pg-contact .col-3 {
   gap: var(--padding-gen);
@@ -639,6 +687,17 @@ header .container {
 }
 .pg-contact .col-3 form {
   max-width: 430px;
+}
+form {
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr;
+}
+form > * {
+  grid-row: 1/-1;
+  grid-column: 1/-1;
 }
 .pg-contact label {
   font-size: var(--fSize-label);
@@ -705,6 +764,20 @@ header .container {
   display: none;
   text-align: center;
 }
+.form-success h2 {
+  margin-bottom: 0;
+}
+.form-success *:not(svg) {
+  text-align: center;
+}
+.success-waitlist h2{
+  margin-bottom: var(--padding-gen);
+}
+#success-icon {
+  max-width: 80%;
+  height: auto;
+  margin: var(--padding-gen) auto;
+}
 .envelope path,
 .envelope line {
   stroke: var(--text-colour);
@@ -716,6 +789,35 @@ header .container {
   background: -webkit-linear-gradient(-45deg, var(--text-colour), var(--bg-body));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+}
+.form-error {
+  --_bg-error: var(--bg-body);
+  background-color: var(--_bg-error);
+  padding: var(--padding-gen);
+  border: 2px solid var(--text-colour);
+  border-radius: var(--border-radius);
+  margin: var(--padding-gen);
+}
+.form-error .btn-container {
+  display: flex;
+  flex-direction: column;
+}
+.form-error.hidden {
+  display: none;
+}
+.light-mode .form-error {
+  --_bg-error: var(--flash-off-white);
+}
+.dark-mode .form-error {
+  --_bg-error: var(--flash-darkmode-txtbg);
+}
+.form-error p {
+  margin-bottom: var(--padding-gen);
+  font-size: var(--fSize-default);
+}
+.form-error button {
+  background-color: var(--_bg-error);
+  align-self: flex-end;
 }
 
 /* Dark Mode Switch */
@@ -874,7 +976,7 @@ footer {
 }
 .progress-bar {
   --_bar-height: 5px;
-  --_animation-name: '';
+  --_animation-name: ''; /* set by js */
   width: 60vw;
   height: var(--_bar-height);
   border-radius: calc(var(--_bar-height) / 2);
@@ -886,7 +988,7 @@ footer {
   display: block;
   position: absolute;
   height: inherit;
-  width: 100%;
+  width: 0;
   top: 0;
   left: 0;
   background-color: var(--flash-green);
@@ -917,13 +1019,11 @@ footer {
   }
   .pg-download .col-2-even {
     --hero-img-height: 60%;
-    /* display: block; */
     grid-template-columns: 1fr;
     grid-template-rows: 40% var(--hero-img-height);
     height: 100svh;
   }
   .pg-download .banner-left {
-    /* padding-top: var(--padding-section); */
     align-self: flex-end;
   }
   .pg-download .banner-right {
@@ -932,8 +1032,6 @@ footer {
     text-align: center;
   }
   .banner-right .hero-img {
-    /* max-width: 150%;
-    height: auto; */
     max-height: calc(var(--hero-img-height) * 1.3);
     width: auto;
   }
@@ -948,9 +1046,9 @@ footer {
     margin-left: auto;
     margin-right: auto;
   }
-  .mtn-img-container::before {
+  /* .mtn-img-container::before {
     transform: translateX(-52%);
-  }
+  } */
   .slider-tabs {
     overflow: scroll;
     height: 370px;
@@ -968,6 +1066,10 @@ footer {
 }
 
 @media screen and (max-width: 1069px) {
+  .mtn-img-container #mtn-clouds {
+    left: -10%;
+    max-width: 130%;
+  }
   .slider-container {
     grid-template-columns: 40% 1fr;
   }
@@ -1073,7 +1175,7 @@ footer {
   .about-banner-right .mtn-img {
     max-width: max(70vw, 320px);
   }
-  .mtn-img-container::before {
+  /* .mtn-img-container::before {
     content: '';
     position: absolute;
     top: 35%;
@@ -1084,7 +1186,7 @@ footer {
     background-size: cover;
     background-repeat: no-repeat;
     transform: translateX(0);
-  }
+  } */
   .slider-container {
     grid-template-rows: max-content auto 1fr;
   }
