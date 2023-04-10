@@ -22,10 +22,11 @@ let currentCvs = cvsStorm;
 let currentCtx = ctxStorm;
 let canvasPositions = [true, false, false];
 
-const lightningStrikeOffset = 6;
-const lightningStrikeLength = 100;
-const lightningBoltLength = 30;
-const lightningThickness = 3;
+const lightningStrikeOffset = 8;
+const lightningStrikeLength = 400;
+const lightningBoltLength = 8;
+const lightningThickness = 4;
+let lightningInterval;
 let canvasHeight = cvsStorm.height;
 let canvasWidth = cvsStorm.width;
 let height;
@@ -33,7 +34,7 @@ let width;
 
 const stormInterval = 3000;
 const strikeInterval = 12000;
-let interval = stormInterval;
+// let interval = stormInterval;
 let lightning = [];
 
 function resizeCanvas() {
@@ -52,9 +53,9 @@ function resizeCanvas() {
   cvsCnt.setAttribute('width', cntCvsWidth);
   changeCanvas(currentCvs, currentCtx);
 }
-$(window).on('resize', function(){
-  resizeCanvas();
-});
+// $(window).on('resize', function(){
+//   resizeCanvas();
+// });
 resizeCanvas();
 
 function changeCanvas(canvas, context) {
@@ -89,7 +90,7 @@ const clearCanvas = function(x, y, height, width) {
 
 const line = function(start, end, thickness, opacity) {
   const lightningForDarkMode = `rgba(255, 255, 255, ${opacity})`;
-  const lightningForLightMode = `rgba(0, 0, 0, ${opacity})`;
+  const lightningForLightMode = `rgba(198, 248, 255, ${opacity})`;
   let strokeStyle = lightningForLightMode;
   darkMode = checkMode();
   darkMode ? strokeStyle = lightningForDarkMode : strokeStyle = lightningForLightMode;
@@ -98,8 +99,8 @@ const line = function(start, end, thickness, opacity) {
   currentCtx.lineTo(end.x, end.y);
   currentCtx.lineWidth = thickness;
   currentCtx.strokeStyle = strokeStyle;
-  currentCtx.shadowBlur = 0;
-  currentCtx.shadowColor = "#bd9df2";
+  currentCtx.shadowBlur = 10;
+  currentCtx.shadowColor = "#C6F8FF";
   currentCtx.stroke();
   currentCtx.closePath();
 }
@@ -163,14 +164,24 @@ const animate = function() {
   requestAnimationFrame(animate);
 }
 
-setup();
-requestAnimationFrame(animate);
-setInterval(function() {
-  let delay = timing();
-  setTimeout(() => {
-    createLightning();
-  }, delay);
-}, interval);
+// setup();
+// requestAnimationFrame(animate);
+// setInterval(function() {
+//   let delay = timing();
+//   setTimeout(() => {
+//     createLightning();
+//   }, delay);
+// }, interval);
+
+function startLightning(interval) {
+  clearInterval(lightningInterval);
+  lightningInterval = setInterval(function() {
+    let delay = timing();
+    setTimeout(() => {
+      createLightning();
+    }, delay);
+  }, interval);
+}
 
 // Switching canvas based on which canvas is in viewport
 const observer = new IntersectionObserver((entries)=>{
@@ -188,25 +199,29 @@ const observer = new IntersectionObserver((entries)=>{
   chooseCanvas();
 }, {threshold: [0.05]});
 
-observer.observe(cvsStorm);
-observer.observe(cvsMtn);
-observer.observe(cvsCnt);
+// observer.observe(cvsStorm);
+// observer.observe(cvsMtn);
+// observer.observe(cvsCnt);
 
 function chooseCanvas() {
   let stormVisible = canvasPositions[0];
   let mtnVisible = canvasPositions[1];
   let cntVisible = canvasPositions[2];
 
-  console.log('Storm Visible? ' + stormVisible + ' Mtn Visible? ' + mtnVisible);
+  // console.log('Storm Visible? ' + stormVisible + ' Mtn Visible? ' + mtnVisible);
 
   if(stormVisible && mtnVisible) {
     changeCanvas(cvsStorm, ctxStorm);
+    startLightning(stormInterval);
   } else if (stormVisible && !mtnVisible) {
     changeCanvas(cvsStorm, ctxStorm);
+    startLightning(stormInterval);
   } else if (!stormVisible && mtnVisible) {
     changeCanvas(cvsMtn, ctxMtn);
+    startLightning(strikeInterval);
   } else if (cntVisible) {
     changeCanvas(cvsCnt, ctxCnt);
+    startLightning(strikeInterval);
   } else {
     return;
   }

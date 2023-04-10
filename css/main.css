@@ -141,6 +141,7 @@ h3 {
 .col-2-even {
   display: grid;
   grid-template-columns: 50% 50%;
+  gap: 40px;
 }
 .col-3 {
   display: grid;
@@ -239,6 +240,9 @@ header .container {
 }
 .logo-container {
   height: 40px;
+}
+.logo-container a:hover::after {
+  width: 100% !important;
 }
 .logo-container img {
   max-height: 100%;
@@ -364,17 +368,8 @@ header .container {
 }
 .mtn-img-container canvas {
   position: absolute;
+  z-index: -1;
 }
-/* .mtn-img-container::before {
-  content: url('../assets/img/clouds-mtn.png');
-  position: absolute;
-  top: 40%;
-  left: 50%;
-  width: 100%;
-  height: auto;
-  z-index: 2;
-  transform: translateX(-70%);
-} */
 .dark-mode .mtn-img-container::after {
   content: '';
   position: absolute;
@@ -418,6 +413,7 @@ header .container {
 .slider-tab:hover,
 .slider-tab:focus-visible {
   border-bottom-color: var(--flash-green);
+  outline: none;
 }
 .slider-tab h3 {
   margin-bottom: 15px;
@@ -641,6 +637,7 @@ header .container {
   padding: var(--_contact-padding);
   border-radius: var(--border-radius);
   position: relative;
+  min-height: 570px;
 }
 .forms-bg::before {
   content: url(../assets/img/clouds-white-top-1200.png);
@@ -684,6 +681,7 @@ header .container {
 .pg-contact .col-3 {
   gap: var(--padding-gen);
   align-items: center;
+  height: 100%;
 }
 .pg-contact .col-3 form {
   max-width: 430px;
@@ -774,9 +772,9 @@ form > * {
   margin-bottom: var(--padding-gen);
 }
 #success-icon {
-  max-width: 80%;
+  max-width: 100%;
   height: auto;
-  margin: var(--padding-gen) auto;
+  margin: calc(var(--padding-gen) * 2) auto;
 }
 .envelope path,
 .envelope line {
@@ -840,7 +838,7 @@ form > * {
 }
 .switch-container svg {
   max-height: var(--switch-height);
-  width: auto;
+  min-width: 20px;
 }
 .switch-container svg > * {
   stroke: var(--text-colour);
@@ -929,10 +927,12 @@ footer {
 .footer-links .badge.ios {
   height: 52px;
 }
-.footer-top p {
+.footer-top .credits {
   font-size: var(--fSize-label);
-  align-self: flex-end;
-  margin-bottom: 10px;
+  align-self: center;
+}
+.footer-top .credits p {
+  margin-bottom: 5px;
 }
 .footer-btm {
   background: var(--flash-green);
@@ -1046,9 +1046,6 @@ footer {
     margin-left: auto;
     margin-right: auto;
   }
-  /* .mtn-img-container::before {
-    transform: translateX(-52%);
-  } */
   .slider-tabs {
     overflow: scroll;
     height: 370px;
@@ -1087,9 +1084,18 @@ footer {
   .slider-overlay {
     width: 0;
   }
-  /* .accordion-head {
-    border-bottom-right-radius: 20px;
-  } */
+  .footer-top > .container {
+    flex-direction: column;
+    align-items: center;
+  }
+  .footer-top .credits {
+    align-self: auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    column-gap: 20px;
+    margin-bottom: 10px;
+  }
 }
 
 @media screen and (min-width: 800px) {
@@ -1130,8 +1136,19 @@ footer {
     margin-bottom: calc(var(--padding-nav) * 2);
     text-align: right;
   }
+  .footer-links .logo {
+    margin-right: 0;
+  }
+  .footer-links a {
+    display: none;
+  }
 }
 
+@media screen and (max-width: 619px) and (max-height: 780px) {
+  .banner-right .hero-img {
+    max-height: var(--hero-img-height);
+  }
+}
 @media screen and (max-width: 619px) {
   body {
     /* Font-Sizes */
@@ -1175,18 +1192,6 @@ footer {
   .about-banner-right .mtn-img {
     max-width: max(70vw, 320px);
   }
-  /* .mtn-img-container::before {
-    content: '';
-    position: absolute;
-    top: 35%;
-    left: calc(0 - var(--padding-gen));
-    width: 100vw;
-    height: 70vw;
-    background-image: url('../assets/img/clouds-mtn-mobile.png');
-    background-size: cover;
-    background-repeat: no-repeat;
-    transform: translateX(0);
-  } */
   .slider-container {
     grid-template-rows: max-content auto 1fr;
   }
@@ -1203,12 +1208,8 @@ footer {
   .slider-msg-container {
     grid-column: 1/-1;
   }
-  /* .slider-imgs {
-    text-align: center;
-  } */
   .slider-imgs img {
-    /* max-width: min(70vw, 210px); */
-    max-width: min(70vw, 320px);
+    max-width: min(71vw, 320px);
   }
   .slider-msg-container {
     grid-row: 3/-1;
@@ -1216,7 +1217,6 @@ footer {
   .slider-tabs {
     padding-top: var(--padding-gen);
     padding-bottom: 0;
-    /* font-size: var(--fSize-lg); */
     height: 250px;
   }
   .slider-tabs h3 {
@@ -1241,7 +1241,6 @@ footer {
   }
   .accordion-head {
     grid-template-columns: 30px 1fr;
-    /* border-bottom-right-radius: 10px; */
   }
   .accordion-head svg {
     width: 14px;
@@ -1260,5 +1259,11 @@ footer {
     flex-direction: column-reverse;
     align-items: center;
     justify-content: center;
+  }
+}
+
+@media screen and (max-width: 415px) {
+  .footer-top .credits {
+    font-size: 12px;
   }
 }

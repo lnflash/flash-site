@@ -213,6 +213,8 @@ function loadScreen() {
   setTimeout(() => {
     $('section').fadeIn();
     $('#loading-screen').fadeOut('fast');
+    // activate observer for dark mode switch once site is loaded in
+    switchobserver.observe(document.querySelector('footer'));
   }, 2000);
 }
 // Remember theme preference during session
@@ -226,6 +228,13 @@ if (window.innerWidth < 800) {
   mainNav.setAttribute('aria-hidden', true);
 }
 
+// Stop Dark Mode switch from sticking to bottom of screen when footer appears
+const switchobserver = new IntersectionObserver((entries)=>{
+  entries.forEach(entry => {
+    entry.isIntersecting ? modeContainer.style.position = 'relative' : modeContainer.style.position = 'fixed';
+  });
+}, {threshold: [0]});
+
 window.onload = () => {
   loadScreen();
 
@@ -238,16 +247,15 @@ window.onload = () => {
       changeTheme('light');
     }
   });
-  // Stop Dark Mode switch from sticking to bottom of screen when footer appears
-  window.addEventListener("scroll", ()=>{
-    let limit = document.body.scrollHeight - window.innerHeight - footerHeight - modeContainer.offsetHeight - (padding * 3);
-    let scroll = window.scrollY;
-    if (scroll > limit) {
-      modeContainer.style.position = 'relative';
-    } else {
-      modeContainer.style.position = 'fixed';
-    }
-  });
+  // window.addEventListener("scroll", ()=>{
+  //   let limit = document.body.scrollHeight - window.innerHeight - footerHeight - modeContainer.offsetHeight - (padding * 3);
+  //   let scroll = window.scrollY;
+  //   if (scroll > limit) {
+  //     modeContainer.style.position = 'relative';
+  //   } else {
+  //     modeContainer.style.position = 'fixed';
+  //   }
+  // });
   
   // Mobile Navigation Open and Closing
   openNavIcon.addEventListener('click', changeMobileNavState);
@@ -293,4 +301,24 @@ window.onload = () => {
     $('.error-waitlist').fadeOut('fast');
   });
   
+  // Lightning Functions
+  observer.observe(cvsStorm);
+  observer.observe(cvsMtn);
+  observer.observe(cvsCnt);
+  setup();
+  requestAnimationFrame(animate);
+  // function startLightning(interval) {
+  //   lightningInterval = setInterval(function() {
+  //     let delay = timing();
+  //     setTimeout(() => {
+  //       createLightning();
+  //     }, delay);
+  //   }, interval);
+  // }
+  startLightning(stormInterval);
+  
+  
+  $(window).on('resize', function(){
+    resizeCanvas();
+  });
 }

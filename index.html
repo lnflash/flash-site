@@ -17,7 +17,7 @@
   <header>
     <div class="container">
       <div class="logo-container">
-        <a href="#pg-download" class="no-style">
+        <a href="#pg-download" class="no-hover">
           <img src="assets/img/logo-black.png" alt="Flash" class="light">
           <img src="assets/img/logo-white.png" alt="Flash" class="dark">
         </a>
@@ -108,26 +108,26 @@
             </ul>
             <!-- Phone Frame -->
             <div class="frame-container">
+              <div class="slider-overlay a"></div>
               <img src="assets/img/frame-black.png" alt="" class="dark phone-frame">
               <img src="assets/img/frame-light.png" alt="" class="light phone-frame">
-              <div class="slider-overlay a"></div>
               <div class="slider-overlay b"></div>
             </div>
           </div>
           <!-- End of Slider Images -->
           <!-- Slider Tabs -->
           <div class="slider-tabs">
-            <div class="slider-tab app" tabindex="">
+            <div class="slider-tab app" tabindex="0">
               <h3>FlashApp</h3>
               <p>Consumer app for sending and receiving value globally.</p>
               <img src="assets/img/pop-bitcoin.png" alt="bitcoins in popcorn bag">
             </div>
-            <div class="slider-tab app"  tabindex="">
+            <div class="slider-tab app"  tabindex="0">
               <h3>FlashCash</h3>
               <p>Merchant only app for providing cash in and cash out locations.</p>
               <img src="assets/img/safe-bitcoin.png" alt="bitcoins in popcorn bag">
             </div>
-            <div class="slider-tab app" tabindex="">
+            <div class="slider-tab app" tabindex="0">
               <h3>FlashPay</h3>
               <p>Web app for accepting Bitcoin and Lightning via Point of Sale.</p>
               <img src="assets/img/bucket-bitcoin.png" alt="bitcoins in popcorn bag">
@@ -282,7 +282,7 @@
           <h2>Contact Us</h2>
           <div class="col-3">
             <!-- Contact Form -->
-            <form class="contact-form">
+            <form class="contact-form" method="post">
               <div class="formfields">
                 <label for="c-name">Name</label>
                 <input type="text" name="c-name" id="c-name">
@@ -300,12 +300,13 @@
               </div>
               <div class="success-msg form-success">
                 <h2>Message Sent!</h2>
-                <svg id="success-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 413.8 190.73">
+                <svg id="success-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 564.13 190.74">
                   <g class="envelope">
-                    <path d="m142.75,46.15l112.27,68.69c3.49,2.14,7.9,2.07,11.32-.17l103.7-67.92" fill="none" fill-rule="evenodd" stroke="#000" stroke-miterlimit="10" stroke-width="4"/>
-                    <path d="m105.16,59.87l.6-29.23s-.6-25.65,28.64-28.64h248.77s26.25-.6,28.64,28.64v129.45s.6,26.85-28.64,28.64h-248.77s-26.25.6-28.64-28.64v-37.03" fill="none" fill-rule="evenodd" stroke="#000" stroke-miterlimit="10" stroke-width="4"/>
-                    <line x1="130.05" y1="72.19" y2="72.19" fill="none" stroke="#000" stroke-miterlimit="10" stroke-width="4"/>
-                    <line x1="129.45" y1="111.19" x2="51.3" y2="111.19" fill="none" stroke="#000" stroke-miterlimit="10" stroke-width="4"/>
+                    <rect width="564.13" height="190.68" fill="none"/>
+                    <path d="m166.86,46.16l112.27,68.69c3.49,2.14,7.9,2.07,11.32-.17l103.7-67.92" fill="none" fill-rule="evenodd" stroke="#000" stroke-miterlimit="10" stroke-width="4"/>
+                    <path d="m129.27,59.88l.6-29.23s-.6-25.65,28.64-28.64h248.77s26.25-.6,28.64,28.64v129.45s.6,26.85-28.64,28.64h-248.77s-26.25.6-28.64-28.64v-37.03" fill="none" fill-rule="evenodd" stroke="#000" stroke-miterlimit="10" stroke-width="4"/>
+                    <line x1="154.16" y1="72.2" x2="24.11" y2="72.2" fill="none" stroke="#000" stroke-miterlimit="10" stroke-width="4"/>
+                    <line x1="153.56" y1="111.2" x2="75.41" y2="111.2" fill="none" stroke="#000" stroke-miterlimit="10" stroke-width="4"/>
                   </g>
                 </svg>
                 <p>Thanks for reaching out to us!</p>
@@ -321,7 +322,7 @@
             <!-- End of Contact Form -->
             <p class="contact-or">or</p>
             <!-- Waitlist Form -->
-            <form class="waitlist-form">
+            <form class="waitlist-form" method="post">
               <div class="formfields">
                 <p>Sign up for the waitlist with your email address to receive news and updates.</p>
                 <input type="email" name="w-email" id="w-email" placeholder="Your Email Address">
@@ -399,7 +400,11 @@
             <img src="assets/img/ios-badge.svg" alt="Download on the App Store" class="badge ios desktop-only">
           </a>
         </div>
-        <p>Powered by Bitcoin.</p>
+        <div class="credits">
+          <p>Powered by Bitcoin.</p>
+          <p><a href="http://www.freepik.com">Clouds designed by upklyak / Freepik</a></p>
+          <p><a href="http://www.freepik.com">Curved light background designed by pikisuperstar / Freepik</a></p>
+        </div>
       </div>
     </div>
     <div class="footer-btm">
