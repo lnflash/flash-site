@@ -32,20 +32,20 @@ function changeTheme(value) {
     document.querySelector('body').classList.remove('dark-mode');
     document.querySelector('body').classList.add('light-mode');
     sessionStorage.setItem("theme", 'light');
+    modeSwitch.checked = false;
   } else {
     document.querySelector('body').classList.remove('light-mode');
     document.querySelector('body').classList.add('dark-mode');
     sessionStorage.setItem("theme", 'dark');
+    modeSwitch.checked = true;
   }
 }
 function checkThemePreference() {
   if(window.matchMedia("(prefers-color-scheme:dark)").matches) {
     changeTheme('dark');
-    modeSwitch.checked = true;
   }
   if(window.matchMedia("(prefers-color-scheme:light)").matches) {
     changeTheme('light');
-    modeSwitch.checked = false;
   }
 }
 

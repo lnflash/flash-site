@@ -49,7 +49,7 @@
   --border-radius: 6px;
   
   font-family: var(--roboto);
-  font-size: 20px;
+  font-size: var(--fSize-default);
   font-weight: var(--fWeight-reg);
 }
 
@@ -188,6 +188,7 @@ button:not(.accordion-head) {
   border-width: 2px;
   border-style: solid;
   transition: all var(--transition-time);
+  font-weight: var(--fWeight-med);
   cursor: pointer;
 }
 .button-1 {
@@ -251,7 +252,7 @@ header .container {
 
 /* Download/Hero Page */
 .pg-download {
-  background-image: url(../assets/img/bg-stream.png);
+  background-image: url(../assets/img/bg-stream-lit.png);
   background-size: cover;
   background-position: center;
   display: grid;
@@ -339,12 +340,13 @@ header .container {
 }
 .about-banner-left {
   padding-bottom: var(--padding-section);
+  align-self: center;
 }
 .about-banner h2 {
   margin-bottom: 5px;
 }
 .about-banner p {
-  font-size: var(--fSize-lg);
+  font-size: var(--fSize-med);
 }
 .about-banner h3 {
   margin-bottom: 5px;
@@ -747,7 +749,7 @@ form > * {
   justify-self: flex-end;
 }
 .waitlist-form p {
-  font-size: 16px;
+  font-size: var(--fSize-default);
   margin-bottom: var(--padding-gen);
 }
 .button-2 .plus {
@@ -958,6 +960,10 @@ footer {
 }
 .socials a {
   text-decoration: none;
+}
+.socials img {
+  max-height: 35px;
+  width: auto;
 }
 
 /* Loading Screen */

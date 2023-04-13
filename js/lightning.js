@@ -32,8 +32,8 @@ let canvasWidth = cvsStorm.width;
 let height;
 let width;
 
-const stormInterval = 3000;
-const strikeInterval = 12000;
+const stormInterval = 4500;
+const strikeInterval = 8000;
 // let interval = stormInterval;
 let lightning = [];
 
@@ -99,7 +99,7 @@ const line = function(start, end, thickness, opacity) {
   currentCtx.lineTo(end.x, end.y);
   currentCtx.lineWidth = thickness;
   currentCtx.strokeStyle = strokeStyle;
-  currentCtx.shadowBlur = 10;
+  currentCtx.shadowBlur = 20;
   currentCtx.shadowColor = "#C6F8FF";
   currentCtx.stroke();
   currentCtx.closePath();
@@ -128,6 +128,11 @@ const createLightning = function() {
   let lightningX2 = getRandomInteger(lightningX1 - lightningStrikeOffset, lightningX1 + lightningStrikeOffset);
   lightning[0] = new Lightning(lightningX1, 0, lightningX2, lightningBoltLength, lightningThickness, 1);
   for (let l = 1; l < lightningStrikeLength; l++) {
+    // if l = ? then run function to get random number
+    // if number is less than 3 then fork the lightning.
+    // let f = 1
+    //fx1 = lx1, fy1 = lastBolt.end.y, etc.
+    // do another push with f values?
     let lastBolt = lightning[l - 1];
     let lx1 = lastBolt.end.x;
     let lx2 = getRandomInteger(lx1 - lightningStrikeOffset, lx1 + lightningStrikeOffset);
