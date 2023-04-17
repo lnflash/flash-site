@@ -25,7 +25,7 @@ let canvasPositions = [true, false, false];
 const lightningStrikeOffset = 8;
 const lightningStrikeLength = 400;
 const lightningBoltLength = 8;
-const lightningThickness = 4;
+const lightningThickness = 5;
 let lightningInterval;
 let canvasHeight = cvsStorm.height;
 let canvasWidth = cvsStorm.width;
@@ -79,6 +79,14 @@ const getRandomInteger = function(min, max) {
   return Math.floor(getRandomFloat(min, max)); 
 }
 
+const forkChance = function() {
+  const forkingChance = .4;
+  if (forkingChance >= Math.random()) {
+    return true;
+  }
+  return false;
+}
+
 const clearCanvas = function(x, y, height, width) {
   rectX = x || 0;
   rectY = y || 0;
@@ -89,18 +97,23 @@ const clearCanvas = function(x, y, height, width) {
 }
 
 const line = function(start, end, thickness, opacity) {
+  const lightningForLightMode = `rgba(250, 238, 93, ${opacity})`;
   const lightningForDarkMode = `rgba(255, 255, 255, ${opacity})`;
-  const lightningForLightMode = `rgba(198, 248, 255, ${opacity})`;
+  const shadowColorDark = "#C6F8FF";
+  const shadowColorLight = "#FAEE5D";
+  // const lightningForLightMode = `rgba(198, 248, 255, ${opacity})`;
   let strokeStyle = lightningForLightMode;
+  let shadowStyle = shadowColorLight;
   darkMode = checkMode();
   darkMode ? strokeStyle = lightningForDarkMode : strokeStyle = lightningForLightMode;
+  darkMode ? shadowStyle = shadowColorDark : shadowStyle = shadowColorLight;
   currentCtx.beginPath();
   currentCtx.moveTo(start.x, start.y);
   currentCtx.lineTo(end.x, end.y);
   currentCtx.lineWidth = thickness;
   currentCtx.strokeStyle = strokeStyle;
-  currentCtx.shadowBlur = 20;
-  currentCtx.shadowColor = "#C6F8FF";
+  currentCtx.shadowBlur = 30;
+  currentCtx.shadowColor = shadowStyle;
   currentCtx.stroke();
   currentCtx.closePath();
 }
@@ -117,6 +130,18 @@ class Lightning {
   }
 }
 
+// class LightningFork {
+//   constructor(x1, y1, x2, y2, thickness, opacity) {
+//     this.start = createVector(x1, y1);
+//     this.end = createVector(x2, y2);
+//     this.thickness = thickness;
+//     this.opacity = opacity;
+//   }
+//   draw() {
+//     return line(this.start, this.end, this.thickness, this.opacity);
+//   }
+// }
+
 const timing = function() {
   return (Math.floor(Math.random() * 8) + 1) * 500;
 }
@@ -127,23 +152,83 @@ const createLightning = function() {
   let lightningX1 = getRandomInteger(2, canvasWidth - 2);
   let lightningX2 = getRandomInteger(lightningX1 - lightningStrikeOffset, lightningX1 + lightningStrikeOffset);
   lightning[0] = new Lightning(lightningX1, 0, lightningX2, lightningBoltLength, lightningThickness, 1);
+  let forkBolt = forkChance();
+  let forkStart = true;
+  let f = 0;
+  let lIndex;
+  if (forkBolt) {
+    f = Math.floor(lightningStrikeLength * .5);
+    console.log('forking' + f);
+  }
   for (let l = 1; l < lightningStrikeLength; l++) {
     // if l = ? then run function to get random number
     // if number is less than 3 then fork the lightning.
     // let f = 1
     //fx1 = lx1, fy1 = lastBolt.end.y, etc.
     // do another push with f values?
-    let lastBolt = lightning[l - 1];
-    let lx1 = lastBolt.end.x;
-    let lx2 = getRandomInteger(lx1 - lightningStrikeOffset, lx1 + lightningStrikeOffset);
-    lightning.push(new Lightning(
-      lx1, 
-      lastBolt.end.y, 
-      lx2, 
-      lastBolt.end.y + lightningBoltLength, 
-      lastBolt.thickness, 
-      lastBolt.opacity
-    ));
+
+    // let lastBolt = lightning[l - 1];
+    // let lx1 = lastBolt.end.x;
+    // let lx2 = getRandomInteger(lx1 - lightningStrikeOffset, lx1 + lightningStrikeOffset);
+    // lightning.push(new Lightning(
+    //   lx1, 
+    //   lastBolt.end.y, 
+    //   lx2, 
+    //   lastBolt.end.y + lightningBoltLength, 
+    //   lastBolt.thickness, 
+    //   lastBolt.opacity
+    // ));
+    if (forkBolt && l>=f && f!=0) {
+      let lastBolt;
+      let lastBoltFork;
+      if (forkStart) {
+        lIndex = l - 1;
+        lastBolt = lightning[lIndex];
+        lastBoltFork = lastBolt;
+        forkStart = false;
+      } else {
+        // console.log('no longer-start');
+        lastBolt = lightning[lIndex - 1];
+        lastBoltFork = lightning[lIndex];
+      }
+      let lx1 = lastBolt.end.x;
+      let lx2 = getRandomInteger(lx1 - lightningStrikeOffset, lx1 + lightningStrikeOffset);
+      lightning.push(new Lightning(
+        lx1, 
+        lastBolt.end.y, 
+        lx2, 
+        lastBolt.end.y + lightningBoltLength, 
+        lastBolt.thickness, 
+        lastBolt.opacity
+      ));
+      let lfx1 = lastBoltFork.end.x;
+      let lfx2 = getRandomInteger(lfx1 - (2*lightningStrikeOffset), lfx1 + (2*lightningStrikeOffset));
+      lightning.push(new Lightning(
+        lfx1, 
+        lastBoltFork.end.y, 
+        lfx2, 
+        lastBoltFork.end.y + lightningBoltLength, 
+        lastBoltFork.thickness, 
+        lastBoltFork.opacity
+      ));
+      lIndex += 2;
+      // if (l === 284) {
+      //   // console.log(lightning[l-3].end.y, lightning[l-3].end.y, lightning[l-1].end.y);
+      // }
+      f++;
+    } else {
+      let lastBolt = lightning[l - 1];
+      let lx1 = lastBolt.end.x;
+      let lx2 = getRandomInteger(lx1 - lightningStrikeOffset, lx1 + lightningStrikeOffset);
+      lightning.push(new Lightning(
+        lx1, 
+        lastBolt.end.y - .8, 
+        lx2, 
+        lastBolt.end.y + lightningBoltLength, 
+        lastBolt.thickness, 
+        lastBolt.opacity
+      ));
+    }
   }
 }
 
@@ -158,10 +243,10 @@ const animate = function() {
   clearCanvas();
 
   for (let i = 0 ; i < lightning.length ; i++) {
-    lightning[i].opacity -= 0.01;
-    lightning[i].thickness -= 0.05;
+    lightning[i].opacity -= 0.02;
+    lightning[i].thickness -= 0.08;
     if (lightning[i].thickness <= 2) {
-      lightning[i].end.y -= 0.05;
+      lightning[i].end.y += 0.03;
     }
     lightning[i].draw();
   }
