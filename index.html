@@ -28,7 +28,6 @@
           <line x1="2" y1="2" x2="39" y2="2" stroke="#161313" stroke-width="4" stroke-linecap="round"/>
           <line x1="15" y1="13" x2="39" y2="13" stroke="#161313" stroke-width="4" stroke-linecap="round"/>
         </svg>
-        <!-- <img src="assets/img/nav-open.svg" alt="Open Menu" id="open-nav" class="mobile-only"> -->
         <ul class="main-nav" id="main-nav" data-mob-state="closed" aria-hidden="false">
           <li>
             <svg id="close-nav" class="nav-icon mobile-only" aria-label="close menu" width="26" height="26" viewBox="0 0 26 26" xmlns="http://www.w3.org/2000/svg">
@@ -49,6 +48,7 @@
   <main>
     <!-- Page: Download / Hero -->
     <section id="pg-download" class="pg-download">
+      <!-- Canvas drawn to via lightning.js -->
       <canvas id="lightning-storm"></canvas>
       <div class="container col-2-even">
         <div class="banner-left">
@@ -95,42 +95,13 @@
           <!-- Slider Images -->
           <div class="slider-imgs">
             <div class="slide-ruler">
+              <!-- DO NOT DELETE - ensures the height of the container is the same as that of the images -->
               <img id="ruler-img" src="assets/img/about-1.png" alt="">
-              <div class="slide" data-slide="1">
-                <!-- <div class="slide-img">
-                  <img src="assets/img/about-1.png" alt="Image of FlashApp">
-                </div> -->
-              </div>
-              <div class="slide" data-slide="2">
-                <!-- <div class="slide-img">
-                  <img src="assets/img/about-2.png" alt="Image of FlashCash">
-                </div> -->
-              </div>
-              <div class="slide" data-slide="3">
-                <!-- <div class="slide-img">
-                  <img src="assets/img/about-3.png" alt="Image of FlashPay">
-                </div> -->
-              </div>
+              <!-- Slides added as background images -->
+              <div class="slide"></div>
+              <div class="slide"></div>
+              <div class="slide"></div>
             </div>
-            <!-- Screenshots go in here -->
-            <!-- <ul id="slides" class="slides">
-              <li class="slide">
-                <img src="assets/img/slide-1.png" alt="Image of FlashApp">
-              </li>
-              <li class="slide">
-                <img src="assets/img/slide-2.png" alt="Image of FlashCash">
-              </li>
-              <li class="slide">
-                <img src="assets/img/slide-3.png" alt="Image of FlashPay">
-              </li>
-            </ul> -->
-            <!-- Phone Frame -->
-            <!-- <div class="frame-container">
-              <div class="slider-overlay a"></div>
-              <img src="assets/img/frame-black.png" alt="" class="dark phone-frame">
-              <img src="assets/img/frame-light.png" alt="" class="light phone-frame">
-              <div class="slider-overlay b"></div>
-            </div> -->
           </div>
           <!-- End of Slider Images -->
           <!-- Slider Tabs -->
@@ -371,11 +342,13 @@
     </section>
     <!-- End of Page: Contact -->
 
+    <!-- Loading Screen -->
     <div class="loading-screen" id="loading-screen">
       <img src="assets/img/logo-black.png" alt="" class="light">
       <img src="assets/img/logo-white.png" alt="" class="dark">
       <div class="progress-bar"></div>
     </div>
+    <!-- End of Loading Screen -->
 
     <!-- Dark Mode Switch -->
     <div class="darkmode" id="darkmode">
