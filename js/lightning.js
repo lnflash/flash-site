@@ -9,8 +9,9 @@ const checkMode = () => {
   return true;
 }
 
-// Canvas lightning animation based on code by Sooraj (PS),
-// found at https://dev.to/soorajsnblaze333/make-it-flash-lightning-with-canvas-43nh
+// Canvas lightning animation based a combination of two methods:
+// "Make it Flash" by Sooraj (PS), found at https://dev.to/soorajsnblaze333/make-it-flash-lightning-with-canvas-43nh
+// "Create lightnings with JavaScript and HTML5" by Balint, found at https://codepen.io/mcdorli/post/creating-lightnings-with-javascript-and-html5-canvas
 
 const cvsStorm = document.getElementById('lightning-storm');
 const ctxStorm = cvsStorm.getContext('2d');
@@ -21,20 +22,19 @@ const ctxCnt = cvsCnt.getContext('2d');
 let currentCvs = cvsStorm;
 let currentCtx = ctxStorm;
 let canvasPositions = [true, false, false];
-
-const lightningStrikeOffset = 8;
-const lightningStrikeLength = 400;
-const lightningBoltLength = 8;
-const lightningThickness = 5;
-let lightningInterval;
 let canvasHeight = cvsStorm.height;
 let canvasWidth = cvsStorm.width;
-let height;
-let width;
 
+const minSegmentHeight = 5;
+let groundHeight = canvasHeight - 20;
+const lightningThickness = 5;
+const roughness = 2;
+let maxDifference = canvasWidth / 5;
+let opacity = 1;
+
+let lightningInterval;
 const stormInterval = 4500;
 const strikeInterval = 8000;
-// let interval = stormInterval;
 let lightning = [];
 
 function resizeCanvas() {
@@ -53,84 +53,59 @@ function resizeCanvas() {
   cvsCnt.setAttribute('width', cntCvsWidth);
   changeCanvas(currentCvs, currentCtx);
 }
-// $(window).on('resize', function(){
-//   resizeCanvas();
-// });
 resizeCanvas();
 
 function changeCanvas(canvas, context) {
   currentCvs = canvas;
   currentCtx = context;
-  height = canvasHeight = canvas.height;
-  width = canvasWidth = canvas.width;
+  canvasHeight = canvas.height;
+  canvasWidth = canvas.width;
+  groundHeight = canvasHeight;
+  maxDifference = canvasWidth / 5;
 }
 changeCanvas(cvsStorm, ctxStorm);
 
 // Lightning Animation
-
-const createVector = function(x, y) { return { x, y } }
-
-const getRandomFloat = function(min, max) {
-  const random = Math.random() * (max - min + 1) + min;
-  return random;
+function getRandomInteger(min, max) {
+  const buffer = new Uint32Array(1);
+  window.crypto.getRandomValues(buffer);
+  let random = buffer[0] / (0xffffffff + 1);
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(random * (max - min + 1)) + min;
+}
+function timing() {
+  return (Math.floor(Math.random() * 8) + 1) * 500;
 }
 
-const getRandomInteger = function(min, max) {
-  return Math.floor(getRandomFloat(min, max)); 
-}
-
-const forkChance = function() {
-  const forkingChance = .4;
-  if (forkingChance >= Math.random()) {
-    return true;
-  }
-  return false;
-}
-
-const clearCanvas = function(x, y, height, width) {
-  rectX = x || 0;
-  rectY = y || 0;
-  rectHeight = height || canvasHeight;
-  rectWidth = width || canvasWidth;
-  currentCtx.clearRect(rectX, rectY, rectWidth, rectHeight);
+function clearCanvas() {
+  currentCtx.clearRect(0, 0, canvasWidth, canvasHeight);
   currentCtx.beginPath();
 }
 
-const line = function(start, end, thickness, opacity) {
-  const lightningForLightMode = `rgba(250, 238, 93, ${opacity})`;
-  const lightningForDarkMode = `rgba(255, 255, 255, ${opacity})`;
-  const shadowColorDark = "#C6F8FF";
-  const shadowColorLight = "#FAEE5D";
-  // const lightningForLightMode = `rgba(198, 248, 255, ${opacity})`;
-  let strokeStyle = lightningForLightMode;
-  let shadowStyle = shadowColorLight;
+function draw(lightning, opacity) {
+  const colorLight = `hsla(180, 80%, 80%, ${opacity})`;
+  const colorDark = `hsla(187, 100%, 89%, ${opacity})`;
+  const shadowLight = "hsl(180, 80%, 80%)";
+  const shadowDark = "hsl(187, 100%, 89%)";
+  let color;
+  let shadowColor;
   darkMode = checkMode();
-  darkMode ? strokeStyle = lightningForDarkMode : strokeStyle = lightningForLightMode;
-  darkMode ? shadowStyle = shadowColorDark : shadowStyle = shadowColorLight;
+  darkMode ? color = colorDark : color = colorLight;
+  darkMode ? shadowColor = shadowDark : shadowColor = shadowLight;
+  currentCtx.strokeStyle = color;
+  currentCtx.shadowColor = shadowColor;
+  currentCtx.globalCompositeOperation = "lighter";
+  currentCtx.shadowBlur = 15;
   currentCtx.beginPath();
-  currentCtx.moveTo(start.x, start.y);
-  currentCtx.lineTo(end.x, end.y);
-  currentCtx.lineWidth = thickness;
-  currentCtx.strokeStyle = strokeStyle;
-  currentCtx.shadowBlur = 30;
-  currentCtx.shadowColor = shadowStyle;
+  currentCtx.lineWidth = lightningThickness;
+  for (var i = 0; i < lightning.length; i++) {
+    currentCtx.lineTo(lightning[i].x, lightning[i].y);
+  }
   currentCtx.stroke();
-  currentCtx.closePath();
 }
 
-class Lightning {
-  constructor(x1, y1, x2, y2, thickness, opacity) {
-    this.start = createVector(x1, y1);
-    this.end = createVector(x2, y2);
-    this.thickness = thickness;
-    this.opacity = opacity;
-  }
-  draw() {
-    return line(this.start, this.end, this.thickness, this.opacity);
-  }
-}
-
-// class LightningFork {
+// class Lightning {
 //   constructor(x1, y1, x2, y2, thickness, opacity) {
 //     this.start = createVector(x1, y1);
 //     this.end = createVector(x2, y2);
@@ -142,133 +117,56 @@ class Lightning {
 //   }
 // }
 
-const timing = function() {
-  return (Math.floor(Math.random() * 8) + 1) * 500;
+function render() {
+  var lightning = createLightning();
+  opacity = 1;
+  draw(lightning, opacity);
 }
 
-const createLightning = function() {
+function createLightning() {
+  let top = {x: getRandomInteger(2, canvasWidth - 2), y: 0}
+  let segmentHeight = groundHeight - top.y;
   lightning = [];
-  // interval = timing();
-  let lightningX1 = getRandomInteger(2, canvasWidth - 2);
-  let lightningX2 = getRandomInteger(lightningX1 - lightningStrikeOffset, lightningX1 + lightningStrikeOffset);
-  lightning[0] = new Lightning(lightningX1, 0, lightningX2, lightningBoltLength, lightningThickness, 1);
-  let forkBolt = forkChance();
-  let forkStart = true;
-  let f = 0;
-  let lIndex;
-  if (forkBolt) {
-    f = Math.floor(lightningStrikeLength * .5);
-    console.log('forking' + f);
-  }
-  for (let l = 1; l < lightningStrikeLength; l++) {
-    // if l = ? then run function to get random number
-    // if number is less than 3 then fork the lightning.
-    // let f = 1
-    //fx1 = lx1, fy1 = lastBolt.end.y, etc.
-    // do another push with f values?
-
-    // let lastBolt = lightning[l - 1];
-    // let lx1 = lastBolt.end.x;
-    // let lx2 = getRandomInteger(lx1 - lightningStrikeOffset, lx1 + lightningStrikeOffset);
-    // lightning.push(new Lightning(
-    //   lx1, 
-    //   lastBolt.end.y, 
-    //   lx2, 
-    //   lastBolt.end.y + lightningBoltLength, 
-    //   lastBolt.thickness, 
-    //   lastBolt.opacity
-    // ));
-    if (forkBolt && l>=f && f!=0) {
-      let lastBolt;
-      let lastBoltFork;
-      if (forkStart) {
-        lIndex = l - 1;
-        lastBolt = lightning[lIndex];
-        lastBoltFork = lastBolt;
-        forkStart = false;
-      } else {
-        // console.log('no longer-start');
-        lastBolt = lightning[lIndex - 1];
-        lastBoltFork = lightning[lIndex];
-      }
-      let lx1 = lastBolt.end.x;
-      let lx2 = getRandomInteger(lx1 - lightningStrikeOffset, lx1 + lightningStrikeOffset);
-      lightning.push(new Lightning(
-        lx1, 
-        lastBolt.end.y, 
-        lx2, 
-        lastBolt.end.y + lightningBoltLength, 
-        lastBolt.thickness, 
-        lastBolt.opacity
-      ));
-      let lfx1 = lastBoltFork.end.x;
-      let lfx2 = getRandomInteger(lfx1 - (2*lightningStrikeOffset), lfx1 + (2*lightningStrikeOffset));
-      lightning.push(new Lightning(
-        lfx1, 
-        lastBoltFork.end.y, 
-        lfx2, 
-        lastBoltFork.end.y + lightningBoltLength, 
-        lastBoltFork.thickness, 
-        lastBoltFork.opacity
-      ));
-      lIndex += 2;
-      // if (l === 284) {
-      //   // console.log(lightning[l-3].end.y, lightning[l-3].end.y, lightning[l-1].end.y);
-      // }
-      f++;
-    } else {
-      let lastBolt = lightning[l - 1];
-      let lx1 = lastBolt.end.x;
-      let lx2 = getRandomInteger(lx1 - lightningStrikeOffset, lx1 + lightningStrikeOffset);
-      lightning.push(new Lightning(
-        lx1, 
-        lastBolt.end.y - .8, 
-        lx2, 
-        lastBolt.end.y + lightningBoltLength, 
-        lastBolt.thickness, 
-        lastBolt.opacity
-      ));
+  // Starting point of the lightning strike
+  lightning.push({x: top.x, y: top.y});
+  // Ending point of the lightning strike
+  lightning.push({x: Math.random() * (canvasWidth - 100) + 50, y: groundHeight});
+  let currDiff = maxDifference;
+  while (segmentHeight > minSegmentHeight) {
+    var newSegments = [];
+    for (let i = 0; i < lightning.length - 1; i++) {
+      const start = lightning[i];
+      const end = lightning[i + 1];
+      const midX = (start.x + end.x) / 2;
+      const newX = midX + (Math.random() * 2 - 1) * currDiff;
+      newSegments.push(start, {x: newX, y: (start.y + end.y) / 2});
     }
+    // Add the ending point to the segment array
+    newSegments.push(lightning.pop());
+    // Update the lightning strike with the new segments;
+    lightning = newSegments;
+    
+    currDiff /= roughness;
+    segmentHeight /= 2;
   }
-}
-
-const setup = function() {
-  createLightning();
-  for (let i = 0 ; i < lightning.length ; i++) {
-    lightning[i].draw();
-  }
+  return lightning;
 }
 
 const animate = function() {
+  // Fade out the lightning strike
   clearCanvas();
 
-  for (let i = 0 ; i < lightning.length ; i++) {
-    lightning[i].opacity -= 0.02;
-    lightning[i].thickness -= 0.08;
-    if (lightning[i].thickness <= 2) {
-      lightning[i].end.y += 0.03;
-    }
-    lightning[i].draw();
-  }
-
+  opacity -= 0.01;
+  draw(lightning, opacity);
   requestAnimationFrame(animate);
 }
-
-// setup();
-// requestAnimationFrame(animate);
-// setInterval(function() {
-//   let delay = timing();
-//   setTimeout(() => {
-//     createLightning();
-//   }, delay);
-// }, interval);
 
 function startLightning(interval) {
   clearInterval(lightningInterval);
   lightningInterval = setInterval(function() {
     let delay = timing();
     setTimeout(() => {
-      createLightning();
+      render();
     }, delay);
   }, interval);
 }

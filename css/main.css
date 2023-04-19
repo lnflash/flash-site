@@ -371,6 +371,7 @@ header .container {
   z-index: -1;
 }
 .dark-mode .mtn-img-container::after {
+  /* Blends bottom of the mountain into the page background */
   content: '';
   position: absolute;
   bottom: 0;
@@ -492,8 +493,7 @@ header .container {
   background-size: contain;
   background-repeat: no-repeat;
   background-position: top center;
-  /* transition: clip-path var(--_slide-transition) ease-in-out,
-              scale var(--transition-time); */
+  transition: scale var(--transition-time);
   cursor: pointer;
   animation-duration: var(--_slide-transition);
   animation-fill-mode: forwards;
