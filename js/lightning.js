@@ -9,7 +9,7 @@ const checkMode = () => {
   return true;
 }
 
-// Canvas lightning animation based a combination of two methods:
+// Canvas lightning animation based on a combination of two methods:
 // "Make it Flash" by Sooraj (PS), found at https://dev.to/soorajsnblaze333/make-it-flash-lightning-with-canvas-43nh
 // "Create lightnings with JavaScript and HTML5" by Balint, found at https://codepen.io/mcdorli/post/creating-lightnings-with-javascript-and-html5-canvas
 
@@ -36,6 +36,8 @@ let lightningInterval;
 const stormInterval = 4500;
 const strikeInterval = 8000;
 let lightning = [];
+let lightningSplit = [];
+let hasFork = false;
 
 function resizeCanvas() {
   let stormCvsHeight = document.getElementById('pg-download').offsetHeight;
@@ -83,7 +85,7 @@ function clearCanvas() {
   currentCtx.beginPath();
 }
 
-function draw(lightning, opacity) {
+function draw(ln, spl, opacity) {
   const colorLight = `hsla(180, 80%, 80%, ${opacity})`;
   const colorDark = `hsla(187, 100%, 89%, ${opacity})`;
   const shadowLight = "hsl(180, 80%, 80%)";
@@ -93,34 +95,45 @@ function draw(lightning, opacity) {
   darkMode = checkMode();
   darkMode ? color = colorDark : color = colorLight;
   darkMode ? shadowColor = shadowDark : shadowColor = shadowLight;
+  line(ln, color, shadowColor);
+  if (spl.length > 0) {
+    line(spl, color, shadowColor);
+  }
+}
+function line(ln, color, shadowColor) {
   currentCtx.strokeStyle = color;
   currentCtx.shadowColor = shadowColor;
   currentCtx.globalCompositeOperation = "lighter";
   currentCtx.shadowBlur = 15;
   currentCtx.beginPath();
   currentCtx.lineWidth = lightningThickness;
-  for (var i = 0; i < lightning.length; i++) {
-    currentCtx.lineTo(lightning[i].x, lightning[i].y);
+  for (var i = 0; i < ln.length; i++) {
+    currentCtx.lineTo(ln[i].x, ln[i].y);
   }
   currentCtx.stroke();
 }
 
-// class Lightning {
-//   constructor(x1, y1, x2, y2, thickness, opacity) {
-//     this.start = createVector(x1, y1);
-//     this.end = createVector(x2, y2);
-//     this.thickness = thickness;
-//     this.opacity = opacity;
-//   }
-//   draw() {
-//     return line(this.start, this.end, this.thickness, this.opacity);
-//   }
-// }
+function forkChance() {
+  const chance = 0.3;
+  if (Math.random() <= chance) {
+    return true;
+  }
+  return false;
+}
 
 function render() {
-  var lightning = createLightning();
+  lightning = createLightning();
   opacity = 1;
-  draw(lightning, opacity);
+  hasFork = forkChance();
+  lightningSplit = []; // reset the lightning split
+  if(hasFork) {
+    // choose where the lightning splits from main branch
+    const minStart = lightning.length * .4;
+    const maxStart = lightning.length * .7;
+    splitTop = lightning[getRandomInteger(minStart, maxStart)];
+    lightningSplit = createSplit(splitTop.x, splitTop.y);
+  }
+  draw(lightning, lightningSplit, opacity);
 }
 
 function createLightning() {
@@ -151,13 +164,41 @@ function createLightning() {
   }
   return lightning;
 }
+function createSplit(x, y) {
+  let top = {x: x, y: y}
+  let segmentHeight = groundHeight - top.y;
+  lightningSplit = [];
+  // Starting point of the lightning strike fork
+  lightningSplit.push({x: top.x, y: top.y});
+  // Ending point of the lightning strike fork
+  lightningSplit.push({x: Math.random() * (canvasWidth - 100) + 50, y: groundHeight});
+  let currDiff = maxDifference;
+  while (segmentHeight > minSegmentHeight) {
+    var newSegments = [];
+    for (let i = 0; i < lightningSplit.length - 1; i++) {
+      const start = lightningSplit[i];
+      const end = lightningSplit[i + 1];
+      const midX = (start.x + end.x) / 2;
+      const newX = midX + (Math.random() * 2 - 1) * currDiff;
+      newSegments.push(start, {x: newX, y: (start.y + end.y) / 2});
+    }
+    // Add the ending point to the segment array
+    newSegments.push(lightningSplit.pop());
+    // Update the lightning strike with the new segments;
+    lightningSplit = newSegments;
+    
+    currDiff /= roughness;
+    segmentHeight /= 2;
+  }
+  return lightningSplit;
+}
 
 const animate = function() {
   // Fade out the lightning strike
   clearCanvas();
 
   opacity -= 0.01;
-  draw(lightning, opacity);
+  draw(lightning, lightningSplit, opacity);
   requestAnimationFrame(animate);
 }
 
