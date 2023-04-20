@@ -187,10 +187,6 @@ const observer = new IntersectionObserver((entries)=>{
   chooseCanvas();
 }, {threshold: [0.05]});
 
-// observer.observe(cvsStorm);
-// observer.observe(cvsMtn);
-// observer.observe(cvsCnt);
-
 function chooseCanvas() {
   let stormVisible = canvasPositions[0];
   let mtnVisible = canvasPositions[1];
