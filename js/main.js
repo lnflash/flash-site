@@ -305,16 +305,7 @@ window.onload = () => {
   observer.observe(cvsStorm);
   observer.observe(cvsMtn);
   observer.observe(cvsCnt);
-  setup();
   requestAnimationFrame(animate);
-  // function startLightning(interval) {
-  //   lightningInterval = setInterval(function() {
-  //     let delay = timing();
-  //     setTimeout(() => {
-  //       createLightning();
-  //     }, delay);
-  //   }, interval);
-  // }
   startLightning(stormInterval);
   
   
