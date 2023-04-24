@@ -1,15 +1,21 @@
 /* 
 * This JS file contains:
-* 1. Mobile Navigation functions
+* 1. Navigation functions
 * 2. Dark Mode Toggle functions
 * 3. Accordion functions
 * 4. Contact & Waitlist Form functions
 */
 
-// Mobile Navigation
+// Navigation
 const openNavIcon = document.getElementById('open-nav');
 const mainNav = document.getElementById('main-nav');
 const closeNavIcon = document.getElementById('close-nav');
+const pgDownload = document.getElementById('pg-download');
+const pgAbout = document.getElementById('pg-about');
+const pgFaq = document.getElementById('pg-faq');
+const pgContact = document.getElementById('pg-contact');
+const navLinks = document.querySelectorAll('.nav-link');
+let pages = [];
 
 function changeMobileNavState() {
   if (mainNav.dataset.mobState === 'closed') {
@@ -20,6 +26,48 @@ function changeMobileNavState() {
     mainNav.setAttribute('aria-hidden', true);
   }
 }
+
+const navObserver = new IntersectionObserver((entries)=>{
+  entries.forEach(entry => {
+    if(entry.target == pgDownload) {
+      if (entry.intersectionRatio > 0.55) {
+        pages[0] = entry.isIntersecting;
+      } else {
+        pages[0] = false;
+      }
+    }
+    if(entry.target == pgAbout) {
+      pages[1] = entry.isIntersecting;
+      console.log('about');
+    }
+    if(entry.target == pgFaq) {
+      if (entry.intersectionRatio > 0.55) {
+        pages[2] = entry.isIntersecting;
+      } else {
+        pages[2] = false;
+      }
+    }
+    if(entry.target == pgContact) {
+      if (entry.intersectionRatio > 0.55) {
+        pages[3] = entry.isIntersecting;
+      } else {
+        pages[3] = false;
+      }
+    }
+  });
+  changeActiveNav();
+}, {threshold: [0.25, 0.55]});
+function changeActiveNav() {
+  for (let i=0; i<pages.length; i++) {
+    if (navLinks[i].classList.contains('active')) {
+      navLinks[i].classList.remove('active');
+    }
+    if (pages[i]===true) {
+      navLinks[i].classList.add('active');
+    }
+  }
+}
+
 
 // Dark Mode Toggle
 const modeContainer = document.getElementById('darkmode');
@@ -261,6 +309,11 @@ window.onload = () => {
   openNavIcon.addEventListener('click', changeMobileNavState);
   closeNavIcon.addEventListener('click', changeMobileNavState);
   $('.nav-link').click(()=>{changeMobileNavState()});
+  // Active Navigation State Change
+  navObserver.observe(pgDownload);
+  navObserver.observe(pgAbout);
+  navObserver.observe(pgFaq);
+  navObserver.observe(pgContact);
 
   // Accordion
   accordion.addEventListener('click', (e)=>{
@@ -279,7 +332,6 @@ window.onload = () => {
   sendMsgBtn.addEventListener('click', (e)=>{
     e.preventDefault();
     const checkResult = patternCheck('msg');
-    // console.log(checkResult[1]);
     if (checkResult[0]) {
       sendMsg(checkResult[1]);
     }
@@ -307,6 +359,42 @@ window.onload = () => {
   observer.observe(cvsCnt);
   requestAnimationFrame(animate);
   startLightning(stormInterval);
+
+  // Touch Triggered Lightning
+  cvsTch.onpointerdown = (e) => {
+    cvsTch.setPointerCapture(e.pointerId);
+    // stop other animation
+    clearInterval(lightningInterval);
+    clearCanvas();
+    touch = true;
+    tchTarget = {x: e.clientX - cvsTch.getBoundingClientRect().left, y: e.clientY - cvsTch.getBoundingClientRect().top};
+  
+    cvsTch.onpointermove = (e) => {
+      tchTarget = {x: e.clientX - cvsTch.getBoundingClientRect().left, y: e.clientY - cvsTch.getBoundingClientRect().top};
+    }
+  
+    cvsTch.onpointerup = (e) => {
+      cvsTch.onpointermove = null;
+      cvsTch.onpointerup = null;
+      touch = false;
+      tchLightning.clear(ctxTch);
+    }
+    cvsTch.onpointercancel = (e) => {
+      cvsTch.onpointermove = null;
+      cvsTch.onpointerup = null;
+      touch = false;
+      tchLightning.clear(ctxTch);
+    }
+    cvsTch.onpointerleave = (e) => {
+      cvsTch.onpointermove = null;
+      cvsTch.onpointerup = null;
+      touch = false;
+      tchLightning.clear(ctxTch);
+    }
+  }
+  positionConnectors();
+  createTchLightning(lightningThickness, roughness, minSegmentHeight);
+  window.requestAnimationFrame(tchAnimate);
   
   
   $(window).on('resize', function(){

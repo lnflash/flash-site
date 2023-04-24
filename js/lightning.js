@@ -19,6 +19,8 @@ const cvsMtn = document.getElementById('mtn-lightning');
 const ctxMtn = cvsMtn.getContext('2d');
 const cvsCnt = document.getElementById('lightning-contact');
 const ctxCnt = cvsCnt.getContext('2d');
+const cvsTch = document.getElementById('user-lightning');
+const ctxTch = cvsTch.getContext('2d');
 let currentCvs = cvsStorm;
 let currentCtx = ctxStorm;
 let canvasPositions = [true, false, false];
@@ -39,6 +41,14 @@ let lightning = [];
 let lightningSplit = [];
 let hasFork = false;
 
+// let color;
+// let shadowColor;
+
+// let touch = false;
+// let tchTarget;
+// let tchConnectors = [];
+// let tchLightning;
+
 function resizeCanvas() {
   let stormCvsHeight = document.getElementById('pg-download').offsetHeight;
   let stormCvsWidth = document.body.offsetWidth;
@@ -46,6 +56,12 @@ function resizeCanvas() {
   let mtnCvsWidth = document.getElementById('mtn-img-container').offsetWidth;
   let cntCvsHeight = document.getElementById('forms-bg').offsetHeight;
   let cntCvsWidth = document.getElementById('forms-bg').offsetWidth;
+  let tchCvsHeight = document.getElementById('mtn-clouds').offsetHeight;
+  let tchCvsWidth = mtnCvsWidth;
+  if (document.body.clientWidth <= 619) {
+    // aligns with css media query for max-width = 619px
+    tchCvsWidth = document.body.clientWidth;
+  }
 
   cvsStorm.setAttribute('height', stormCvsHeight);
   cvsStorm.setAttribute('width', stormCvsWidth);
@@ -53,7 +69,10 @@ function resizeCanvas() {
   cvsMtn.setAttribute('width', mtnCvsWidth);
   cvsCnt.setAttribute('height', cntCvsHeight);
   cvsCnt.setAttribute('width', cntCvsWidth);
+  cvsTch.setAttribute('height', tchCvsHeight);
+  cvsTch.setAttribute('width', tchCvsWidth);
   changeCanvas(currentCvs, currentCtx);
+  positionConnectors();
 }
 resizeCanvas();
 
@@ -66,6 +85,17 @@ function changeCanvas(canvas, context) {
   maxDifference = canvasWidth / 5;
 }
 changeCanvas(cvsStorm, ctxStorm);
+
+// for tch-lightning
+function positionConnectors() {
+  const w = cvsTch.width;
+  const h = cvsTch.height;
+  tchConnectors = [];
+  tchConnectors.push({x:w * .15, y:h * .25});
+  tchConnectors.push({x:w * .5, y:h * .3});
+  tchConnectors.push({x:w - 20, y:h * .2});
+  tchConnectors.push({x:20, y:h * .2});
+}
 
 // Lightning Animation
 function getRandomInteger(min, max) {
@@ -95,6 +125,7 @@ function draw(ln, spl, opacity) {
   darkMode = checkMode();
   darkMode ? color = colorDark : color = colorLight;
   darkMode ? shadowColor = shadowDark : shadowColor = shadowLight;
+  // setColours(opacity);
   line(ln, color, shadowColor);
   if (spl.length > 0) {
     line(spl, color, shadowColor);
@@ -137,7 +168,7 @@ function render() {
 }
 
 function createLightning() {
-  let top = {x: getRandomInteger(2, canvasWidth - 2), y: 0}
+  let top = {x: getRandomInteger(2, canvasWidth - 2), y: 0};
   let segmentHeight = groundHeight - top.y;
   lightning = [];
   // Starting point of the lightning strike
@@ -146,7 +177,7 @@ function createLightning() {
   lightning.push({x: Math.random() * (canvasWidth - 100) + 50, y: groundHeight});
   let currDiff = maxDifference;
   while (segmentHeight > minSegmentHeight) {
-    var newSegments = [];
+    let newSegments = [];
     for (let i = 0; i < lightning.length - 1; i++) {
       const start = lightning[i];
       const end = lightning[i + 1];
@@ -165,7 +196,7 @@ function createLightning() {
   return lightning;
 }
 function createSplit(x, y) {
-  let top = {x: x, y: y}
+  let top = {x: x, y: y};
   let segmentHeight = groundHeight - top.y;
   lightningSplit = [];
   // Starting point of the lightning strike fork
@@ -174,7 +205,7 @@ function createSplit(x, y) {
   lightningSplit.push({x: Math.random() * (canvasWidth - 100) + 50, y: groundHeight});
   let currDiff = maxDifference;
   while (segmentHeight > minSegmentHeight) {
-    var newSegments = [];
+    let newSegments = [];
     for (let i = 0; i < lightningSplit.length - 1; i++) {
       const start = lightningSplit[i];
       const end = lightningSplit[i + 1];
@@ -196,7 +227,6 @@ function createSplit(x, y) {
 const animate = function() {
   // Fade out the lightning strike
   clearCanvas();
-
   opacity -= 0.01;
   draw(lightning, lightningSplit, opacity);
   requestAnimationFrame(animate);
@@ -244,6 +274,8 @@ function chooseCanvas() {
   } else if (!stormVisible && mtnVisible) {
     changeCanvas(cvsMtn, ctxMtn);
     startLightning(strikeInterval);
+    // set height to account for image load time, otherwise height might be too small
+    cvsTch.setAttribute('height', document.getElementById('mtn-clouds').offsetHeight);
   } else if (cntVisible) {
     changeCanvas(cvsCnt, ctxCnt);
     startLightning(strikeInterval);
