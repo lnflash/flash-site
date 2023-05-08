@@ -1,6 +1,11 @@
+// This is the JS file for the touch triggered lightning
+/* 
+The function to set the static connection points (positionConnectors)
+is in the lightning.js file since they need to be adjusted anytime the canvas resizes
+Canvas resizing function is in the lightning.js file
+*/
 let touch = false;
 let tchTarget;
-let tchConnectors = [];
 let tchLightning;
 
 class TchLightning {
@@ -12,7 +17,7 @@ class TchLightning {
     this.tlvLn = [];
     this.colour;
     this.shadowColour;
-    this.radius1 = 30;
+    this.radius1 = 20;
     this.radius2 = 5;
   }
 
@@ -36,7 +41,7 @@ class TchLightning {
     if (this.threshold && distance > cvsTch.width * this.threshold) {
       return;
     }
-    let segmentHeight = end.y - start.y;
+    let segmentHeight = Math.sqrt(Math.pow(end.y - start.y, 2));
     this.tlvLn = [];
     // Starting point of the lightning strike
     this.tlvLn.push(start);
@@ -85,12 +90,9 @@ class TchLightning {
       this.tlvLn[index].x, this.tlvLn[index].y, radius * .05,
       this.tlvLn[index].x, this.tlvLn[index].y, radius
     );
-    // gradient.addColorStop(0, this.colour);
     gradient.addColorStop(0, 'hsla(187, 100%, 89%, .5');
-    gradient.addColorStop(1, "transparent");
+    gradient.addColorStop(1, 'hsla(0, 0%, 100%, .05');
     ctx.fillStyle = gradient;
-    // ctx.shadowColor = this.shadowColour;
-    // ctx.globalAlpha = .3;
     ctx.fill();
   }
   clear(ctx) {
@@ -98,16 +100,6 @@ class TchLightning {
     ctx.beginPath();
   }
 }
-
-// function positionConnectors() {
-//   const w = cvsTch.width;
-//   const h = cvsTch.height;
-//   tchConnectors = [];
-//   tchConnectors.push({x:w * .15, y:0});
-//   tchConnectors.push({x:w * .5, y:0});
-//   tchConnectors.push({x:w - 20, y:h * .1});
-//   tchConnectors.push({x:20, y:h * .2});
-// }
 
 function createTchLightning(t, r, h) {
   tchLightning = new TchLightning(t, r, h);

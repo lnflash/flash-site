@@ -40,14 +40,7 @@ const strikeInterval = 8000;
 let lightning = [];
 let lightningSplit = [];
 let hasFork = false;
-
-// let color;
-// let shadowColor;
-
-// let touch = false;
-// let tchTarget;
-// let tchConnectors = [];
-// let tchLightning;
+let tchConnectors = [];
 
 function resizeCanvas() {
   let stormCvsHeight = document.getElementById('pg-download').offsetHeight;
@@ -56,12 +49,6 @@ function resizeCanvas() {
   let mtnCvsWidth = document.getElementById('mtn-img-container').offsetWidth;
   let cntCvsHeight = document.getElementById('forms-bg').offsetHeight;
   let cntCvsWidth = document.getElementById('forms-bg').offsetWidth;
-  let tchCvsHeight = document.getElementById('mtn-clouds').offsetHeight;
-  let tchCvsWidth = mtnCvsWidth;
-  if (document.body.clientWidth <= 619) {
-    // aligns with css media query for max-width = 619px
-    tchCvsWidth = document.body.clientWidth;
-  }
 
   cvsStorm.setAttribute('height', stormCvsHeight);
   cvsStorm.setAttribute('width', stormCvsWidth);
@@ -69,9 +56,24 @@ function resizeCanvas() {
   cvsMtn.setAttribute('width', mtnCvsWidth);
   cvsCnt.setAttribute('height', cntCvsHeight);
   cvsCnt.setAttribute('width', cntCvsWidth);
+
+  resizeTchCanvas();
+  changeCanvas(currentCvs, currentCtx);
+}
+function resizeTchCanvas () {
+  // let tchCvsHeight = document.getElementById('mtn-clouds').offsetHeight;
+  let tchCvsHeight = document.getElementById('user-lightning').height;
+  console.log(`Canvas height: ${tchCvsHeight}`);
+  if (tchCvsHeight < 200) {
+    tchCvsHeight = 200;
+  }
+  let tchCvsWidth = document.getElementById('mtn-img-container').offsetWidth;
+  if (document.body.clientWidth <= 619) {
+    // aligns with css media query for max-width = 619px
+    tchCvsWidth = document.body.clientWidth;
+  }
   cvsTch.setAttribute('height', tchCvsHeight);
   cvsTch.setAttribute('width', tchCvsWidth);
-  changeCanvas(currentCvs, currentCtx);
   positionConnectors();
 }
 resizeCanvas();
@@ -86,15 +88,30 @@ function changeCanvas(canvas, context) {
 }
 changeCanvas(cvsStorm, ctxStorm);
 
-// for tch-lightning
+// For tch-lightning
 function positionConnectors() {
   const w = cvsTch.width;
   const h = cvsTch.height;
   tchConnectors = [];
-  tchConnectors.push({x:w * .15, y:h * .25});
-  tchConnectors.push({x:w * .5, y:h * .3});
-  tchConnectors.push({x:w - 20, y:h * .2});
-  tchConnectors.push({x:20, y:h * .2});
+  if (document.body.clientWidth <= 619) {
+    tchConnectors.push({x:w * .2, y:h * .15});
+    tchConnectors.push({x:w * .5, y:h * .2});
+    tchConnectors.push({x:w * .85, y:h * .3});
+    tchConnectors.push({x:32, y:h * .28});
+  } else {
+    if (document.body.clientWidth <= 899 || document.body.clientWidth > 1239) {
+      tchConnectors.push({x:w * .2, y:h * .7});
+      tchConnectors.push({x:w * .5, y:h * .3});
+      tchConnectors.push({x:w * .85, y:h * .6});
+      tchConnectors.push({x:32, y:h * .54});
+    } else {
+      // if (document.body.clientWidth > 1239)
+      tchConnectors.push({x:w * .2, y:h * .7});
+      tchConnectors.push({x:w * .5, y:h * .3});
+      tchConnectors.push({x:w * .72, y:h * .6});
+      tchConnectors.push({x:32, y:h * .8});
+    }
+  }
 }
 
 // Lightning Animation
@@ -125,7 +142,6 @@ function draw(ln, spl, opacity) {
   darkMode = checkMode();
   darkMode ? color = colorDark : color = colorLight;
   darkMode ? shadowColor = shadowDark : shadowColor = shadowLight;
-  // setColours(opacity);
   line(ln, color, shadowColor);
   if (spl.length > 0) {
     line(spl, color, shadowColor);
@@ -262,7 +278,6 @@ function chooseCanvas() {
   let stormVisible = canvasPositions[0];
   let mtnVisible = canvasPositions[1];
   let cntVisible = canvasPositions[2];
-
   // console.log('Storm Visible? ' + stormVisible + ' Mtn Visible? ' + mtnVisible);
 
   if(stormVisible && mtnVisible) {
@@ -274,8 +289,9 @@ function chooseCanvas() {
   } else if (!stormVisible && mtnVisible) {
     changeCanvas(cvsMtn, ctxMtn);
     startLightning(strikeInterval);
-    // set height to account for image load time, otherwise height might be too small
-    cvsTch.setAttribute('height', document.getElementById('mtn-clouds').offsetHeight);
+    // resize cvsTch to account for image load time, otherwise height might be too small
+    // cvsTch.setAttribute('height', document.getElementById('mtn-clouds').offsetHeight);
+    resizeTchCanvas();
   } else if (cntVisible) {
     changeCanvas(cvsCnt, ctxCnt);
     startLightning(strikeInterval);

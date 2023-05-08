@@ -10,12 +10,10 @@
 const openNavIcon = document.getElementById('open-nav');
 const mainNav = document.getElementById('main-nav');
 const closeNavIcon = document.getElementById('close-nav');
-const pgDownload = document.getElementById('pg-download');
-const pgAbout = document.getElementById('pg-about');
-const pgFaq = document.getElementById('pg-faq');
-const pgContact = document.getElementById('pg-contact');
 const navLinks = document.querySelectorAll('.nav-link');
-let pages = [];
+const pages = document.querySelectorAll('.page');
+let currentNav = 0;
+let prevNav = currentNav;
 
 function changeMobileNavState() {
   if (mainNav.dataset.mobState === 'closed') {
@@ -26,48 +24,6 @@ function changeMobileNavState() {
     mainNav.setAttribute('aria-hidden', true);
   }
 }
-
-const navObserver = new IntersectionObserver((entries)=>{
-  entries.forEach(entry => {
-    if(entry.target == pgDownload) {
-      if (entry.intersectionRatio > 0.55) {
-        pages[0] = entry.isIntersecting;
-      } else {
-        pages[0] = false;
-      }
-    }
-    if(entry.target == pgAbout) {
-      pages[1] = entry.isIntersecting;
-      console.log('about');
-    }
-    if(entry.target == pgFaq) {
-      if (entry.intersectionRatio > 0.55) {
-        pages[2] = entry.isIntersecting;
-      } else {
-        pages[2] = false;
-      }
-    }
-    if(entry.target == pgContact) {
-      if (entry.intersectionRatio > 0.55) {
-        pages[3] = entry.isIntersecting;
-      } else {
-        pages[3] = false;
-      }
-    }
-  });
-  changeActiveNav();
-}, {threshold: [0.25, 0.55]});
-function changeActiveNav() {
-  for (let i=0; i<pages.length; i++) {
-    if (navLinks[i].classList.contains('active')) {
-      navLinks[i].classList.remove('active');
-    }
-    if (pages[i]===true) {
-      navLinks[i].classList.add('active');
-    }
-  }
-}
-
 
 // Dark Mode Toggle
 const modeContainer = document.getElementById('darkmode');
@@ -197,7 +153,6 @@ function patternCheck(form) {
     if (pass == false) {
       noError = false;
       highlightError(field.error, pass);
-      console.log(field.error);
     } else {
       highlightError(field.error, pass);
     }
@@ -208,7 +163,6 @@ function sendMsg(values) {
   const name = values[0].name;
   const email = values[1].email;
   const msg = values[2].msg;
-  console.log(`${name} ${email} ${msg}`);
   let sendMsg = $.ajax({
     url: "./assets/services/sendMessage.php",
     type: "POST",
@@ -257,12 +211,17 @@ function addToWaitlist(values) {
 function loadScreen() {
   $('section').hide();
   progressBar = document.querySelector('.progress-bar');
-  progressBar.style.setProperty('--_animation-name', 'page-load');
+  // progressBar.style.setProperty('--_animation-name', 'page-load');
   setTimeout(() => {
     $('section').fadeIn();
+    // Correct active nav if page is refreshed
+    for (let i=0; i<navLinks.length; i++) {
+      navLinks[i].classList.remove('active');
+      if (i === 0) {
+        navLinks[i].classList.add('active');
+      }
+    }
     $('#loading-screen').fadeOut('fast');
-    // activate observer for dark mode switch once site is loaded in
-    switchobserver.observe(document.querySelector('footer'));
   }, 2000);
 }
 // Remember theme preference during session
@@ -276,13 +235,6 @@ if (window.innerWidth < 800) {
   mainNav.setAttribute('aria-hidden', true);
 }
 
-// Stop Dark Mode switch from sticking to bottom of screen when footer appears
-const switchobserver = new IntersectionObserver((entries)=>{
-  entries.forEach(entry => {
-    entry.isIntersecting ? modeContainer.style.position = 'relative' : modeContainer.style.position = 'fixed';
-  });
-}, {threshold: [0]});
-
 window.onload = () => {
   loadScreen();
 
@@ -295,25 +247,43 @@ window.onload = () => {
       changeTheme('light');
     }
   });
-  // window.addEventListener("scroll", ()=>{
-  //   let limit = document.body.scrollHeight - window.innerHeight - footerHeight - modeContainer.offsetHeight - (padding * 3);
-  //   let scroll = window.scrollY;
-  //   if (scroll > limit) {
-  //     modeContainer.style.position = 'relative';
-  //   } else {
-  //     modeContainer.style.position = 'fixed';
-  //   }
-  // });
+
+  // Scroll Events
+  window.addEventListener("scroll", ()=>{
+    // Stop Dark Mode switch from sticking to bottom of screen when footer appears
+    let limit = document.body.scrollHeight - window.innerHeight - footerHeight - modeContainer.offsetHeight - (padding * 3);
+    let scroll = window.scrollY;
+    if (scroll > limit) {
+      document.getElementById('spaceholder').style.height = '0';
+      // modeContainer.style.position = 'relative';
+      // console.log('relative');
+    } else {
+      document.getElementById('spaceholder').style.height = '20px';
+      // modeContainer.style.position = 'fixed';
+      // console.log('fixed');
+    }
+    
+    // Change Active Navigation Link
+    for (let i=0; i<pages.length; i++) {
+      if (window.scrollY >= pages[i].offsetTop - (pages[i].offsetHeight/2)) {
+        prevNav = currentNav;
+        currentNav = i;
+      }
+    }
+    if (currentNav != prevNav) {
+      for (let i=0; i<navLinks.length; i++) {
+        navLinks[i].classList.remove('active');
+        if (i === currentNav) {
+          navLinks[i].classList.add('active');
+        }
+      }
+    }
+  });
   
   // Mobile Navigation Open and Closing
   openNavIcon.addEventListener('click', changeMobileNavState);
   closeNavIcon.addEventListener('click', changeMobileNavState);
   $('.nav-link').click(()=>{changeMobileNavState()});
-  // Active Navigation State Change
-  navObserver.observe(pgDownload);
-  navObserver.observe(pgAbout);
-  navObserver.observe(pgFaq);
-  navObserver.observe(pgContact);
 
   // Accordion
   accordion.addEventListener('click', (e)=>{
@@ -368,9 +338,19 @@ window.onload = () => {
     clearCanvas();
     touch = true;
     tchTarget = {x: e.clientX - cvsTch.getBoundingClientRect().left, y: e.clientY - cvsTch.getBoundingClientRect().top};
-  
+
     cvsTch.onpointermove = (e) => {
-      tchTarget = {x: e.clientX - cvsTch.getBoundingClientRect().left, y: e.clientY - cvsTch.getBoundingClientRect().top};
+        let x = e.clientX - cvsTch.getBoundingClientRect().left;
+        let y = e.clientY - cvsTch.getBoundingClientRect().top;
+        if (x>0 && e.clientX<cvsTch.getBoundingClientRect().right && y>0 && e.clientY<cvsTch.getBoundingClientRect().bottom) {
+        tchTarget = {x: x, y: y};
+      } else {
+        cvsTch.onpointermove = null;
+        cvsTch.onpointerup = null;
+        touch = false;
+        tchLightning.clear(ctxTch);
+      }
+      
     }
   
     cvsTch.onpointerup = (e) => {
@@ -392,7 +372,7 @@ window.onload = () => {
       tchLightning.clear(ctxTch);
     }
   }
-  positionConnectors();
+  resizeTchCanvas();
   createTchLightning(lightningThickness, roughness, minSegmentHeight);
   window.requestAnimationFrame(tchAnimate);
   

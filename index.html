@@ -35,7 +35,7 @@
               <path d="M2.21289 2L23.4261 23.2132" stroke="black" stroke-width="4" stroke-linecap="round"/>
             </svg>
           </li>
-          <li><a href="#pg-download" class="nav-link">Download</a></li>
+          <li><a href="#pg-download" class="nav-link active">Download</a></li>
           <li><a href="#pg-about" class="nav-link">About</a></li>
           <li><a href="#pg-faq" class="nav-link">FAQ</a></li>
           <li><a href="#pg-contact" class="nav-link">Contact</a></li>
@@ -47,12 +47,12 @@
 
   <main>
     <!-- Page: Download / Hero -->
-    <section id="pg-download" class="pg-download">
+    <section id="pg-download" class="pg-download page">
       <!-- Canvas drawn to via lightning.js -->
       <canvas id="lightning-storm"></canvas>
       <div class="container col-2-even">
         <div class="banner-left">
-          <h1 class="banner-txt">Global businness in a <span class="banner-highlight">flash</span></h1>
+          <h1 class="banner-txt">Global business in a <span class="banner-highlight">flash</span></h1>
           <p>Flash is a bitcoin app that lets you do business at lightning speed.</p>
           <div class="downloads-container">
             <a href="https://play.google.com" target="_blank" id="googleplay-link">
@@ -61,17 +61,21 @@
             <a href="https://www.apple.com/app-store" target="_blank" id="appstore-link">
               <img src="assets/img/ios-badge.svg" alt="Download on the App Store">
             </a>
+            <a href="https://www.apple.com/app-store" target="_blank" id="apk-link">
+              <img src="assets/img/apk_badge.png" alt="APK Direct Download">
+            </a>
           </div>
         </div>
         <div class="banner-right">
-          <img src="assets/img/phones-landing-alt-noshad2.png" alt="" class="hero-img">
+          <!-- <img src="assets/img/phones-landing-alt-noshad2.png" alt="" class="hero-img"> -->
+          <img src="assets/img/phones-alt-2.png" alt="" class="hero-img-2">
         </div>
       </div>
     </section>
     <!-- End of Page: Download / Hero -->
 
     <!-- Page: About -->
-    <section id="pg-about" class="pg-about">
+    <section id="pg-about" class="pg-about page">
       <div class="bg-yellow about-banner">
         <div class="container col-2-even">
           <div class="about-banner-left">
@@ -83,7 +87,8 @@
           <div class="about-banner-right">
             <div class="mtn-img-container" id="mtn-img-container">
               <img src="assets/img/Bitcoin in stone 1.png" alt="" class="mtn-img">
-              <img src="assets/img/clouds-mtn.png" alt="" id="mtn-clouds">
+              <!-- <img src="assets/img/clouds-mtn.png" alt="" id="mtn-clouds"> -->
+              <img src="assets/img/clouds-contact-alt.png" alt="" id="mtn-clouds">
               <canvas id="mtn-lightning"></canvas>
               <canvas id="user-lightning"></canvas>
             </div>
@@ -111,17 +116,17 @@
             <div class="slider-tab app" tabindex="0">
               <h3>FlashApp</h3>
               <p>Consumer app for sending and receiving value globally.</p>
-              <img src="assets/img/pop-bitcoin.png" alt="bitcoins in popcorn bag">
+              <img src="assets/img/pop-bitcoin.png" alt="bitcoins in a popcorn bag" loading="lazy">
             </div>
             <div class="slider-tab app"  tabindex="0">
               <h3>FlashCash</h3>
               <p>Merchant only app for providing cash in and cash out locations.</p>
-              <img src="assets/img/safe-bitcoin.png" alt="bitcoins in popcorn bag">
+              <img src="assets/img/safe-bitcoin.png" alt="bitcoins in a safe" loading="lazy">
             </div>
             <div class="slider-tab app" tabindex="0">
               <h3>FlashPay</h3>
               <p>Web app for accepting Bitcoin and Lightning via Point of Sale.</p>
-              <img src="assets/img/bucket-bitcoin.png" alt="bitcoins in popcorn bag">
+              <img src="assets/img/bucket-bitcoin.png" alt="bitcoins in a bucket" loading="lazy">
             </div>
           </div>
           <!-- End of Slider Tabs -->
@@ -136,7 +141,7 @@
     <!-- End of Page: About -->
 
     <!-- Page: FAQ -->
-    <section id="pg-faq">
+    <section id="pg-faq" class=" page">
       <div class="container">
         <h2>Frequently Asked Questions</h2>
         <div class="accordion">
@@ -266,12 +271,17 @@
     <!-- End of Page: FAQ -->
 
     <!-- Page: Contact -->
-    <section id="pg-contact" class="pg-contact">
+    <section id="pg-contact" class="pg-contact page">
       <div class="container">
         <div class="forms-bg" id="forms-bg">
+          <div class="cloud-bg">
+            <!-- <img src="assets/img/clouds-contact.png" alt="" class="cloud-contact" loading="lazy"> -->
+            <img src="assets/img/clouds-contact-alt.png" alt="" class="cloud-contact" loading="lazy">
+          </div>
+          
           <canvas id="lightning-contact"></canvas>
           <h2>Contact Us</h2>
-          <div class="col-3">
+          <div class="col-2-even contact-content">
             <!-- Contact Form -->
             <form class="contact-form" method="post">
               <div class="formfields">
@@ -311,7 +321,7 @@
               </div>
             </form>
             <!-- End of Contact Form -->
-            <p class="contact-or">or</p>
+            <!-- <p class="contact-or">or</p> -->
             <!-- Waitlist Form -->
             <form class="waitlist-form" method="post">
               <div class="formfields">
@@ -377,6 +387,7 @@
         </label>
       </div>
     </div>
+    <div class="spaceholder" id="spaceholder"></div>
     <!-- End of Dark Mode Switch -->
   </main>
 
@@ -384,19 +395,21 @@
     <div class="footer-top">
       <div class="container">
         <div class="footer-links">
-          <img src="assets/img/logo-black.png" alt="Flash" class="light logo">
-          <img src="assets/img/logo-white.png" alt="" class="dark logo">
+          <img src="assets/img/logo-black.png" alt="Flash" class="light logo" loading="lazy">
+          <img src="assets/img/logo-white.png" alt="" class="dark logo" loading="lazy">
           <a href="https://play.google.com" target="_blank">
-            <img src="assets/img/google-play-badge.png" alt="Get it on Google Play" class="badge desktop-only">
+            <img src="assets/img/google-play-badge.png" alt="Get it on Google Play" class="badge desktop-only" loading="lazy">
           </a>
           <a href="https://www.apple.com/app-store" target="_blank">
-            <img src="assets/img/ios-badge.svg" alt="Download on the App Store" class="badge ios desktop-only">
+            <img src="assets/img/ios-badge.svg" alt="Download on the App Store" class="badge ios desktop-only" loading="lazy">
+          </a>
+          <a href="https://www.apple.com/app-store" target="_blank">
+            <img src="assets/img/apk_badge.png" alt="APK Direct Download" class="badge ios desktop-only" loading="lazy">
           </a>
         </div>
         <div class="credits">
           <p>Powered by Bitcoin.</p>
-          <p><a href="http://www.freepik.com">Clouds designed by upklyak / Freepik</a></p>
-          <p><a href="http://www.freepik.com">Curved light background designed by pikisuperstar / Freepik</a></p>
+          <!-- <p><a href="http://www.freepik.com">Curved light background designed by pikisuperstar / Freepik</a></p> -->
         </div>
       </div>
     </div>
@@ -404,20 +417,20 @@
       <div class="container">
         <p class="copyright"><span>&copy;</span> 2023 Flash. All rights reserved.</p>
         <div class="socials">
+          <a href="https://nostr.com" target="_blank" class="no-style">
+            <img src="assets/img/icon-nostr.png" alt="Nostr" loading="lazy">
+          </a>
           <a href="https://twitter.com/LNFlash" target="_blank" class="no-style">
-            <img src="assets/img/icon-twitter.png" alt="Twitter">
+            <img src="assets/img/icon-twitter.png" alt="Twitter" loading="lazy">
           </a>
           <a href="https://www.facebook.com" target="_blank" class="no-style">
-            <img src="assets/img/icon-fb-2.png" alt="Facebook">
+            <img src="assets/img/icon-fb-2.png" alt="Facebook" loading="lazy">
           </a>
           <a href="https://www.instagram.com" target="_blank" class="no-style">
-            <img src="assets/img/icon-insta-2.png" alt="Instagram">
+            <img src="assets/img/icon-insta-2.png" alt="Instagram" loading="lazy">
           </a>
           <a href="https://github.com" target="_blank" class="no-style">
-            <img src="assets/img/icon-github.png" alt="Github">
-          </a>
-          <a href="https://nostr.com" target="_blank" class="no-style">
-            <img src="assets/img/icon-nostr.png" alt="Nostr">
+            <img src="assets/img/icon-github.png" alt="Github" loading="lazy">
           </a>
         </div>
       </div>
