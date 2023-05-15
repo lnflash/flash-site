@@ -221,7 +221,6 @@ function toggleCredits() {
 function loadScreen() {
   $('section').hide();
   progressBar = document.querySelector('.progress-bar');
-  // progressBar.style.setProperty('--_animation-name', 'page-load');
   setTimeout(() => {
     $('section').fadeIn();
     // Correct active nav if page is refreshed
@@ -266,11 +265,9 @@ window.onload = () => {
     if (scroll > limit) {
       document.getElementById('spaceholder').style.height = '0';
       modeContainer.style.position = 'relative';
-      // console.log('relative');
     } else {
       document.getElementById('spaceholder').style.height = '20px';
       modeContainer.style.position = 'fixed';
-      // console.log('fixed');
     }
     
     // Change Active Navigation Link

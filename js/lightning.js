@@ -62,7 +62,6 @@ function resizeCanvas() {
   changeCanvas(currentCvs, currentCtx);
 }
 function resizeTchCanvas () {
-  // let tchCvsHeight = document.getElementById('mtn-clouds').offsetHeight;
   let tchCvsHeight = document.getElementById('user-lightning').height;
   console.log(`Canvas height: ${tchCvsHeight}`);
   if (tchCvsHeight < 200) {
@@ -186,13 +185,10 @@ function render() {
   if(currentCvs==cvsCnt && $('body').hasClass('dark-mode')) {
     console.log('flash');
     clearTimeout(cloudFadeTime);
-    const cloudOpacity = '.3';
     const cloudDelay = window.getComputedStyle(document.documentElement).getPropertyValue('--transition-time').replace('ms', '');
-    // $('.cloud-bg').css('opacity', '.7');
     $('.cloud-bg').removeClass('fade-out');
     $('.cloud-bg').addClass('fade-in');
     cloudFadeTime = setTimeout(() => {
-      // $('.cloud-bg').css('opacity', cloudOpacity);
       $('.cloud-bg').removeClass('fade-in');
       $('.cloud-bg').addClass('fade-out');
     }, cloudDelay);
@@ -294,7 +290,6 @@ function chooseCanvas() {
   let stormVisible = canvasPositions[0];
   let mtnVisible = canvasPositions[1];
   let cntVisible = canvasPositions[2];
-  // console.log('Storm Visible? ' + stormVisible + ' Mtn Visible? ' + mtnVisible);
 
   if(stormVisible && mtnVisible) {
     changeCanvas(cvsStorm, ctxStorm);
@@ -305,8 +300,7 @@ function chooseCanvas() {
   } else if (!stormVisible && mtnVisible) {
     changeCanvas(cvsMtn, ctxMtn);
     startLightning(strikeInterval);
-    // resize cvsTch to account for image load time, otherwise height might be too small
-    // cvsTch.setAttribute('height', document.getElementById('mtn-clouds').offsetHeight);
+    // resize cvsTch to account for image load time
     resizeTchCanvas();
   } else if (cntVisible) {
     changeCanvas(cvsCnt, ctxCnt);

@@ -607,7 +607,7 @@ main {
 }
 
 /* FAQ Page */
-.accordion { /*new*/
+.accordion {
   position: relative;
   z-index: 9;
 }
@@ -693,40 +693,21 @@ main {
 
 /* Contact Page */
 .forms-bg {
-  /* --_contact-padding ensures canvas stays properly aligned */
-  --_contact-padding: var(--padding-gen);
-  /* background-color: var(--flash-off-white);
-  padding: var(--_contact-padding);
-  border-radius: var(--border-radius); */
   position: relative;
   min-height: 570px;
 }
-/* .forms-bg::before {
-  content: url(../assets/img/clouds-contact.png);
-  position: absolute;
-  display: block;
-  z-index: 2;
-  top: -45%;
-  left: -50%;
-  transform: translateX(50%);
-  max-width: 100%;
-  height: auto;
-} */
 .cloud-bg {
   position: absolute;
   z-index: 2;
-  /* top: -32%; */
   top: -55%;
   left: -5%;
   display: block;
-  width: 110%; /* new */
-  /* opacity: .35; */
+  width: 110%;
   pointer-events: none;
   touch-action: none;
 }
 .dark-mode .cloud-bg {
   opacity: .3;
-  /* transition: opacity var(--transition-time); */
 }
 .dark-mode .cloud-bg.fade-in {
   opacity: .7;
@@ -737,38 +718,16 @@ main {
   transition: opacity calc(1667ms - 1.8 * var(--transition-time));
 }
 .cloud-bg .cloud-contact {
-  /* max-width: 100%; */
   width: 100%;
   height: auto;
-  /* mix-blend-mode: hard-light; */
 }
-/* .cloud-bg .cloud-contact.mobile-only {
-  max-width: none;
-  height: 100%;
-  width: auto;
-} */
 .contact-content {
   position: absolute;
   top: 0;
 }
-/* .forms-bg::after {
-  content: url(../assets/img/clouds-white-btm.png);
-  position: absolute;
-  display: block;
-  z-index: 1;
-  bottom: -5px;
-  right: 0;
-  max-width: 100%;
-  height: auto;
-  overflow: hidden;
-} */
 .dark-mode .forms-bg {
   background-color: transparent;
 }
-/* .dark-mode .forms-bg::before,
-.dark-mode .forms-bg::after {
-  opacity: .05;
-} */
 .forms-bg > *:not(canvas, .cloud-bg) {
   position: relative;
   z-index: 2;
@@ -776,8 +735,6 @@ main {
 .forms-bg canvas {
   position: absolute;
   z-index: 1;
-  /* margin-left: calc(var(--_contact-padding)* -1);
-  margin-top: calc(var(--_contact-padding)* -1); */
 }
 .pg-contact .col-2-even {
   gap: var(--padding-gen);
@@ -1139,12 +1096,8 @@ footer {
     padding-left: var(--padding-gen);
     padding-right: var(--padding-gen);
   }
-  /* .banner-right .hero-img {
-    max-height: 130%;
-    width: auto;
-  } */
   .col-2-even {
-    display: block; /*! NEW */
+    display: block;
   }
   .pg-download .col-2-even {
     display: grid;
@@ -1337,7 +1290,6 @@ footer {
   }
   .pg-download .col-2-even {
     display: block;
-    /* height: 100svh; */
     padding-top: var(--padding-section);
   }
   .banner-left {
