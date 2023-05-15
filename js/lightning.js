@@ -40,6 +40,7 @@ const strikeInterval = 8000;
 let lightning = [];
 let lightningSplit = [];
 let hasFork = false;
+let cloudFadeTime;
 let tchConnectors = [];
 
 function resizeCanvas() {
@@ -67,7 +68,7 @@ function resizeTchCanvas () {
   if (tchCvsHeight < 200) {
     tchCvsHeight = 200;
   }
-  let tchCvsWidth = document.getElementById('mtn-img-container').offsetWidth;
+  let tchCvsWidth = document.getElementById('mtn-img').offsetWidth;
   if (document.body.clientWidth <= 619) {
     // aligns with css media query for max-width = 619px
     tchCvsWidth = document.body.clientWidth;
@@ -97,15 +98,14 @@ function positionConnectors() {
     tchConnectors.push({x:w * .2, y:h * .15});
     tchConnectors.push({x:w * .5, y:h * .2});
     tchConnectors.push({x:w * .85, y:h * .3});
-    tchConnectors.push({x:32, y:h * .28});
+    tchConnectors.push({x:50, y:h * .28});
   } else {
     if (document.body.clientWidth <= 899 || document.body.clientWidth > 1239) {
-      tchConnectors.push({x:w * .2, y:h * .7});
+      tchConnectors.push({x:w * .2, y:h * .4});
       tchConnectors.push({x:w * .5, y:h * .3});
       tchConnectors.push({x:w * .85, y:h * .6});
       tchConnectors.push({x:32, y:h * .54});
     } else {
-      // if (document.body.clientWidth > 1239)
       tchConnectors.push({x:w * .2, y:h * .7});
       tchConnectors.push({x:w * .5, y:h * .3});
       tchConnectors.push({x:w * .72, y:h * .6});
@@ -180,7 +180,23 @@ function render() {
     splitTop = lightning[getRandomInteger(minStart, maxStart)];
     lightningSplit = createSplit(splitTop.x, splitTop.y);
   }
+  // draw the lightning
   draw(lightning, lightningSplit, opacity);
+  // cloud flash effect
+  if(currentCvs==cvsCnt && $('body').hasClass('dark-mode')) {
+    console.log('flash');
+    clearTimeout(cloudFadeTime);
+    const cloudOpacity = '.3';
+    const cloudDelay = window.getComputedStyle(document.documentElement).getPropertyValue('--transition-time').replace('ms', '');
+    // $('.cloud-bg').css('opacity', '.7');
+    $('.cloud-bg').removeClass('fade-out');
+    $('.cloud-bg').addClass('fade-in');
+    cloudFadeTime = setTimeout(() => {
+      // $('.cloud-bg').css('opacity', cloudOpacity);
+      $('.cloud-bg').removeClass('fade-in');
+      $('.cloud-bg').addClass('fade-out');
+    }, cloudDelay);
+  }
 }
 
 function createLightning() {

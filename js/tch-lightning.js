@@ -85,12 +85,12 @@ class TchLightning {
   }
   tchCircle(ctx, index, radius) {
     ctx.beginPath();
-    ctx.arc(this.tlvLn[index].x, this.tlvLn[index].y, radius, 0*Math.PI, 1.5*Math.PI);
+    ctx.arc(this.tlvLn[index].x, this.tlvLn[index].y, radius, 0, 2*Math.PI);
     let gradient = ctx.createRadialGradient(
       this.tlvLn[index].x, this.tlvLn[index].y, radius * .05,
-      this.tlvLn[index].x, this.tlvLn[index].y, radius
+      this.tlvLn[index].x, this.tlvLn[index].y, radius * .85
     );
-    gradient.addColorStop(0, 'hsla(187, 100%, 89%, .5');
+    gradient.addColorStop(0, 'hsla(187, 100%, 95%, .5');
     gradient.addColorStop(1, 'hsla(0, 0%, 100%, .05');
     ctx.fillStyle = gradient;
     ctx.fill();

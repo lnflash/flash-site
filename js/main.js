@@ -4,6 +4,9 @@
 * 2. Dark Mode Toggle functions
 * 3. Accordion functions
 * 4. Contact & Waitlist Form functions
+* 5. Credits function
+* 6. Startup functions
+* 7. Event Listeners
 */
 
 // Navigation
@@ -206,6 +209,13 @@ function addToWaitlist(values) {
   });
 }
 
+// Credits Functions
+const creditsBtn = document.getElementById('credits-btn');
+const creditsContent = document.getElementById('credits-content');
+function toggleCredits() {
+  creditsContent.classList.contains('open') ? creditsContent.classList.remove('open') : creditsContent.classList.add('open');
+}
+
 
 // ****** Start-up Functions ******
 function loadScreen() {
@@ -255,11 +265,11 @@ window.onload = () => {
     let scroll = window.scrollY;
     if (scroll > limit) {
       document.getElementById('spaceholder').style.height = '0';
-      // modeContainer.style.position = 'relative';
+      modeContainer.style.position = 'relative';
       // console.log('relative');
     } else {
       document.getElementById('spaceholder').style.height = '20px';
-      // modeContainer.style.position = 'fixed';
+      modeContainer.style.position = 'fixed';
       // console.log('fixed');
     }
     
@@ -321,6 +331,11 @@ window.onload = () => {
   errWtlBtn.addEventListener('click', (e)=> {
     e.preventDefault();
     $('.error-waitlist').fadeOut('fast');
+  });
+
+  // Credits Open and Close
+  creditsBtn.addEventListener('click', ()=>{
+    toggleCredits();
   });
   
   // Lightning Functions
