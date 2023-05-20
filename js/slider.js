@@ -7,11 +7,14 @@ let prevSlide = null;
 let slideDelay = getComputedStyle(document.querySelector('.slide')).getPropertyValue('--_slide-transition');
 slideDelay = parseFloat(slideDelay);
 
-const appText = 'Made with convenience and ease of use in mind, FlashApp gives you the power of a bank in the palm of your hand.';
-const cashText = 'Tailored for merchants, FlashCash can turn any store into an ATM.';
-const payText = 'Turn your device into a cash register! FlashPay makes it simple for anyone to open up a store front anywhere.';
-const defaultText = 'Flash lets you do business at lightning speed! Experience the ease with which you can move money around the world. Sell products and services globally to anyone, all from your smartphone.';
+const appText = 'Made with convenience and ease of use in mind, Flash gives you the power of a bank in the palm of your hand';
+const payText = 'Increase your revenue stream and global reach with Flash Business. Contact us to set up a Flash Business account today';
+const cashText = 'Turn your mobile device, or any internet browser into a cash register. Sell anything, anywhere, anytime with Flash Pay';
+const defaultText = 'Select one of the boxes to learn more about the many features of Flash';
 const textArray = [appText, cashText, payText, defaultText];
+const colorArray = ['rgba(255, 242, 0, 0.5)', 'rgba(65, 173, 73, 0.5)', 'rgba(241, 164, 60, 0.5)', 'rgba(255, 255, 255, 0.5)'];
+const defaultColor = 'rgba(255, 255, 255, 0.0)';
+
 
 for (let i=0; i < tabs.length; i++) {
   tabs[i].addEventListener('click', tabSelect.bind(null, i), false);
@@ -73,8 +76,16 @@ function tabSelect(num) {
     prevSlide = currSlide;
     currSlide = num;
     setActiveTab(num);
+    changeSliderMsgBgColor(num);
+
+    // Scroll to the clicked tab.
+    var container = document.querySelector('.slider-tabs');
+    var scrollLeft = tabs[num].offsetLeft - container.offsetLeft;
+    scrollLeft -= (container.offsetWidth - tabs[num].offsetWidth) / 2;
+    container.scrollLeft = scrollLeft;
   }
 }
+
 
 function checkActiveTab() {
   let check = false;
@@ -94,13 +105,23 @@ function setActiveTab(num) {
       slides[num].classList.add('active');
       tabs[num].classList.add('active');
       expandSlide(num);
+      changeSliderMsgBgColor(num);
     }, slideDelay);
   } else {
     slides[num].style.zIndex = '1';
     slides[num].classList.add('active');
     tabs[num].classList.add('active');
     expandSlide(num);
+    changeSliderMsgBgColor(num);
   }
+}
+function changeSliderMsgBgColor(num) {
+  const sliderMsg = document.querySelector('.slider-msg');
+  sliderMsg.style.background = `radial-gradient(circle, ${colorArray[num]}, transparent)`;
+}
+function resetSliderMsgBgColor() {
+  const sliderMsg = document.querySelector('.slider-msg');
+  sliderMsg.style.background = `radial-gradient(circle, ${defaultColor}, transparent)`;
 }
 function removeActiveTab(num) {
   collapseSlide(num);
@@ -110,4 +131,5 @@ function removeActiveTab(num) {
   tabs.forEach(tab => {
     tab.classList.remove('active');
   });
+  resetSliderMsgBgColor();
 }

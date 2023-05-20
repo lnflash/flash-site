@@ -11,7 +11,16 @@
   <!-- CSS -->
   <link rel="stylesheet" href="css/main.css">
 
-  <title>Flash | Bitcoin App</title>
+  <!-- jQuery CDN -->
+  <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous" defer></script>
+  <!-- Local jQuery (uncomment if prefer not to use CDN and comment out CDN instead) -->
+  <!-- <script src="js/jquery-3.6.4.min.js"></script> -->
+
+  <!-- Custom JS -->
+  <script src="js/lightning.js" defer></script>
+  <script src="js/tch-lightning.js" defer></script>
+  <script src="js/slider.js" defer></script>
+  <title>Flash | Global Cash</title>
 </head>
 <body class="light-mode">
   <header>
@@ -52,8 +61,9 @@
       <canvas id="lightning-storm"></canvas>
       <div class="container col-2-even">
         <div class="banner-left">
-          <h1 class="banner-txt">Global business in a <span class="banner-highlight">flash</span></h1>
-          <p>Flash is a bitcoin app that lets you do business at lightning speed.</p>
+          <h1 class="banner-txt">Global Cash</h1>
+          <h1 class="banner-txt"> in a <span class="banner-highlight">Flash</span></h1>
+          <p>Move cash around the world at lightning speed</p>
           <div class="downloads-container">
             <a href="https://play.google.com" target="_blank" id="googleplay-link">
               <img src="assets/img/google-play-badge.png" alt="Get it on Google Play">
@@ -78,10 +88,13 @@
       <div class="bg-yellow about-banner">
         <div class="container col-2-even">
           <div class="about-banner-left">
-            <h2>Flash uses Bitcoin:</h2>
-            <p>The first global peer-to-peer electronic cash network.</p>
-            <h3 class="mar-top-60">Moving money is expensive.</h3>
-            <p>Bitcoin removes the middlemen when moving money, lowering cost and increasing the speed of transactions.</p>
+            <h2>Be Your Own Bank</h2>
+            <p>Made with convenience and ease of use in mind, Flash gives you the power of a bank account in the palm of your hand</p>
+            <h2 class="mar-top-60">Pay Less To Move Cash</h2>
+            <p>Flash removes the middlemen when moving cash, lowering cost and increasing the speed of transactions</p>
+
+            <h2 class="mar-top-60">No Signup Needed</h2>
+            <p>No ID, no Mobile Number, no Email. Just <a href="#pg-download">download Flash and</a> you are ready to receive cash!</p>
           </div>
           <div class="about-banner-right">
             <div class="mtn-img-container" id="mtn-img-container">
@@ -94,43 +107,47 @@
         </div>
       </div>
       <div class="about-modes container" id="about-modes">
-        <h2>1 App, 3 Modes</h2>
+        <h3 class="mar-top-60">Flash is for Everyone</h3>
+        <div class="spacer"></div>
+        <p>Buying, Selling, Building, Creating or Connecting - Flash can electrify whatever it is that you do in life. Earning, saving and spending, made easy</p>
+        <!-- add a spacer div to separate the text above from the modes -->
+        <div class="spacer"></div>
         <div class="slider-container">
           <!-- Slider Images -->
           <div class="slider-imgs">
+            <div class="slide">
+              <img src="assets/img/about-1.png" alt="">
+            </div>
             <div class="slide">
               <img src="assets/img/about-2.png" alt="">
             </div>
             <div class="slide">
               <img src="assets/img/about-3.png" alt="">
             </div>
-            <div class="slide">
-              <img src="assets/img/about-1.png" alt="">
-            </div>
           </div>
           <!-- End of Slider Images -->
           <!-- Slider Tabs -->
           <div class="slider-tabs">
             <div class="slider-tab app" tabindex="0">
-              <h3>FlashApp</h3>
-              <p>Consumer app for sending and receiving value globally.</p>
-              <img src="assets/img/pop-bitcoin.png" alt="bitcoins in a popcorn bag" loading="lazy">
-            </div>
-            <div class="slider-tab app"  tabindex="0">
-              <h3>FlashCash</h3>
-              <p>Merchant only app for providing cash in and cash out locations.</p>
-              <img src="assets/img/safe-bitcoin.png" alt="bitcoins in a safe" loading="lazy">
+              <h3>Flash Cash</h3>
+              <p>Send and receive cash instantly for free</p>
+              <img src="assets/img/pop-bitcoin.png" alt="bitcoin in a popcorn bag" loading="lazy">
             </div>
             <div class="slider-tab app" tabindex="0">
-              <h3>FlashPay</h3>
-              <p>Web app for accepting Bitcoin and Lightning via Point of Sale.</p>
-              <img src="assets/img/bucket-bitcoin.png" alt="bitcoins in a bucket" loading="lazy">
+              <h3>Flash Pay</h3>
+              <p>Start accepting payment in seconds on any device</p>
+              <img src="assets/img/bucket-bitcoin.png" alt="bitcoin in a bucket" loading="lazy">
+            </div>
+            <div class="slider-tab app"  tabindex="0">
+              <h3>Flash Business</h3>
+              <p>Add a cash-in and cash-out point to your business</p>
+              <img src="assets/img/safe-bitcoin.png" alt="bitcoin in a safe" loading="lazy">
             </div>
           </div>
           <!-- End of Slider Tabs -->
           <div class="slider-msg-container">
             <div class="slider-msg">
-              <p>Flash lets you do business at lightning speed! Experience the ease with which you can move money around the world. Sell products and services globally to anyone, all from your smartphone.</p>
+              <p>Select one of the boxes to learn more about the many features of Flash</p>
             </div>
           </div>
         </div>
@@ -140,131 +157,7 @@
 
     <!-- Page: FAQ -->
     <section id="pg-faq" class=" page">
-      <div class="container">
-        <h2>Frequently Asked Questions</h2>
-        <div class="accordion">
-          <!-- Tab 1 -->
-          <div class="accordion-tab" data-active="inactive">
-            <h3 id="faq1-label">
-              <button class="accordion-head" aria-controls="faq1-answer" aria-expanded="false">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" aria-hidden="true">
-                  <use href="#plus" class="plus"></use>
-                  <use href="#minus" class="minus"></use>
-                </svg>
-                <span class="accordion-label">Why is Flash powered by Bitcoin?</span>
-              </button>
-            </h3>
-            <div class="accordion-body" id="faq1-answer" aria-labelledby="faq1-label" role="region" aria-hidden="true">
-              <p>Bitcoin is a decentralized digital currency that offers several benefits over traditional currencies and payment methods. Here are some of those benefits:</p>
-              <ol>
-                <li>Decentralization: Bitcoin is a decentralized currency, meaning it is not controlled by any government or financial institution. This gives users more control over their money and eliminates the need for intermediaries.</li>
-                <li>Security: Bitcoin transactions are secured using cryptography, making them virtually impossible to counterfeit or double-spend. Additionally, users have full control over their Bitcoin wallets, and they can use encryption and backups to protect their funds.</li>
-                <li>Privacy: Bitcoin transactions are pseudonymous, meaning they do not reveal the identity of the parties involved. While it is possible to track Bitcoin transactions, it is much harder to link them to a specific individual.</li>
-                <li>Low fees: Bitcoin transactions typically have lower fees than traditional payment methods, especially for international transactions.</li>
-                <li>Borderless: Bitcoin can be sent and received from anywhere in the world, making it ideal for international transactions. Additionally, it is not subject to the same restrictions and regulations as traditional currencies.</li>
-              </ol>
-              <p>Overall, Bitcoin offers several advantages over traditional currencies and payment methods.</p>
-            </div>
-          </div>
-          <!-- End of Tab 1 -->
-          <!-- Tab 2 -->
-          <div class="accordion-tab" data-active="inactive">
-            <h3 id="faq2-label">
-              <button class="accordion-head" aria-controls="faq2-answer" aria-expanded="false">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" aria-hidden="true">
-                  <use href="#plus" class="plus"></use>
-                  <use href="#minus" class="minus"></use>
-                </svg>
-                <span class="accordion-label">What does Flash do?</span>
-              </button>
-            </h3>
-            <div class="accordion-body" id="faq2-answer" aria-labelledby="faq2-label" role="region" aria-hidden="true">
-              <p>Flash acts as a digital wallet that you can use to send money to others or to make payments. It’s a revolutionary new way to do business.</p>
-            </div>
-          </div>
-          <!-- End of Tab 2 -->
-          <!-- Tab 3 -->
-          <div class="accordion-tab" data-active="inactive">
-            <h3 id="faq3-label">
-              <button class="accordion-head" aria-controls="faq3-answer" aria-expanded="false">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" aria-hidden="true">
-                  <use href="#plus" class="plus"></use>
-                  <use href="#minus" class="minus"></use>
-                </svg>
-                <span class="accordion-label">Does the person I’m sending to/receiving from need to have Flash?</span>
-              </button>
-            </h3>
-            <div class="accordion-body" id="faq3-answer" aria-labelledby="faq3-label" role="region" aria-hidden="true">
-              <p>No. Flash can send to and receive from many apps across the globe, including Cashapp, Bitnob and Osmo wallet.</p>
-            </div>
-          </div>
-          <!-- End of Tab 3 -->
-          <!-- Tab 4 -->
-          <div class="accordion-tab" data-active="inactive">
-            <h3 id="faq4-label">
-              <button class="accordion-head" aria-controls="faq4-answer" aria-expanded="false">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" aria-hidden="true">
-                  <use href="#plus" class="plus"></use>
-                  <use href="#minus" class="minus"></use>
-                </svg>
-                <span class="accordion-label">Can I cash out in the app and move the money to a bank account?</span>
-              </button>
-            </h3>
-            <div class="accordion-body" id="faq4-answer" aria-labelledby="faq4-label" role="region" aria-hidden="true">
-              <p>While flash does provide you with a wallet for handling your money, you are the one in complete control of it. At any point you can choose to withdraw or deposit money at one of our local cash-in/cash-out locations.</p>
-            </div>
-          </div>
-          <!-- End of Tab 4 -->
-          <!-- Tab 5 -->
-          <div class="accordion-tab" data-active="inactive">
-            <h3 id="faq5-label">
-              <button class="accordion-head" aria-controls="faq5-answer" aria-expanded="false">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" aria-hidden="true">
-                  <use href="#plus" class="plus"></use>
-                  <use href="#minus" class="minus"></use>
-                </svg>
-                <span class="accordion-label">Can I have multiple Flash accounts?</span>
-              </button>
-            </h3>
-            <div class="accordion-body" id="faq5-answer" aria-labelledby="faq5-label" role="region" aria-hidden="true">
-              <p>Yes.</p>
-            </div>
-          </div>
-          <!-- End of Tab 5 -->
-          <!-- Tab 6 -->
-          <div class="accordion-tab" data-active="inactive">
-            <h3 id="faq6-label">
-              <button class="accordion-head" aria-controls="faq6-answer" aria-expanded="false">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" aria-hidden="true">
-                  <use href="#plus" class="plus"></use>
-                  <use href="#minus" class="minus"></use>
-                </svg>
-                <span class="accordion-label">How can I join the waitlist?</span>
-              </button>
-            </h3>
-            <div class="accordion-body" id="faq6-answer" aria-labelledby="faq6-label" role="region"  aria-hidden="true">
-              <p>Click <a href="#pg-contact" class="greenlink">here</a> and enter your email address to be put on the waitlist.</p>
-            </div>
-          </div>
-          <!-- End of Tab 6 -->
-          <!-- Tab 7 -->
-          <div class="accordion-tab" data-active="inactive">
-            <h3 id="faq7-label">
-              <button class="accordion-head" aria-controls="faq7-answer" aria-expanded="false">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" aria-hidden="true">
-                  <use href="#plus" class="plus"></use>
-                  <use href="#minus" class="minus"></use>
-                </svg>
-                <span class="accordion-label">I have a specific question, how can I contact you?</span>
-              </button>
-            </h3>
-            <div class="accordion-body" id="faq7-answer" aria-labelledby="faq7-label" role="region" aria-hidden="true">
-              <p>Click <a href="#pg-contact" class="greenlink">here</a> and fill out our contact form. We would love to hear from you and we will get back to you as soon as possible!</p>
-            </div>
-          </div>
-          <!-- End of Tab 7 -->
-        </div>
-      </div>
+      <div id="faq"></div>
     </section>
     <!-- End of Page: FAQ -->
 
@@ -451,16 +344,13 @@
       <rect id="minus" x="8" y="0" width="4" height="20" rx="2" ry="2" transform="translate(0 20) rotate(-90)"/>
     </symbol>
   </svg>
-
-  <!-- jQuery CDN -->
-  <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
-  <!-- Local jQuery (uncomment if prefer not to use CDN and comment out CDN instead) -->
-  <!-- <script src="js/jquery-3.6.4.min.js"></script> -->
-
-  <!-- Custom JS -->
-  <script src="js/lightning.js"></script>
-  <script src="js/tch-lightning.js"></script>
-  <script src="js/slider.js"></script>
-  <script src="js/main.js"></script>
+  <script>
+    fetch('faq.html')
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('faq').innerHTML = data;
+      });
+  </script>
+  <script src="js/main.js" async></script>
 </body>
 </html>

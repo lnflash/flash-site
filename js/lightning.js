@@ -183,7 +183,6 @@ function render() {
   draw(lightning, lightningSplit, opacity);
   // cloud flash effect
   if(currentCvs==cvsCnt && $('body').hasClass('dark-mode')) {
-    console.log('flash');
     clearTimeout(cloudFadeTime);
     const cloudDelay = window.getComputedStyle(document.documentElement).getPropertyValue('--transition-time').replace('ms', '');
     $('.cloud-bg').removeClass('fade-out');
@@ -193,6 +192,29 @@ function render() {
       $('.cloud-bg').addClass('fade-out');
     }, cloudDelay);
   }
+  // print out log that randomly displays different console log messages, with the 5th message being 'code for the rabbit hole is 69420'
+  const logMessages = [
+    'code for the rabbit hole is 69420', 
+    'you are not alone', 
+    'there is no spoon', 
+    'wake up, sons and daughters', 
+    'the cake is a lie', 
+    'the answer is 42', 
+    'dont panic', 
+    'are you lost?', 
+    'you are not lost',
+    'we are all Satoshi',
+    'the revolution is decentralized',
+    'who the cap fit',
+    'we gotta chase dem crazy',
+    'you cant run away from yourself',
+    'the truth is out there',
+    'one one cocoa full basket',
+    'yes i am a pirate',
+    'i love you too'
+  ];
+  const logMessage = logMessages[Math.floor(Math.random() * logMessages.length)];
+  console.log(logMessage);
 }
 
 function createLightning() {
