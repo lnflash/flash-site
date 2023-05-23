@@ -8,11 +8,11 @@ let slideDelay = getComputedStyle(document.querySelector('.slide')).getPropertyV
 slideDelay = parseFloat(slideDelay);
 
 const appText = 'Made with convenience and ease of use in mind, Flash gives you the power of a bank in the palm of your hand';
-const payText = 'Increase your revenue stream and global reach with Flash Business. Contact us to set up a Flash Business account today';
+const payText = 'Increase your revenue stream and global reach with Flash Business. Contact us to set up a Flash Business account';
 const cashText = 'Turn your mobile device, or any internet browser into a cash register. Sell anything, anywhere, anytime with Flash Pay';
 const defaultText = 'Select one of the boxes to learn more about the many features of Flash';
 const textArray = [appText, cashText, payText, defaultText];
-const colorArray = ['rgba(255, 242, 0, 0.5)', 'rgba(65, 173, 73, 0.5)', 'rgba(241, 164, 60, 0.5)', 'rgba(255, 255, 255, 0.5)'];
+const colorArray = ['rgba(255, 242, 0, 0.25)', 'rgba(65, 173, 73, 0.25)', 'rgba(241, 164, 60, 0.25)', 'rgba(255, 255, 255, 0.25)'];
 const defaultColor = 'rgba(255, 255, 255, 0.0)';
 
 
@@ -65,6 +65,10 @@ function expandSlide(num) {
 }
 function changeMsgText(num) {
   $('.slider-msg p').text(textArray[num]);
+
+  setTimeout(() => {
+    changeSliderMsgBgColor(num);
+  }, 200); // 200 milliseconds delay
 }
 
 function tabSelect(num) {
@@ -76,7 +80,7 @@ function tabSelect(num) {
     prevSlide = currSlide;
     currSlide = num;
     setActiveTab(num);
-    changeSliderMsgBgColor(num);
+    // changeSliderMsgBgColor(num);
 
     // Scroll to the clicked tab.
     var container = document.querySelector('.slider-tabs');
@@ -116,12 +120,21 @@ function setActiveTab(num) {
   }
 }
 function changeSliderMsgBgColor(num) {
-  const sliderMsg = document.querySelector('.slider-msg');
-  sliderMsg.style.background = `radial-gradient(circle, ${colorArray[num]}, transparent)`;
+  requestAnimationFrame(function() {
+    const sliderMsg = document.querySelector('.slider-msg');
+    sliderMsg.style.background = `
+      linear-gradient(to top, transparent, ${colorArray[num]} 15%, ${colorArray[num]} 15%, transparent), 
+      linear-gradient(to right, transparent, ${colorArray[num]} 15%, ${colorArray[num]} 15%, transparent), 
+      linear-gradient(to left, transparent, ${colorArray[num]} 15%, ${colorArray[num]} 15%, transparent), 
+      linear-gradient(to bottom, transparent, ${colorArray[num]} 15%, ${colorArray[num]} 15%, transparent)
+      `;
+  });
 }
 function resetSliderMsgBgColor() {
-  const sliderMsg = document.querySelector('.slider-msg');
-  sliderMsg.style.background = `radial-gradient(circle, ${defaultColor}, transparent)`;
+  requestAnimationFrame(function() {
+    const sliderMsg = document.querySelector('.slider-msg');
+    sliderMsg.style.background = `linear-gradient(to right, ${defaultColor}, transparent, transparent, ${defaultColor})`;
+  });
 }
 function removeActiveTab(num) {
   collapseSlide(num);
@@ -133,3 +146,38 @@ function removeActiveTab(num) {
   });
   resetSliderMsgBgColor();
 }
+$(document).ready(function() {
+  $(".slide").hover(
+      function() {
+          // I'm assuming each 'slide' has a corresponding 'slider-tab' with the same index
+          // This will only add 'hover-effect' to the 'slider-tab' corresponding to the 'slide' being hovered over
+          let index = Array.from(document.querySelectorAll('.slide')).indexOf(this);
+          $(".slider-tab").eq(index).addClass("hover-effect");
+      },
+      function() {
+          let index = Array.from(document.querySelectorAll('.slide')).indexOf(this);
+          $(".slider-tab").eq(index).removeClass("hover-effect");
+      }
+  );
+});
+// do the same thing as the above function in reverse
+$(document).ready(function() {
+  $(".slider-tab").hover(
+    function() {
+      let index = Array.from(document.querySelectorAll('.slider-tab')).indexOf(this);
+      
+      // Check if any .slide element has the 'active' class
+      let anySlideActive = Array.from(document.querySelectorAll('.slide')).some(el => el.classList.contains('active'));
+      
+      // If no .slide element has the 'active' class, add 'push-effect'
+      if (!anySlideActive && !$(".slide").eq(index).hasClass("active")) {
+        $(".slide").eq(index).addClass("push-effect");
+      }
+    },
+    function() {
+      let index = Array.from(document.querySelectorAll('.slider-tab')).indexOf(this);
+      $(".slide").eq(index).removeClass("push-effect");
+    }
+  );
+});
+

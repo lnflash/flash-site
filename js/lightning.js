@@ -65,7 +65,7 @@ function resizeTchCanvas () {
   let tchCvsHeight = document.getElementById('user-lightning').height;
   console.log(`Canvas height: ${tchCvsHeight}`);
   if (tchCvsHeight < 200) {
-    tchCvsHeight = 200;
+    tchCvsHeight = 600;
   }
   let tchCvsWidth = document.getElementById('mtn-img').offsetWidth;
   if (document.body.clientWidth <= 619) {

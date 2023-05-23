@@ -75,6 +75,15 @@ body.dark-mode .light {
 
 /* General Element Styles */
 
+.warning {
+  /* highlight the word in green and make much thicker */
+  color: var(--flash-red);
+  }
+.highlight {
+  /* highlight the word in green and make much thicker */
+  color: var(--flash-green);
+  font-weight: var(--fWeight-bold);
+  }
 .spacer {
   /* create space between elements */
     margin-bottom: var(--padding-gen);
@@ -322,6 +331,9 @@ main {
   font-weight: var(--fWeight-med);
   margin-bottom: var(--padding-gen);
 }
+.downloads-container {
+  max-width: 75%;
+}
 .downloads-container a {
   outline: none;
   box-shadow: none;
@@ -344,9 +356,18 @@ main {
   width: auto;
   cursor: pointer;
 }
-#appstore-link {
+/* #googleplay-link {
   margin: 0 var(--padding-gen);
-}
+} */
+/* #appstore-link {
+  margin: 0 var(--padding-gen);
+} */
+/* #apk-link {
+  margin: 0 var(--padding-gen);
+} */
+/* #pwa-link {
+  margin: 0 var(--padding-gen);
+}  */
 .banner-right {
   --_padding-top: 65px;
   padding-top: var(--_padding-top);
@@ -462,6 +483,7 @@ main {
   cursor: pointer;
   transition: transform 0.5s ease;
 }
+.hover-effect,
 .slider-tab.active,
 .slider-tab:hover,
 .slider-tab:focus-visible {
@@ -488,6 +510,7 @@ main {
   background: var(--bg-body);
   transition: width var(--transition-time);
 }
+.hover-effect h3::after,
 .slider-tab.active h3::after,
 .slider-tab:hover h3::after,
 .slider-tab:focus-visible h3::after {
@@ -502,6 +525,7 @@ main {
   height: auto;
   transition: all var(--transition-time);
 }
+.hover-effect img,
 .slider-tab.active img,
 .slider-tab:hover img,
 .slider-tab:focus-visible img {
@@ -529,13 +553,22 @@ main {
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: 1fr;
+  /* hide scrollbar */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  overflow: hidden;
 }
 .slider-imgs img {
   max-width: 100%;
   height: auto;
+  /* hide scrollbar */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  overflow: hidden;
 }
 .slide {
-  --_scale: 1.03;
+  /* add a 1 pixel space on the top and bottom of the image */
+  --_scale: 1.13;
   --_slide-transition: 750ms;
   grid-column: 1/-1;
   grid-row: 1/-1;
@@ -548,35 +581,43 @@ main {
   animation-duration: var(--_slide-transition);
   animation-fill-mode: forwards;
   animation-timing-function: ease-in-out;
+  /* hide scrollbar */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  overflow: hidden;
 }
 .slide::after {
   content: '';
-  position: absolute;
+  position: relative;
   left: 0;
   width: 100%;
   border-color: var(--bg-body);
   border-style: solid;
   border-width: 0;
-  height: 33.33%;
+  height: 34%;
   z-index: 2;
   transition: height var(--_slide-transition) ease-in-out;
+  /* hide scrollbar */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  overflow: hidden;
 }
 .slide:nth-child(1) {
-  clip-path: inset(0 0 66.66% 0);
+  clip-path: inset(0 0 67% 0);
 }
 .slide:nth-child(1)::after {
   top: 0;
   border-bottom-width: 3px;
 }
 .slide:nth-child(2) {
-  clip-path: inset(33.33% 0 33.33% 0);
+  clip-path: inset(34% 0 34% 0);
 }
 .slide:nth-child(2)::after {
-  top: 33.33%;
-  bottom: 33.33%;
+  top: 34%;
+  bottom: 34%;
 }
 .slide:nth-child(3) {
-  clip-path: inset(66.66% 0 0 0);
+  clip-path: inset(67% 0 0 0);
 }
 .slide:nth-child(3)::after {
   bottom: 0;
@@ -584,38 +625,48 @@ main {
 }
 .slide.active::after {
   height: 100%;
+  /* hide scrollbar */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  /* include all other methods for hiding scrollbar */
+  overflow: hidden;
 }
+.push-effect,
 .slide:not(.active):hover {
   scale: var(--_scale);
   z-index: 3;
+  /* hide scrollbar */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  overflow: hidden;
 }
 .slide:not(.active):hover::after {
   border-top-width: 0;
   border-bottom-width: 0;
 }
 @keyframes top-down {
-  0% { clip-path: inset(0% 0% 66.66% 0%); }
+  0% { clip-path: inset(0% 0% 67% 0%); }
   100% { clip-path: inset(0%); }
 }
 @keyframes top-up {
   0% { clip-path: inset(0%); }
-  100% { clip-path: inset(0% 0% 66.66% 0%); }
+  100% { clip-path: inset(0% 0% 67% 0%); }
 }
 @keyframes mid-out {
-  0% { clip-path: inset(33.33% 0% 33.33% 0%); }
+  0% { clip-path: inset(34% 0% 34% 0%); }
   100% { clip-path: inset(0%); }
 }
 @keyframes mid-in {
   0% { clip-path: inset(0%); }
-  100% { clip-path: inset(33.33% 0% 33.33% 0%); }
+  100% { clip-path: inset(34% 0% 34% 0%); }
 }
 @keyframes btm-up {
-  0% { clip-path: inset(66.66% 0% 0% 0%); }
+  0% { clip-path: inset(67% 0% 0% 0%); }
   100% { clip-path: inset(0%); }
 }
 @keyframes btm-down {
   0% { clip-path: inset(0%); }
-  100% { clip-path: inset(66.66% 0% 0% 0%); }
+  100% { clip-path: inset(67% 0% 0% 0%); }
 }
 
 /* FAQ Page */
@@ -1089,10 +1140,6 @@ footer {
   background-color: var(--flash-green);
   animation: var(--_animation-name) 2s linear infinite;
 }
-.progress-bar::before {
-  background-color: var(--flash-green);
-  animation: page-load-green 1s linear infinite;
-}
 @keyframes page-load {
   0% {
     width: 0;
@@ -1101,7 +1148,6 @@ footer {
     width: 100%;
   }
 }
-
 @media screen and (max-width: 1239px) {
   .container,
   header .container {
@@ -1317,9 +1363,9 @@ footer {
   .about-banner-left {
     padding-bottom: var(--padding-gen);
   }
-  #appstore-link {
+  /* #appstore-link {
     margin: 0 calc(var(--padding-gen) / 2);
-  }
+  } */
   .about-banner-right .mtn-img {
     max-width: max(70vw, 320px);
   }

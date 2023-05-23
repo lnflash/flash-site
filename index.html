@@ -4,6 +4,9 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Add two link elements for favicon -->
+  <link rel="shortcut icon" type="image/png" href="assets/img/favicon-32x32.png" sizes="32x32">
+  <link rel="icon" type="image/png" href="assets/img/favicon-16x16.png" sizes="16x16">
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -17,9 +20,13 @@
   <!-- <script src="js/jquery-3.6.4.min.js"></script> -->
 
   <!-- Custom JS -->
-  <script src="js/lightning.js" defer></script>
-  <script src="js/tch-lightning.js" defer></script>
-  <script src="js/slider.js" defer></script>
+  <script defer src="js/main.js"></script>
+  <script defer src="js/faqFetch.js"></script>
+  <script defer src="js/lightning.js"></script>
+  <script defer src="js/tch-lightning.js"></script>
+  <script defer src="js/slider.js"></script>
+  <!-- End Custom JS -->
+
   <title>Flash | Global Cash</title>
 </head>
 <body class="light-mode">
@@ -69,10 +76,13 @@
               <img src="assets/img/google-play-badge.png" alt="Get it on Google Play">
             </a>
             <a href="https://www.apple.com/app-store" target="_blank" id="appstore-link">
-              <img src="assets/img/ios-badge.svg" alt="Download on the App Store">
+              <img src="assets/img/ios-badge.png" alt="Download on the App Store">
             </a>
-            <a href="https://www.apple.com/app-store" target="_blank" id="apk-link">
+            <a href="https://www.lnflash.com/download" target="_blank" id="apk-link">
               <img src="assets/img/apk_badge.png" alt="APK Direct Download">
+            </a>
+            <a href="https://app.lnflash.me/start" target="_blank" id="pwa-link">
+              <img src="assets/img/pwa_badge.png" alt="Progressive Web App">
             </a>
           </div>
         </div>
@@ -94,11 +104,11 @@
             <p>Flash removes the middlemen when moving cash, lowering cost and increasing the speed of transactions</p>
 
             <h2 class="mar-top-60">No Signup Needed</h2>
-            <p>No ID, no Mobile Number, no Email. Just <a href="#pg-download">download Flash and</a> you are ready to receive cash!</p>
+            <p>No ID, no Mobile Number, no Email. Just <a href="#pg-download">download Flash </a>and you are ready to receive cash!</p>
           </div>
           <div class="about-banner-right">
             <div class="mtn-img-container" id="mtn-img-container">
-              <img src="assets/img/Bitcoin in stone 1.png" alt="" class="mtn-img" id="mtn-img">
+              <img src="assets/img/be-your-own-bank.png" alt="" class="mtn-img" id="mtn-img">
               <img src="assets/img/07_Clouds.png" alt="" id="mtn-clouds">
               <canvas id="mtn-lightning"></canvas>
               <canvas id="user-lightning"></canvas>
@@ -180,6 +190,8 @@
                 <input type="text" name="c-name" id="c-name">
                 <label for="c-email">Email</label>
                 <input type="email" name="c-email" id="c-email">
+                <label for="c-nostr">Nostr (optional)</label>
+                <input type="nostr" name="c-nostr" id="c-nostr" placeholder="npub1...">
                 <label for="c-msg">Message</label>
                 <textarea name="c-msg" id="c-msg" class="c-msg" placeholder=""></textarea>
                 <div class="button-container">
@@ -293,8 +305,11 @@
           <a href="https://www.apple.com/app-store" target="_blank">
             <img src="assets/img/ios-badge.svg" alt="Download on the App Store" class="badge ios desktop-only" loading="lazy">
           </a>
-          <a href="https://www.apple.com/app-store" target="_blank">
-            <img src="assets/img/apk_badge.png" alt="APK Direct Download" class="badge ios desktop-only" loading="lazy">
+          <a href="https://www.lnflash.com/download" target="_blank">
+            <img src="assets/img/apk_badge.png" alt="APK Direct Download" class="badge apk desktop-only" loading="lazy">
+          </a>
+          <a href="https://app.lnflash.me/start" target="_blank">
+            <img src="assets/img/pwa_badge.png" alt="Progressive Web App" class="badge pwa desktop-only" loading="lazy">
           </a>
         </div>
         <div class="credits">
@@ -344,13 +359,5 @@
       <rect id="minus" x="8" y="0" width="4" height="20" rx="2" ry="2" transform="translate(0 20) rotate(-90)"/>
     </symbol>
   </svg>
-  <script>
-    fetch('faq.html')
-      .then(response => response.text())
-      .then(data => {
-        document.getElementById('faq').innerHTML = data;
-      });
-  </script>
-  <script src="js/main.js" async></script>
 </body>
 </html>

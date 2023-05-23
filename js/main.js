@@ -221,6 +221,7 @@ function toggleCredits() {
 function loadScreen() {
   $('section').hide();
   progressBar = document.querySelector('.progress-bar');
+  progressBar.style.setProperty('--_animation-name', 'page-load');
   setTimeout(() => {
     $('section').fadeIn();
     // Correct active nav if page is refreshed
@@ -242,6 +243,23 @@ if (sessionStorage.getItem('theme')) {
 // Hide nav list items from screen readers if nav is collapsed on small screens
 if (window.innerWidth < 800) {
   mainNav.setAttribute('aria-hidden', true);
+}
+
+// 
+function initializeAccordion() {
+  const accordion = document.querySelector('.accordion');
+  accordion.addEventListener('click', (e)=>{
+    const activeTab = e.target.closest('.accordion-tab');
+    const headClick = e.target.closest('.accordion-head');
+    if (!activeTab) return;
+    if (activeTab.dataset.active == 'inactive') {
+      changeTab(activeTab);
+    } else {
+      // Only close the tab if they click on the tab head
+      if (!headClick) return;
+      closeTab(activeTab);
+    }
+  });
 }
 
 window.onload = () => {
@@ -292,19 +310,6 @@ window.onload = () => {
   closeNavIcon.addEventListener('click', changeMobileNavState);
   $('.nav-link').click(()=>{changeMobileNavState()});
 
-  // Accordion
-  accordion.addEventListener('click', (e)=>{
-    const activeTab = e.target.closest('.accordion-tab');
-    const headClick = e.target.closest('.accordion-head');
-    if (!activeTab) return;
-    if (activeTab.dataset.active == 'inactive') {
-      changeTab(activeTab);
-    } else {
-      // Only close the tab if they click on the tab head
-      if (!headClick) return;
-      closeTab(activeTab);
-    }
-  });
   // Send Message
   sendMsgBtn.addEventListener('click', (e)=>{
     e.preventDefault();
