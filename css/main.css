@@ -84,9 +84,18 @@ body.dark-mode .light {
   color: var(--flash-green);
   font-weight: var(--fWeight-bold);
   }
+.machankura {
+  /* highlight the word in green and make much thicker */
+  color: var(--flash-green);
+  font-weight: var(--fWeight-bold);
+  }
 .spacer {
   /* create space between elements */
     margin-bottom: var(--padding-gen);
+  }
+.mid-spacer {
+  /* create space between elements */
+    margin-bottom: var(--padding-nav);
   }
 body {
   --_dark-transition: calc(var(--transition-time) * .8);
@@ -418,7 +427,15 @@ main {
   width: min(100%, 600px);
   display: block;
 }
+.about-banner-right .feature-phone-img {
+  max-width: none;
+  width: min(100%, 200px);
+  display: block;
+}
 .mtn-img-container {
+  position: relative;
+}
+.feature-phone-img-container {
   position: relative;
 }
 .mtn-img-container #mtn-clouds {
@@ -866,6 +883,10 @@ form > * {
 }
 .waitlist-form {
   justify-self: flex-end;
+  max-width: 430px;
+  /* align class to center  */
+  display: flex;
+  margin: 0 auto;
 }
 .waitlist-form p {
   font-size: var(--fSize-default);
@@ -964,6 +985,13 @@ form > * {
 }
 #icon-moon {
   max-height: calc(var(--_switch-height) - 3px);
+}
+#banga-icon {
+  max-height: calc(var(--_switch-height) - 3px);
+  opacity: .2;
+}
+.banga-icon {
+  max-height: 0px;
 }
 .switch {
   position: relative;
@@ -1264,6 +1292,10 @@ footer {
   }
   .mtn-img-container {
     max-width: 600px;
+    margin: 0 auto;
+  }
+  .feature-phone-img-container {
+    max-width: 200px;
     margin: 0 auto;
   }
   .cloud-bg {
