@@ -1,0 +1,44 @@
+{
+  "name": "nostri.chat",
+  "version": "0.4.0",
+  "private": true,
+  "scripts": {
+    "dev": "vite dev",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "@sveltejs/adapter-auto": "^2.0.0",
+    "@sveltejs/kit": "^1.20.4",
+    "@sveltejs/vite-plugin-svelte": "^2.4.2",
+    "autoprefixer": "^10.4.14",
+    "postcss": "^8.4.24",
+    "postcss-load-config": "^4.0.1",
+    "svelte": "^4.0.0",
+    "tailwindcss": "^3.3.2",
+    "vite": "^4.3.6"
+  },
+  "type": "module",
+  "dependencies": {
+    "@nostr-connect/connect": "^0.4.0",
+    "@nostr-dev-kit/ndk": "^0.6.0",
+    "@rollup/plugin-commonjs": "^25.0.2",
+    "@rollup/plugin-json": "^6.0.0",
+    "@rollup/plugin-node-resolve": "^15.1.0",
+    "nostr": "^0.2.8",
+    "nostr-tools": "^1.12.0",
+    "rollup-plugin-css-only": "^4.3.0",
+    "rollup-plugin-esformatter": "^3.0.0",
+    "rollup-plugin-livereload": "^2.0.5",
+    "rollup-plugin-polyfill-node": "^0.12.0",
+    "rollup-plugin-postcss": "^4.0.2",
+    "rollup-plugin-serve": "^2.0.2",
+    "rollup-plugin-svelte": "^7.1.6",
+    "rollup-plugin-terser": "^7.0.2",
+    "svelte-preprocess": "^5.0.4",
+    "svelte-scrollto": "^0.2.0",
+    "uuid": "^9.0.0",
+    "webln": "^0.3.2",
+    "websocket-polyfill": "^0.0.3"
+  }
+}
