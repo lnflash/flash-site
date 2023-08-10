@@ -1,363 +1,814 @@
 <!DOCTYPE html>
 <html class="no-js" lang="en" dir="ltr">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- Add two link elements for favicon -->
-  <link rel="shortcut icon" type="image/png" href="assets/img/favicon-32x32.png" sizes="32x32">
-  <link rel="icon" type="image/png" href="assets/img/favicon-16x16.png" sizes="16x16">
-  <!-- Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,700;1,700&family=Roboto:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap" rel="stylesheet">
-  <!-- CSS -->
-  <link rel="stylesheet" href="css/main.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="A new app, Flash allows you to move money globally through Bitcoin."
+    />
+    <!-- Add two link elements for favicon -->
+    <link
+      rel="shortcut icon"
+      type="image/png"
+      href="assets/img/favicon-32x32.png"
+      sizes="32x32"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      href="assets/img/favicon-16x16.png"
+      sizes="16x16"
+    />
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,700;1,700&family=Roboto:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/main.min.css" />
 
-  <!-- jQuery CDN -->
-  <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous" defer></script>
-  <!-- Local jQuery (uncomment if prefer not to use CDN and comment out CDN instead) -->
-  <!-- <script src="js/jquery-3.6.4.min.js"></script> -->
-
-  <!-- Custom JS -->
-  <script defer src="js/main.js"></script>
-  <script defer src="js/faqFetch.js"></script>
-  <script defer src="js/lightning.js"></script>
-  <script defer src="js/tch-lightning.js"></script>
-  <script defer src="js/slider.js"></script>
-  <!-- End Custom JS -->
-
-  <title>Flash | Global Cash</title>
-</head>
-<body class="light-mode">
-  <header>
-    <div class="container">
-      <div class="logo-container">
-        <a href="#pg-download" class="no-hover">
-          <img src="assets/img/logo-black.png" alt="Flash" class="light">
-          <img src="assets/img/logo-white.png" alt="Flash" class="dark">
-        </a>
-      </div>
-      <!-- Navigation -->
-      <nav>
-        <svg id="open-nav" class="nav-icon mobile-only" aria-label="close menu" width="41" height="15" viewBox="0 0 41 15" xmlns="http://www.w3.org/2000/svg">
-          <line x1="2" y1="2" x2="39" y2="2" stroke="#161313" stroke-width="4" stroke-linecap="round"/>
-          <line x1="15" y1="13" x2="39" y2="13" stroke="#161313" stroke-width="4" stroke-linecap="round"/>
-        </svg>
-        <ul class="main-nav" id="main-nav" data-mob-state="closed" aria-hidden="false">
-          <li>
-            <svg id="close-nav" class="nav-icon mobile-only" aria-label="close menu" width="26" height="26" viewBox="0 0 26 26" xmlns="http://www.w3.org/2000/svg">
-              <path d="M23.2129 2L1.99969 23.2132" stroke="black" stroke-width="4" stroke-linecap="round"/>
-              <path d="M2.21289 2L23.4261 23.2132" stroke="black" stroke-width="4" stroke-linecap="round"/>
-            </svg>
-          </li>
-          <li><a href="#pg-download" class="nav-link active">Download</a></li>
-          <li><a href="#pg-about" class="nav-link">About</a></li>
-          <li><a href="#pg-faq" class="nav-link">FAQ</a></li>
-          <li><a href="#pg-contact" class="nav-link">Contact</a></li>
-        </ul>
-      </nav>
-      <!-- End of Navigation -->
-    </div>
-  </header>
-
-  <main>
-    <!-- Page: Download / Hero -->
-    <section id="pg-download" class="pg-download page">
-      <!-- Canvas drawn to via lightning.js -->
-      <canvas id="lightning-storm"></canvas>
-      <div class="container col-2-even">
-        <div class="banner-left">
-          <h1 class="banner-txt">Global Cash</h1>
-          <h1 class="banner-txt"> in a <span class="banner-highlight">Flash</span></h1>
-          <p>Move cash around the world at lightning speed</p>
-          <div class="downloads-container">
-            <a href="https://play.google.com" target="_blank" id="googleplay-link">
-              <img src="assets/img/google-play-badge.png" alt="Get it on Google Play">
-            </a>
-            <a href="https://www.apple.com/app-store" target="_blank" id="appstore-link">
-              <img src="assets/img/ios-badge.png" alt="Download on the App Store">
-            </a>
-            <a href="https://www.lnflash.com/download" target="_blank" id="apk-link">
-              <img src="assets/img/apk_badge.png" alt="APK Direct Download">
-            </a>
-            <a href="https://app.lnflash.me/start" target="_blank" id="pwa-link">
-              <img src="assets/img/pwa_badge.png" alt="Progressive Web App">
-            </a>
-          </div>
+    <title>Flash | Global Cash</title>
+  </head>
+  <body class="light-mode">
+    <header>
+      <div class="container">
+        <div class="logo-container">
+          <a href="#pg-download" class="no-hover">
+            <img src="assets/img/logo-black.png" alt="Flash" class="light" />
+            <img src="assets/img/logo-white.png" alt="Flash" class="dark" />
+          </a>
         </div>
-        <div class="banner-right">
-          <img src="assets/img/phones-alt-2.png" alt="" class="hero-img-2">
-        </div>
+        <!-- Navigation -->
+        <nav>
+          <svg
+            id="open-nav"
+            class="nav-icon mobile-only"
+            aria-label="close menu"
+            width="41"
+            height="15"
+            viewBox="0 0 41 15"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <line
+              x1="2"
+              y1="2"
+              x2="39"
+              y2="2"
+              stroke="#161313"
+              stroke-width="4"
+              stroke-linecap="round"
+            />
+            <line
+              x1="15"
+              y1="13"
+              x2="39"
+              y2="13"
+              stroke="#161313"
+              stroke-width="4"
+              stroke-linecap="round"
+            />
+          </svg>
+          <ul class="main-nav" id="main-nav" data-mob-state="closed">
+            <li>
+              <svg
+                id="close-nav"
+                class="nav-icon mobile-only"
+                aria-label="close menu"
+                width="26"
+                height="26"
+                viewBox="0 0 26 26"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M23.2129 2L1.99969 23.2132"
+                  stroke="black"
+                  stroke-width="4"
+                  stroke-linecap="round"
+                />
+                <path
+                  d="M2.21289 2L23.4261 23.2132"
+                  stroke="black"
+                  stroke-width="4"
+                  stroke-linecap="round"
+                />
+              </svg>
+            </li>
+            <li><a href="#pg-download" class="nav-link active">Download</a></li>
+            <li><a href="#pg-about" class="nav-link">About</a></li>
+            <li><a href="#pg-contact" class="nav-link">Business</a></li>
+            <li>
+              <a
+                href="https://docs.getflash.io"
+                target="_blank"
+                class="nav-link"
+                >Docs</a
+              >
+            </li>
+            <li><a href="#pg-faq" class="nav-link">FAQ</a></li>
+            <li><a href="#pg-contact" class="nav-link">Contact</a></li>
+          </ul>
+        </nav>
+        <!-- End of Navigation -->
       </div>
-    </section>
-    <!-- End of Page: Download / Hero -->
+    </header>
 
-    <!-- Page: About -->
-    <section id="pg-about" class="pg-about page">
-      <div class="bg-yellow about-banner">
+    <main>
+      <!-- Page: Download / Hero -->
+      <section id="pg-download" class="pg-download page">
+        <!-- Canvas drawn to via lightning.js -->
+        <canvas id="lightning-storm"></canvas>
         <div class="container col-2-even">
-          <div class="about-banner-left">
-            <h2>Be Your Own Bank</h2>
-            <p>Made with convenience and ease of use in mind, Flash gives you the power of a bank account in the palm of your hand</p>
-            <h2 class="mar-top-60">Pay Less To Move Cash</h2>
-            <p>Flash removes the middlemen when moving cash, lowering cost and increasing the speed of transactions</p>
-
-            <h2 class="mar-top-60">No Signup Needed</h2>
-            <p>No ID, no Mobile Number, no Email. Just <a href="#pg-download">download Flash </a>and you are ready to receive cash!</p>
+          <div class="banner-left">
+            <h1 class="banner-txt">Global Cash</h1>
+            <h1 class="banner-txt">
+              in a <span class="banner-highlight">Flash</span>
+            </h1>
+            <p>Move cash around the world at lightning speed</p>
+            <div class="downloads-container">
+              <a
+                href="https://play.google.com"
+                target="_blank"
+                id="googleplay-link"
+              >
+                <img
+                  src="assets/img/google-play-badge.png"
+                  alt="Get it on Google Play"
+                />
+              </a>
+              <a
+                href="https://www.apple.com/app-store"
+                target="_blank"
+                id="appstore-link"
+              >
+                <img
+                  src="assets/img/ios-badge.png"
+                  alt="Download on the App Store"
+                />
+              </a>
+              <a
+                href="https://www.lnflash.com/download"
+                target="_blank"
+                id="apk-link"
+              >
+                <img src="assets/img/apk_badge.png" alt="APK Direct Download" />
+              </a>
+              <a
+                href="https://app.lnflash.me/start"
+                target="_blank"
+                id="pwa-link"
+              >
+                <img src="assets/img/pwa_badge.png" alt="Progressive Web App" />
+              </a>
+            </div>
           </div>
-          <div class="about-banner-right">
-            <div class="mtn-img-container" id="mtn-img-container">
-              <img src="assets/img/be-your-own-bank.png" alt="" class="mtn-img" id="mtn-img">
-              <img src="assets/img/07_Clouds.png" alt="" id="mtn-clouds">
-              <canvas id="mtn-lightning"></canvas>
-              <canvas id="user-lightning"></canvas>
+          <div class="banner-right">
+            <!-- ! Used srcset on img element -->
+            <img
+              src="assets/img/phones-des.webp"
+              alt=""
+              srcset="
+                assets/img/phones-mob.webp 380w,
+                assets/img/phones-des.webp 604w
+              "
+              sizes="(max-width: 450px) 380px, 604px"
+            />
+            <!-- <img src="assets/img/phones-alt-2.png" alt="" class="hero-img-2"> -->
+          </div>
+        </div>
+      </section>
+      <!-- End of Page: Download / Hero -->
+
+      <!-- Page: About -->
+      <section id="pg-about" class="pg-about page">
+        <div class="bg-yellow about-banner">
+          <div class="container col-2-even">
+            <div class="about-banner-left">
+              <h2>Be Your Own Bank</h2>
+              <p>
+                Made with convenience and ease of use in mind, Flash gives you
+                the power of a bank account in the palm of your hand
+              </p>
+              <h2 class="mar-top-60">Pay Less To Move Cash</h2>
+              <p>
+                Flash removes the middlemen when moving cash, lowering cost and
+                increasing the speed of transactions
+              </p>
+
+              <h2 class="mar-top-60">No Signup Needed</h2>
+              <p>
+                No ID, no Mobile Number, no Email. Just
+                <a href="#pg-download">download Flash </a>and you are ready to
+                receive cash!
+              </p>
+            </div>
+            <div class="about-banner-right">
+              <div class="mtn-img-container" id="mtn-img-container">
+                <img
+                  src="assets/img/be-your-own-bank.webp"
+                  alt=""
+                  class="mtn-img"
+                  id="mtn-img"
+                />
+                <img src="assets/img/07_Clouds.webp" alt="" id="mtn-clouds" />
+                <canvas id="mtn-lightning"></canvas>
+                <canvas id="user-lightning"></canvas>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <div class="about-modes container" id="about-modes">
-        <h3 class="mar-top-60">Flash is for Everyone</h3>
-        <div class="spacer"></div>
-        <p>Buying, Selling, Building, Creating or Connecting - Flash can electrify whatever it is that you do in life. Earning, saving and spending, made easy</p>
-        <!-- add a spacer div to separate the text above from the modes -->
-        <div class="spacer"></div>
-        <div class="slider-container">
-          <!-- Slider Images -->
-          <div class="slider-imgs">
-            <div class="slide">
-              <img src="assets/img/about-1.png" alt="">
+        <div class="about-modes container" id="about-modes">
+          <h3 class="mar-top-60">Flash is for Everyone</h3>
+          <div class="spacer"></div>
+          <p>
+            Buying, Selling, Building, Creating or Connecting - Flash can
+            electrify whatever it is that you do in life. Earning, saving and
+            spending, made easy
+          </p>
+          <!-- add a spacer div to separate the text above from the modes -->
+          <div class="spacer"></div>
+          <div class="slider-container">
+            <!-- Slider Images -->
+            <div class="slider-imgs">
+              <div class="slide">
+                <img src="assets/img/about-1.webp" alt="" />
+              </div>
+              <div class="slide">
+                <img src="assets/img/about-2.webp" alt="" />
+              </div>
+              <div class="slide">
+                <img src="assets/img/about-3.webp" alt="" />
+              </div>
             </div>
-            <div class="slide">
-              <img src="assets/img/about-2.png" alt="">
+            <!-- End of Slider Images -->
+            <!-- Slider Tabs -->
+            <div class="slider-tabs">
+              <div class="slider-tab app" tabindex="0">
+                <h3>Flash Cash</h3>
+                <p>Send and receive cash instantly for free</p>
+                <img
+                  src="assets/img/pop-bitcoin.png"
+                  alt="bitcoin in a popcorn bag"
+                  loading="lazy"
+                />
+              </div>
+              <div class="slider-tab app" tabindex="0">
+                <h3>Flash Pay</h3>
+                <p>Start accepting payment in seconds on any device</p>
+                <img
+                  src="assets/img/bucket-bitcoin.png"
+                  alt="bitcoin in a bucket"
+                  loading="lazy"
+                />
+              </div>
+              <div class="slider-tab app" tabindex="0">
+                <h3>Flash Business</h3>
+                <p>Add a cash-in and cash-out point to your business</p>
+                <img
+                  src="assets/img/safe-bitcoin.png"
+                  alt="bitcoin in a safe"
+                  loading="lazy"
+                />
+              </div>
             </div>
-            <div class="slide">
-              <img src="assets/img/about-3.png" alt="">
-            </div>
-          </div>
-          <!-- End of Slider Images -->
-          <!-- Slider Tabs -->
-          <div class="slider-tabs">
-            <div class="slider-tab app" tabindex="0">
-              <h3>Flash Cash</h3>
-              <p>Send and receive cash instantly for free</p>
-              <img src="assets/img/pop-bitcoin.png" alt="bitcoin in a popcorn bag" loading="lazy">
-            </div>
-            <div class="slider-tab app" tabindex="0">
-              <h3>Flash Pay</h3>
-              <p>Start accepting payment in seconds on any device</p>
-              <img src="assets/img/bucket-bitcoin.png" alt="bitcoin in a bucket" loading="lazy">
-            </div>
-            <div class="slider-tab app"  tabindex="0">
-              <h3>Flash Business</h3>
-              <p>Add a cash-in and cash-out point to your business</p>
-              <img src="assets/img/safe-bitcoin.png" alt="bitcoin in a safe" loading="lazy">
-            </div>
-          </div>
-          <!-- End of Slider Tabs -->
-          <div class="slider-msg-container">
-            <div class="slider-msg">
-              <p>Select one of the boxes to learn more about the many features of Flash</p>
+            <!-- End of Slider Tabs -->
+            <div class="slider-msg-container">
+              <div class="slider-msg">
+                <p>
+                  Select one of the boxes to learn more about the many features
+                  of Flash
+                </p>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </section>
-    <!-- End of Page: About -->
+      </section>
+      <!-- End of Page: About -->
 
-    <!-- Page: FAQ -->
-    <section id="pg-faq" class=" page">
-      <div id="faq"></div>
-    </section>
-    <!-- End of Page: FAQ -->
-
-    <!-- Page: Contact -->
-    <section id="pg-contact" class="pg-contact page">
-      <div class="container">
-        <div class="forms-bg" id="forms-bg">
-          <div class="cloud-bg">
-            <img src="assets/img/03_Clouds.png" alt="" class="cloud-contact desktop-only" loading="lazy">
-            <img src="assets/img/07_Clouds.png" alt="" class="cloud-contact mobile-only" loading="lazy">
+      <!-- Page: FAQ -->
+      <section id="pg-faq" class="page">
+        <div id="faq">
+          <div class="container">
+            <h2>Frequently Asked Questions</h2>
+            <div class="accordion">
+              <!-- Inserted by JS. Edit content in faq.json -->
+            </div>
           </div>
-          
-          <canvas id="lightning-contact"></canvas>
-          <h2>Contact Us</h2>
-          <div class="col-2-even contact-content">
-            <!-- Contact Form -->
-            <form class="contact-form" method="post">
-              <div class="formfields">
-                <label for="c-name">Name</label>
-                <input type="text" name="c-name" id="c-name">
-                <label for="c-email">Email</label>
-                <input type="email" name="c-email" id="c-email">
-                <label for="c-nostr">Nostr (optional)</label>
-                <input type="nostr" name="c-nostr" id="c-nostr" placeholder="npub1...">
-                <label for="c-msg">Message</label>
-                <textarea name="c-msg" id="c-msg" class="c-msg" placeholder=""></textarea>
-                <div class="button-container">
-                  <button id="send-msg-btn" class="button-1">Send
-                    <svg id="icon-send" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32.35 24.23" aria-hidden="true">
-                      <path d="m2.9,22.12l7.29-10.03L2.81,2.12l26.7,9.97L2.9,22.12Zm7.2-9.97h19.32" fill="none" fill-rule="evenodd" stroke="#000" stroke-miterlimit="10" stroke-width="2"/>
-                    </svg>
-                  </button>
+        </div>
+      </section>
+      <!-- End of Page: FAQ -->
+
+      <!-- Page: Contact -->
+      <section id="pg-contact" class="pg-contact page">
+        <div class="container">
+          <div class="forms-bg" id="forms-bg">
+            <div class="cloud-bg">
+              <img
+                src="assets/img/03_Clouds.webp"
+                alt=""
+                class="cloud-contact desktop-only"
+                loading="lazy"
+              />
+              <img
+                src="assets/img/07_Clouds.webp"
+                alt=""
+                class="cloud-contact mobile-only"
+                loading="lazy"
+              />
+            </div>
+
+            <canvas id="lightning-contact"></canvas>
+            <h2>Contact Us</h2>
+            <div class="col-2-even contact-content">
+              <!-- Contact Form -->
+              <form class="contact-form" method="post">
+                <div class="formfields">
+                  <label for="c-name">Name</label>
+                  <input type="text" name="c-name" id="c-name" />
+                  <label for="c-email">Email</label>
+                  <input type="email" name="c-email" id="c-email" />
+                  <label for="c-nostr">Nostr (optional)</label>
+                  <input
+                    type="nostr"
+                    name="c-nostr"
+                    id="c-nostr"
+                    placeholder="npub1..."
+                  />
+                  <label for="c-msg">Message</label>
+                  <textarea
+                    name="c-msg"
+                    id="c-msg"
+                    class="c-msg"
+                    placeholder=""
+                  ></textarea>
+                  <div class="button-container">
+                    <button id="send-msg-btn" class="button-1">
+                      Send
+                      <svg
+                        id="icon-send"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 32.35 24.23"
+                        aria-hidden="true"
+                      >
+                        <path
+                          d="m2.9,22.12l7.29-10.03L2.81,2.12l26.7,9.97L2.9,22.12Zm7.2-9.97h19.32"
+                          fill="none"
+                          fill-rule="evenodd"
+                          stroke="#000"
+                          stroke-miterlimit="10"
+                          stroke-width="2"
+                        />
+                      </svg>
+                    </button>
+                  </div>
                 </div>
-              </div>
-              <div class="success-msg form-success">
-                <h2>Message Sent!</h2>
-                <svg id="success-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 564.13 190.74">
-                  <g class="envelope">
-                    <rect width="564.13" height="190.68" fill="none"/>
-                    <path d="m166.86,46.16l112.27,68.69c3.49,2.14,7.9,2.07,11.32-.17l103.7-67.92" fill="none" fill-rule="evenodd" stroke="#000" stroke-miterlimit="10" stroke-width="4"/>
-                    <path d="m129.27,59.88l.6-29.23s-.6-25.65,28.64-28.64h248.77s26.25-.6,28.64,28.64v129.45s.6,26.85-28.64,28.64h-248.77s-26.25.6-28.64-28.64v-37.03" fill="none" fill-rule="evenodd" stroke="#000" stroke-miterlimit="10" stroke-width="4"/>
-                    <line x1="154.16" y1="72.2" x2="24.11" y2="72.2" fill="none" stroke="#000" stroke-miterlimit="10" stroke-width="4"/>
-                    <line x1="153.56" y1="111.2" x2="75.41" y2="111.2" fill="none" stroke="#000" stroke-miterlimit="10" stroke-width="4"/>
-                  </g>
-                </svg>
-                <p>Thanks for reaching out to us!</p>
-              </div>
-              <!-- Error Notice: Contact Form -->
-              <div class="error-msg form-error hidden">
-                <p>We're sorry! Something went wrong and your message didn't get sent.</p>
-                <div class="btn-container">
-                  <button id="close-error-msg" class="button-2">Close</button>
+                <div class="success-msg form-success">
+                  <h2>Message Sent!</h2>
+                  <svg
+                    id="success-icon"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 564.13 190.74"
+                  >
+                    <g class="envelope">
+                      <rect width="564.13" height="190.68" fill="none" />
+                      <path
+                        d="m166.86,46.16l112.27,68.69c3.49,2.14,7.9,2.07,11.32-.17l103.7-67.92"
+                        fill="none"
+                        fill-rule="evenodd"
+                        stroke="#000"
+                        stroke-miterlimit="10"
+                        stroke-width="4"
+                      />
+                      <path
+                        d="m129.27,59.88l.6-29.23s-.6-25.65,28.64-28.64h248.77s26.25-.6,28.64,28.64v129.45s.6,26.85-28.64,28.64h-248.77s-26.25.6-28.64-28.64v-37.03"
+                        fill="none"
+                        fill-rule="evenodd"
+                        stroke="#000"
+                        stroke-miterlimit="10"
+                        stroke-width="4"
+                      />
+                      <line
+                        x1="154.16"
+                        y1="72.2"
+                        x2="24.11"
+                        y2="72.2"
+                        fill="none"
+                        stroke="#000"
+                        stroke-miterlimit="10"
+                        stroke-width="4"
+                      />
+                      <line
+                        x1="153.56"
+                        y1="111.2"
+                        x2="75.41"
+                        y2="111.2"
+                        fill="none"
+                        stroke="#000"
+                        stroke-miterlimit="10"
+                        stroke-width="4"
+                      />
+                    </g>
+                  </svg>
+                  <p>Thanks for reaching out to us!</p>
                 </div>
-              </div>
-            </form>
-            <!-- End of Contact Form -->
-            <!-- Waitlist Form -->
-            <form class="waitlist-form" method="post">
-              <div class="formfields">
-                <p>Sign up for the waitlist with your email address to receive news and updates.</p>
-                <input type="email" name="w-email" id="w-email" placeholder="Your Email Address">
-                <div class="button-container">
-                  <button id="sign-up-btn" class="button-2">Sign up
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" aria-hidden="true">
-                      <use href="#plus" class="plus"></use>
-                    </svg>
-                  </button>
+                <!-- Error Notice: Contact Form -->
+                <div class="error-msg form-error hidden">
+                  <p>
+                    We're sorry! Something went wrong and your message didn't
+                    get sent.
+                  </p>
+                  <div class="btn-container">
+                    <button id="close-error-msg" class="button-2">Close</button>
+                  </div>
                 </div>
-              </div>
-              <div class="success-waitlist form-success">
-                <h2>You've been added to our waitlist!</h2>
-                <p>We'll reach out to you soon with the latest on Flash!</p>
-              </div>
+              </form>
+              <!-- End of Contact Form -->
+              <!-- Waitlist Form -->
+              <iframe
+                src="https://www.waitwhile.com/locations/getflash/waitlist/add"
+                allowtransparency="true"
+                frameborder="0"
+                scrolling="no"
+                width="100%"
+                height="700px"
+                style="background: transparent"
+              ></iframe>
+              <!-- <form class="waitlist-form" method="post">
+                <div class="formfields">
+                  <p>
+                    Sign up for the waitlist with your email address to receive
+                    news and updates.
+                  </p>
+                  <input
+                    type="email"
+                    name="w-email"
+                    id="w-email"
+                    placeholder="Your Email Address"
+                  />
+                  <div class="button-container">
+                    <button id="sign-up-btn" class="button-2">
+                      Sign up
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 20 20"
+                        aria-hidden="true"
+                      >
+                        <use href="#plus" class="plus"></use>
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+                <div class="success-waitlist form-success">
+                  <h2>You've been added to our waitlist!</h2>
+                  <p>We'll reach out to you soon with the latest on Flash!</p>
+                </div> -->
               <!-- Error Notice: Waitlist Form -->
-              <div class="error-waitlist form-error hidden">
-                <p>We're sorry! Something went wrong and we couldn't add you to our waitlist.</p>
-                <div class="btn-container">
-                  <button id="close-error-wtlist" class="button-2">Close</button>
+              <!-- <div class="error-waitlist form-error hidden">
+                  <p>
+                    We're sorry! Something went wrong and we couldn't add you to
+                    our waitlist.
+                  </p>
+                  <div class="btn-container">
+                    <button id="close-error-wtlist" class="button-2">
+                      Close
+                    </button>
+                  </div>
                 </div>
-              </div>
-            </form>
-            <!-- End of Waitlist Form -->
+              </form> -->
+              <!-- End of Waitlist Form -->
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- End of Page: Contact -->
+
+      <!-- Loading Screen -->
+      <div class="loading-screen" id="loading-screen">
+        <img src="assets/img/logo-black.png" alt="" class="light" />
+        <img src="assets/img/logo-white.png" alt="" class="dark" />
+        <div class="progress-bar"></div>
+      </div>
+      <!-- End of Loading Screen -->
+
+      <!-- Dark Mode Switch -->
+      <div class="darkmode" id="darkmode">
+        <div class="container">
+          <label
+            for="dark-switch"
+            class="switch-container"
+            aria-label="Switch between dark and light mode of website"
+          >
+            <svg
+              id="icon-sun"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 23.65 23.65"
+            >
+              <circle
+                cx="11.83"
+                cy="11.83"
+                r="5.73"
+                fill="none"
+                stroke="#000"
+                stroke-miterlimit="10"
+                stroke-width="2"
+              />
+              <line
+                x1="11.83"
+                y1="3"
+                x2="11.83"
+                fill="none"
+                stroke="#000"
+                stroke-miterlimit="10"
+                stroke-width="2"
+              />
+              <line
+                x1="11.83"
+                y1="23.65"
+                x2="11.83"
+                y2="20.65"
+                fill="none"
+                stroke="#000"
+                stroke-miterlimit="10"
+                stroke-width="2"
+              />
+              <line
+                x1="18.07"
+                y1="5.59"
+                x2="20.19"
+                y2="3.46"
+                fill="none"
+                stroke="#000"
+                stroke-miterlimit="10"
+                stroke-width="2"
+              />
+              <line
+                x1="3.46"
+                y1="20.19"
+                x2="5.59"
+                y2="18.07"
+                fill="none"
+                stroke="#000"
+                stroke-miterlimit="10"
+                stroke-width="2"
+              />
+              <line
+                x1="5.59"
+                y1="5.59"
+                x2="3.46"
+                y2="3.46"
+                fill="none"
+                stroke="#000"
+                stroke-miterlimit="10"
+                stroke-width="2"
+              />
+              <line
+                x1="20.19"
+                y1="20.19"
+                x2="18.07"
+                y2="18.07"
+                fill="none"
+                stroke="#000"
+                stroke-miterlimit="10"
+                stroke-width="2"
+              />
+              <line
+                x1="3"
+                y1="11.83"
+                y2="11.83"
+                fill="none"
+                stroke="#000"
+                stroke-miterlimit="10"
+                stroke-width="2"
+              />
+              <line
+                x1="23.65"
+                y1="11.83"
+                x2="20.65"
+                y2="11.83"
+                fill="none"
+                stroke="#000"
+                stroke-miterlimit="10"
+                stroke-width="2"
+              />
+            </svg>
+            <div class="switch">
+              <input
+                type="checkbox"
+                name="dark-switch"
+                id="dark-switch"
+                class="dark-switch"
+              />
+              <span class="slider"></span>
+            </div>
+            <svg
+              id="icon-moon"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 22.97 23.9"
+            >
+              <path
+                id="moon"
+                d="m21.37,15.81c-.25.67-1.9,4.87-6.37,6.49-4.3,1.56-9.4.05-12.13-3.72C-.44,13.99,1.62,8.66,1.79,8.24,3.35,4.42,7,1.73,11.28,1.28c-2.69,2.91-3.73,6.73-2.52,9.85.83,2.15,2.48,3.35,3,3.72,3.28,2.33,6.98,1.6,7.69,1.44l1.92-.48Z"
+                fill="none"
+                stroke="#000"
+                stroke-miterlimit="10"
+                stroke-width="2"
+              />
+            </svg>
+          </label>
+        </div>
+      </div>
+      <div class="spaceholder" id="spaceholder"></div>
+      <!-- End of Dark Mode Switch -->
+    </main>
+
+    <footer>
+      <div class="footer-top">
+        <div class="container">
+          <div class="footer-links">
+            <img
+              src="assets/img/logo-black.png"
+              alt="Flash"
+              class="light logo"
+              loading="lazy"
+            />
+            <img
+              src="assets/img/logo-white.png"
+              alt=""
+              class="dark logo"
+              loading="lazy"
+            />
+            <a href="https://play.google.com" target="_blank">
+              <img
+                src="assets/img/google-play-badge.png"
+                alt="Get it on Google Play"
+                class="badge desktop-only"
+                loading="lazy"
+              />
+            </a>
+            <a href="https://www.apple.com/app-store" target="_blank">
+              <img
+                src="assets/img/ios-badge.svg"
+                alt="Download on the App Store"
+                class="badge ios desktop-only"
+                loading="lazy"
+              />
+            </a>
+            <a href="https://www.lnflash.com/download" target="_blank">
+              <img
+                src="assets/img/apk_badge.png"
+                alt="APK Direct Download"
+                class="badge apk desktop-only"
+                loading="lazy"
+              />
+            </a>
+            <a href="https://app.lnflash.me/start" target="_blank">
+              <img
+                src="assets/img/pwa_badge.png"
+                alt="Progressive Web App"
+                class="badge pwa desktop-only"
+                loading="lazy"
+              />
+            </a>
+          </div>
+          <div class="credits">
+            <p>Powered by Bitcoin.</p>
+            <p
+              id="credits-btn"
+              class="custom-link"
+              aria-controls="credits-content"
+              tabindex="0"
+            >
+              Credits
+            </p>
           </div>
         </div>
       </div>
-    </section>
-    <!-- End of Page: Contact -->
-
-    <!-- Loading Screen -->
-    <div class="loading-screen" id="loading-screen">
-      <img src="assets/img/logo-black.png" alt="" class="light">
-      <img src="assets/img/logo-white.png" alt="" class="dark">
-      <div class="progress-bar"></div>
-    </div>
-    <!-- End of Loading Screen -->
-
-    <!-- Dark Mode Switch -->
-    <div class="darkmode" id="darkmode">
-      <div class="container">
-        <label for="dark-switch" class="switch-container">
-          <svg id="icon-sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 23.65 23.65">
-            <circle cx="11.83" cy="11.83" r="5.73" fill="none" stroke="#000" stroke-miterlimit="10" stroke-width="2"/>
-            <line x1="11.83" y1="3" x2="11.83" fill="none" stroke="#000" stroke-miterlimit="10" stroke-width="2"/>
-            <line x1="11.83" y1="23.65" x2="11.83" y2="20.65" fill="none" stroke="#000" stroke-miterlimit="10" stroke-width="2"/>
-            <line x1="18.07" y1="5.59" x2="20.19" y2="3.46" fill="none" stroke="#000" stroke-miterlimit="10" stroke-width="2"/>
-            <line x1="3.46" y1="20.19" x2="5.59" y2="18.07" fill="none" stroke="#000" stroke-miterlimit="10" stroke-width="2"/>
-            <line x1="5.59" y1="5.59" x2="3.46" y2="3.46" fill="none" stroke="#000" stroke-miterlimit="10" stroke-width="2"/>
-            <line x1="20.19" y1="20.19" x2="18.07" y2="18.07" fill="none" stroke="#000" stroke-miterlimit="10" stroke-width="2"/>
-            <line x1="3" y1="11.83" y2="11.83" fill="none" stroke="#000" stroke-miterlimit="10" stroke-width="2"/>
-            <line x1="23.65" y1="11.83" x2="20.65" y2="11.83" fill="none" stroke="#000" stroke-miterlimit="10" stroke-width="2"/>
-          </svg>
-          <div class="switch">
-            <input type="checkbox" name="dark-switch" id="dark-switch" class="dark-switch">
-            <span class="slider"></span>
+      <div class="footer-mid" id="credits-content">
+        <div class="container">
+          <p>
+            <a href="http://www.freepik.com"
+              >Background designed by pikisuperstar / Freepik</a
+            >
+          </p>
+        </div>
+      </div>
+      <div class="footer-btm">
+        <div class="container">
+          <p class="copyright">
+            <span>&copy;</span> 2023 Flash. All rights reserved.
+          </p>
+          <div class="socials">
+            <a href="https://nostr.com" target="_blank" class="no-style">
+              <img src="assets/img/icon-nostr.png" alt="Nostr" loading="lazy" />
+            </a>
+            <a
+              href="https://twitter.com/LNFlash"
+              target="_blank"
+              class="no-style"
+            >
+              <img
+                src="assets/img/icon-twitter.png"
+                alt="Twitter"
+                loading="lazy"
+              />
+            </a>
+            <a href="https://www.facebook.com" target="_blank" class="no-style">
+              <img
+                src="assets/img/icon-fb-2.png"
+                alt="Facebook"
+                loading="lazy"
+              />
+            </a>
+            <a
+              href="https://www.instagram.com"
+              target="_blank"
+              class="no-style"
+            >
+              <img
+                src="assets/img/icon-insta-2.png"
+                alt="Instagram"
+                loading="lazy"
+              />
+            </a>
+            <a href="https://github.com" target="_blank" class="no-style">
+              <img
+                src="assets/img/icon-github.png"
+                alt="Github"
+                loading="lazy"
+              />
+            </a>
           </div>
-          <svg id="icon-moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22.97 23.9">
-            <path id="moon" d="m21.37,15.81c-.25.67-1.9,4.87-6.37,6.49-4.3,1.56-9.4.05-12.13-3.72C-.44,13.99,1.62,8.66,1.79,8.24,3.35,4.42,7,1.73,11.28,1.28c-2.69,2.91-3.73,6.73-2.52,9.85.83,2.15,2.48,3.35,3,3.72,3.28,2.33,6.98,1.6,7.69,1.44l1.92-.48Z" fill="none" stroke="#000" stroke-miterlimit="10" stroke-width="2"/>
-          </svg>
-        </label>
+        </div>
       </div>
-    </div>
-    <div class="spaceholder" id="spaceholder"></div>
-    <!-- End of Dark Mode Switch -->
-  </main>
+    </footer>
 
-  <footer>
-    <div class="footer-top">
-      <div class="container">
-        <div class="footer-links">
-          <img src="assets/img/logo-black.png" alt="Flash" class="light logo" loading="lazy">
-          <img src="assets/img/logo-white.png" alt="" class="dark logo" loading="lazy">
-          <a href="https://play.google.com" target="_blank">
-            <img src="assets/img/google-play-badge.png" alt="Get it on Google Play" class="badge desktop-only" loading="lazy">
-          </a>
-          <a href="https://www.apple.com/app-store" target="_blank">
-            <img src="assets/img/ios-badge.svg" alt="Download on the App Store" class="badge ios desktop-only" loading="lazy">
-          </a>
-          <a href="https://www.lnflash.com/download" target="_blank">
-            <img src="assets/img/apk_badge.png" alt="APK Direct Download" class="badge apk desktop-only" loading="lazy">
-          </a>
-          <a href="https://app.lnflash.me/start" target="_blank">
-            <img src="assets/img/pwa_badge.png" alt="Progressive Web App" class="badge pwa desktop-only" loading="lazy">
-          </a>
-        </div>
-        <div class="credits">
-          <p>Powered by Bitcoin.</p>
-          <p id="credits-btn" class="custom-link" aria-controls="credits-content" tabindex="0">Credits</p>
-        </div>
-      </div>
-    </div>
-    <div class="footer-mid" id="credits-content">
-      <div class="container">
-        <p><a href="http://www.freepik.com">Background designed by pikisuperstar / Freepik</a></p>
-      </div>
-    </div>
-    <div class="footer-btm">
-      <div class="container">
-        <p class="copyright"><span>&copy;</span> 2023 Flash. All rights reserved.</p>
-        <div class="socials">
-          <a href="https://nostr.com" target="_blank" class="no-style">
-            <img src="assets/img/icon-nostr.png" alt="Nostr" loading="lazy">
-          </a>
-          <a href="https://twitter.com/LNFlash" target="_blank" class="no-style">
-            <img src="assets/img/icon-twitter.png" alt="Twitter" loading="lazy">
-          </a>
-          <a href="https://www.facebook.com" target="_blank" class="no-style">
-            <img src="assets/img/icon-fb-2.png" alt="Facebook" loading="lazy">
-          </a>
-          <a href="https://www.instagram.com" target="_blank" class="no-style">
-            <img src="assets/img/icon-insta-2.png" alt="Instagram" loading="lazy">
-          </a>
-          <a href="https://github.com" target="_blank" class="no-style">
-            <img src="assets/img/icon-github.png" alt="Github" loading="lazy">
-          </a>
-        </div>
-      </div>
-    </div>
-  </footer>
+    <!-- SVG Icons - DO NOT DELETE -->
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 20 20"
+      style="display: none"
+    >
+      <symbol>
+        <g id="plus">
+          <rect class="vert" x="8" y="0" width="4" height="20" rx="2" ry="2" />
+          <rect
+            class="hori"
+            x="8"
+            y="0"
+            width="4"
+            height="20"
+            rx="2"
+            ry="2"
+            transform="translate(0 20) rotate(-90)"
+          />
+        </g>
+      </symbol>
+      <symbol>
+        <rect
+          id="minus"
+          x="8"
+          y="0"
+          width="4"
+          height="20"
+          rx="2"
+          ry="2"
+          transform="translate(0 20) rotate(-90)"
+        />
+      </symbol>
+    </svg>
 
-  <!-- SVG Icons - DO NOT DELETE -->
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" style="display:none">
-    <symbol>
-      <g id="plus">
-        <rect class="vert" x="8" y="0" width="4" height="20" rx="2" ry="2"/>
-        <rect class="hori" x="8" y="0" width="4" height="20" rx="2" ry="2" transform="translate(0 20) rotate(-90)"/>
-      </g>
-    </symbol>
-    <symbol>
-      <rect id="minus" x="8" y="0" width="4" height="20" rx="2" ry="2" transform="translate(0 20) rotate(-90)"/>
-    </symbol>
-  </svg>
-</body>
+    <!-- jQuery CDN -->
+    <script
+      src="https://code.jquery.com/jquery-3.7.0.min.js"
+      integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g="
+      crossorigin="anonymous"
+    ></script>
+    <!-- Local jQuery (uncomment if prefer not to use CDN and comment out CDN instead) -->
+    <!-- <script src="js/jquery-3.6.4.min.js"></script> -->
+
+    <!-- Custom JS -->
+    <script src="js/main.js"></script>
+    <script src="js/faqFetch.js"></script>
+    <script src="js/lightning.js"></script>
+    <script src="js/tch-lightning.js"></script>
+    <script src="js/slider.js"></script>
+
+    <script
+      src="https://nostri-chat-hosted.f9ofwt.click/public/bundle.js"
+      data-chat-type="GLOBAL"
+      data-chat-tags="flashsupport"
+      data-hidenostricon="false"
+      data-simplifynostrnext="true"
+      data-accentcolor="#ECF8ED,#D6F0D8,#B1E2B4,#88D28D,#60C366,#41AD49,#348939,#27682B,#1A461D,#0D210E"
+      data-relays="wss://relay.f7z.io,wss://nos.lol,wss://relay.nostr.band,wss://relay.nostr.info,wss://nostr-pub.wellorder.net,wss://relay.current.fyi"
+      data-start-page="chat"
+    ></script>
+    <link
+      rel="stylesheet"
+      href="https://nostri-chat-hosted.f9ofwt.click/public/bundle.css"
+    />
+  </body>
 </html>

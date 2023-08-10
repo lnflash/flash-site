@@ -21,10 +21,10 @@ let prevNav = currentNav;
 function changeMobileNavState() {
   if (mainNav.dataset.mobState === 'closed') {
     mainNav.dataset.mobState = 'open';
-    mainNav.setAttribute('aria-hidden', false);
+    // mainNav.setAttribute('aria-hidden', false);
   } else {
     mainNav.dataset.mobState = 'closed';
-    mainNav.setAttribute('aria-hidden', true);
+    // mainNav.setAttribute('aria-hidden', true);
   }
 }
 
@@ -223,7 +223,7 @@ function loadScreen() {
   progressBar = document.querySelector('.progress-bar');
   progressBar.style.setProperty('--_animation-name', 'page-load');
   setTimeout(() => {
-    $('section').fadeIn();
+    $('section').show();
     // Correct active nav if page is refreshed
     for (let i=0; i<navLinks.length; i++) {
       navLinks[i].classList.remove('active');
@@ -275,6 +275,10 @@ window.onload = () => {
     }
   });
 
+  // Faq Fetch
+  let faqContent = new AddFaq("./js/faq.json", document.querySelector('.accordion'));
+  initializeAccordion();
+
   // Scroll Events
   window.addEventListener("scroll", ()=>{
     // Stop Dark Mode switch from sticking to bottom of screen when footer appears
@@ -289,10 +293,15 @@ window.onload = () => {
     }
     
     // Change Active Navigation Link
-    for (let i=0; i<pages.length; i++) {
-      if (window.scrollY >= pages[i].offsetTop - (pages[i].offsetHeight/2)) {
-        prevNav = currentNav;
-        currentNav = i;
+    if (window.scrollY <= pages[0].offsetHeight/2) {
+      prevNav = currentNav;
+      currentNav = 0;
+    } else {
+      for (let i=1; i<pages.length; i++) {
+        if (window.scrollY >= pages[i].offsetTop - (pages[i].offsetHeight/2)) {
+          prevNav = currentNav;
+          currentNav = i;
+        }
       }
     }
     if (currentNav != prevNav) {
