@@ -84,18 +84,9 @@ body.dark-mode .light {
   color: var(--flash-green);
   font-weight: var(--fWeight-bold);
   }
-.machankura {
-  /* highlight the word in green and make much thicker */
-  color: var(--flash-green);
-  font-weight: var(--fWeight-bold);
-  }
 .spacer {
   /* create space between elements */
     margin-bottom: var(--padding-gen);
-  }
-.mid-spacer {
-  /* create space between elements */
-    margin-bottom: var(--padding-nav);
   }
 body {
   --_dark-transition: calc(var(--transition-time) * .8);
@@ -109,6 +100,7 @@ main {
 }
 .container {
   max-width: 1200px;
+  width: 100%;
   margin-left: auto;
   margin-right: auto;
 }
@@ -299,7 +291,7 @@ header .container {
 
 /* Download/Hero Page */
 main {
-  background-image: url(../assets/img/bg-stream-lit-2.png);
+  background-image: url(../assets/img/bg-stream-lit-2.webp);
   background-size: contain;
   background-position: left top;
   background-repeat: no-repeat;
@@ -342,6 +334,10 @@ main {
 }
 .downloads-container {
   max-width: 75%;
+  /* ! NEW */
+  display: flex;
+  flex-wrap: wrap;
+  gap: calc(var(--padding-gen) / 4);
 }
 .downloads-container a {
   outline: none;
@@ -427,15 +423,7 @@ main {
   width: min(100%, 600px);
   display: block;
 }
-.about-banner-right .feature-phone-img {
-  max-width: none;
-  width: min(100%, 200px);
-  display: block;
-}
 .mtn-img-container {
-  position: relative;
-}
-.feature-phone-img-container {
   position: relative;
 }
 .mtn-img-container #mtn-clouds {
@@ -883,10 +871,6 @@ form > * {
 }
 .waitlist-form {
   justify-self: flex-end;
-  max-width: 430px;
-  /* align class to center  */
-  display: flex;
-  margin: 0 auto;
 }
 .waitlist-form p {
   font-size: var(--fSize-default);
@@ -985,13 +969,6 @@ form > * {
 }
 #icon-moon {
   max-height: calc(var(--_switch-height) - 3px);
-}
-#banga-icon {
-  max-height: calc(var(--_switch-height) - 3px);
-  opacity: .2;
-}
-.banga-icon {
-  max-height: 0px;
 }
 .switch {
   position: relative;
@@ -1294,10 +1271,6 @@ footer {
     max-width: 600px;
     margin: 0 auto;
   }
-  .feature-phone-img-container {
-    max-width: 200px;
-    margin: 0 auto;
-  }
   .cloud-bg {
     top: -150px;
   }
@@ -1385,6 +1358,9 @@ footer {
   .banner-left {
     padding-top: 0;
     padding-bottom: var(--padding-gen);
+  }
+  .downloads-container {
+    max-width: none; /* !NEW */
   }
   .downloads-container img {
     height: 40px;
@@ -1484,6 +1460,10 @@ footer {
 }
 
 @media screen and (max-width: 450px) {
+  main {
+    background-image: url(../assets/img/bg-light-mob.webp);
+    background-size: auto;
+  }
   .banner-left {
     position: relative;
     z-index: 2;

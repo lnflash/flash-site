@@ -4,6 +4,10 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="A new app, Flash allows you to move money globally through Bitcoin."
+    />
     <!-- Add two link elements for favicon -->
     <link
       rel="shortcut icon"
@@ -24,39 +28,8 @@
       href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,700;1,700&family=Roboto:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap"
       rel="stylesheet"
     />
-
-    <!-- Nostr Live Chat Support JS -->
-    <script
-      src="/public/bundle.js"
-      data-website-owner-pubkey="fa984bd7dbb282f07e16e7ae87b26a2a7b9b90b7246a44771f0cf5ae58018f52"
-      data-chat-type="GROUP"
-      data-chat-id="a6f436a59fdb5e23c757b1e30478742996c54413df777843e0a731af56a96eea"
-      data-relays="wss://relay.f7z.io,wss://nos.lol,wss://relay.nostr.info,wss://nostr-pub.wellorder.net,wss://relay.current.fyi,wss://relay.nostr.band"
-    ></script>
-    <link rel="stylesheet" href="public/bundle.css" />
-
-    <!-- End Nostr Live Chat Support JS -->
-
     <!-- CSS -->
-    <link rel="stylesheet" href="css/main.css" />
-
-    <!-- jQuery CDN -->
-    <script
-      src="https://code.jquery.com/jquery-3.6.4.js"
-      integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E="
-      crossorigin="anonymous"
-      defer
-    ></script>
-    <!-- Local jQuery (uncomment if prefer not to use CDN and comment out CDN instead) -->
-    <!-- <script src="js/jquery-3.6.4.min.js"></script> -->
-
-    <!-- Custom JS -->
-    <script defer src="js/main.js"></script>
-    <script defer src="js/faqFetch.js"></script>
-    <script defer src="js/lightning.js"></script>
-    <script defer src="js/tch-lightning.js"></script>
-    <script defer src="js/slider.js"></script>
-    <!-- End Custom JS -->
+    <link rel="stylesheet" href="css/main.min.css" />
 
     <title>Flash | Global Cash</title>
   </head>
@@ -99,12 +72,7 @@
               stroke-linecap="round"
             />
           </svg>
-          <ul
-            class="main-nav"
-            id="main-nav"
-            data-mob-state="closed"
-            aria-hidden="false"
-          >
+          <ul class="main-nav" id="main-nav" data-mob-state="closed">
             <li>
               <svg
                 id="close-nav"
@@ -131,6 +99,15 @@
             </li>
             <li><a href="#pg-download" class="nav-link active">Download</a></li>
             <li><a href="#pg-about" class="nav-link">About</a></li>
+            <li><a href="#pg-contact" class="nav-link">Business</a></li>
+            <li>
+              <a
+                href="https://docs.getflash.io"
+                target="_blank"
+                class="nav-link"
+                >Docs</a
+              >
+            </li>
             <li><a href="#pg-faq" class="nav-link">FAQ</a></li>
             <li><a href="#pg-contact" class="nav-link">Contact</a></li>
           </ul>
@@ -189,7 +166,17 @@
             </div>
           </div>
           <div class="banner-right">
-            <img src="assets/img/phones-alt-2.png" alt="" class="hero-img-2" />
+            <!-- ! Used srcset on img element -->
+            <img
+              src="assets/img/phones-des.webp"
+              alt=""
+              srcset="
+                assets/img/phones-mob.webp 380w,
+                assets/img/phones-des.webp 604w
+              "
+              sizes="(max-width: 450px) 380px, 604px"
+            />
+            <!-- <img src="assets/img/phones-alt-2.png" alt="" class="hero-img-2"> -->
           </div>
         </div>
       </section>
@@ -221,12 +208,12 @@
             <div class="about-banner-right">
               <div class="mtn-img-container" id="mtn-img-container">
                 <img
-                  src="assets/img/be-your-own-bank.png"
+                  src="assets/img/be-your-own-bank.webp"
                   alt=""
                   class="mtn-img"
                   id="mtn-img"
                 />
-                <img src="assets/img/07_Clouds.png" alt="" id="mtn-clouds" />
+                <img src="assets/img/07_Clouds.webp" alt="" id="mtn-clouds" />
                 <canvas id="mtn-lightning"></canvas>
                 <canvas id="user-lightning"></canvas>
               </div>
@@ -247,13 +234,13 @@
             <!-- Slider Images -->
             <div class="slider-imgs">
               <div class="slide">
-                <img src="assets/img/about-1.png" alt="" />
+                <img src="assets/img/about-1.webp" alt="" />
               </div>
               <div class="slide">
-                <img src="assets/img/about-2.png" alt="" />
+                <img src="assets/img/about-2.webp" alt="" />
               </div>
               <div class="slide">
-                <img src="assets/img/about-3.png" alt="" />
+                <img src="assets/img/about-3.webp" alt="" />
               </div>
             </div>
             <!-- End of Slider Images -->
@@ -261,7 +248,7 @@
             <div class="slider-tabs">
               <div class="slider-tab app" tabindex="0">
                 <h3>Flash Cash</h3>
-                <p>Send and receive cash instantly and for free</p>
+                <p>Send and receive cash instantly for free</p>
                 <img
                   src="assets/img/pop-bitcoin.png"
                   alt="bitcoin in a popcorn bag"
@@ -270,10 +257,7 @@
               </div>
               <div class="slider-tab app" tabindex="0">
                 <h3>Flash Pay</h3>
-                <p>
-                  Start accepting payment in seconds on any internet connected
-                  device
-                </p>
+                <p>Start accepting payment in seconds on any device</p>
                 <img
                   src="assets/img/bucket-bitcoin.png"
                   alt="bitcoin in a bucket"
@@ -291,80 +275,29 @@
               </div>
             </div>
             <!-- End of Slider Tabs -->
-            <!-- Slider Message -->
             <div class="slider-msg-container">
               <div class="slider-msg">
                 <p>
-                  Touch one of the boxes above to learn more about the many
-                  features of Flash
+                  Select one of the boxes to learn more about the many features
+                  of Flash
                 </p>
               </div>
             </div>
-            <!-- End of Slider Message -->
           </div>
         </div>
       </section>
       <!-- End of Page: About -->
 
-      <!-- add spacer div to separate the text above from below -->
-      <div class="mid-spacer"></div>
-      <!-- Page: Feature Phone -->
-      <section id="pg-mtn" class="pg-mtn page">
-        <div class="bg-yellow mtn-banner">
-          <div class="container col-2-even">
-            <div class="mtn-banner-left">
-              <h2>
-                Flash Bang
-                <!-- add small icon sized image named banga-icon.png inside this h2 tag -->
-                <div class="banga-icon">
-                  <img
-                    id="banga-icon"
-                    src="assets/img/banga-icon.png"
-                    alt="banga icon"
-                    loading="lazy"
-                  />
-                </div>
-              </h2>
-
-              <p>
-                If you have a banga phone (feature phone), you can use
-                <span class="highlight">Flash Bang</span>, our text message
-                service that lets you send and receive eCash, and cash-out at
-                any Flash location. No internet connection required!
-              </p>
-              <h2 class="mar-top-60">Global Linkage</h2>
-              <p>
-                Flash is partnered with
-                <span class="machankura"
-                  ><a href="https://8333.mobi" target="_blank"
-                    >Machankura</a
-                  ></span
-                >, giving you the ability to send and receive Bitcoin from
-                multiple African countries that support Bitcoin over the
-                SMS/USSD network. Connect your banga phone globally with Flash!
-              </p>
-            </div>
-            <div class="mtn-banner-right">
-              <div class="mtn-img-container" id="mtn-img-container">
-                <img
-                  src="assets/img/machankura-phone.png"
-                  alt=""
-                  class="mtn-img"
-                  id="mtn-img"
-                />
-                <img src="assets/img/07_Clouds.png" alt="" id="mtn-clouds" />
-                <canvas id="mtn-lightning"></canvas>
-                <canvas id="user-lightning"></canvas>
-              </div>
+      <!-- Page: FAQ -->
+      <section id="pg-faq" class="page">
+        <div id="faq">
+          <div class="container">
+            <h2>Frequently Asked Questions</h2>
+            <div class="accordion">
+              <!-- Inserted by JS. Edit content in faq.json -->
             </div>
           </div>
         </div>
-      </section>
-      <!-- End of Page: Feature Phone -->
-
-      <!-- Page: FAQ -->
-      <section id="pg-faq" class="page">
-        <div id="faq"></div>
       </section>
       <!-- End of Page: FAQ -->
 
@@ -374,13 +307,13 @@
           <div class="forms-bg" id="forms-bg">
             <div class="cloud-bg">
               <img
-                src="assets/img/03_Clouds.png"
+                src="assets/img/03_Clouds.webp"
                 alt=""
                 class="cloud-contact desktop-only"
                 loading="lazy"
               />
               <img
-                src="assets/img/07_Clouds.png"
+                src="assets/img/07_Clouds.webp"
                 alt=""
                 class="cloud-contact mobile-only"
                 loading="lazy"
@@ -388,10 +321,10 @@
             </div>
 
             <canvas id="lightning-contact"></canvas>
-            <h2>Stay Updated</h2>
-            <div class="col-1-even contact-content">
+            <h2>Contact Us</h2>
+            <div class="col-2-even contact-content">
               <!-- Contact Form -->
-              <!-- <form class="contact-form" method="post">
+              <form class="contact-form" method="post">
                 <div class="formfields">
                   <label for="c-name">Name</label>
                   <input type="text" name="c-name" id="c-name" />
@@ -481,7 +414,7 @@
                   </svg>
                   <p>Thanks for reaching out to us!</p>
                 </div>
-                <!-- Error Notice: Contact Form 
+                <!-- Error Notice: Contact Form -->
                 <div class="error-msg form-error hidden">
                   <p>
                     We're sorry! Something went wrong and your message didn't
@@ -491,14 +424,23 @@
                     <button id="close-error-msg" class="button-2">Close</button>
                   </div>
                 </div>
-              </form> -->
+              </form>
               <!-- End of Contact Form -->
               <!-- Waitlist Form -->
-              <form class="waitlist-form" method="post">
+              <iframe
+                src="https://www.waitwhile.com/locations/getflash/waitlist/add"
+                allowtransparency="true"
+                frameborder="0"
+                scrolling="no"
+                width="100%"
+                height="700px"
+                style="background: transparent"
+              ></iframe>
+              <!-- <form class="waitlist-form" method="post">
                 <div class="formfields">
                   <p>
-                    Sign up for our newsletter to receive the latest news and
-                    updates about Flash.
+                    Sign up for the waitlist with your email address to receive
+                    news and updates.
                   </p>
                   <input
                     type="email"
@@ -522,9 +464,9 @@
                 <div class="success-waitlist form-success">
                   <h2>You've been added to our waitlist!</h2>
                   <p>We'll reach out to you soon with the latest on Flash!</p>
-                </div>
-                <!-- Error Notice: Waitlist Form -->
-                <div class="error-waitlist form-error hidden">
+                </div> -->
+              <!-- Error Notice: Waitlist Form -->
+              <!-- <div class="error-waitlist form-error hidden">
                   <p>
                     We're sorry! Something went wrong and we couldn't add you to
                     our waitlist.
@@ -535,7 +477,7 @@
                     </button>
                   </div>
                 </div>
-              </form>
+              </form> -->
               <!-- End of Waitlist Form -->
             </div>
           </div>
@@ -554,7 +496,11 @@
       <!-- Dark Mode Switch -->
       <div class="darkmode" id="darkmode">
         <div class="container">
-          <label for="dark-switch" class="switch-container">
+          <label
+            for="dark-switch"
+            class="switch-container"
+            aria-label="Switch between dark and light mode of website"
+          >
             <svg
               id="icon-sun"
               xmlns="http://www.w3.org/2000/svg"
@@ -833,5 +779,36 @@
         />
       </symbol>
     </svg>
+
+    <!-- jQuery CDN -->
+    <script
+      src="https://code.jquery.com/jquery-3.7.0.min.js"
+      integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g="
+      crossorigin="anonymous"
+    ></script>
+    <!-- Local jQuery (uncomment if prefer not to use CDN and comment out CDN instead) -->
+    <!-- <script src="js/jquery-3.6.4.min.js"></script> -->
+
+    <!-- Custom JS -->
+    <script src="js/main.js"></script>
+    <script src="js/faqFetch.js"></script>
+    <script src="js/lightning.js"></script>
+    <script src="js/tch-lightning.js"></script>
+    <script src="js/slider.js"></script>
+
+    <script
+      src="https://nostri-chat-hosted.f9ofwt.click/public/bundle.js"
+      data-chat-type="GLOBAL"
+      data-chat-tags="flashsupport"
+      data-hidenostricon="false"
+      data-simplifynostrnext="true"
+      data-accentcolor="#ECF8ED,#D6F0D8,#B1E2B4,#88D28D,#60C366,#41AD49,#348939,#27682B,#1A461D,#0D210E"
+      data-relays="wss://relay.f7z.io,wss://nos.lol,wss://relay.nostr.band,wss://relay.nostr.info,wss://nostr-pub.wellorder.net,wss://relay.current.fyi"
+      data-start-page="chat"
+    ></script>
+    <link
+      rel="stylesheet"
+      href="https://nostri-chat-hosted.f9ofwt.click/public/bundle.css"
+    />
   </body>
 </html>
