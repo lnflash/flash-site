@@ -1,0 +1,9 @@
+# AuthType Basic
+# AuthName "Protected Site"
+# AuthUserFile /home3/lnflash1/.htpasswds/.htpasswd
+# require valid-user
+
+# Redirect HTTP to HTTPS
+RewriteEngine On
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
