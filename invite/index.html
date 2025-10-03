@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Flash - You're Invited!</title>
+    <style>
+        :root {
+            --brand1: #667eea;
+            --brand2: #764ba2;
+            --ink: #1b1b1f;
+            --muted: #646b78;
+            --bg: #ffffff;
+            --surface: #f8f9fa;
+            --border: #e9ecef;
+            --ring: rgba(102, 126, 234, .35);
+            --radius: 14px;
+            --fs-sm: 13px;
+            --fs-base: 15px;
+            --fs-lg: 18px;
+            --fs-xl: 24px;
+            --fs-2xl: 28px;
+            --space: clamp(16px, 2.5vw, 28px);
+            --card-pad: clamp(16px, 2.2vw, 24px);
+            --container-w: clamp(360px, 92vw, 820px);
+            --content-w: min(680px, 100%);
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        html,
+        body {
+            height: 100%
+        }
+
+        body {
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: linear-gradient(135deg, var(--brand1) 0%, var(--brand2) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: var(--space);
+            color: var(--ink);
+        }
+
+        .shell {
+            width: var(--container-w);
+        }
+
+        .container {
+            background: var(--bg);
+            border-radius: 20px;
+            padding: clamp(20px, 3vw, 36px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, .22);
+            width: 100%;
+            margin-inline: auto;
+        }
+
+        .stack {
+            display: flex;
+            flex-direction: column;
+            gap: clamp(12px, 2.2vw, 18px);
+            align-items: stretch;
+            width: var(--content-w);
+            margin-inline: auto;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            justify-content: center;
+        }
+
+        .logo img {
+            height: clamp(28px, 3.6vw, 40px);
+            width: auto
+        }
+
+        .badge {
+            font-size: var(--fs-sm);
+            padding: 2px 8px;
+            border-radius: 999px;
+            border: 1px solid var(--border);
+            color: #444;
+            background: #fff;
+        }
+
+        h1 {
+            font-size: clamp(var(--fs-xl), 3.2vw, var(--fs-2xl));
+            margin: 0;
+            text-align: center;
+        }
+
+        .title {
+            font-size: clamp(var(--fs-base), 1.9vw, var(--fs-lg));
+            margin: 0;
+            text-align: center;
+            line-height: 1.4;
+        }
+
+        .subtitle {
+            color: var(--muted);
+            font-size: clamp(var(--fs-base), 1.7vw, var(--fs-lg));
+            margin: 0;
+            text-align: center;
+            line-height: 1.5
+        }
+
+        /* Consent card */
+        .consent-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: var(--card-pad);
+        }
+
+        .choice {
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+            padding: 10px;
+            border-radius: 10px;
+        }
+
+        .choice+.choice {
+            margin-top: 8px;
+        }
+
+        .choice:focus-within {
+            outline: 2px solid var(--ring);
+            outline-offset: 2px;
+        }
+
+        .choice input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--brand1);
+            margin-top: 2px;
+            flex: 0 0 auto;
+        }
+
+        .choice-label {
+            line-height: 1.4;
+            color: var(--ink);
+        }
+
+        .choice-title {
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: clamp(var(--fs-base), 1.6vw, var(--fs-lg));
+        }
+
+        .choice-desc {
+            color: var(--muted);
+            font-size: var(--fs-sm);
+            margin-top: 2px;
+        }
+
+        .badge.inline {
+            font-size: 11px;
+            padding: 2px 6px;
+            border-radius: 999px;
+            border: 1px solid var(--border);
+            color: #444;
+            background: #fff;
+        }
+
+        .optional {
+            opacity: .85
+        }
+
+        /* Tooltip */
+        .tip {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .tip-btn {
+            border: 0;
+            background: transparent;
+            cursor: pointer;
+            line-height: 0;
+            padding: 2px;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: #777;
+        }
+
+        .tip-btn:focus {
+            outline: 2px solid var(--ring);
+        }
+
+        .tip-balloon {
+            position: absolute;
+            z-index: 5;
+            top: calc(100% + 6px);
+            left: 0;
+            min-width: 240px;
+            max-width: 360px;
+            background: #111;
+            color: #fff;
+            border-radius: 10px;
+            padding: 10px 12px;
+            font-size: 12px;
+            line-height: 1.45;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, .35);
+            opacity: 0;
+            transform: translateY(-6px);
+            pointer-events: none;
+            transition: opacity .18s ease, transform .18s ease;
+        }
+
+        .tip[aria-expanded="true"] .tip-balloon {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        /* Details (progressive disclosure) */
+        details {
+            margin: 10px 0 0;
+            border-radius: 10px;
+        }
+
+        summary {
+            list-style: none;
+            cursor: pointer;
+            user-select: none;
+            padding: 10px 12px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #334;
+            font-weight: 600;
+            background: #fff;
+            border: 1px solid var(--border);
+        }
+
+        summary::-webkit-details-marker {
+            display: none
+        }
+
+        .chev {
+            transition: transform .2s ease;
+        }
+
+        details[open] .chev {
+            transform: rotate(90deg);
+        }
+
+        .panel {
+            border: 1px solid var(--border);
+            border-top: 0;
+            border-radius: 0 0 10px 10px;
+            padding: 10px 12px;
+            background: #fff;
+        }
+
+        .row {
+            font-size: 12px;
+            color: #444;
+            display: flex;
+            gap: 8px;
+            margin: 6px 0;
+            flex-wrap: wrap;
+        }
+
+        .row b {
+            min-width: 86px;
+            color: #333
+        }
+
+        .examples {
+            margin-top: 8px;
+            padding: 8px 10px;
+            background: #fafafa;
+            border: 1px dashed #e6e6e6;
+            border-radius: 8px;
+        }
+
+        .examples li {
+            margin: 4px 0;
+            font-size: 12px;
+        }
+
+        .links {
+            font-size: 12px;
+            color: #555;
+            margin-top: 8px;
+        }
+
+        .links a {
+            color: #4d60e6;
+            text-decoration: underline;
+        }
+
+        /* Actions & badges */
+        .actions {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+            margin-top: 6px;
+        }
+
+        .btn {
+            border: 0;
+            border-radius: 10px;
+            padding: 14px 18px;
+            font-weight: 700;
+            font-size: clamp(14px, 1.6vw, 16px);
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            color: #fff;
+            background: linear-gradient(135deg, var(--brand1) 0%, var(--brand2) 100%);
+            transition: transform .18s ease, box-shadow .18s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 10px 18px rgba(102, 126, 234, .35)
+        }
+
+        .btn-primary:disabled {
+            opacity: .5;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .btn-ghost {
+            background: #f0f0f0;
+            color: #222;
+        }
+
+        .store-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            align-items: center;
+            justify-content: center;
+            margin-top: 14px;
+            padding-top: 12px;
+            border-top: 1px solid #eee;
+        }
+
+        .app-badge {
+            height: 40px
+        }
+
+        .loading {
+            display: none;
+            color: #666;
+            margin-top: 8px;
+            font-size: 14px;
+            text-align: center;
+        }
+
+        .error {
+            display: none;
+            color: #b42318;
+            background: #fee;
+            border: 1px solid #f7c8c6;
+            padding: 10px 12px;
+            border-radius: 10px;
+            margin-top: 10px;
+            font-size: 14px;
+            text-align: center;
+        }
+
+        /* Responsive enhancements */
+        @media (min-width: 680px) {
+            .actions {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (min-width: 900px) {
+            .container {
+                padding: clamp(28px, 3.6vw, 44px);
+            }
+
+            .consent-card {
+                padding: clamp(18px, 2.4vw, 28px);
+            }
+
+            .choice {
+                padding: clamp(10px, 1.2vw, 14px);
+            }
+        }
+
+        /* Motion respect */
+        @media (prefers-reduced-motion: reduce) {
+            .btn-primary:hover {
+                transform: none;
+                box-shadow: none
+            }
+
+            .tip-balloon,
+            .chev {
+                transition: none
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="shell">
+        <div class="container" role="main">
+            <div class="stack">
+                <div class="header">
+                    <div class="logo"><img src="https://getflash.io/assets/img/logo-black.png" alt="Flash Logo" /></div>
+                    <div class="badge">Invite</div>
+                </div>
+
+                <h1>You're Invited!</h1>
+                <p class="title">Join <strong>Flash</strong> to send, spend, and save with a fast, modern wallet.</p>
+                <p class="subtitle">To get started, please review and accept the consents below.</p>
+
+                <!-- Consents -->
+                <div class="consent-card" id="consentSection">
+                    <!-- Transactional / Authentication -->
+                    <label class="choice" for="consentTransactional">
+                        <input type="checkbox" id="consentTransactional" required />
+                        <div class="choice-label">
+                            <div class="choice-title">
+                                Important Account Messages
+                                <span class="badge inline">Required</span>
+                            </div>
+                            <div class="choice-desc">
+                                Security codes, login alerts, and receipts
+                                <span class="muted">(Transactional)</span>
+                            </div>
+                        </div>
+                    </label>
+
+                    <!-- Marketing / Promotional -->
+                    <label class="choice" for="consentMarketing">
+                        <input type="checkbox" id="consentMarketing" />
+                        <div class="choice-label">
+                            <div class="choice-title">
+                                Offers & Updates
+                                <span class="badge inline optional">Optional</span>
+                            </div>
+                            <div class="choice-desc">
+                                Promotions, rewards, and product news
+                                <span class="muted">(Marketing)</span>
+                            </div>
+                        </div>
+                    </label>
+
+                    <!-- Progressive disclosure: full compliance copy -->
+                    <details>
+                        <summary><span class="chev">▶</span> Details & compliance</summary>
+                        <div class="panel">
+                            <div class="row"><b>Transactional:</b> Message & data rates may apply. Reply
+                                <strong>STOP</strong> to opt out of account texts. Reply <strong>HELP</strong> for help.
+                                Frequency: as needed.
+                            </div>
+                            <div class="row"><b>Marketing:</b> Message & data rates may apply. Reply
+                                <strong>STOP</strong> to opt out of marketing texts. Reply <strong>HELP</strong> for
+                                help. Frequency: up to 4/mo.
+                            </div>
+
+                            <details style="margin-top:8px">
+                                <summary><span class="chev">▶</span> See sample messages</summary>
+                                <div class="panel">
+                                    <div class="examples">
+                                        <ul>
+                                            <li><b>Security code (TXN):</b> Your Flash code is 842193. Expires in 10
+                                                minutes.</li>
+                                            <li><b>Receipt (TXN):</b> You paid JMD $1,250 at Market St. Grocer. View
+                                                receipt in app.</li>
+                                            <li><b>Login alert (TXN):</b> New login to your account. If this wasn’t you,
+                                                open the app to secure your account.</li>
+                                            <li><b>Offer (MKT):</b> Earn 5% back in points at participating shops this
+                                                weekend.</li>
+                                            <li><b>Update (MKT):</b> Tap-to-pay with Flash Card now live.</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </details>
+
+                            <div class="links" aria-live="polite">
+                                By continuing you agree to our
+                                <a href="https://getflash.io/legal/terms.html" target="_blank" rel="noopener">Terms of
+                                    Service</a> and
+                                <a href="https://getflash.io/legal/privacy.html" target="_blank" rel="noopener">Privacy
+                                    Policy</a>.
+                            </div>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="actions">
+                    <button class="btn btn-primary" id="acceptBtn" onclick="acceptInvite()" disabled>Accept
+                        Invitation</button>
+                    <button class="btn btn-ghost" onclick="openInApp()">I already have the app</button>
+                </div>
+
+                <div class="store-badges">
+                    <a href="https://apps.apple.com/jm/app/flash-send-spend-and-save/id6451129095" target="_blank"
+                        rel="noopener">
+                        <img src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/en-us?size=250x83"
+                            alt="Download on the App Store" class="app-badge">
+                    </a>
+                    <a href="https://play.google.com/store/apps/details?id=com.lnflash" target="_blank" rel="noopener">
+                        <img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png"
+                            alt="Get it on Google Play" class="app-badge" style="height:55px">
+                    </a>
+                </div>
+
+                <div class="loading" role="status" aria-live="polite">Processing your invitation…</div>
+                <div class="error" role="alert"><strong>Oops!</strong> <span id="error-message">Something went
+                        wrong.</span></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Token
+        const urlParams = new URLSearchParams(window.location.search);
+        const token = urlParams.get('token');
+        if (token) localStorage.setItem('inviteToken', token);
+
+        // Device detect
+        function detectDevice() {
+            const ua = navigator.userAgent || navigator.vendor || window.opera;
+            if (/iPad|iPhone|iPod/.test(ua) && !window.MSStream) return 'ios';
+            if (/android/i.test(ua)) return 'android';
+            return 'desktop';
+        }
+
+        function openInApp() {
+            if (!token) { showError('Invalid invitation link'); return; }
+            const device = detectDevice();
+            const deepLink = `flash://invite?token=${encodeURIComponent(token)}`;
+            const appStore = device === 'ios'
+                ? 'https://apps.apple.com/app/flash-bitcoin-wallet/id6450380718'
+                : 'https://play.google.com/store/apps/details?id=com.lnflash';
+            window.location.href = deepLink;
+            setTimeout(() => {
+                if (document.visibilityState === 'visible') window.location.href = appStore;
+            }, 2500);
+        }
+
+        // Enable accept when transactional is checked
+        const transactionalEl = document.getElementById('consentTransactional');
+        const marketingEl = document.getElementById('consentMarketing');
+        const acceptBtn = document.getElementById('acceptBtn');
+        function updateAccept() { acceptBtn.disabled = !transactionalEl.checked; }
+        transactionalEl.addEventListener('change', updateAccept);
+        marketingEl.addEventListener('change', () => { });
+        updateAccept();
+
+        // Tooltips (no dependencies)
+        const tips = document.querySelectorAll('.tip');
+        tips.forEach(t => {
+            const btn = t.querySelector('.tip-btn');
+            btn.addEventListener('click', () => {
+                const expanded = t.getAttribute('aria-expanded') === 'true';
+                tips.forEach(o => { if (o !== t) o.setAttribute('aria-expanded', 'false'); });
+                t.setAttribute('aria-expanded', expanded ? 'false' : 'true');
+            });
+        });
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.tip')) tips.forEach(t => t.setAttribute('aria-expanded', 'false'));
+        });
+        document.addEventListener('keydown', (e) => { if (e.key === 'Escape') tips.forEach(t => t.setAttribute('aria-expanded', 'false')); });
+
+        // Compliance logging (same, lightweight)
+        const CONSENT_VERSION = 'FLASH_CONSENT_V2_2025-09-23';
+        function nowISO() { return new Date().toISOString(); }
+
+        async function acceptInvite() {
+            if (!token) { showError('Invalid invitation link'); return; }
+            if (!transactionalEl.checked) { showError('Account & Transactional consent is required to continue.'); return; }
+
+            document.querySelector('.loading').style.display = 'block';
+            document.querySelector('.error').style.display = 'none';
+
+            const consentRecord = {
+                token,
+                page: window.location.href,
+                userAgent: navigator.userAgent,
+                timestamp: nowISO(),
+                version: CONSENT_VERSION,
+                consents: {
+                    transactional: { optedIn: transactionalEl.checked, purpose: '2FA/security codes, receipts, alerts', frequency: 'as needed' },
+                    marketing: { optedIn: marketingEl.checked, purpose: 'offers, rewards, product updates, events', frequency: 'up to 4/mo' }
+                }
+            };
+
+            try {
+                await fetch('https://api.flashapp.me/consent/log', {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(consentRecord), keepalive: true
+                });
+            } catch (e) { console.warn('Consent log failed (non-blocking):', e); }
+
+            try {
+                const resp = await fetch('https://api.flashapp.me/graphql', {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        query: `
+              mutation RedeemInvite($token: String!, $consent: InviteConsentInput) {
+                redeemInvite(input: { token: $token, consent: $consent }) {
+                  success
+                  errors
+                }
+              }
+            `,
+                        variables: {
+                            token,
+                            consent: {
+                                version: CONSENT_VERSION,
+                                transactionalOptIn: !!transactionalEl.checked,
+                                marketingOptIn: !!marketingEl.checked,
+                                timestamp: consentRecord.timestamp,
+                                sourceUrl: consentRecord.page,
+                                userAgent: consentRecord.userAgent
+                            }
+                        }
+                    })
+                });
+                const data = await resp.json();
+                if (data.errors || (data.data && !data.data.redeemInvite?.success)) {
+                    const msg = data.data?.redeemInvite?.errors?.[0] || 'Invalid or expired invitation';
+                    if (msg.toLowerCase().includes('already been used')) { openInApp(); return; }
+                    showError(msg);
+                    document.querySelector('.loading').style.display = 'none';
+                    return;
+                }
+            } catch (err) {
+                console.error('Redeem error:', err);
+                // continue; app can validate
+            }
+
+            document.querySelector('.loading').style.display = 'none';
+
+            const device = detectDevice();
+            if (device === 'ios') {
+                window.location.href = `flash://invite?token=${encodeURIComponent(token)}`;
+                setTimeout(() => {
+                    if (document.visibilityState === 'visible') {
+                        window.location.href = 'https://apps.apple.com/app/flash-bitcoin-wallet/id6450380718';
+                    }
+                }, 2500);
+            } else if (device === 'android') {
+                window.location.href = `flash://invite?token=${encodeURIComponent(token)}`;
+                setTimeout(() => {
+                    if (document.visibilityState === 'visible') {
+                        window.location.href = 'https://play.google.com/store/apps/details?id=com.lnflash';
+                    }
+                }, 2500);
+            }
+        }
+
+        function showError(message) {
+            const el = document.getElementById('error-message');
+            el.textContent = message;
+            document.querySelector('.error').style.display = 'block';
+            document.querySelector('.loading').style.display = 'none';
+        }
+    </script>
+</body>
+
+</html>

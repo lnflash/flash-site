@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pulse - Keep Your Finger on it.</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #0088cc;
+            --primary-dark: #006ba6;
+            --secondary: #25d366;
+            --dark: #0a0e27;
+            --light: #f0f4f8;
+            --accent: #ff6b6b;
+            --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 50%, #0a0e27 100%);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(102, 126, 234, 0.1) 0%, transparent 70%);
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+                opacity: 0.5;
+            }
+
+            50% {
+                transform: scale(1.1);
+                opacity: 0.3;
+            }
+        }
+
+        .hero-content {
+            text-align: center;
+            z-index: 1;
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            margin-bottom: 1rem;
+            animation: heartbeat 2s ease-in-out infinite;
+        }
+
+        .logo img {
+            width: 120px;
+            height: auto;
+            max-width: 100%;
+        }
+
+        @keyframes heartbeat {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            25% {
+                transform: scale(1.1);
+            }
+
+            50% {
+                transform: scale(1);
+            }
+
+            75% {
+                transform: scale(1.1);
+            }
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            color: #fff;
+            margin-bottom: 1rem;
+            font-weight: 700;
+            letter-spacing: -1px;
+        }
+
+        .tagline {
+            font-size: 1.5rem;
+            color: #b8c5d6;
+            margin-bottom: 2rem;
+            font-weight: 300;
+        }
+
+        .hero-description {
+            font-size: 1.2rem;
+            color: #9ca8b8;
+            margin-bottom: 3rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 3rem;
+            background: var(--secondary);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(37, 211, 102, 0.3);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(37, 211, 102, 0.4);
+        }
+
+        /* Features Grid */
+        .features {
+            padding: 5rem 2rem;
+            background: var(--light);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: var(--dark);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient);
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+        }
+
+        .feature-card:hover::before {
+            transform: translateX(0);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-title {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+
+        .feature-description {
+            color: #666;
+            line-height: 1.8;
+        }
+
+        /* How It Works */
+        .how-it-works {
+            padding: 5rem 2rem;
+            background: white;
+        }
+
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+
+        .step {
+            text-align: center;
+            position: relative;
+        }
+
+        .step-number {
+            display: inline-block;
+            width: 60px;
+            height: 60px;
+            background: var(--gradient);
+            color: white;
+            border-radius: 50%;
+            line-height: 60px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .step-title {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+
+        .start-now-container {
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+
+        /* Commands Section */
+        .commands {
+            padding: 5rem 2rem;
+            background: #f8f9fa;
+        }
+
+        .commands-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .command {
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            border-left: 4px solid var(--primary);
+            transition: all 0.2s ease;
+        }
+
+        .command:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .command-name {
+            color: var(--primary);
+            font-weight: bold;
+        }
+
+        .command-desc {
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: 0.25rem;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--dark);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .footer-links {
+            margin-top: 2rem;
+        }
+
+        .footer-links a {
+            color: #9ca8b8;
+            text-decoration: none;
+            margin: 0 1rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .logo img {
+                width: 100px;
+            }
+
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            .tagline {
+                font-size: 1.2rem;
+            }
+
+            .hero-description {
+                font-size: 1rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .features,
+            .how-it-works,
+            .commands {
+                padding: 3rem 1rem;
+            }
+
+            .footer {
+                padding: 2rem 1rem;
+            }
+
+            .cta-button {
+                font-size: 1rem;
+                padding: 0.8rem 1.5rem;
+            }
+
+            .footer-links {
+                display: flex;
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .footer-links a {
+                margin: 0;
+            }
+
+            .commands-grid {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            }
+        }
+
+        /* Animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeIn 0.8s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .security-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(37, 211, 102, 0.1);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            color: var(--secondary);
+            font-size: 0.9rem;
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="logo">
+                <a href="https://wa.me/18673225224?text=link" style="animation-delay: 0.6s;" target="_blank">
+                    <img src="pulse-logo-3-sm.png" style="width: 300px; height: auto;" alt="Pulse Logo">
+                </a>
+            </div>
+            <p class="tagline fade-in" style="animation-delay: 0.2s">Keep your finger on it.</p>
+            <p class="hero-description fade-in" style="animation-delay: 0.4s">
+                The easiest way to manage your money directly through WhatsApp.
+                Send, receive, and track payments with simple messages in DMs and Group Chats.
+            </p>
+            <a href="https://wa.me/18673225224?text=link" class="cta-button fade-in" style="animation-delay: 0.6s">
+                Get Started with WhatsApp →
+            </a><br />
+            <div class="security-badge fade-in" style="animation-delay: 0.8s">
+                🔒 Secure • 🚀 Instant • 💬 WhatsApp Native
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="how-it-works">
+        <div class="container">
+            <h2 class="section-title">Get Started in 60 Seconds</h2>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3 class="step-title">Message The Bot</h3>
+                    <p>Send "link" to our WhatsApp number to begin</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3 class="step-title">Verify Your Number</h3>
+                    <p>Enter the 6-digit code sent to your WhatsApp </p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3 class="step-title">Start Using Pulse</h3>
+                    <p>Send "balance" to check your wallet anytime</p>
+                </div>
+            </div>
+            <!-- create a link to WhatsApp with the phone number pre-filled with "link" -->
+        </div>
+        <div class="start-now-container">
+            <a href="https://wa.me/18673225224?text=link" class="cta-button">Start Now</a>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="container">
+            <h2 class="section-title">Everything You Need in Your Pocket</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">📱</div>
+                    <h3 class="feature-title">WhatsApp Native</h3>
+                    <p class="feature-description">
+                        No new apps to download. Use the messaging app you already love to manage your Bitcoin.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3 class="feature-title">Lightning Fast</h3>
+                    <p class="feature-description">
+                        Send and receive bitcoin instantly with the Lightning Network. Real-time balance updates.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🌍</div>
+                    <h3 class="feature-title">USD Denominated</h3>
+                    <p class="feature-description">
+                        View your balance in USD. No bitcoin volatility on your money!
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🤖</div>
+                    <h3 class="feature-title">AI-Powered Support</h3>
+                    <p class="feature-description">
+                        Get instant help from our AI assistant or seamlessly connect with human support.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">👥</div>
+                    <h3 class="feature-title">Social Payments</h3>
+                    <p class="feature-description">
+                        Send to anyone via username, phone number, or contact. Even if they don't have Flash yet!
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3 class="feature-title">Voice Commands</h3>
+                    <p class="feature-description">
+                        Send voice notes to check balance, make payments, or get help. Natural language processing
+                        included.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Commands Section -->
+    <section class="commands">
+        <div class="container">
+            <h2 class="section-title">Simple Commands, Powerful Features</h2>
+            <div class="commands-grid">
+                <div class="command">
+                    <div class="command-name">link</div>
+                    <div class="command-desc">Link your WhatsApp account</div>
+                </div>
+                <div class="command">
+                    <div class="command-name">balance</div>
+                    <div class="command-desc">Check your wallet</div>
+                </div>
+                <div class="command">
+                    <div class="command-name">send 10 to alice</div>
+                    <div class="command-desc">Send payments</div>
+                </div>
+                <div class="command">
+                    <div class="command-name">receive 25</div>
+                    <div class="command-desc">Create invoice</div>
+                </div>
+                <div class="command">
+                    <div class="command-name">history</div>
+                    <div class="command-desc">View transactions</div>
+                </div>
+                <div class="command">
+                    <div class="command-name">price</div>
+                    <div class="command-desc">Bitcoin price</div>
+                </div>
+                <div class="command">
+                    <div class="command-name">contacts</div>
+                    <div class="command-desc">Manage your contacts</div>
+                </div>
+                <div class="command">
+                    <div class="command-name">admin</div>
+                    <div class="command-desc">Configure your admin preferences (self-hosting)</div>
+                </div>
+                <div class="command">
+                    <div class="command-name">help</div>
+                    <div class="command-desc">See the list of commands</div>
+                </div>
+                <div class="command">
+                    <div class="command-name">support</div>
+                    <div class="command-desc">Get human assistance</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Island Bitcoin LLC. Built with ⚡ for the world.</p>
+            <div class="footer-links">
+                <a href="https://github.com/lnflash/pulse">GitHub</a>
+                <a href="https://documentation.getflash.io">Documentation</a>
+                <a href="https://wa.me/18762909250?text=help">Support</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Add fade-in animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '0';
+                    entry.target.style.transform = 'translateY(30px)';
+                    entry.target.style.animation = 'fadeIn 0.8s ease forwards';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.feature-card, .step, .command').forEach(el => {
+            observer.observe(el);
+        });
+    </script>
+</body>
+
+</html>

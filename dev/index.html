@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Connecting the Caribbean with Global Cash." />
+  <!-- Add two link elements for favicon -->
+  <link rel="shortcut icon" type="image/png" href="assets/img/favicon-32x32.png" sizes="32x32" />
+  <link rel="icon" type="image/png" href="assets/img/favicon-16x16.png" sizes="16x16" />
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+    rel="stylesheet">
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/main.css" />
+  <title>Flash | Bitcoin</title>
+</head>
+
+<body class="dark-mode">
+  <header>
+    <div class="container">
+      <div class="logo-container">
+        <a href="#pg-download" class="no-style">
+          <img src="assets/img/logo-black.png" alt="Flash" class="light" />
+          <img src="assets/img/logo-white.png" alt="Flash" class="dark" />
+        </a>
+      </div>
+      <!-- Navigation -->
+      <nav>
+        <svg id="open-nav" class="nav-icon mobile-only" aria-label="close menu" width="41" height="15"
+          viewBox="0 0 41 15" xmlns="http://www.w3.org/2000/svg">
+          <line x1="2" y1="2" x2="39" y2="2" stroke="#161313" stroke-width="4" stroke-linecap="round" />
+          <line x1="15" y1="13" x2="39" y2="13" stroke="#161313" stroke-width="4" stroke-linecap="round" />
+        </svg>
+        <ul class="main-nav" id="main-nav" data-mob-state="closed">
+          <li class="mobile-only">
+            <svg id="close-nav" class="nav-icon" aria-label="close menu" width="26" height="26" viewBox="0 0 26 26"
+              xmlns="http://www.w3.org/2000/svg">
+              <path d="M23.2129 2L1.99969 23.2132" stroke="black" stroke-width="4" stroke-linecap="round" />
+              <path d="M2.21289 2L23.4261 23.2132" stroke="black" stroke-width="4" stroke-linecap="round" />
+            </svg>
+          </li>
+          <li class="darkmode-switch mobile-only">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true">
+              <use href="#lightbulb" class="lightbulb"></use>
+            </svg>
+          </li>
+          <li><a href="#pg-download" class="nav-link mobile-only active">Home</a></li>
+          <li><a href="#pg-about" class="nav-link">About</a></li>
+          <li><a href="#pg-faq" class="nav-link">FAQ</a></li>
+          <li><a href="#pg-contact" class="nav-link">Contact</a></li>
+        </ul>
+      </nav>
+      <!-- End of Navigation -->
+      <div id="bitcoin-price" class="btc-widget">
+        <h3>Bitcoin Price:</h3>
+        <p>1 BTC = $ <span id="btc-value"></span> USD</p>
+      </div>
+      <div class="darkmode-switch desktop-only">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true">
+          <use href="#lightbulb" class="lightbulb"></use>
+        </svg>
+        <p class="desktop-only">Dark Mode <span id="darkmode-text">On</span></p>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Page: Download / Hero -->
+    <section id="pg-download" class="pg-download page">
+      <!-- Canvas drawn to via lightning.js -->
+      <canvas id="lightning-storm"></canvas>
+      <!-- City Background -->
+      <img class="banner-bg wide-bg" src="assets/img/kingston.svg" alt="">
+      <img class="banner-bg small-bg" src="assets/img/kingston-small.svg" alt="">
+      <!-- Content -->
+      <div class="container col-2-even">
+        <div class="banner-left">
+          <h1 class="banner-txt">Connecting the <span class="banner-highlight">Caribbean</span></h1>
+          <h3>Borderless Bitcoin at lightning speed</h3>
+          <div class="downloads-container mar-top-50">
+            <a href="https://play.google.com/store/apps/details?id=com.lnflash" target="_blank" id="googleplay-link"
+              class="no-style">
+              <img src="assets/img/google-play-badge.png" alt="Get it on Google Play" />
+            </a>
+            <a href="https://apps.apple.com/jm/app/flash-send-spend-and-save/id6451129095" target="_blank"
+              id="appstore-link" class="no-style">
+              <img src="assets/img/ios-badge.png" alt="Download on the App Store" />
+            </a>
+          </div>
+        </div>
+        <div class="banner-right" id="videoContainer">
+          <video autoplay playsinline muted id="bannerVideo" class="banner-video">
+            <!-- Fill in sources via JS to avoid Firefox Android selecting .mov source over .webm -->
+          </video>
+        </div>
+      </div>
+    </section>
+    <!-- End of Page: Download / Hero -->
+
+    <!-- Page: About -->
+    <section id="pg-about" class="pg-about page">
+      <div class="about-banner divider">
+        <div class="container col-2-even">
+          <div class="about-banner-left">
+            <h2>Get Bitcoin Easily</h2>
+            <p>Buy Bitcoin directly in the app, or with cash at our physical flashpoint locations</p>
+            <h2 class="mar-top-50">Be Your Own Bank</h2>
+            <p>Made with convenience and ease of use in mind, Flash gives you the power of a bank account in the palm of
+              your hand * <!-- Add in smaller print that this is not an actual bank account -->
+            </p>
+            <h2 class="mar-top-50">No Signup Needed</h2>
+            <p>No ID, no Mobile Number, no Email. Just <a href="#pg-download">download Flash</a> and you are ready to
+              receive cash! **</p>
+
+            <p class="about-note mar-top-50">* Not an actual bank account</p>
+            <p class="about-note">** No ID, phone or email required to send and
+              receive up to the trial account limit. In order to
+              secure and restore your account, it is strongly recommended that you provide a phone number or email
+              address. Additional information may be required for new business accounts.</p>
+          </div>
+          <div class="about-banner-right">
+            <div id="flash-globe" class="flash-globe"></div>
+          </div>
+        </div>
+      </div>
+      <div class="about-modes container" id="about-modes">
+        <h3 class="mar-top-60 mar-btm-5">Flash is for Everyone</h3>
+        <p>Buying, Selling, Building, Creating or Connecting - Flash can electrify whatever it is that you do in life.
+        </p>
+        <!-- Cards -->
+        <div class="cards">
+          <div class="card app active" tabindex="0">
+            <h3>Flash App</h3>
+            <p>Buy, sell, send & receive Bitcoin instantly</p>
+            <img src="assets/img/Crypto_Market.png" alt="" loading="lazy" />
+          </div>
+          <div class="card app" tabindex="0">
+            <h3>Flash Card</h3>
+            <p>Earn & redeem rewards with tap-to-pay cards</p>
+            <img src="assets/img/wallet.png" alt="" loading="lazy" />
+          </div>
+          <div class="card app" tabindex="0">
+            <h3>Flash Point</h3>
+            <p>A 21st century POS and eCommerce solution for the Caribbean</p>
+            </p>
+            <img src="assets/img/register.png" alt="" loading="lazy" />
+          </div>
+        </div>
+        <!-- End of Cards -->
+        <div class="card-msg-container">
+          <div class="card-msg">
+            <!-- Changed by JS -->
+            <p>Bitcoin gives you the power of a bank in the palm of your hand, without the need for a bank account.</p>
+          </div>
+          <svg height="100%" width="100%" xmlns="httphttp://www.w3.org/2000/svg">
+            <rect rx="0" r7="0" class="wiper" id="wiper" height="100%" />
+            <rect rx="0" r7="0" class="slider" id="slider-n" height="100%" />
+            <rect rx="0" r7="0" class="slider" id="slider-g" height="100%" />
+            <rect rx="0" r7="0" class="slider" id="slider-y" height="100%" />
+            <rect rx="12" ry="12" class="msg-border" height="100%" width="100%" stroke-linejoin="round"
+              stroke-linecap="round" />
+          </svg>
+        </div>
+      </div>
+    </section>
+    <!-- End of Page: About -->
+
+    <!-- Page: FAQ -->
+    <section id="pg-faq" class="page">
+      <div id="faq" class="faq divider">
+        <div class="container">
+          <h2>Frequently Asked Questions</h2>
+          <div class="accordion">
+            <!-- Inserted by JS. Edit content in faq.json -->
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- End of Page: FAQ -->
+
+    <!-- Page: Contact -->
+    <section id="pg-contact" class="pg-contact page">
+      <div class="container">
+        <div class="forms-bg" id="forms-bg">
+          <h2>Contact Us</h2>
+          <div class="col-2-even contact-content">
+            <!-- Text & Socials -->
+            <div class="contact-txt">
+              <h3>Got something to ask?</h3>
+              <p>Get in Touch</p>
+              <p class="contact-txt-para">Email us or complete the form if you have a specific query or would like to
+                know more about how Flash can be integrated into your business transaction pipeline.</p>
+              <div class="flash-email">
+                <svg id="icon-email" width="32" height="32" viewBox="0 0 32 32" fill="none"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <path d="M28 7L16 18L4 7" stroke="white" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round" />
+                  <path
+                    d="M4 7H28V24C28 24.2652 27.8946 24.5196 27.7071 24.7071C27.5196 24.8946 27.2652 25 27 25H5C4.73478 25 4.48043 24.8946 4.29289 24.7071C4.10536 24.5196 4 24.2652 4 24V7Z"
+                    stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                  <path d="M13.8186 16L4.30859 24.7175" stroke="white" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round" />
+                  <path d="M27.6897 24.7175L18.1797 16" stroke="white" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round" />
+                </svg>
+                <p>support@getflash.io</p>
+              </div>
+              <div class="socials">
+                <p>Follow Us:</p>
+                <a href="https://primal.net/p/npub1l080awn9wsw87ywm3flmpmccf5rmlvhd7vfgspj2pnavxupnlfesmflash"
+                  target="_blank" class="no-style light">
+                  <img src="assets/img/icon-nostr-black.png" alt="nostr link" loading="lazy">
+                </a>
+                <a href="https://primal.net/p/npub1l080awn9wsw87ywm3flmpmccf5rmlvhd7vfgspj2pnavxupnlfesmflash"
+                  target="_blank" class="no-style dark">
+                  <img src="assets/img/icon-nostr-white.png" alt="nostr link" loading="lazy">
+                </a>
+                <a href="https://x.com/LNFlash" target="_blank" class="no-style light">
+                  <img src="assets/img/icon-x-black.png" alt="X (formerly twitter) link" loading="lazy">
+                </a>
+                <a href="https://x.com/LNFlash" target="_blank" class="no-style dark">
+                  <img src="assets/img/icon-x-white.png" alt="X (formerly twitter) link" loading="lazy">
+                </a>
+                <a href="https://github.com/lnflash" target="_blank" class="no-style light">
+                  <img src="assets/img/icon-github-black.png" alt="github link" loading="lazy">
+                </a>
+                <a href="https://github.com/lnflash" target="_blank" class="no-style dark">
+                  <img src="assets/img/icon-github-white.png" alt="github link" loading="lazy">
+                </a>
+              </div>
+            </div>
+            <!-- Contact Form -->
+            <form class="contact-form" method="post">
+              <div class="formfields">
+                <label for="c-name">Name</label>
+                <input type="text" name="c-name" id="c-name" />
+                <label for="c-email">Email</label>
+                <input type="email" name="c-email" id="c-email" />
+                <label for="c-nostr">Nostr (optional)</label>
+                <input type="nostr" name="c-nostr" id="c-nostr" placeholder="npub1..." />
+                <label for="c-msg">Message</label>
+                <textarea name="c-msg" id="c-msg" class="c-msg" placeholder=""></textarea>
+                <div class="button-container">
+                  <button id="send-msg-btn" class="button-1">
+                    Send
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"
+                      xmlns="http://www.w3.org/2000/svg">
+                      <path d="M11.25 10H6.25" stroke="black" stroke-linecap="round" stroke-linejoin="round" />
+                      <path
+                        d="M3.7881 17.2874C3.74416 17.4074 3.73807 17.538 3.77065 17.6616C3.80323 17.7852 3.87292 17.8958 3.97032 17.9786C4.06772 18.0613 4.18815 18.1122 4.31537 18.1244C4.4426 18.1366 4.57051 18.1095 4.68185 18.0468L17.8069 10.5397C17.9045 10.4857 17.986 10.4064 18.0427 10.3103C18.0994 10.2141 18.1293 10.1045 18.1293 9.99285C18.1293 9.8812 18.0994 9.7716 18.0427 9.67543C17.986 9.57925 17.9045 9.50002 17.8069 9.44597L4.68185 1.95769C4.57084 1.89561 4.44353 1.86887 4.31693 1.88105C4.19032 1.89323 4.07044 1.94374 3.9733 2.02585C3.87616 2.10796 3.80639 2.21775 3.7733 2.34057C3.7402 2.46338 3.74537 2.59336 3.7881 2.71316L6.24982 9.99988L3.7881 17.2874Z"
+                        stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+              <div class="success-msg form-success">
+                <h2>Message Sent!</h2>
+                <svg id="success-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 564.13 190.74">
+                  <g class="envelope">
+                    <rect width="564.13" height="190.68" fill="none" />
+                    <path d="m166.86,46.16l112.27,68.69c3.49,2.14,7.9,2.07,11.32-.17l103.7-67.92" fill="none"
+                      fill-rule="evenodd" stroke="#000" stroke-miterlimit="10" stroke-width="4" />
+                    <path
+                      d="m129.27,59.88l.6-29.23s-.6-25.65,28.64-28.64h248.77s26.25-.6,28.64,28.64v129.45s.6,26.85-28.64,28.64h-248.77s-26.25.6-28.64-28.64v-37.03"
+                      fill="none" fill-rule="evenodd" stroke="#000" stroke-miterlimit="10" stroke-width="4" />
+                    <line x1="154.16" y1="72.2" x2="24.11" y2="72.2" fill="none" stroke="#000" stroke-miterlimit="10"
+                      stroke-width="4" />
+                    <line x1="153.56" y1="111.2" x2="75.41" y2="111.2" fill="none" stroke="#000" stroke-miterlimit="10"
+                      stroke-width="4" />
+                  </g>
+                </svg>
+                <p>Thanks for reaching out to us!</p>
+              </div>
+              <!-- Error Notice: Contact Form -->
+              <div class="error-msg form-error hidden">
+                <p>We're sorry! Something went wrong and your message didn't get sent.</p>
+                <div class="btn-container">
+                  <button id="close-error-msg" class="button-2">Close</button>
+                </div>
+              </div>
+            </form>
+            <!-- End of Contact Form -->
+
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- End of Page: Contact -->
+  </main>
+
+  <footer>
+    <div class="footer-top">
+      <div class="container">
+        <div class="footer-links">
+          <a href="#pg-download" class="no-style">
+            <img src="assets/img/logo-black.png" alt="Flash" class="light logo" loading="lazy" />
+            <img src="assets/img/logo-white.png" alt="Flash" class="dark logo" loading="lazy" />
+          </a>
+          <a href="https://play.google.com/store/apps/details?id=com.lnflash" target="_blank" class="no-style">
+            <img src="assets/img/google-play-badge.png" alt="Get it on Google Play" class="badge" loading="lazy" />
+          </a>
+          <a href="https://apps.apple.com/jm/app/flash-send-spend-and-save/id6451129095" target="_blank"
+            class="no-style">
+            <img src="assets/img/ios-badge.png" alt="Download on the App Store" class="badge ios" loading="lazy" />
+          </a>
+        </div>
+        <div class="legal">
+          <div>
+            <a href="legal/terms.html">Terms & Conditions</a>
+            <a href="legal/privacy.html">Privacy Policy</a>
+          </div>
+          <p class="powered">Powered by Bitcoin.</p>
+        </div>
+      </div>
+      <div class="footer-mid">
+        <div class="container">
+          <p class="copyright">2021 Flash<span>&trade;</span> All rights reserved.
+
+          </p>
+          <p class="copyright"><span>&copy;</span> 2023 Island Bitcoin C.A. de S.V. </p>
+        </div>
+      </div>
+      <div class="footer-btm">
+        <div class="container">
+          <p>Island Bitcoin C.A. de S.V. entity is regulated by BCR and by the Superintendent of the Financial System of
+            El Salvador. For unresolved queries or complaints, please contact atencionalusuario@ssf.gob.sv</p>
+        </div>
+      </div>
+  </footer>
+
+  <!-- SVG Icons - DO NOT DELETE -->
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" style="display: none">
+    <symbol>
+      <g id="plus">
+        <rect class="vert" x="8" y="0" width="4" height="20" rx="2" ry="2" />
+        <rect class="hori" x="8" y="0" width="4" height="20" rx="2" ry="2" transform="translate(0 20) rotate(-90)" />
+      </g>
+    </symbol>
+    <symbol>
+      <rect id="minus" x="8" y="0" width="4" height="20" rx="2" ry="2" transform="translate(0 20) rotate(-90)" />
+    </symbol>
+  </svg>
+  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="display: none">
+    <symbol>
+      <g id="lightbulb">
+        <path class="stroke" d="M8.25 21.75H15.75" stroke="white" stroke-width="2" stroke-linecap="round"
+          stroke-linejoin="round" />
+        <path class="stroke fill"
+          d="M7.37824 15.6563C6.48665 14.9598 5.76449 14.0703 5.266 13.0546C4.76751 12.039 4.50566 10.9236 4.50012 9.79219C4.47762 5.72719 7.75512 2.34375 11.8192 2.25C13.3942 2.21185 14.9412 2.67066 16.2408 3.56132C17.5403 4.45198 18.5264 5.72927 19.0591 7.21196C19.5918 8.69464 19.644 10.3074 19.2084 11.8215C18.7728 13.3355 17.8715 14.674 16.6323 15.6469C16.359 15.8588 16.1375 16.1302 15.9846 16.4404C15.8318 16.7507 15.7516 17.0917 15.7501 17.4375V18C15.7501 18.1989 15.6711 18.3897 15.5304 18.5303C15.3898 18.671 15.199 18.75 15.0001 18.75H9.00011C8.8012 18.75 8.61044 18.671 8.46978 18.5303C8.32913 18.3897 8.25011 18.1989 8.25011 18V17.4375C8.24976 17.0939 8.17104 16.7548 8.01996 16.4462C7.86888 16.1375 7.64941 15.8673 7.37824 15.6563Z"
+          fill="black" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+        <path class="stroke" d="M12.75 5.25C14.625 5.56594 16.1822 7.125 16.5 9" stroke="white" stroke-linecap="round"
+          stroke-linejoin="round" />
+      </g>
+    </symbol>
+  </svg>
+
+  <!-- jQuery CDN -->
+  <script src="https://code.jquery.com/jquery-3.7.0.min.js"
+    integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+  <!-- Local jQuery (uncomment if prefer not to use CDN and comment out CDN instead) -->
+  <!-- <script src="js/jquery-3.6.4.min.js"></script> -->
+
+  <!-- GSAP & Plugins CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/MotionPathPlugin.min.js"></script>
+
+  <!-- Custom JS -->
+  <script src="js/main.js"></script>
+  <script src="js/faqFetch.js"></script>
+  <script src="js/lightning.js"></script>
+  <script src="js/globeSvg.js"></script>
+  <script src="js/btcTracker.js"></script>
+  <!-- <script src="js/btcTracker.gql.js"></script> -->
+  <script src="//code.tidio.co/0kbm4jqybxrrarlw7cjflhnb8fzv6lyt.js" async></script>
+</body>
+
+</html>

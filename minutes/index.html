@@ -1,0 +1,1416 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Flash Meeting Minutes</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/alpinejs" defer></script>
+</head>
+
+<body class="bg-gray-100 text-gray-800 p-6">
+    <div class="max-w-5xl mx-auto bg-white shadow-xl rounded-xl p-6" x-data="{ tab: 'meeting1' }">
+        <div class="text-center mb-6">
+            <img src="/assets/img/logo-black.png" alt="Flash Logo" class="h-12 inline-block" />
+        </div>
+
+        <h1 class="text-3xl font-bold mb-6 text-center text-blue-700">Meeting Minutes</h1>
+        <div class="mb-6">
+            <select x-model="tab"
+                class="w-full max-w-md mx-auto block px-4 py-2 bg-white border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                <option value="meeting1">May 8, 2025</option>
+                <option value="meeting5">June 3, 2025</option>
+                <option value="meeting6">June 10, 2025</option>
+                <option value="meeting7">June 17, 2025</option>
+                <option value="meeting8">June 24, 2025</option>
+                <option value="meeting9">July 1, 2025</option>
+                <option value="meeting10">July 8, 2025</option>
+                <option value="meeting13">July 29, 2025</option>
+            </select>
+        </div>
+
+        <div class="space-y-6 text-[15px] leading-relaxed">
+            <div x-show="tab === 'meeting1'" x-transition>
+                <div class="bg-gray-50 p-4 rounded shadow-sm">
+                    <h2 class="text-xl font-bold">Meeting Minutes – May 8, 2025 @ 4:00PM (Jamaica Time)</h2>
+                    <p><strong>Attendees:</strong> Michael, Jabari, Charmaine, Chalondra, Tatiana</p>
+                    <p><strong>Duration:</strong> 1.45 hrs</p>
+                </div>
+
+                <div class="space-y-6 mt-4">
+                    <div class="bg-white p-5 rounded-md border border-gray-200 shadow-sm">
+                        <h3 class="text-lg font-semibold text-blue-600 mb-2">1. Coordinator Reorientation Training</h3>
+                        <ul class="list-disc list-inside space-y-1">
+                            <li>Reorientation Training sessions planned weekly for all coordinators to cover new
+                                devices, app features, and
+                                strategy.</li>
+                            <li>All Coordinators actively working in the field, requesting deeper training and weekly
+                                demos.</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-md border border-gray-200 shadow-sm">
+                        <h3 class="text-lg font-semibold text-blue-600 mb-2">2. Merchant Targeting Strategy</h3>
+                        <ul class="list-disc list-inside space-y-1">
+                            <li>Goal: 100 sign-ups per coordinator; Stretch Goal is 2,000+ on waitlist by end of May.
+                            </li>
+                            <li>Use of “varandah canvas” strategy to survey regional merchants.</li>
+                            <li>Website sign-up process being improved for ease of access.</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-md border border-gray-200 shadow-sm">
+                        <h3 class="text-lg font-semibold text-blue-600 mb-2">3. Marketing Materials</h3>
+                        <ul class="list-disc list-inside space-y-1">
+                            <li>600 QR-coded brochures in production for distribution via gas stations, supermarkets,
+                                and other business
+                                districts.</li>
+                            <li>Emphasis on brochures over business cards for visibility and app onboarding.</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-md border border-gray-200 shadow-sm">
+                        <h3 class="text-lg font-semibold text-blue-600 mb-2">4. Community Engagement</h3>
+                        <ul class="list-disc list-inside space-y-1">
+                            <li>Challenges in Highgate and Port Maria due to limited community connections.</li>
+                            <li>Focus on using personal networks and familiarity with location staff to reach business
+                                owners.</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-md border border-gray-200 shadow-sm">
+                        <h3 class="text-lg font-semibold text-blue-600 mb-2">5. Flash Card & App Features</h3>
+                        <ul class="list-disc list-inside space-y-1">
+                            <li>Flash card serves as a loyalty tool with QR links to the app for top-up and earning
+                                points.</li>
+                            <li>Focuse on App features like earning rewards points, that will be the main customer
+                                attraction before top-ups.</li>
+                            <li>Cash-out and business upgrade features demoed next week; customer flow simplified on
+                                home screen.
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-md border border-gray-200 shadow-sm">
+                        <h3 class="text-lg font-semibold text-blue-600 mb-2">6. Road Shows & Public Events</h3>
+                        <ul class="list-disc list-inside space-y-1">
+                            <li>Confirmed: 25-participant event at Bucha(sp?) gas station.</li>
+                            <li>Road shows to include tents, music, giveaways, and merchant collab to drive awareness.
+                            </li>
+                            <li>Merchants involved for live demonstrations and discounts.</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-md border border-yellow-300 shadow-md">
+                        <h3 class="text-lg font-semibold text-yellow-700 mb-2">✅ Action Items:</h3>
+                        <ul class="space-y-4">
+                            <li><strong>Jabari:</strong>
+                                <ul class="ml-5 space-y-1">
+                                    <li><label class="flex items-center space-x-2">
+                                            <input type="checkbox" class="form-checkbox h-4 w-4 text-blue-600">
+                                            <span>Create and print new QR download stickers</span>
+                                        </label></li>
+                                    <li><label class="flex items-center space-x-2">
+                                            <input type="checkbox" class="form-checkbox h-4 w-4 text-blue-600">
+                                            <span>Schedule one-on-one follow-up calls with Tatiana and Chalondra</span>
+                                        </label></li>
+                                    <li><label class="flex items-center space-x-2">
+                                            <input type="checkbox" class="form-checkbox h-4 w-4 text-blue-600">
+                                            <span>Prepare FAQs for onboarding: “How do I benefit?”</span>
+                                        </label></li>
+                                </ul>
+                            </li>
+
+                            <li><strong>Michael:</strong>
+                                <ul class="ml-5 space-y-1">
+                                    <li><label class="flex items-center space-x-2">
+                                            <input type="checkbox" class="form-checkbox h-4 w-4 text-blue-600">
+                                            <span>Print and distribute 600 brochures</span>
+                                        </label></li>
+                                </ul>
+                            </li>
+
+                            <li><strong>Charmaine:</strong>
+                                <ul class="ml-5 space-y-1">
+                                    <li><label class="flex items-center space-x-2">
+                                            <input type="checkbox" class="form-checkbox h-4 w-4 text-blue-600">
+                                            <span>Reach out to Gleaner company contacts for referrals</span>
+                                        </label></li>
+                                    <li><label class="flex items-center space-x-2">
+                                            <input type="checkbox" class="form-checkbox h-4 w-4 text-blue-600">
+                                            <span>Follow up with local schools for partnership opportunities</span>
+                                        </label></li>
+                                    <li><label class="flex items-center space-x-2">
+                                            <input type="checkbox" class="form-checkbox h-4 w-4 text-blue-600">
+                                            <span>Coordinate with Tatiana on onboarding hair supplier in Kingston</span>
+                                        </label></li>
+                                </ul>
+                            </li>
+
+                            <li><strong>Chalondra:</strong>
+                                <ul class="ml-5 space-y-1">
+                                    <li><label class="flex items-center space-x-2">
+                                            <input type="checkbox" class="form-checkbox h-4 w-4 text-blue-600">
+                                            <span>Follow up on Highgate/Port Maria leads</span>
+                                        </label></li>
+                                    <li><label class="flex items-center space-x-2">
+                                            <input type="checkbox" class="form-checkbox h-4 w-4 text-blue-600">
+                                            <span>Enter all negative merchant responses in intake form</span>
+                                        </label></li>
+                                    <li><label class="flex items-center space-x-2">
+                                            <input type="checkbox" class="form-checkbox h-4 w-4 text-blue-600">
+                                            <span>Assist with road show planning</span>
+                                        </label></li>
+                                </ul>
+                            </li>
+
+                            <li><strong>Team:</strong>
+                                <ul class="ml-5 space-y-1">
+                                    <li><label class="flex items-center space-x-2">
+                                            <input type="checkbox" class="form-checkbox h-4 w-4 text-blue-600">
+                                            <span>Enter all negative merchant responses in intake form</span>
+                                        </label></li>
+                                    <li><label class="flex items-center space-x-2">
+                                            <input type="checkbox" class="form-checkbox h-4 w-4 text-blue-600">
+                                            <span>Network with workers at key business locations</span>
+                                        </label></li>
+                                    <li><label class="flex items-center space-x-2">
+                                            <input type="checkbox" class="form-checkbox h-4 w-4 text-blue-600">
+                                            <span>Explore schools, companies, and orgs as Flash partners</span>
+                                        </label></li>
+                                    <li><label class="flex items-center space-x-2">
+                                            <input type="checkbox" class="form-checkbox h-4 w-4 text-blue-600">
+                                            <span>Investigate competitor “GiftMe” and identify Flash's edge</span>
+                                        </label></li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                    </div>
+
+                    <div class="bg-white p-5 rounded-md border border-blue-300 shadow-md">
+                        <h3 class="text-lg font-semibold text-blue-700 mb-2">📌 Next Meeting Topics</h3>
+                        <ul class="list-disc list-inside space-y-1">
+                            <li>Merchant dashboard & retention tracking</li>
+                            <li>Referral program for active merchants</li>
+                            <li>Early adopter feedback loop</li>
+                            <li>Segmented materials by merchant type</li>
+                            <li>Flash app accessibility enhancements</li>
+                        </ul>
+                        <p class="mt-3"><strong>Next Meeting:</strong> May 13th, 2025 @ 4:00pm (Jamaica Time)</p>
+                    </div>
+
+                    <p class="text-center text-gray-600 mt-6">Thanks everyone for your energy and focus — See you next
+                        week!</p>
+
+                    <div class="text-center text-sm text-gray-500 mt-10">
+                        &copy; 2025 Island Bitcoin Jamaica Limited. | All rights reserved<br />
+                        Contact: <a href="mailto:support@getflash.io" class="text-blue-500">support@getflash.io</a> |
+                        <a href="https://wa.me/18762909250" class="text-blue-500">WhatsApp 876-290-9250</a>
+                    </div>
+                </div>
+            </div>
+
+            <div x-show="tab === 'meeting5'" x-transition>
+                <div class="bg-gray-50 p-4 rounded shadow-sm">
+                    <h2 class="text-xl font-bold">Meeting Minutes – June 3, 2025 @ 4:00PM (Jamaica Time)</h2>
+                    <p><strong>Attendees:</strong> Michael, Natty Dread, Charmaine, Chalondra, Tatiana</p>
+                    <p><strong>Duration:</strong> 2.5 hrs</p>
+                </div>
+
+                <div class="space-y-6 mt-4">
+                    <div class="bg-white p-5 rounded-md border border-gray-200 shadow-sm">
+                        <h3 class="text-lg font-semibold text-blue-600 mb-2">1. Reward Program Discussion and Submission
+                            Status</h3>
+                        <ul class="list-disc list-inside space-y-1">
+                            <li>Michael Ennis proposed customizing rewards based on gas station customer spending.</li>
+                            <li>Natty Dread clarified merchants can set their own reward percentages.</li>
+                            <li>Charmaine Grant raised issues regarding unclear conversion tracking of submissions.</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-md border border-gray-200 shadow-sm">
+                        <h3 class="text-lg font-semibold text-blue-600 mb-2">2. Roadshow Logistics</h3>
+                        <ul class="list-disc list-inside space-y-1">
+                            <li>Concerns over Friday scheduling due to court activity conflicts.</li>
+                            <li>Consideration of Thursday as an alternative, with traffic and delivery concerns noted.
+                            </li>
+                            <li>Budget and planning for tents, refreshments, and music discussed.</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-md border border-gray-200 shadow-sm">
+                        <h3 class="text-lg font-semibold text-blue-600 mb-2">3. Giveaways and Merchant Partnerships</h3>
+                        <ul class="list-disc list-inside space-y-1">
+                            <li>Identified partners: Davis Food Mart and a Chinese store.</li>
+                            <li>Awaiting confirmation from a merchant; language barrier noted as a challenge.</li>
+                            <li>Need for local contact emphasized for smoother coordination.</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-md border border-gray-200 shadow-sm">
+                        <h3 class="text-lg font-semibold text-blue-600 mb-2">4. Reporting and Intake Forms</h3>
+                        <ul class="list-disc list-inside space-y-1">
+                            <li>Three-part format for merchant reports introduced: contacts, notable merchants, help
+                                needed.</li>
+                            <li>Reminder to include numbers in weekly reports.</li>
+                            <li>Tatiana committed to uploading intake form despite being unwell.</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-md border border-gray-200 shadow-sm">
+                        <h3 class="text-lg font-semibold text-blue-600 mb-2">5. Handling Bitcoin & Forex Inquiries</h3>
+                        <ul class="list-disc list-inside space-y-1">
+                            <li>Confusion arising from reward brochures prompting Bitcoin questions.</li>
+                            <li>Michael advised deferring such inquiries to informed teammates or external resources.
+                            </li>
+                            <li>Plan to create a canned team-wide response and schedule Bitcoin training session.</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-md border border-gray-200 shadow-sm">
+                        <h3 class="text-lg font-semibold text-blue-600 mb-2">6. Card Compatibility and Merchant
+                            Communication</h3>
+                        <ul class="list-disc list-inside space-y-1">
+                            <li>Flash card only works with Flash machines due to hardware and financial constraints.
+                            </li>
+                            <li>Team advised to give clear, simple answers to avoid miscommunication.</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-md border border-yellow-300 shadow-md">
+                        <h3 class="text-lg font-semibold text-yellow-700 mb-2">✅ Action Items:</h3>
+                        <ul class="space-y-4">
+                            <li><strong>Michael Ennis:</strong>
+                                <ul class="ml-5 space-y-1">
+                                    <li>Schedule meeting with Charmaine and Renee to finalize rewards program.</li>
+                                    <li>Collaborate with Dread on a standard Bitcoin/Forex response.</li>
+
+                                </ul>
+                            </li>
+                            <li><strong>Charmaine Grant:</strong>
+                                <ul class="ml-5 space-y-1">
+                                    <li>Get reward details from Renee and report back.</li>
+                                    <li>Follow up with businesses to encourage signups.</li>
+                                </ul>
+                            </li>
+                            <li><strong>Natty Dread:</strong>
+                                <ul class="ml-5 space-y-1">
+                                    <li>Prepare new screen walkthrough for next week’s team call.</li>
+                                    <li>Collaborate with Michael on a standard Bitcoin/Forex response.</li>
+                                    <li>Plan Bitcoin-focused training session next week.</li>
+
+                                </ul>
+                            </li>
+                            <li><strong>Chalondra Dyce:</strong>
+                                <ul class="ml-5 space-y-1">
+                                    <li>Visit Tina Wholesale to establish partnership.</li>
+                                    <li>Contact Tina for roadshow collaboration.</li>
+                                </ul>
+                            </li>
+                            <li><strong>Tatiana Cooke:</strong>
+                                <ul class="ml-5 space-y-1">
+                                    <li>Upload completed intake form by tonight.</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-md border border-blue-300 shadow-md">
+                        <h3 class="text-lg font-semibold text-blue-700 mb-2">📌 Key Questions & Next Meeting</h3>
+                        <ul class="list-disc list-inside space-y-1">
+                            <li>How do we define conversion of submissions?</li>
+                            <li>When is the best date for the roadshow considering setup needs?</li>
+                            <li>How will gas station rewards be distributed?</li>
+                            <li>What is the timeline for the new rewards app functionality?</li>
+                            <li>What is the team's official response to Bitcoin/Forex questions?</li>
+                        </ul>
+                        <p class="mt-3"><strong>Next Meeting:</strong> June 10th,ß 2025 @ 4:00pm (Jamaica Time)</p>
+                    </div>
+
+                    <p class="text-center text-gray-600 mt-6">Thanks for the thoughtful input and teamwork — See you
+                        next week!</p>
+
+                    <div class="text-center text-sm text-gray-500 mt-10">
+                        &copy; 2025 Island Bitcoin Jamaica Limited. | All rights reserved<br />
+                        Contact: <a href="mailto:support@getflash.io" class="text-blue-500">support@getflash.io</a> |
+                        <a href="https://wa.me/18762909250" class="text-blue-500">WhatsApp 876-290-9250</a>
+                    </div>
+                </div>
+
+            </div>
+
+            <div x-show="tab === 'meeting6'" x-transition>
+                <div class="bg-gray-50 p-4 rounded shadow-sm">
+                    <h2 class="text-xl font-bold">Meeting Minutes – June 10, 2025 @ 4:00PM (Jamaica Time)</h2>
+                    <p><strong>Attendees:</strong> Michael Ennis, Jabari Ennis, Chalondra Dyce, Tatiana Cooke</p>
+                    <p><strong>Duration:</strong> 2 hrs</p>
+                </div>
+
+                <div class="space-y-6 mt-4">
+                    <div class="bg-white p-5 rounded-md border border-gray-200 shadow-sm">
+                        <h3 class="text-lg font-semibold text-blue-600 mb-2">1. Point of Sale Machine Updates</h3>
+                        <ul class="list-disc list-inside space-y-1">
+                            <li>Jabari presented enhancements to reprinting functionality and introduction of rewards
+                                system.</li>
+                            <li>Rewards system includes both static and user-entry-based rewards (MVP version).</li>
+                            <li>Emphasis on gathering feedback for future iterations of features.</li>
+                            <li>Flash terminal improvements: larger display for transaction amounts and currency
+                                switching without automatic conversion.</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-md border border-gray-200 shadow-sm">
+                        <h3 class="text-lg font-semibold text-blue-600 mb-2">2. Flash Terminal Features & Reprint
+                            Process</h3>
+                        <ul class="list-disc list-inside space-y-1">
+                            <li>Reprint process allows merchants to reprint receipts and access local transaction
+                                history.</li>
+                            <li>Critical for tracking transactions and customer support.</li>
+                            <li>Discussion on currency indicator consistency - suggestion to remove "J" from Jamaican
+                                dollar for clarity.</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-md border border-gray-200 shadow-sm">
+                        <h3 class="text-lg font-semibold text-blue-600 mb-2">3. Rewards System Overview</h3>
+                        <ul class="list-disc list-inside space-y-1">
+                            <li>New rewards settings page with security features to prevent fraud.</li>
+                            <li>Merchants can set their own rewards rates and minimums.</li>
+                            <li>Rewards tracked and settled monthly with three distribution methods.</li>
+                            <li>Pay code relocated to settings with PIN protection for reward settings.</li>
+                            <li>Includes purchases with flashcard and external payments.</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-md border border-gray-200 shadow-sm">
+                        <h3 class="text-lg font-semibold text-blue-600 mb-2">4. Payment Flash Workflow Discussion</h3>
+                        <ul class="list-disc list-inside space-y-1">
+                            <li>Review of payment flash system emphasizing smooth transaction process.</li>
+                            <li>Current workflow includes unnecessary steps that could confuse users and delay
+                                transactions.</li>
+                            <li>Agreement to simplify process by eliminating certain screens.</li>
+                            <li>Direct notifications of rewards to users' phones proposed.</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-md border border-gray-200 shadow-sm">
+                        <h3 class="text-lg font-semibold text-blue-600 mb-2">5. Merchant Engagement Status Updates</h3>
+                        <ul class="list-disc list-inside space-y-1">
+                            <li>App upcoming release on Google Play Store - team urged to test on terminals.</li>
+                            <li>Tatiana reported outreach to Ultimate Dining and Emmanuel's Kitchen (no sales secured
+                                yet).</li>
+                            <li>Fund transfer process clarified as manual with FAQ details upon app launch.</li>
+                            <li>Michael emphasized accurate reporting in intake form for effective support.</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-md border border-gray-200 shadow-sm">
+                        <h3 class="text-lg font-semibold text-blue-600 mb-2">6. Roadshow Planning & Logistics</h3>
+                        <ul class="list-disc list-inside space-y-1">
+                            <li>Chalondra confirmed space and permit requirements for roadshow.</li>
+                            <li>Three merchants on board with one proposing 10% discount for customers.</li>
+                            <li>Background music and designated space planned to avoid traffic obstruction.</li>
+                            <li>Professional attire required for team members.</li>
+                            <li>Sound management discussed to avoid disturbing nearby areas.</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-md border border-gray-200 shadow-sm">
+                        <h3 class="text-lg font-semibold text-blue-600 mb-2">7. Intake Process & Data Collection</h3>
+                        <ul class="list-disc list-inside space-y-1">
+                            <li>Chalondra reported 30 business names with 22 entered in intake form due to time
+                                constraints.</li>
+                            <li>Michael stressed thorough documentation of merchant interactions.</li>
+                            <li>Encouraged follow-up with potential leads to identify barriers to engagement.</li>
+                            <li>Importance of maintaining low-pressure approach during follow-ups.</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-md border border-gray-200 shadow-sm">
+                        <h3 class="text-lg font-semibold text-blue-600 mb-2">8. Rewards Program & Merchant Contributions
+                        </h3>
+                        <ul class="list-disc list-inside space-y-1">
+                            <li>Merchants will incur costs related to rewards as advertising expenses.</li>
+                            <li>Program details not yet fully defined but clarity coming soon.</li>
+                            <li>Concerns raised about small merchants who may not benefit from rewards program.</li>
+                            <li>Straightforward payment system suggested for smaller merchants.</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-md border border-yellow-300 shadow-md">
+                        <h3 class="text-lg font-semibold text-yellow-700 mb-2">✅ Action Items:</h3>
+                        <ul class="space-y-4">
+                            <li><strong>Jabari Ennis:</strong>
+                                <ul class="ml-5 space-y-1">
+                                    <li><label class="flex items-center space-x-2">
+                                            <input type="checkbox" class="form-checkbox h-4 w-4 text-blue-600">
+                                            <span>Update point-of-sale app UI based on meeting feedback</span>
+                                        </label></li>
+                                    <li><label class="flex items-center space-x-2">
+                                            <input type="checkbox" class="form-checkbox h-4 w-4 text-blue-600">
+                                            <span>Provide step-by-step report submission guide</span>
+                                        </label></li>
+                                </ul>
+                            </li>
+
+                            <li><strong>Tatiana Cooke:</strong>
+                                <ul class="ml-5 space-y-1">
+                                    <li><label class="flex items-center space-x-2">
+                                            <input type="checkbox" class="form-checkbox h-4 w-4 text-blue-600">
+                                            <span>Submit written report detailing merchant interactions and
+                                                feedback</span>
+                                        </label></li>
+                                </ul>
+                            </li>
+
+                            <li><strong>Chalondra Dyce:</strong>
+                                <ul class="ml-5 space-y-1">
+                                    <li><label class="flex items-center space-x-2">
+                                            <input type="checkbox" class="form-checkbox h-4 w-4 text-blue-600">
+                                            <span>Confirm sound box rental for roadshow and report
+                                                cost/availability</span>
+                                        </label></li>
+                                    <li><label class="flex items-center space-x-2">
+                                            <input type="checkbox" class="form-checkbox h-4 w-4 text-blue-600">
+                                            <span>Enter remaining 8 businesses into intake form by end of day</span>
+                                        </label></li>
+                                    <li><label class="flex items-center space-x-2">
+                                            <input type="checkbox" class="form-checkbox h-4 w-4 text-blue-600">
+                                            <span>Submit report detailing number of businesses approached and
+                                                outcomes</span>
+                                        </label></li>
+                                    <li><label class="flex items-center space-x-2">
+                                            <input type="checkbox" class="form-checkbox h-4 w-4 text-blue-600">
+                                            <span>Visit merchant location on Wednesday for low-pressure check-in</span>
+                                        </label></li>
+                                </ul>
+                            </li>
+
+                            <li><strong>Michael Ennis:</strong>
+                                <ul class="ml-5 space-y-1">
+                                    <li><label class="flex items-center space-x-2">
+                                            <input type="checkbox" class="form-checkbox h-4 w-4 text-blue-600">
+                                            <span>Clarify rewards program structure for merchant communication</span>
+                                        </label></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-md border border-blue-300 shadow-md">
+                        <h3 class="text-lg font-semibold text-blue-700 mb-2">📌 Key Questions & Next Steps</h3>
+                        <ul class="list-disc list-inside space-y-1">
+                            <li>What specific POS app features need feedback?</li>
+                            <li>What security measures prevent rewards system misuse?</li>
+                            <li>How will merchants be informed about new POS features?</li>
+                            <li>What prevented timely business entry into intake form?</li>
+                            <li>What improvements can enhance POS app user experience?</li>
+                        </ul>
+                        <p class="mt-3"><strong>Next Meeting:</strong> June 17th, 2025 @ 4:00pm (Jamaica Time)</p>
+                    </div>
+
+                    <p class="text-center text-gray-600 mt-6">Great progress on system improvements and merchant
+                        engagement — Keep up the momentum!</p>
+
+                    <div class="text-center text-sm text-gray-500 mt-10">
+                        &copy; 2025 Island Bitcoin Jamaica Limited. | All rights reserved<br />
+                        Contact: <a href="mailto:support@getflash.io" class="text-blue-500">support@getflash.io</a> |
+                        <a href="https://wa.me/18762909250" class="text-blue-500">WhatsApp 876-290-9250</a>
+                    </div>
+                </div>
+            </div>
+
+            <div x-show="tab === 'meeting7'" x-transition>
+                <div class="bg-gray-50 p-4 rounded shadow-sm">
+                    <h2 class="text-xl font-bold">Meeting Minutes – June 17, 2025 @ 4:00PM (Jamaica Time)</h2>
+                    <p><strong>Attendees:</strong> Michael Ennis, Jabari Ennis, Charmaine Grant, Chalondra Dyce, Tatiana
+                        Cooke, Roger Kerr (New Regional Coordinator)</p>
+                    <p><strong>Duration:</strong> 2.25 hrs</p>
+                </div>
+
+                <div class="space-y-6 mt-4">
+                    <div class="bg-white p-5 rounded-md border border-green-200 shadow-sm">
+                        <h3 class="text-lg font-semibold text-green-600 mb-2">🎉 Introduction of New Regional
+                            Coordinator</h3>
+                        <ul class="list-disc list-inside space-y-1">
+                            <li>Michael welcomed Roger Kerr as the new regional coordinator to the team.</li>
+                            <li>Roger brings extensive experience in real estate and business development.</li>
+                            <li>Emphasized commitment to promoting the FLASH app and ensuring its success in Jamaica.
+                            </li>
+                            <li>Highlighted importance of teamwork and communication in achieving goals.</li>
+                            <li>Focus on raising awareness about app availability among potential users.</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-md border border-gray-200 shadow-sm">
+                        <h3 class="text-lg font-semibold text-blue-600 mb-2">1. Merchant Engagement Updates &
+                            Clarifications</h3>
+                        <ul class="list-disc list-inside space-y-1">
+                            <li>Michael clarified reporting expectations - updates should reflect activity since last
+                                meeting.</li>
+                            <li>Chalondra shared progress with Prospect Sip and Chill, mentioned need for additional
+                                brochures.</li>
+                            <li>Charmaine reported on Port Antonio outreach efforts and upcoming road show plans.</li>
+                            <li>Tatiana announced addition of 45 merchants to the network as new Kingston/St. Catherine
+                                coordinator.</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-md border border-gray-200 shadow-sm">
+                        <h3 class="text-lg font-semibold text-blue-600 mb-2">2. Target Goals & Progress Update</h3>
+                        <ul class="list-disc list-inside space-y-1">
+                            <li>Team target: 500 sign-ups by end of July (collective goal across all coordinators).</li>
+                            <li>Roger's individual goal: 150 sign-ups by end of June.</li>
+                            <li>Tatiana recalled her ability to achieve high numbers quickly, supporting the ambitious
+                                target.</li>
+                            <li>Strategy discussion on effective engagement with potential participants.</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-md border border-gray-200 shadow-sm">
+                        <h3 class="text-lg font-semibold text-blue-600 mb-2">3. Community Engagement Strategies</h3>
+                        <ul class="list-disc list-inside space-y-1">
+                            <li>Introduction of flyer designed by Tatiana to help coordinators introduce themselves to
+                                merchants.</li>
+                            <li>Charmaine's success with leaving contact numbers on brochures resulted in numerous
+                                inquiries.</li>
+                            <li>Focus on engaging community shops as cash-out points in areas like Charlestown and Buff
+                                Bay.</li>
+                            <li>Smaller merchants noted as more receptive to collaboration than larger merchants.</li>
+                            <li>Strategy to improve financial accessibility in areas with limited ATM access.</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-md border border-gray-200 shadow-sm">
+                        <h3 class="text-lg font-semibold text-blue-600 mb-2">4. POS Training Session Scheduling</h3>
+                        <ul class="list-disc list-inside space-y-1">
+                            <li>Training session scheduled for Friday at 1 PM Jamaica time.</li>
+                            <li>Focus on new POS system and rewards feature explanation.</li>
+                            <li>Response to Shalonda's request for system training.</li>
+                            <li>All team members confirmed availability for the session.</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-md border border-gray-200 shadow-sm">
+                        <h3 class="text-lg font-semibold text-blue-600 mb-2">5. Rewards System & Card Distribution</h3>
+                        <ul class="list-disc list-inside space-y-1">
+                            <li>Measures outlined to prevent misuse of reward points.</li>
+                            <li>Charmaine's merchants providing raffle prizes and cash incentive for first 20 gas
+                                purchases.</li>
+                            <li>Maximum daily limit of $10,000 for rewards.</li>
+                            <li>Agreement that merchants should distribute reward cards directly to customers.</li>
+                            <li>Technical concerns about rewards being linked to card IDs addressed.</li>
+                            <li>New batch of improved cards arriving next month.</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-md border border-gray-200 shadow-sm">
+                        <h3 class="text-lg font-semibold text-blue-600 mb-2">6. Card Distribution & Customization Plans
+                        </h3>
+                        <ul class="list-disc list-inside space-y-1">
+                            <li>First 100 cards included with machine purchase (not free, but included in price).</li>
+                            <li>Local pastry business interested in customized cards for branding.</li>
+                            <li>Acknowledgment of need for additional cards as demand grows.</li>
+                            <li>Branding potential to attract more customers discussed.</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-md border border-gray-200 shadow-sm">
+                        <h3 class="text-lg font-semibold text-blue-600 mb-2">7. Event Logistics & Promotional Materials
+                        </h3>
+                        <ul class="list-disc list-inside space-y-1">
+                            <li>Shirt orders to be placed shortly by Jabari.</li>
+                            <li>Limited supplies of promotional items (key rings, water bottles).</li>
+                            <li>Emphasis on aesthetics and visibility at events.</li>
+                            <li>Banner repairs needed - to be returned to manufacturer.</li>
+                            <li>Go-to bag with promotional items to be prepared.</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-md border border-gray-200 shadow-sm">
+                        <h3 class="text-lg font-semibold text-blue-600 mb-2">8. Intake Forms & Activity Tracking</h3>
+                        <ul class="list-disc list-inside space-y-1">
+                            <li>Michael emphasized significance of intake forms for tracking merchant engagement.</li>
+                            <li>Roger urged to collaborate with Tatiana on intake form processes.</li>
+                            <li>Daily expectation set for form submissions.</li>
+                            <li>Importance of consistent information sharing to increase merchant interest.</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-md border border-yellow-300 shadow-md">
+                        <h3 class="text-lg font-semibold text-yellow-700 mb-2">✅ Action Items:</h3>
+                        <ul class="space-y-4">
+                            <li><strong>Chalondra Dyce:</strong>
+                                <ul class="ml-5 space-y-1">
+                                    <li><label class="flex items-center space-x-2">
+                                            <input type="checkbox" class="form-checkbox h-4 w-4 text-blue-600">
+                                            <span>Follow up with Prospect Sip and Chill to provide app
+                                                information</span>
+                                        </label></li>
+                                </ul>
+                            </li>
+
+                            <li><strong>Charmaine Grant:</strong>
+                                <ul class="ml-5 space-y-1">
+                                    <li><label class="flex items-center space-x-2">
+                                            <input type="checkbox" class="form-checkbox h-4 w-4 text-blue-600">
+                                            <span>Finalize plans with Georgie representative for gas station
+                                                promotion</span>
+                                        </label></li>
+                                </ul>
+                            </li>
+
+                            <li><strong>Tatiana Cooke:</strong>
+                                <ul class="ml-5 space-y-1">
+                                    <li><label class="flex items-center space-x-2">
+                                            <input type="checkbox" class="form-checkbox h-4 w-4 text-blue-600">
+                                            <span>Send email detailing services to merchant who requested it</span>
+                                        </label></li>
+                                    <li><label class="flex items-center space-x-2">
+                                            <input type="checkbox" class="form-checkbox h-4 w-4 text-blue-600">
+                                            <span>Confirm Samantha's attendance by Monday</span>
+                                        </label></li>
+                                    <li><label class="flex items-center space-x-2">
+                                            <input type="checkbox" class="form-checkbox h-4 w-4 text-blue-600">
+                                            <span>Discuss intake form importance with Roger Kerr</span>
+                                        </label></li>
+                                </ul>
+                            </li>
+
+                            <li><strong>Michael Ennis:</strong>
+                                <ul class="ml-5 space-y-1">
+                                    <li><label class="flex items-center space-x-2">
+                                            <input type="checkbox" class="form-checkbox h-4 w-4 text-blue-600">
+                                            <span>Send invite for special POS training session on rewards feature</span>
+                                        </label></li>
+                                    <li><label class="flex items-center space-x-2">
+                                            <input type="checkbox" class="form-checkbox h-4 w-4 text-blue-600">
+                                            <span>Prepare go-to bag with promotional items for team</span>
+                                        </label></li>
+                                    <li><label class="flex items-center space-x-2">
+                                            <input type="checkbox" class="form-checkbox h-4 w-4 text-blue-600">
+                                            <span>Ensure banners are returned to manufacturer for repairs</span>
+                                        </label></li>
+                                </ul>
+                            </li>
+
+                            <li><strong>Jabari Ennis:</strong>
+                                <ul class="ml-5 space-y-1">
+                                    <li><label class="flex items-center space-x-2">
+                                            <input type="checkbox" class="form-checkbox h-4 w-4 text-blue-600">
+                                            <span>Provide update on new card system and improvements</span>
+                                        </label></li>
+                                    <li><label class="flex items-center space-x-2">
+                                            <input type="checkbox" class="form-checkbox h-4 w-4 text-blue-600">
+                                            <span>Contact printer to finalize shirt order by tomorrow</span>
+                                        </label></li>
+                                    <li><label class="flex items-center space-x-2">
+                                            <input type="checkbox" class="form-checkbox h-4 w-4 text-blue-600">
+                                            <span>Post meeting minutes on getflash.io and share in group chat</span>
+                                        </label></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-md border border-blue-300 shadow-md">
+                        <h3 class="text-lg font-semibold text-blue-700 mb-2">📌 Key Questions & Next Steps</h3>
+                        <ul class="list-disc list-inside space-y-1">
+                            <li>What is the updated number of merchants added since last meeting?</li>
+                            <li>How many people expected to attend Thursday meeting?</li>
+                            <li>What specific features will be included in POS training session?</li>
+                            <li>What is timeline for new card system implementation?</li>
+                            <li>When will special training session for new POS system take place?</li>
+                        </ul>
+                        <p class="mt-3"><strong>Next Meeting:</strong> June 24th, 2025 @ 4:00pm (Jamaica Time)</p>
+                        <p class="mt-2"><strong>Special Training Session:</strong> Friday @ 1:00pm (Jamaica Time)</p>
+                    </div>
+
+                    <p class="text-center text-gray-600 mt-6">Welcome Roger to the team! Excited to reach our ambitious
+                        goals together — Let's make it happen!</p>
+
+                    <div class="text-center text-sm text-gray-500 mt-10">
+                        &copy; 2025 Island Bitcoin Jamaica Limited. | All rights reserved<br />
+                        Contact: <a href="mailto:support@getflash.io" class="text-blue-500">support@getflash.io</a> |
+                        <a href="https://wa.me/18762909250" class="text-blue-500">WhatsApp 876-290-9250</a>
+                    </div>
+                </div>
+            </div>
+
+            <div x-show="tab === 'meeting8'" x-transition>
+                <div class="bg-gray-50 p-4 rounded shadow-sm">
+                    <h2 class="text-xl font-bold">Meeting Minutes – June 24, 2025 @ 4:00PM (Jamaica Time)</h2>
+                    <p><strong>Attendees:</strong> Michael Ennis, Jabari Ennis, Charmaine Grant, Chalondra Dyce, Tatiana
+                        Cooke, Roger Kerr</p>
+                    <p><strong>Duration:</strong> 2 hrs</p>
+                </div>
+
+                <div class="space-y-6 mt-4">
+                    <div class="bg-white p-5 rounded-md border border-gray-200 shadow-sm">
+                        <h3 class="text-lg font-semibold text-blue-600 mb-2">1. Equipment Setup Coordination</h3>
+                        <ul class="list-disc list-inside space-y-1">
+                            <li>Michael and Chalondra coordinated machine setup for upcoming event.</li>
+                            <li>Chalondra waiting for Bob's assistance with setup process.</li>
+                            <li>Extension cord needed - confirmed as included in budget.</li>
+                            <li>Tatiana to retrieve extension cord from Mayfair tomorrow.</li>
+                            <li>Distance requirements for cord placement discussed and clarified.</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-md border border-gray-200 shadow-sm">
+                        <h3 class="text-lg font-semibold text-blue-600 mb-2">2. Client Interaction & Support Flow
+                            Improvement</h3>
+                        <ul class="list-disc list-inside space-y-1">
+                            <li>Charmaine shared merchant visit experiences - two interested parties identified.</li>
+                            <li>Interest levels uncertain, requiring follow-up strategies.</li>
+                            <li>Michael emphasized need for more efficient communication process.</li>
+                            <li>Strategy shift: direct potential clients to app for immediate answers.</li>
+                            <li>Reduction of wait times for responses through intermediaries.</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-md border border-gray-200 shadow-sm">
+                        <h3 class="text-lg font-semibold text-blue-600 mb-2">3. Merchant Engagement & Roadshow
+                            Preparations</h3>
+                        <ul class="list-disc list-inside space-y-1">
+                            <li>Charmaine highlighted challenges with elderly lady from prior call.</li>
+                            <li>Conversation with Jason about roadshow - preference for small gifts over discounts.</li>
+                            <li>Gas station approach refinement planned for Thursday.</li>
+                            <li>Team confirmed readiness for upcoming tasks and events.</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-md border border-gray-200 shadow-sm">
+                        <h3 class="text-lg font-semibold text-blue-600 mb-2">4. Training Videos & Rewards System
+                            Discussion</h3>
+                        <ul class="list-disc list-inside space-y-1">
+                            <li>Jabari led discussion on training video completion status.</li>
+                            <li>Tatiana and Chalondra shared progress on training materials.</li>
+                            <li>Final video on events not yet available.</li>
+                            <li>Charmaine requested help explaining rewards system to Jason.</li>
+                            <li>Jason's concerns about participation costs addressed.</li>
+                            <li>Team encouraged to post questions in group chat.</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-md border border-gray-200 shadow-sm">
+                        <h3 class="text-lg font-semibold text-blue-600 mb-2">5. Flash Rewards Program Overview</h3>
+                        <ul class="list-disc list-inside space-y-1">
+                            <li>Users earn points for transactions, referrals, and regular usage.</li>
+                            <li>Points redeemable for Bitcoin and various partner offers.</li>
+                            <li>Points can be spent at participating merchants and online for gift cards.</li>
+                            <li>Digital services also available through points redemption.</li>
+                            <li>Points do not expire as long as card remains active.</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-md border border-gray-200 shadow-sm">
+                        <h3 class="text-lg font-semibold text-blue-600 mb-2">6. Customer Loyalty Strategy for Jason's
+                            Hardware Store</h3>
+                        <ul class="list-disc list-inside space-y-1">
+                            <li>Rewards program could attract more customers to Jason's store.</li>
+                            <li>High-traffic location advantage identified for implementation.</li>
+                            <li>Competition from larger hardware retailers noted as challenge.</li>
+                            <li>Strategy to target contractors specifically discussed.</li>
+                            <li>Rewards program promotion to enhance customer base.</li>
+                            <li>Funding sources identification for program sustainability.</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-md border border-gray-200 shadow-sm">
+                        <h3 class="text-lg font-semibold text-blue-600 mb-2">7. Machine Installation & Setup Process
+                        </h3>
+                        <ul class="list-disc list-inside space-y-1">
+                            <li>Jason approved installation to be carried out by Trey.</li>
+                            <li>Machines require initial configurations including app downloads.</li>
+                            <li>Settings adjustments necessary for point-of-sale functionality.</li>
+                            <li>Devices must be fully charged and connected to Wi-Fi before delivery.</li>
+                            <li>Backend configurations essential for proper operation.</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-md border border-gray-200 shadow-sm">
+                        <h3 class="text-lg font-semibold text-blue-600 mb-2">8. Merchant Rewards Configuration</h3>
+                        <ul class="list-disc list-inside space-y-1">
+                            <li>Merchants must decide how many points to offer customers.</li>
+                            <li>All merchants required to activate rewards functionality.</li>
+                            <li>Clear understanding of payment process for points essential.</li>
+                            <li>Invoicing process clarified to avoid client confusion.</li>
+                            <li>Communication clarity emphasized for merchant onboarding.</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-md border border-gray-200 shadow-sm">
+                        <h3 class="text-lg font-semibold text-blue-600 mb-2">9. Rewards & Loyalty Points Mechanics</h3>
+                        <ul class="list-disc list-inside space-y-1">
+                            <li>Merchants give discounts as marketing strategy while collecting full price.</li>
+                            <li>When customers use loyalty points, merchants receive full payment.</li>
+                            <li>Rewards function as reimbursement from rewards program.</li>
+                            <li>No merchant losses when offering rewards - crucial communication point.</li>
+                            <li>Understanding essential for effective merchant communication.</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-md border border-gray-200 shadow-sm">
+                        <h3 class="text-lg font-semibold text-blue-600 mb-2">10. Documentation & Performance Tracking
+                            Updates</h3>
+                        <ul class="list-disc list-inside space-y-1">
+                            <li>Dedicated documentation page needed to clarify rewards program.</li>
+                            <li>Information on payments and benefits to be included.</li>
+                            <li>Multiple languages added for accessibility (including Mandarin).</li>
+                            <li>Special needs considerations for technology-challenged users.</li>
+                            <li>New dashboard feature for tracking performance metrics introduced.</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-md border border-yellow-300 shadow-md">
+                        <h3 class="text-lg font-semibold text-yellow-700 mb-2">✅ Action Items:</h3>
+                        <ul class="space-y-4">
+                            <li><strong>Chalondra Dyce:</strong>
+                                <ul class="ml-5 space-y-1">
+                                    <li><label class="flex items-center space-x-2">
+                                            <input type="checkbox" class="form-checkbox h-4 w-4 text-blue-600">
+                                            <span>Collect materials from Tatiana tomorrow</span>
+                                        </label></li>
+                                </ul>
+                            </li>
+
+                            <li><strong>Tatiana Cooke:</strong>
+                                <ul class="ml-5 space-y-1">
+                                    <li><label class="flex items-center space-x-2">
+                                            <input type="checkbox" class="form-checkbox h-4 w-4 text-blue-600">
+                                            <span>Pick up extension cord from Mayfair tomorrow</span>
+                                        </label></li>
+                                </ul>
+                            </li>
+
+                            <li><strong>Jabari Ennis:</strong>
+                                <ul class="ml-5 space-y-1">
+                                    <li><label class="flex items-center space-x-2">
+                                            <input type="checkbox" class="form-checkbox h-4 w-4 text-blue-600">
+                                            <span>Create documentation page explaining how rewards work for
+                                                merchants</span>
+                                        </label></li>
+                                    <li><label class="flex items-center space-x-2">
+                                            <input type="checkbox" class="form-checkbox h-4 w-4 text-blue-600">
+                                            <span>Add Mandarin to documentation for multilingual support</span>
+                                        </label></li>
+                                </ul>
+                            </li>
+
+                            <li><strong>Charmaine Grant:</strong>
+                                <ul class="ml-5 space-y-1">
+                                    <li><label class="flex items-center space-x-2">
+                                            <input type="checkbox" class="form-checkbox h-4 w-4 text-blue-600">
+                                            <span>Follow up with Jason regarding rewards program and clarify
+                                                misunderstandings</span>
+                                        </label></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-md border border-blue-300 shadow-md">
+                        <h3 class="text-lg font-semibold text-blue-700 mb-2">📌 Key Questions & Next Steps</h3>
+                        <ul class="list-disc list-inside space-y-1">
+                            <li>What is the estimated distance from upstairs station to the fence?</li>
+                            <li>Has everyone watched the training videos on the documentation website?</li>
+                            <li>What support is available for merchants who have questions about the app?</li>
+                            <li>How can we improve the client communication flow for faster responses?</li>
+                            <li>What additional training materials are needed for merchant onboarding?</li>
+                        </ul>
+                        <p class="mt-3"><strong>Next Meeting:</strong> July 1st, 2025 @ 4:00pm (Jamaica Time)</p>
+                    </div>
+
+                    <p class="text-center text-gray-600 mt-6">Great progress on technical setup and merchant education —
+                        Keep building those relationships!</p>
+
+                    <div class="text-center text-sm text-gray-500 mt-10">
+                        &copy; 2025 Island Bitcoin Jamaica Limited. | All rights reserved<br />
+                        Contact: <a href="mailto:support@getflash.io" class="text-blue-500">support@getflash.io</a> |
+                        <a href="https://wa.me/18762909250" class="text-blue-500">WhatsApp 876-290-9250</a>
+                    </div>
+                </div>
+            </div>
+
+            <div x-show="tab === 'meeting9'" x-transition>
+                <div class="bg-gray-50 p-4 rounded shadow-sm">
+                    <h2 class="text-xl font-bold">Meeting Minutes – July 1, 2025 @ 4:00PM (Jamaica Time)</h2>
+                    <p><strong>Attendees:</strong> Michael, Natty Dread, Charmaine, Chalondra, Jabari, Tatiana, Ajene,
+                        Roger
+                    </p>
+                    <p><strong>Duration:</strong> 2 hrs</p>
+                </div>
+
+                <div class="space-y-6 mt-4">
+                    <div class="bg-white p-5 rounded-md border border-gray-200 shadow-sm">
+                        <h3 class="text-lg font-semibold text-blue-600 mb-2">1. Roadshow Feedback and App Issues</h3>
+                        <ul class="list-disc list-inside space-y-1">
+                            <li>Chalondra Dyce shared feedback from her roadshow, including difficulties receiving
+                                verification codes.</li>
+                            <li>Jabari Ennis explained delays caused by spam/fraud detection and multiple code requests.
+                            </li>
+                            <li>Highlighted a case where a user had issues due to their phone being registered on a U.S.
+                                network.</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-md border border-gray-200 shadow-sm">
+                        <h3 class="text-lg font-semibold text-blue-600 mb-2">2. Jailbroken Phones and App Download
+                            Procedures</h3>
+                        <ul class="list-disc list-inside space-y-1">
+                            <li>Challenges with jailbroken phones and regional availability were discussed.</li>
+                            <li>Jabari Ennis recommended direct download links and TestFlight for restricted devices.
+                            </li>
+                            <li>Team agreed on the need for better communication on phone type and region requirements.
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-md border border-gray-200 shadow-sm">
+                        <h3 class="text-lg font-semibold text-blue-600 mb-2">3. Event Traffic Challenges and Quota
+                            Completion</h3>
+                        <ul class="list-disc list-inside space-y-1">
+                            <li>Low turnout was noted during a recent event.</li>
+                            <li>Despite challenges, 84% of the quota was achieved.</li>
+                            <li>Charmaine and team faced difficulties in Buff Bay due to uncertainty and tech issues.
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-md border border-gray-200 shadow-sm">
+                        <h3 class="text-lg font-semibold text-blue-600 mb-2">4. Support Response and Communication</h3>
+                        <ul class="list-disc list-inside space-y-1">
+                            <li>Prize winner reported lack of support response; timeline of messages revealed delays.
+                            </li>
+                            <li>Ajene clarified support communications; team emphasized improving clarity and
+                                consistency.
+                            </li>
+                            <li>Michael guided Chalondra on encouraging slower-responding team members to engage in
+                                support
+                                chat.</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-md border border-gray-200 shadow-sm">
+                        <h3 class="text-lg font-semibold text-blue-600 mb-2">5. Support Process Clarification and
+                            Escalation
+                        </h3>
+                        <ul class="list-disc list-inside space-y-1">
+                            <li>Shamona's support communication with a user lacked clear guidance.</li>
+                            <li>Michael and Charmaine emphasized the importance of understanding and communicating
+                                support
+                                steps.</li>
+                            <li>Michael stressed training and trust-building to ensure smooth communication with users.
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-md border border-gray-200 shadow-sm">
+                        <h3 class="text-lg font-semibold text-blue-600 mb-2">6. Merchant Outreach and Marketing
+                            Improvements
+                        </h3>
+                        <ul class="list-disc list-inside space-y-1">
+                            <li>Tatiana followed up with Emmanuel's Kitchen and identified additional merchants.</li>
+                            <li>Roger Kerr reported interest from Valley Life Pharmacy and The Meat Place.</li>
+                            <li>Roger suggested using feather banners over retractables for better visibility.</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-md border border-yellow-300 shadow-md">
+                        <h3 class="text-lg font-semibold text-yellow-700 mb-2">✅ Action Items:</h3>
+                        <ul class="space-y-4">
+                            <li><strong>Chalondra Dyce:</strong>
+                                <ul class="ml-5 space-y-1">
+                                    <li>Send photo of code issue from roadshow to the group.</li>
+                                    <li>Check if her team can cover for Charmaine's team at next event.</li>
+                                </ul>
+                            </li>
+                            <li><strong>Jabari Ennis:</strong>
+                                <ul class="ml-5 space-y-1">
+                                    <li>Investigate phone number issues related to verification codes.</li>
+                                </ul>
+                            </li>
+                            <li><strong>Charmaine Grant:</strong>
+                                <ul class="ml-5 space-y-1">
+                                    <li>Follow up with prize winner to confirm support communication.</li>
+                                </ul>
+                            </li>
+                            <li><strong>Shamona:</strong>
+                                <ul class="ml-5 space-y-1">
+                                    <li>Assist prize winner with the support process for cashing out.</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-md border border-blue-300 shadow-md">
+                        <h3 class="text-lg font-semibold text-blue-700 mb-2">📌 Key Questions & Next Meeting</h3>
+                        <ul class="list-disc list-inside space-y-1">
+                            <li>How can the team improve sign-up for users with U.S. phones?</li>
+                            <li>What strategies could increase traffic during roadshows?</li>
+                            <li>What steps ensure effective support and follow-up communication?</li>
+                        </ul>
+                        <p class="mt-3"><strong>Next Meeting:</strong> July 8th, 2025 @ 4:00PM (Jamaica Time)</p>
+                    </div>
+
+                    <p class="text-center text-gray-600 mt-6">Keep pushing — your effort is making a difference every
+                        week!
+                    </p>
+
+                    <div class="text-center text-sm text-gray-500 mt-10">
+                        &copy; 2025 Island Bitcoin Jamaica Limited. | All rights reserved<br />
+                        Contact: <a href="mailto:support@getflash.io" class="text-blue-500">support@getflash.io</a> |
+                        <a href="https://wa.me/18762909250" class="text-blue-500">WhatsApp 876-290-9250</a>
+                    </div>
+                </div>
+            </div>
+
+            <div x-show="tab === 'meeting10'" x-transition>
+                <div class="bg-gray-50 p-4 rounded shadow-sm">
+                    <h2 class="text-xl font-bold">Meeting Minutes – July 8, 2025 @ 4:00PM (Jamaica Time)</h2>
+                    <p><strong>Attendees:</strong> Michael, Charmaine, Tatiana, Jabari, Roger, Chalondra</p>
+                    <p><strong>Duration:</strong> 1.5 hrs</p>
+                </div>
+
+                <div class="space-y-6 mt-4">
+                    <div class="bg-white p-5 rounded-md border border-gray-200 shadow-sm">
+                        <h3 class="text-lg font-semibold text-blue-600 mb-2">1. Updates on Business Outreach and
+                            Location Planning</h3>
+                        <ul class="list-disc list-inside space-y-1">
+                            <li>Michael noted no new features this week but emphasized future planning.</li>
+                            <li>Roger shared updates on Lismel Pharmacy and Uncorked restaurant, including tent setup
+                                inquiries.</li>
+                            <li>Discussed cashing out Bitcoin in case of price spikes.</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-md border border-gray-200 shadow-sm">
+                        <h3 class="text-lg font-semibold text-blue-600 mb-2">2. Updates on Outreach and Engagement
+                            Efforts</h3>
+                        <ul class="list-disc list-inside space-y-1">
+                            <li>Charmaine noted improved interest in brochures during outreach.</li>
+                            <li>Tatiana reported reaching 300 in her intake form and is targeting more merchants.</li>
+                            <li>Chalondra noted low engagement at a recent festival and suggested better marketing.</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-md border border-gray-200 shadow-sm">
+                        <h3 class="text-lg font-semibold text-blue-600 mb-2">3. Event Debrief and Wi-Fi Service Review
+                        </h3>
+                        <ul class="list-disc list-inside space-y-1">
+                            <li>Michael highlighted poor event promotion and lack of an emcee, leading to attendees
+                                missing free Wi-Fi info.</li>
+                            <li>Jabari confirmed Wi-Fi service worked well and could serve as a future sales tool.</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-md border border-gray-200 shadow-sm">
+                        <h3 class="text-lg font-semibold text-blue-600 mb-2">4. Bitcoin Wallet Volatility and Cashing
+                            Out</h3>
+                        <ul class="list-disc list-inside space-y-1">
+                            <li>Discussed implications of Bitcoin price changes for shareholders.</li>
+                            <li>Roger confirmed that users can cash out via exchanges with no issues.</li>
+                            <li>Michael emphasized distinction between Bitcoin and stablecoins.</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-md border border-gray-200 shadow-sm">
+                        <h3 class="text-lg font-semibold text-blue-600 mb-2">5. Bitcoin Transactions and Staff
+                            Communication</h3>
+                        <ul class="list-disc list-inside space-y-1">
+                            <li>Michael raised need for accurate fee communication when converting Bitcoin to cash.</li>
+                            <li>Charmaine shared a gas station incident involving staff confusion around Bitcoin
+                                payments.</li>
+                            <li>Team agreed on improved training for merchant-facing staff.</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-md border border-gray-200 shadow-sm">
+                        <h3 class="text-lg font-semibold text-blue-600 mb-2">6. Bitcoin Payment Process and Training
+                        </h3>
+                        <ul class="list-disc list-inside space-y-1">
+                            <li>Michael noted training is essential to ensure coordinators understand Bitcoin payments.
+                            </li>
+                            <li>Jabari demonstrated that any Lightning-enabled wallet works for receiving payments.</li>
+                            <li>Reassurance provided that users retain access to their Bitcoin even if Flash ceases
+                                operations.</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-md border border-gray-200 shadow-sm">
+                        <h3 class="text-lg font-semibold text-blue-600 mb-2">7. Program of Work Discussion</h3>
+                        <ul class="list-disc list-inside space-y-1">
+                            <li>Michael encouraged structured targets and strategic alignment for 60,000 user goal.</li>
+                            <li>Tatiana will share her progress on the program of work; Jabari will help present it.
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-md border border-gray-200 shadow-sm">
+                        <h3 class="text-lg font-semibold text-blue-600 mb-2">8. Strategies for Merchant Acquisition and
+                            Cardholder Recruitment</h3>
+                        <ul class="list-disc list-inside space-y-1">
+                            <li>Tatiana suggested outreach and local events, including ambassador and social media
+                                efforts.</li>
+                            <li>Chalondra proposed a merchant referral program.</li>
+                            <li>Charmaine focused on leveraging existing merchant relationships.</li>
+                            <li>Roger recommended targeting specific customer types to increase merchant interest.</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-md border border-gray-200 shadow-sm">
+                        <h3 class="text-lg font-semibold text-blue-600 mb-2">9. Marketing Strategy and Business
+                            Development Insights</h3>
+                        <ul class="list-disc list-inside space-y-1">
+                            <li>Michael emphasized the need for strong introductions in Jamaica’s business landscape.
+                            </li>
+                            <li>Suggested leveraging media exposure and social media to boost business credibility.</li>
+                            <li>Charmaine and Tatiana stressed the importance of online presence and signage design.
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-md border border-gray-200 shadow-sm">
+                        <h3 class="text-lg font-semibold text-blue-600 mb-2">10. Food Experiences and Preferences</h3>
+                        <ul class="list-disc list-inside space-y-1">
+                            <li>Michael was disappointed with a dish called "ackee soup" but praised peanut porridge.
+                            </li>
+                            <li>Jabari enjoyed soursop and supported local vendors including a bead seller and
+                                bookstore.</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-md border border-gray-200 shadow-sm">
+                        <h3 class="text-lg font-semibold text-blue-600 mb-2">11. RMC Event Debriefing and Payment
+                            Solutions</h3>
+                        <ul class="list-disc list-inside space-y-1">
+                            <li>Jabari engaged with 50-60% of vendors at the event.</li>
+                            <li>Michael proposed a debrief with organizers to review cash handling and promote Flash for
+                                payments.</li>
+                            <li>Suggested using incentives and better marketing to increase Flash adoption at events.
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-md border border-gray-200 shadow-sm">
+                        <h3 class="text-lg font-semibold text-blue-600 mb-2">12. Feedback and Reporting Deadlines</h3>
+                        <ul class="list-disc list-inside space-y-1">
+                            <li>Michael requested feedback from Ayesha and noted consistency in performance from last
+                                year.</li>
+                            <li>Jabari reminded the team to submit Monday reports by noon to avoid delays.</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-md border border-gray-200 shadow-sm">
+                        <h3 class="text-lg font-semibold text-blue-600 mb-2">13. Denbigh Agricultural Exhibition
+                            Planning</h3>
+                        <ul class="list-disc list-inside space-y-1">
+                            <li>Michael introduced the Denbigh Agricultural Exhibition as a major engagement opportunity
+                                (60,000 attendees).</li>
+                            <li>Charmaine and Jabari reflected positively on past experiences there.</li>
+                            <li>Michael proposed offering free Wi-Fi to encourage engagement at their booth.</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-md border border-yellow-300 shadow-md">
+                        <h3 class="text-lg font-semibold text-yellow-700 mb-2">✅ Action Items:</h3>
+                        <ul class="space-y-4">
+                            <li><strong>Roger Kerr:</strong>
+                                <ul class="ml-5 space-y-1">
+                                    <li>Visit Lismel Pharmacy to discuss the product and setup potential.</li>
+                                    <li>Visit the fire station to ask about setting up a tent in front of the property.
+                                    </li>
+                                </ul>
+                            </li>
+                            <li><strong>Charmaine Grant:</strong>
+                                <ul class="ml-5 space-y-1">
+                                    <li>Update intake forms with merchant interest levels.</li>
+                                </ul>
+                            </li>
+                            <li><strong>Tatiana Cooke:</strong>
+                                <ul class="ml-5 space-y-1">
+                                    <li>Call back three merchants to discuss partnerships.</li>
+                                    <li>Ensure the marketing strategy remains active and refined.</li>
+                                </ul>
+                            </li>
+                            <li><strong>Jabari Ennis:</strong>
+                                <ul class="ml-5 space-y-1">
+                                    <li>Create documentation or a video tutorial on using wallets for payments.</li>
+                                    <li>Send out the reporting template for the team to complete by weekend.</li>
+                                    <li>Ensure Monday reports are submitted on time by noon.</li>
+                                </ul>
+                            </li>
+                            <li><strong>Michael Ennis:</strong>
+                                <ul class="ml-5 space-y-1">
+                                    <li>Schedule Zoom call with Yvonne and Charmaine for Portland planning.</li>
+                                    <li>Call event organizers for a debriefing later in the week.</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-md border border-blue-300 shadow-md">
+                        <h3 class="text-lg font-semibold text-blue-700 mb-2">📌 Key Questions & Next Meeting</h3>
+                        <ul class="list-disc list-inside space-y-1">
+                            <li>What is the process for cashing out Bitcoin if its value spikes?</li>
+                            <li>How will the program of work be structured to achieve the target of 60,000 users?</li>
+                            <li>How can merchants be incentivized to sign up for the program?</li>
+                            <li>What strategies can increase market credibility and exposure?</li>
+                            <li>How can Denbigh be used to maximize brand engagement and user onboarding?</li>
+                        </ul>
+                        <p class="mt-3"><strong>Next Meeting:</strong> July 15th, 2025 @ 4:00PM (Jamaica Time)</p>
+                    </div>
+
+                    <p class="text-center text-gray-600 mt-6">Great input from everyone — let’s stay consistent and
+                        build momentum!</p>
+
+                    <div class="text-center text-sm text-gray-500 mt-10">
+                        &copy; 2025 Island Bitcoin Jamaica Limited. | All rights reserved<br />
+                        Contact: <a href="mailto:support@getflash.io" class="text-blue-500">support@getflash.io</a> |
+                        <a href="https://wa.me/18762909250" class="text-blue-500">WhatsApp 876-290-9250</a>
+                    </div>
+                </div>
+
+
+            </div>
+
+            <div class="bg-gray-50 p-4 rounded shadow-sm">
+                <h2 class="text-xl font-bold">Meeting Minutes – July 29, 2025 @ 4:00PM (Jamaica Time)</h2>
+                <p><strong>Attendees:</strong> Michael, Chalondra, Charmaine, Jabari, Roger, Alana</p>
+                <p><strong>Duration:</strong> 1 hr</p>
+            </div>
+
+            <div class="space-y-6 mt-4">
+                <div class="bg-white p-5 rounded-md border border-gray-200 shadow-sm">
+                    <h3 class="text-lg font-semibold text-blue-600 mb-2">1. Progress Updates and Documentation
+                        Importance</h3>
+                    <ul class="list-disc list-inside space-y-1">
+                        <li> Roger provided updates on his outreach efforts in St Ann, including merchant introductions
+                            and app downloads.</li>
+                        <li>Charmaine shared her progress in Portland, noting challenges with cashing out at the gas
+                            station, and merchant engagement.</li>
+                        <li>Chalondra Dyce provided updates on outreach in Port Maria and her broadcast list.</li>
+                        <li>Michael emphasized submitting the program of work to track progress and uptake.</li>
+                        <li>Team encouraged to document interactions consistently for better visibility.</li>
+                    </ul>
+                </div>
+
+                <div class="bg-white p-5 rounded-md border border-gray-200 shadow-sm">
+                    <h3 class="text-lg font-semibold text-blue-600 mb-2">2. Strategies for Merchant Introductions</h3>
+                    <ul class="list-disc list-inside space-y-1">
+                        <li>Michael advised using personal referrals over cold calls for merchant introductions.</li>
+                        <li>Chalondra agreed this approach is more productive and highlighted past challenges.</li>
+                    </ul>
+                </div>
+
+                <div class="bg-white p-5 rounded-md border border-gray-200 shadow-sm">
+                    <h3 class="text-lg font-semibold text-blue-600 mb-2">3. Planning for Family Day and Upcoming Events
+                    </h3>
+                    <ul class="list-disc list-inside space-y-1">
+                        <li>Family Day event confirmed for August 9th at the Country Club with Wi-Fi access and soft
+                            promotion.</li>
+                        <li>Roger Kerr confirmed attendance; promotion will utilize homeowner email list.</li>
+                        <li>Team will also be represented at Denby through a partner company.</li>
+                    </ul>
+                </div>
+
+                <div class="bg-white p-5 rounded-md border border-gray-200 shadow-sm">
+                    <h3 class="text-lg font-semibold text-blue-600 mb-2">4. Media Strategy for Flash Products</h3>
+                    <ul class="list-disc list-inside space-y-1">
+                        <li>Michael emphasized promoting Flash via media coverage on cashless society themes.</li>
+                        <li>Traditional media such as the Gleaner was deemed more credible than social media.</li>
+                        <li>Michael has published Bitcoin articles to boost awareness and credibility.</li>
+                    </ul>
+                </div>
+
+                <div class="bg-white p-5 rounded-md border border-gray-200 shadow-sm">
+                    <h3 class="text-lg font-semibold text-blue-600 mb-2">5. Merchant Accounts and Credit Union Transfers
+                    </h3>
+                    <ul class="list-disc list-inside space-y-1">
+                        <li>Charmaine noted three merchant prospects with only credit union accounts.</li>
+                        <li>Michael recommended consulting a foundation member who is also a credit union director.</li>
+                    </ul>
+                </div>
+
+                <div class="bg-white p-5 rounded-md border border-gray-200 shadow-sm">
+                    <h3 class="text-lg font-semibold text-blue-600 mb-2">6. Discussion on Cash Out Options for Merchants
+                    </h3>
+                    <ul class="list-disc list-inside space-y-1">
+                        <li>Charmaine discussed challenges small merchants face with cashing out.</li>
+                        <li>Michael noted that cash stations wouldn’t be immediately burdened, and long-term uptake
+                            could shift habits.</li>
+                    </ul>
+                </div>
+
+                <div class="bg-white p-5 rounded-md border border-gray-200 shadow-sm">
+                    <h3 class="text-lg font-semibold text-blue-600 mb-2">7. ProtonMail Setup and Sales Strategy</h3>
+                    <ul class="list-disc list-inside space-y-1">
+                        <li>Jabari introduced ProtonMail for secure team email and VPN access.</li>
+                        <li>Emails will match members’ Lightning addresses.</li>
+                        <li>Michael cautioned against using these addresses to request payments directly.</li>
+                    </ul>
+                </div>
+
+                <div class="bg-white p-5 rounded-md border border-gray-200 shadow-sm">
+                    <h3 class="text-lg font-semibold text-blue-600 mb-2">8. Program of Work and Engagement Strategies
+                    </h3>
+                    <ul class="list-disc list-inside space-y-1">
+                        <li>Michael reiterated the importance of submitting programs of work by Sunday.</li>
+                        <li>Team members encouraged to share experiences for collective learning.</li>
+                        <li>Michael acknowledged the need for a more scalable method to gather input as the team grows.
+                        </li>
+                        <li>Alana confirmed she is ready to begin and expects to ask questions as she gets started.</li>
+                    </ul>
+                </div>
+
+                <div class="bg-white p-5 rounded-md border border-yellow-300 shadow-md">
+                    <h3 class="text-lg font-semibold text-yellow-700 mb-2">✅ Action Items:</h3>
+                    <ul class="space-y-4">
+                        <li><strong>Chalondra Dyce:</strong>
+                            <ul class="ml-5 space-y-1">
+                                <li>Visit businesses in Port Maria and seek merchant introductions via local contact.
+                                </li>
+                                <li>Check back with 50 contacts about app downloads and onboard more users.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Charmaine Grant:</strong>
+                            <ul class="ml-5 space-y-1">
+                                <li>Contact foundation member about credit union transfer support.</li>
+                                <li>Follow up with George regarding cash out feasibility at his location.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Jabari Ennis:</strong>
+                            <ul class="ml-5 space-y-1">
+                                <li>Support team in setting up ProtonMail corporate emails.</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="bg-white p-5 rounded-md border border-blue-300 shadow-md">
+                    <h3 class="text-lg font-semibold text-blue-700 mb-2">📌 Key Questions & Next Meeting</h3>
+                    <ul class="list-disc list-inside space-y-1">
+                        <li>How will the team document their work and progress moving forward?</li>
+                        <li>How do small merchants with credit union accounts sign up as merchants?</li>
+                    </ul>
+                    <p class="mt-3"><strong>Next Meeting:</strong> August 5th, 2025 @ 4:00PM (Jamaica Time)</p>
+                </div>
+
+                <p class="text-center text-gray-600 mt-6">Thanks everyone for your commitment and contributions — onward
+                    to Family Day and beyond!</p>
+
+                <div class="text-center text-sm text-gray-500 mt-10">
+                    &copy; 2025 Island Bitcoin Jamaica Limited. | All rights reserved<br />
+                    Contact: <a href="mailto:support@getflash.io" class="text-blue-500">support@getflash.io</a> |
+                    <a href="https://wa.me/18762909250" class="text-blue-500">WhatsApp 876-290-9250</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="en" class="theme-transition">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Empower Your Business with FlashCard Rewards - Join the Flash network and turn every transaction into a lasting customer relationship." />
+    <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; script-src 'self' https://code.jquery.com https://cdn.jsdelivr.net https://api.coingecko.com https://code.tidio.co 'unsafe-inline'; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; font-src https://fonts.gstatic.com; img-src 'self' https://images.unsplash.com data:; connect-src 'self' https://api.coingecko.com https://tidio.co wss://*.tidio.co;" />
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/png" href="/assets/img/favicon-32x32.png" sizes="32x32" />
+    <link rel="icon" type="image/png" href="/assets/img/favicon-16x16.png" sizes="16x16" />
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <!-- CSS -->
+    <link rel="stylesheet" href="/css/main.css" />
+    <style>
+        /* CSS Variables */
+        :root {
+            --brand-green: #41ad49;
+            --spacing-xs: 0.25rem;
+            --spacing-sm: 0.5rem;
+            --spacing-md: 1rem;
+            --spacing-lg: 1.5rem;
+            --spacing-xl: 2rem;
+            --padding-section: 1rem;
+            --border-radius: 8px;
+            --transition-speed: 0.3s;
+            --card-shadow: 0 2px 8px var(--box-shadow-color);
+            --max-content-width: 1200px;
+
+            /* Theme colors - mobile-first dark theme */
+            --text-color: #fff;
+            --bg-color: #000;
+            --heading-color: #fff;
+            --box-shadow-color: rgba(0, 0, 0, 0.15);
+            --card-bg: #111;
+        }
+
+        /* Light theme overrides */
+        html:not(.dark-theme) {
+            --text-color: #333;
+            --bg-color: #fff;
+            --heading-color: #000;
+            --box-shadow-color: rgba(0, 0, 0, 0.1);
+            --card-bg: #f5f5f5;
+        }
+
+        /* Base styles */
+        body {
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            transition: background-color var(--transition-speed) ease;
+        }
+
+        /* Containers */
+        .container {
+            width: 95%;
+            max-width: var(--max-content-width);
+            margin: 0 auto;
+            padding: 0 var(--spacing-md);
+        }
+
+        /* No style links */
+        .no-style {
+            text-decoration: none;
+            color: inherit;
+            border: none;
+            outline: none;
+            display: inline-block;
+        }
+
+        .no-style:hover,
+        .no-style:active,
+        .no-style:focus {
+            text-decoration: none;
+            color: inherit;
+            border: none;
+            outline: none;
+        }
+
+        .no-style img {
+            display: block;
+        }
+
+        /* Typography */
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            color: var(--heading-color);
+            margin-top: 0;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+
+        h2 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: var(--spacing-md);
+        }
+
+        h3 {
+            font-size: 1.25rem;
+            font-weight: 500;
+            margin-bottom: var(--spacing-xs);
+        }
+
+        p {
+            margin: 0 0 var(--spacing-sm);
+            color: var(--text-color);
+            opacity: 0.8;
+        }
+
+        /* Layout utilities */
+        .section {
+            padding: var(--padding-section) 0;
+        }
+
+        .grid {
+            display: grid;
+            gap: var(--spacing-md);
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        /* Spacing utilities */
+        .mt-0 {
+            margin-top: 0;
+        }
+
+        .mb-0 {
+            margin-bottom: 0;
+        }
+
+        .mt-1 {
+            margin-top: var(--spacing-sm);
+        }
+
+        .mb-1 {
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .mt-2 {
+            margin-top: var(--spacing-md);
+        }
+
+        .mb-2 {
+            margin-bottom: var(--spacing-md);
+        }
+
+        .mt-3 {
+            margin-top: var(--spacing-lg);
+        }
+
+        .mb-3 {
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .mt-4 {
+            margin-top: var(--spacing-xl);
+        }
+
+        .mb-4 {
+            margin-bottom: var(--spacing-xl);
+        }
+
+        /* Divider */
+        .section-divider {
+            height: 1px;
+            background: var(--text-color);
+            opacity: 0.1;
+            margin: var(--spacing-md) 0;
+        }
+
+        /* Hero section */
+        .hero-section {
+            grid-template-columns: 1fr;
+            align-items: center;
+            gap: var(--spacing-lg);
+            padding-top: 80px;
+            /* Increased from var(--spacing-md) */
+        }
+
+        .hero-heading {
+            margin-bottom: var(--spacing-sm);
+            padding-top: 80px;
+            /* Increased from var(--spacing-md) */
+        }
+
+        .hero-heading span {
+            color: var(--brand-green) !important;
+        }
+
+        .hero-subtext {
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .hero-img img {
+            border-radius: var(--border-radius);
+            width: 100%;
+            height: auto;
+            max-height: 500px;
+            object-fit: cover;
+        }
+
+        /* Hero button fix */
+        .hero-button {
+            max-width: 200px;
+            display: block;
+            /* Changed from inline-block */
+            margin: 0 auto;
+            /* Center the button */
+            text-align: center;
+        }
+
+        .hero-button img {
+            width: 100%;
+            max-width: 220px;
+            height: auto;
+        }
+
+        .section .container {
+            text-align: center;
+        }
+
+        /* Benefits & Steps */
+        .card-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-md);
+            text-align: center;
+            box-shadow: var(--card-shadow);
+            transition: transform var(--transition-speed) ease,
+                box-shadow var(--transition-speed) ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px var(--box-shadow-color);
+        }
+
+        .card-icon {
+            font-size: 2.5rem;
+            margin: 0.5rem 0;
+            display: block;
+        }
+
+        .card h3 {
+            margin: 0.5rem 0;
+            font-weight: 600;
+        }
+
+        .card p {
+            margin: 0;
+            font-size: 0.95rem;
+            opacity: 0.8;
+        }
+
+        /* Steps process */
+        .steps-process {
+            position: relative;
+            padding-top: 1rem;
+        }
+
+        .step-connector {
+            display: none;
+            /* Hide on mobile */
+            position: absolute;
+            top: 3.5rem;
+            left: 10%;
+            right: 10%;
+            height: 2px;
+            background: linear-gradient(to right,
+                    transparent 0%,
+                    var(--text-color) 10%,
+                    var(--text-color) 90%,
+                    transparent 100%);
+            opacity: 0.2;
+            z-index: 0;
+        }
+
+        .step-card {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg) var(--spacing-md) var(--spacing-md);
+            text-align: center;
+            box-shadow: var(--card-shadow);
+            transition: transform var(--transition-speed) ease,
+                box-shadow var(--transition-speed) ease;
+            position: relative;
+        }
+
+        .step-number {
+            width: 36px;
+            height: 36px;
+            background-color: var(--brand-green);
+            color: #000;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.1rem;
+            position: absolute;
+            top: -18px;
+            left: 50%;
+            transform: translateX(-50%);
+            margin: 0;
+            z-index: 2;
+        }
+
+        /* Add timing text at bottom of card */
+        .timing {
+            margin-top: var(--spacing-md);
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--brand-green);
+        }
+
+        /* Testimonials */
+        .testimonials {
+            width: 100%;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-button {
+            display: block;
+            max-width: 200px;
+            height: auto;
+            margin: 0 auto;
+            transition: transform var(--transition-speed) ease;
+        }
+
+        blockquote {
+            font-style: italic;
+            color: var(--text-color);
+            opacity: 0.9;
+            margin: 0 0 var(--spacing-xs) 0;
+            font-size: 1.1rem;
+        }
+
+        .testimonial-author {
+            opacity: 0.7;
+            margin-bottom: var(--spacing-lg);
+        }
+
+        /* CTA */
+        .cta-container {
+            text-align: center;
+            margin: var(--spacing-lg) 0;
+        }
+
+        .cta-button:hover {
+            transform: scale(1.05);
+        }
+
+        /* Responsive styles */
+        @media (max-width: 767px) {
+            .section {
+                padding: var(--padding-section) 0;
+            }
+
+            .container {
+                padding: 0 var(--spacing-md);
+            }
+
+            .card-grid {
+                display: grid;
+                justify-content: center;
+                gap: calc(var(--spacing-lg) + 8px);
+            }
+
+            .hero-button {
+                margin: 0 auto;
+            }
+
+            /* For hero section specifically */
+            .hero-section>div:first-child {
+                text-align: center;
+            }
+
+            .hero-heading {
+                font-size: 2.2rem;
+            }
+
+            /* Better spacing for step cards on mobile */
+            .steps-process {
+                margin-bottom: var(--spacing-lg);
+            }
+        }
+
+        @media (min-width: 768px) {
+            :root {
+                --padding-section: 2rem;
+            }
+
+            h1 {
+                font-size: 3rem;
+            }
+
+            h2 {
+                font-size: 2rem;
+            }
+
+            .hero-section {
+                grid-template-columns: 1.1fr 0.9fr;
+                padding-top: 100px;
+                /* Even more space on desktop */
+            }
+
+            .hero-heading {
+                font-size: 2.2rem;
+                padding-top: 100px;
+            }
+
+            .card-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .step-connector {
+                display: block;
+                top: 3.5rem;
+            }
+
+            .cta-button {
+                max-width: 250px;
+            }
+
+            .container {
+                padding: 0 var(--spacing-lg);
+            }
+        }
+
+        /* More robust centering fixes */
+
+        /* Hero section text alignment */
+        .hero-section>div {
+            text-align: center;
+        }
+
+        /* Hero button with stronger centering */
+        .hero-button {
+            max-width: 200px;
+            display: block;
+            margin-left: auto !important;
+            margin-right: auto !important;
+            text-align: center;
+        }
+
+        /* Card grid items for benefits section */
+        .card-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+            justify-items: center;
+            /* Center grid items */
+            justify-content: center;
+            /* Center the grid itself */
+        }
+
+        .card {
+            width: 100%;
+            /* Full width on mobile */
+            max-width: 300px;
+            /* But cap the maximum width */
+            margin: 0 auto;
+            /* Center the card */
+        }
+
+        /* Improved mobile specific styles */
+        @media (max-width: 767px) {
+
+            /* Generic rule for text centering */
+            .section .text-center,
+            .section p,
+            .section h1,
+            .section h2,
+            .section h3 {
+                text-align: center;
+            }
+
+            /* Ensure hero section text centering */
+            .hero-section>div {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            /* Additional centering for intro text */
+            p.hero-subtext {
+                text-align: center;
+                max-width: 500px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+        }
+
+        /* Maintain layout on desktop */
+        @media (min-width: 768px) {
+            .card {
+                width: auto;
+                /* Reset width for desktop */
+                max-width: none;
+                /* Reset max-width for desktop */
+            }
+
+            .hero-section {
+                text-align: left;
+                padding-top: 100px;
+                /* Even more space on desktop */
+            }
+
+            .hero-section>div:first-child {
+                text-align: left;
+                /* Left-align first column on desktop */
+            }
+
+            /* Hero button left alignment on desktop */
+            .hero-section .hero-button {
+                margin-left: 0;
+                margin-right: auto;
+            }
+        }
+    </style>
+    <!-- Theme preference detection -->
+    <script>
+        (function () {
+            const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const storedTheme = localStorage.getItem('theme');
+            const htmlElement = document.documentElement;
+
+            if (storedTheme === 'light') {
+                htmlElement.classList.remove('dark-theme');
+            } else if (storedTheme === 'dark' || (!storedTheme && prefersDark)) {
+                htmlElement.classList.add('dark-theme');
+            }
+        })();
+    </script>
+    <title>Rewards | Flash</title>
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <div class="logo-container">
+                <a href="#pg-download" class="no-style">
+                    <img src="../assets/img/logo-black.png" alt="Flash" class="light" />
+                    <img src="../assets/img/logo-white.png" alt="Flash" class="dark" />
+                </a>
+            </div>
+            <!-- Navigation -->
+            <nav>
+                <svg id="open-nav" class="nav-icon mobile-only" aria-label="close menu" width="41" height="15"
+                    viewBox="0 0 41 15" xmlns="http://www.w3.org/2000/svg">
+                    <line x1="2" y1="2" x2="39" y2="2" stroke="#161313" stroke-width="4" stroke-linecap="round" />
+                    <line x1="15" y1="13" x2="39" y2="13" stroke="#161313" stroke-width="4" stroke-linecap="round" />
+                </svg>
+                <ul class="main-nav" id="main-nav" data-mob-state="closed">
+                    <li class="mobile-only">
+                        <svg id="close-nav" class="nav-icon" aria-label="close menu" width="26" height="26"
+                            viewBox="0 0 26 26" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M23.2129 2L1.99969 23.2132" stroke="black" stroke-width="4"
+                                stroke-linecap="round" />
+                            <path d="M2.21289 2L23.4261 23.2132" stroke="black" stroke-width="4"
+                                stroke-linecap="round" />
+                        </svg>
+                    </li>
+                    <li class="darkmode-switch mobile-only">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                            aria-hidden="true">
+                            <use href="#lightbulb" class="lightbulb"></use>
+                        </svg>
+                    </li>
+                    <li><a href="/index.html#pg-download" class="nav-link mobile-only">Home</a></li>
+                    <li><a href="/index.html#pg-about" class="nav-link">About</a></li>
+                    <li><a href="/blog" class="nav-link">Blog</a></li>
+                    <li><a href="/index.html#pg-contact" class="nav-link">Contact</a></li>
+                    <li><a href="https://documentation.getflash.io" target="_blank" rel="noopener noreferrer"
+                            class="nav-link">Docs</a></li>
+                    <li><a href="/index.html#pg-faq" class="nav-link">FAQ</a></li>
+                    <li><a href="/mission.html" class="nav-link">Mission</a></li>
+                    <li><a href="/rewards/index.html" class="nav-link-active">Rewards</a></li>
+                    <li><a href="/team.html" class="nav-link">Team</a></li>
+                </ul>
+            </nav>
+            <div id="bitcoin-price" class="btc-widget">
+                <h3>Bitcoin Price:</h3>
+                <p>1 BTC = $ <span id="btc-value">Loading...</span> USD</p>
+            </div>
+            <div class="darkmode-switch desktop-only">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true">
+                    <use href="#lightbulb" class="lightbulb"></use>
+                </svg>
+                <p class="desktop-only">Dark Mode <span id="darkmode-text">On</span></p>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="section container">
+            <div class="grid hero-section">
+                <div>
+                    <h1 class="hero-heading">Empower Your Business with <span>Flash Rewards</span></h1>
+                    <p class="hero-subtext">
+                        Become a Flashpoint today and start rewarding your customers with
+                        loyalty points.
+                    </p>
+                    <a href="https://flash-merchant-signup-ov4yh.ondigitalocean.app/form" class="no-style hero-button">
+                        <img src="/assets/img/sign-up-button.png" alt="Become a Flashpoint"
+                            style="height: auto; width: 150%; max-width: 250px; transition: transform 0.3s ease; transform: rotate(-12deg);"
+                            onmouseover="this.style.transform='rotate(-9deg) scale(1.05)'"
+                            onmouseout="this.style.transform='rotate(-12deg) scale(1)'" />
+                    </a>
+                </div>
+                <div class="text-center hero-img">
+                    <img src="/assets/img/rewards-hero.jpg" loading="lazy" alt="Merchant POS">
+                </div>
+            </div>
+        </section>
+
+        <!-- Content Section -->
+        <section class="section container">
+            <div class="text-center">
+                <p class="mt-2 mb-0">It takes just 3 minutes to signup for the Flash rewards network and turn every
+                    transaction into a lasting customer relationship.</p>
+            </div>
+            <div class="card-grid">
+                <div class="card">
+                    <div class="card-icon">
+                        <img src="/assets/img/icon-trophy.png" alt="Trophy" width="40" height="40"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                        <span style="display:none;">🏆</span>
+                    </div>
+                    <h3>Boost Customer Loyalty</h3>
+                    <p>Reward repeat customers and keep them coming back.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">
+                        <img src="/assets/img/icon-eye.png" alt="Eye" width="40" height="40"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                        <span style="display:none;">👁️</span>
+                    </div>
+                    <h3>Increase Visibility</h3>
+                    <p>Get featured in the Flash app to attract new customers.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">
+                        <img src="/assets/img/icon-check.png" alt="Check" width="40" height="40"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                        <span style="display:none;">✅</span>
+                    </div>
+                    <h3>Simplified Integration</h3>
+                    <p>Easy setup with dedicated support to get you started.</p>
+                </div>
+            </div>
+
+            <div class="section-divider"></div>
+
+            <!-- How It Works -->
+            <h2 class="text-center mt-3 mb-2">Complete In Just 5 Minutes</h2>
+            <div class="steps-process">
+                <div class="step-connector"></div>
+                <div class="card-grid">
+                    <div class="card step-card">
+                        <div class="step-number">1</div>
+                        <div class="card-icon">
+                            <img src="/assets/img/icon-signup.png" alt="Sign Up" width="40" height="40"
+                                onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                            <span style="display:none;">📝</span>
+                        </div>
+                        <h3>Sign Up</h3>
+                        <p>Complete our simple 5-minute application</p>
+                        <a href="https://flash-merchant-signup-ov4yh.ondigitalocean.app/form" class="no-style">
+                            <div class="timing">Do it now</div>
+                        </a>
+                    </div>
+                    <div class="card step-card">
+                        <div class="step-number">2</div>
+                        <div class="card-icon">
+                            <img src="/assets/img/icon-terminal.png" alt="Get Equipped" width="40" height="40"
+                                onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                            <span style="display:none;">📟</span>
+                        </div>
+                        <h3>Download App</h3>
+                        <p>Download the Flash App</p>
+                        <p>(optionally receive your FlashPoint kit)</p>
+                        <a href="https://getflash.io/app/" class="no-style">
+                            <div class="timing">Install it now</div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-divider"></div>
+
+            <!-- Testimonials -->
+            <div class="testimonials">
+                <blockquote>"Our first time using Flash it was actually a bit mind-blowing. To see that someone from
+                    Jamaica started this themselves is very impressive."</blockquote>
+                <p class="testimonial-author">— Damain R., Cafe Manager</p>
+
+                <blockquote>"The most suprising thing about Flash rewards is how fast and easy it was to set
+                    up."</blockquote>
+                <p class="testimonial-author">— Pietro G., Restaurant Owner</p>
+            </div>
+
+            <div class="cta-container">
+                <h2>Ready to elevate your business?</h2>
+                <p class="mb-2">Join the Flash network today.</p>
+                <a href="https://flash-merchant-signup-ov4yh.ondigitalocean.app/form"
+                    class="no-style hero-button cta-button">
+                    <img src="/assets/img/button.png" alt="Sign Up Now" class="cta-button">
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-top">
+            <div class="container">
+                <div class="footer-links">
+                    <a href="/index.html#pg-download" class="no-style">
+                        <img src="/assets/img/logo-black.png" alt="Flash" class="light logo" loading="lazy" />
+                        <img src="/assets/img/logo-white.png" alt="Flash" class="dark logo" loading="lazy" />
+                    </a>
+                    <a href="https://play.google.com/store/apps/details?id=com.lnflash" target="_blank"
+                        class="no-style">
+                        <img src="/assets/img/google-play-badge.png" alt="Get it on Google Play" class="badge"
+                            loading="lazy" />
+                    </a>
+                    <a href="https://apps.apple.com/jm/app/flash-send-spend-and-save/id6451129095" target="_blank"
+                        class="no-style">
+                        <img src="/assets/img/ios-badge.png" alt="Download on the App Store" class="badge ios"
+                            loading="lazy" />
+                    </a>
+                </div>
+                <div class="legal">
+                    <div>
+                        <a href="/legal/terms.html">Terms & Conditions</a>
+                        <a href="/legal/privacy.html">Privacy Policy</a>
+                    </div>
+                    <p class="powered">Powered by Bitcoin.</p>
+                </div>
+            </div>
+            <div class="footer-mid">
+                <div class="container">
+                    <p class="copyright">2021 Flash<span>&trade;</span> All rights reserved.</p>
+                    <p class="copyright"><span>&copy;</span> 2023 Island Bitcoin C.A. de S.V. </p>
+                </div>
+            </div>
+            <div class="footer-btm">
+                <div class="container">
+                    <p>Island Bitcoin C.A. de S.V. entity is regulated by BCR and by the Superintendent of the Financial
+                        System of
+                        El Salvador. For unresolved queries or complaints, please contact atencionalusuario@ssf.gob.sv
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- SVG Icons -->
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" style="display: none">
+        <symbol>
+            <g id="plus">
+                <rect class="vert" x="8" y="0" width="4" height="20" rx="2" ry="2" />
+                <rect class="hori" x="8" y="0" width="4" height="20" rx="2" ry="2"
+                    transform="translate(0 20) rotate(-90)" />
+            </g>
+        </symbol>
+        <symbol>
+            <rect id="minus" x="8" y="0" width="4" height="20" rx="2" ry="2" transform="translate(0 20) rotate(-90)" />
+        </symbol>
+    </svg>
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="display: none">
+        <symbol>
+            <g id="lightbulb">
+                <path class="stroke" d="M8.25 21.75H15.75" stroke="white" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round" />
+                <path class="stroke fill"
+                    d="M7.37824 15.6563C6.48665 14.9598 5.76449 14.0703 5.266 13.0546C4.76751 12.039 4.50566 10.9236 4.50012 9.79219C4.47762 5.72719 7.75512 2.34375 11.8192 2.25C13.3942 2.21185 14.9412 2.67066 16.2408 3.56132C17.5403 4.45198 18.5264 5.72927 19.0591 7.21196C19.5918 8.69464 19.644 10.3074 19.2084 11.8215C18.7728 13.3355 17.8715 14.674 16.6323 15.6469C16.359 15.8588 16.1375 16.1302 15.9846 16.4404C15.8318 16.7507 15.7516 17.0917 15.7501 17.4375V18C15.7501 18.1989 15.6711 18.3897 15.5304 18.5303C15.3898 18.671 15.199 18.75 15.0001 18.75H9.00011C8.8012 18.75 8.61044 18.671 8.46978 18.5303C8.32913 18.3897 8.25011 18.1989 8.25011 18V17.4375C8.24976 17.0939 8.17104 16.7548 8.01996 16.4462C7.86888 16.1375 7.64941 15.8673 7.37824 15.6563Z"
+                    fill="black" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                <path class="stroke" d="M12.75 5.25C14.625 5.56594 16.1822 7.125 16.5 9" stroke="white"
+                    stroke-linecap="round" stroke-linejoin="round" />
+            </g>
+        </symbol>
+    </svg>
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"
+        integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/MotionPathPlugin.min.js"
+        crossorigin="anonymous"></script>
+    <script src="/js/globeSvg.js"></script>
+    <script src="/js/main.js"></script>
+    <script src="/js/lightning.js"></script>
+
+    <!-- BTC Price Tracker -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const btcValueElement = document.getElementById('btc-value');
+
+            function fetchBtcPrice() {
+                fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd')
+                    .then(response => response.ok ? response.json() : Promise.reject('Network error'))
+                    .then(data => {
+                        btcValueElement.textContent = data?.bitcoin?.usd?.toLocaleString() || 'Unavailable';
+                    })
+                    .catch(error => {
+                        console.error('Error fetching Bitcoin price:', error);
+                        btcValueElement.textContent = 'Error';
+                    });
+            }
+
+            fetchBtcPrice();
+            setInterval(fetchBtcPrice, 60000);
+        });
+    </script>
+
+    <script src="//code.tidio.co/0kbm4jqybxrrarlw7cjflhnb8fzv6lyt.js" async></script>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const darkmodeToggles = document.querySelectorAll('.darkmode-switch');
+            const darkmodeText = document.getElementById('darkmode-text');
+            const htmlElement = document.documentElement;
+
+            function updateDarkModeText() {
+                if (darkmodeText) {
+                    darkmodeText.textContent = htmlElement.classList.contains('dark-theme') ? 'On' : 'Off';
+                }
+            }
+
+            updateDarkModeText();
+
+            const toggleDarkMode = () => {
+                htmlElement.classList.toggle('dark-theme');
+                const isDark = htmlElement.classList.contains('dark-theme');
+                localStorage.setItem('theme', isDark ? 'dark' : 'light');
+                updateDarkModeText();
+            };
+
+            darkmodeToggles.forEach(toggle => {
+                toggle.addEventListener('click', toggleDarkMode);
+            });
+
+            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+                if (!localStorage.getItem('theme')) {
+                    htmlElement.classList.toggle('dark-theme', e.matches);
+                    updateDarkModeText();
+                }
+            });
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Mobile menu functionality
+            const openNavButton = document.getElementById('open-nav');
+            const closeNavButton = document.getElementById('close-nav');
+            const mainNav = document.getElementById('main-nav');
+
+            if (openNavButton && closeNavButton && mainNav) {
+                // Open mobile menu
+                openNavButton.addEventListener('click', function () {
+                    mainNav.setAttribute('data-mob-state', 'open');
+                    document.body.style.overflow = 'hidden'; // Prevent scrolling when menu is open
+                });
+
+                // Close mobile menu
+                closeNavButton.addEventListener('click', function () {
+                    mainNav.setAttribute('data-mob-state', 'closed');
+                    document.body.style.overflow = ''; // Re-enable scrolling
+                });
+
+                // Close menu when clicking on navigation links
+                const mobileNavLinks = mainNav.querySelectorAll('.nav-link');
+                mobileNavLinks.forEach(link => {
+                    link.addEventListener('click', function () {
+                        mainNav.setAttribute('data-mob-state', 'closed');
+                        document.body.style.overflow = '';
+                    });
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>

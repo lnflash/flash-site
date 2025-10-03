@@ -1,0 +1,1070 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Find Flash payment locations worldwide - Interactive map of businesses accepting Bitcoin Lightning payments through Flash." />
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/png" href="../../assets/img/favicon-32x32.png" sizes="32x32" />
+    <link rel="icon" type="image/png" href="../../assets/img/favicon-16x16.png" sizes="16x16" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+        rel="stylesheet">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="../../css/main.css" />
+
+    <!-- Google Maps API -->
+    <!-- Google Maps API temporarily disabled for Coming Soon page -->
+    <!-- 
+    <script>
+        function initMap() {
+            // This will be defined in our main script below
+            window.initMapCallback();
+        }
+    </script>
+    <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBrZtvg_PSLuDUcMQ9BapDyTlc821oLM2w&libraries=places&callback=initMap&loading=async"></script>
+    -->
+
+    <title>Flash Map - Find Payment Locations Worldwide | Flash</title>
+
+    <style>
+        /* Map container and overlay */
+        .map-container {
+            position: relative;
+            width: 100%;
+            height: calc(100vh - 100px);
+            /* Full height minus header */
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        #map {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Search overlay positioned on top of map */
+        .search-overlay {
+            position: absolute;
+            top: 150px;
+            left: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            align-items: center;
+            width: auto;
+            max-width: none;
+        }
+
+        .dark-mode .search-overlay {
+            background: rgba(30, 30, 30, 0.75);
+            color: white;
+        }
+
+        .search-input {
+            flex: 1;
+            min-width: 250px;
+            padding: 12px 16px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.3s ease;
+            background: white;
+        }
+
+        .dark-mode .search-input {
+            background: #2c2c2c;
+            border-color: #444;
+            color: white;
+        }
+
+        .search-input:focus {
+            border-color: #f39c12;
+        }
+
+        .filter-btn {
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #f39c12 0%, #e74c3c 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .filter-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(243, 156, 18, 0.3);
+        }
+
+        .location-count {
+            font-size: 0.9rem;
+            color: #666;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        .dark-mode .location-count {
+            color: #ccc;
+        }
+
+        /* Coming Soon Overlay */
+        .coming-soon-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(8px);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            text-align: center;
+            border-radius: 12px;
+        }
+
+        .dark-mode .coming-soon-overlay {
+            background: rgba(30, 30, 30, 0.95);
+            color: white;
+        }
+
+        .coming-soon-content {
+            max-width: 500px;
+            padding: 40px;
+        }
+
+        .coming-soon-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #f39c12 0%, #e74c3c 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+        }
+
+        .coming-soon-subtitle {
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .dark-mode .coming-soon-subtitle {
+            color: #ccc;
+        }
+
+        .coming-soon-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            opacity: 0.8;
+        }
+
+        .coming-soon-note {
+            font-size: 0.9rem;
+            color: #888;
+            font-style: italic;
+            margin-bottom: 30px;
+        }
+
+        .dark-mode .coming-soon-note {
+            color: #aaa;
+        }
+
+        /* Back button styling */
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: transform 0.2s ease, box-shadow 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .back-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(52, 152, 219, 0.3);
+            color: white;
+            text-decoration: none;
+        }
+
+        .dark-mode .back-button {
+            background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
+        }
+
+        /* Disabled search overlay */
+        .search-overlay.disabled {
+            opacity: 0.6;
+            pointer-events: none;
+        }
+
+        .search-overlay.disabled .search-input,
+        .search-overlay.disabled .filter-btn {
+            cursor: not-allowed;
+        }
+
+        /* Responsive overlay */
+        @media (max-width: 768px) {
+            .search-overlay {
+                top: 15px;
+                left: 15px;
+                right: 15px;
+                padding: 15px;
+                flex-direction: column;
+                align-items: stretch;
+                gap: 12px;
+            }
+
+            .search-input {
+                min-width: auto;
+                width: 100%;
+                margin-bottom: 5px;
+            }
+
+            .filter-btn,
+            .location-count {
+                text-align: center;
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .search-overlay {
+                top: 10px;
+                left: 10px;
+                right: 10px;
+                padding: 12px;
+            }
+        }
+
+        /* Info window styling */
+        .info-window {
+            max-width: 300px;
+            padding: 15px;
+        }
+
+        .info-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 8px;
+        }
+
+        .info-username {
+            color: #f39c12;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .info-services {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 10px;
+        }
+
+        .service-badge {
+            background: linear-gradient(135deg, #f39c12 0%, #e74c3c 100%);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        /* Side panel for location details */
+        .side-panel {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 400px;
+            height: 100vh;
+            background: white;
+            box-shadow: -5px 0 20px rgba(0, 0, 0, 0.1);
+            transition: right 0.3s ease;
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+        .side-panel.open {
+            right: 0;
+        }
+
+        .side-panel-header {
+            padding: 20px;
+            background: linear-gradient(135deg, #f39c12 0%, #e74c3c 100%);
+            color: white;
+        }
+
+        .side-panel-content {
+            padding: 20px;
+        }
+
+        .close-panel {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            float: right;
+            cursor: pointer;
+        }
+
+        /* Loading spinner */
+        .loading-spinner {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 400px;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #f39c12;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Dark mode support */
+        .dark-mode .side-panel {
+            background: #2d2d2d;
+            color: white;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .map-container {
+                height: calc(100vh - 150px);
+                border-radius: 8px;
+                margin: 20px 0;
+            }
+
+            .map-controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .search-input {
+                min-width: auto;
+            }
+
+            .side-panel {
+                width: 100%;
+                right: -100%;
+            }
+
+            .map-title {
+                font-size: 2rem;
+            }
+
+            .map-subtitle {
+                font-size: 1rem;
+            }
+        }
+
+        /* Custom marker styles */
+        .flash-marker {
+            background: linear-gradient(135deg, #f39c12 0%, #e74c3c 100%);
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            border: 3px solid white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 12px;
+        }
+
+        .flash-marker:hover {
+            transform: scale(1.1);
+            transition: transform 0.2s ease;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <div class="logo-container">
+                <a href="/" class="no-style">
+                    <img src="../../assets/img/logo-black.png" alt="Flash" class="light" />
+                    <img src="../../assets/img/logo-white.png" alt="Flash" class="dark" />
+                </a>
+            </div>
+            <!-- Navigation -->
+            <nav>
+                <svg id="open-nav" class="nav-icon mobile-only" aria-label="open menu" width="41" height="15"
+                    viewBox="0 0 41 15" xmlns="http://www.w3.org/2000/svg">
+                    <line x1="2" y1="2" x2="39" y2="2" stroke="#161313" stroke-width="4" stroke-linecap="round" />
+                    <line x1="15" y1="13" x2="39" y2="13" stroke="#161313" stroke-width="4" stroke-linecap="round" />
+                </svg>
+                <ul class="main-nav" id="main-nav" data-mob-state="closed">
+                    <li class="mobile-only">
+                        <svg id="close-nav" class="nav-icon" aria-label="close menu" width="26" height="26"
+                            viewBox="0 0 26 26" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M23.2129 2L1.99969 23.2132" stroke="black" stroke-width="4"
+                                stroke-linecap="round" />
+                            <path d="M2.21289 2L23.4261 23.2132" stroke="black" stroke-width="4"
+                                stroke-linecap="round" />
+                        </svg>
+                    </li>
+                    <li class="darkmode-switch mobile-only">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                            aria-hidden="true">
+                            <use href="#lightbulb" class="lightbulb"></use>
+                        </svg>
+                    </li>
+                    <li><a href="/" class="nav-link mobile-only">Home</a></li>
+                    <li><a href="/#pg-products" class="nav-link">Products</a></li>
+                    <li><a href="/blog" class="nav-link">Blog</a></li>
+                    <li><a href="/#pg-contact" class="nav-link">Contact</a></li>
+                    <li><a href="https://documentation.getflash.io" target="_blank" rel="noopener noreferrer"
+                            class="nav-link">Docs</a></li>
+                    <li><a href="/#pg-faq" class="nav-link">FAQ</a></li>
+                    <li><a href="/mission.html" class="nav-link">Mission</a></li>
+                    <li><a href="/rewards/index.html" class="nav-link">Rewards</a></li>
+                    <li><a href="/team.html" class="nav-link">Team</a></li>
+                    <li><a href="/map" class="nav-link active">Map</a></li>
+                </ul>
+            </nav>
+            <!-- End of Navigation -->
+            <div id="bitcoin-price" class="btc-widget">
+                <h3>Bitcoin Price:</h3>
+                <p>1 BTC = $ <span id="btc-value"></span> USD</p>
+            </div>
+            <div class="darkmode-switch desktop-only">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true">
+                    <use href="#lightbulb" class="lightbulb"></use>
+                </svg>
+            </div>
+        </div>
+    </header>
+
+    <!-- Map Container with Overlay Search -->
+    <!-- Map Container with Overlay Search -->
+    <section class="container" style="padding-top: 0; margin-top: 0;">
+        <div class="map-container">
+            <!-- Search Overlay (Disabled) -->
+            <div class="search-overlay disabled">
+                <input type="text" class="search-input" id="searchInput" placeholder="Search coming soon..." disabled>
+                <button class="filter-btn" id="filterBtn" disabled>Filter</button>
+                <div class="location-count">
+                    <span id="locationCount">Coming Soon</span>
+                </div>
+            </div>
+
+            <!-- Coming Soon Overlay -->
+            <div class="coming-soon-overlay">
+                <div class="coming-soon-content">
+                    <div class="coming-soon-icon">🚀</div>
+                    <h2 class="coming-soon-title">Coming Soon</h2>
+                    <p class="coming-soon-subtitle">
+                        We're building an amazing interactive map to help you discover Flash payment locations
+                        worldwide.
+                        Stay tuned for this exciting feature!
+                    </p>
+                    <p class="coming-soon-note">
+                        This page will be updated soon with live location data and search functionality.
+                    </p>
+                    <a href="/" class="back-button">
+                        <span>←</span>
+                        Back to Home
+                    </a>
+                </div>
+            </div>
+
+            <div id="loadingSpinner" class="loading-spinner" style="display: none;">
+                <div class="spinner"></div>
+            </div>
+            <div id="map"></div>
+
+            <!-- Side Panel for Location Details -->
+            <div id="sidePanel" class="side-panel">
+                <div class="side-panel-header">
+                    <button class="close-panel" id="closePanelBtn">&times;</button>
+                    <h3 id="panelTitle">Location Details</h3>
+                </div>
+                <div class="side-panel-content" id="panelContent">
+                    <!-- Location details will be populated here -->
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <!-- Footer -->
+            <footer>
+                <div class="footer-top">
+                    <div class="container">
+                        <div class="footer-links">
+                            <a href="/" class="no-style">
+                                <img src="../../assets/img/logo-black.png" alt="Flash" class="light logo"
+                                    loading="lazy" />
+                                <img src="../../assets/img/logo-white.png" alt="Flash" class="dark logo"
+                                    loading="lazy" />
+                            </a>
+                            <a href="https://getflash.io/app" target="_blank" id="footer-download-link"
+                                class="no-style download-btn">
+                                <img src="../../assets/img/download-button.png" alt="Get it on Google Play or AppStore"
+                                    style="height: auto; width: 100%; max-width: 200px;" />
+                            </a>
+                        </div>
+                        <div class="legal">
+                            <div>
+                                <a href="../../legal/terms.html">Terms & Conditions</a>
+                                <a href="../../legal/privacy.html">Privacy Policy</a>
+                            </div>
+                            <p class="powered">Powered by Island Bitcoin.</p>
+                        </div>
+                    </div>
+                    <div class="footer-mid">
+                        <div class="container">
+                            <p class="copyright">2021 Flash<span>&trade;</span> All rights reserved.</p>
+                            <p class="copyright"><span>&copy;</span> 2023 Island Bitcoin C.A. de S.V. </p>
+                        </div>
+                    </div>
+                    <div class="footer-btm">
+                        <div class="container">
+                            <p>Island Bitcoin C.A. de S.V. entity is regulated by BCR and by the Superintendent of the
+                                Financial
+                                System of
+                                El Salvador. For unresolved queries or complaints, please contact
+                                atencionalusuario@ssf.gob.sv
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+
+            <!-- SVG Icons - DO NOT DELETE -->
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" style="display: none">
+                <symbol>
+                    <g id="plus">
+                        <rect class="vert" x="8" y="0" width="4" height="20" rx="2" ry="2" />
+                        <rect class="hori" x="8" y="0" width="4" height="20" rx="2" ry="2"
+                            transform="translate(0 20) rotate(-90)" />
+                    </g>
+                </symbol>
+                <symbol>
+                    <rect id="minus" x="8" y="0" width="4" height="20" rx="2" ry="2"
+                        transform="translate(0 20) rotate(-90)" />
+                </symbol>
+            </svg>
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="display: none">
+                <symbol>
+                    <g id="lightbulb">
+                        <path class="stroke" d="M8.25 21.75H15.75" stroke="white" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round" />
+                        <path class="stroke fill"
+                            d="M7.37824 15.6563C6.48665 14.9598 5.76449 14.0703 5.266 13.0546C4.76751 12.039 4.50566 10.9236 4.50012 9.79219C4.47762 5.72719 7.75512 2.34375 11.8192 2.25C13.3942 2.21185 14.9412 2.67066 16.2408 3.56132C17.5403 4.45198 18.5264 5.72927 19.0591 7.21196C19.5918 8.69464 19.644 10.3074 19.2084 11.8215C18.7728 13.3355 17.8715 14.674 16.6323 15.6469C16.359 15.8588 16.1375 16.1302 15.9846 16.4404C15.8318 16.7507 15.7516 17.0917 15.7501 17.4375V18C15.7501 18.1989 15.6711 18.3897 15.5304 18.5303C15.3898 18.671 15.199 18.75 15.0001 18.75H9.00011C8.8012 18.75 8.61044 18.671 8.46978 18.5303C8.32913 18.3897 8.25011 18.1989 8.25011 18V17.4375C8.24976 17.0939 8.17104 16.7548 8.01996 16.4462C7.86888 16.1375 7.64941 15.8673 7.37824 15.6563Z"
+                            fill="black" stroke="white" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round" />
+                        <path class="stroke" d="M12.75 5.25C14.625 5.56594 16.1822 7.125 16.5 9" stroke="white"
+                            stroke-linecap="round" stroke-linejoin="round" />
+                    </g>
+                </symbol>
+            </svg>
+
+            <!-- Scripts -->
+            <!-- jQuery (for main.js compatibility) -->
+            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+            <script>
+                // Global variables
+                let map;
+                let markers = [];
+                let flashpoints = [];
+                let infoWindow;
+
+                // Initialize the map placeholder (Coming Soon)
+                window.initMapCallback = function () {
+                    // Show a placeholder map background instead of loading Google Maps
+                    const mapElement = document.getElementById('map');
+                    mapElement.innerHTML = `
+                <div style="
+                    width: 100%; 
+                    height: 100%; 
+                    background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+                    display: flex; 
+                    align-items: center; 
+                    justify-content: center;
+                    position: relative;
+                    overflow: hidden;
+                ">
+                    <div style="
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 100%;
+                        background-image: 
+                            radial-gradient(circle at 25% 25%, rgba(255,255,255,0.1) 2px, transparent 2px),
+                            radial-gradient(circle at 75% 75%, rgba(255,255,255,0.1) 1px, transparent 1px);
+                        background-size: 50px 50px;
+                        opacity: 0.3;
+                    "></div>
+                    <div style="
+                        text-align: center; 
+                        color: white; 
+                        z-index: 1;
+                        font-size: 1.2rem;
+                        opacity: 0.7;
+                    ">
+                        🗺️ Interactive Map Preview
+                    </div>
+                </div>
+            `;
+                };
+
+                // Document ready initialization
+                document.addEventListener('DOMContentLoaded', function () {
+                    // Initialize the map placeholder immediately
+                    window.initMapCallback();
+                });
+
+                // Remove unused functions since we're showing coming soon
+                // Load flashpoints from GraphQL API (disabled for coming soon)
+                async function loadFlashpoints() {
+                    try {
+                        const response = await fetch('https://api.flashapp.me/graphql', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({
+                                query: `
+              query BusinessMapMarkers {
+                businessMapMarkers {
+                  mapInfo {
+                    coordinates {
+                      latitude
+                      longitude
+                    }
+                    title
+                  }
+                  username
+                }
+              }
+            `
+                            })
+                        });
+
+                        const data = await response.json();
+                        flashpoints = data.data.businessMapMarkers;
+
+                        // Update location count
+                        document.getElementById('locationCount').textContent = `${flashpoints.length} locations found`;
+
+                        // Add markers to map
+                        addMarkersToMap();
+
+                        // Fit map to show all markers
+                        fitMapToMarkers();
+
+                    } catch (error) {
+                        console.error('Error loading flashpoints:', error);
+                        document.getElementById('locationCount').textContent = 'Error loading locations';
+                    }
+                }
+
+                // Add markers to the map
+                function addMarkersToMap() {
+                    // Clear existing markers
+                    clearMarkers();
+
+                    flashpoints.forEach((flashpoint, index) => {
+                        const position = {
+                            lat: parseFloat(flashpoint.mapInfo.coordinates.latitude),
+                            lng: parseFloat(flashpoint.mapInfo.coordinates.longitude)
+                        };
+
+                        // Create custom marker
+                        const marker = new google.maps.Marker({
+                            position: position,
+                            map: map,
+                            title: flashpoint.mapInfo.title,
+                            icon: createCustomMarkerIcon(),
+                            animation: google.maps.Animation.DROP
+                        });
+
+                        // Add click listener
+                        marker.addListener('click', () => {
+                            showLocationDetails(flashpoint, marker);
+                        });
+
+                        markers.push(marker);
+                    });
+                }
+
+                // Create custom marker icon
+                function createCustomMarkerIcon() {
+                    return {
+                        url: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(`
+          <svg width="30" height="30" viewBox="0 0 30 30" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="15" cy="15" r="12" fill="url(#gradient)" stroke="white" stroke-width="3"/>
+            <text x="15" y="19" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="12" font-weight="bold">₿</text>
+            <defs>
+              <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style="stop-color:#f39c12"/>
+                <stop offset="100%" style="stop-color:#e74c3c"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        `),
+                        scaledSize: new google.maps.Size(30, 30),
+                        anchor: new google.maps.Point(15, 15)
+                    };
+                }
+
+                // Show location details
+                function showLocationDetails(flashpoint, marker) {
+                    const content = `
+        <div class="info-window">
+          <div class="info-title">${flashpoint.mapInfo.title}</div>
+          <div class="info-username">@${flashpoint.username}</div>
+          <div class="info-services">
+            <span class="service-badge">Flash Payment</span>
+            <span class="service-badge">Bitcoin</span>
+            <span class="service-badge">Lightning</span>
+          </div>
+        </div>
+      `;
+
+                    infoWindow.setContent(content);
+                    infoWindow.open(map, marker);
+
+                    // Also populate side panel
+                    populateSidePanel(flashpoint);
+                }
+
+                // Populate side panel with detailed information
+                function populateSidePanel(flashpoint) {
+                    const panelContent = document.getElementById('panelContent');
+                    const panelTitle = document.getElementById('panelTitle');
+
+                    panelTitle.textContent = flashpoint.mapInfo.title;
+
+                    panelContent.innerHTML = `
+        <div class="location-details">
+          <h4>Business Information</h4>
+          <p><strong>Username:</strong> @${flashpoint.username}</p>
+          <p><strong>Location:</strong> ${flashpoint.mapInfo.title}</p>
+          
+          <h4>Available Services</h4>
+          <div class="info-services">
+            <span class="service-badge">Flash Payments</span>
+            <span class="service-badge">Bitcoin Lightning</span>
+            <span class="service-badge">Mobile App</span>
+          </div>
+          
+          <h4>Coordinates</h4>
+          <p><strong>Latitude:</strong> ${flashpoint.mapInfo.coordinates.latitude}</p>
+          <p><strong>Longitude:</strong> ${flashpoint.mapInfo.coordinates.longitude}</p>
+          
+          <div style="margin-top: 20px;">
+            <button class="filter-btn" onclick="centerMapOnLocation(${flashpoint.mapInfo.coordinates.latitude}, ${flashpoint.mapInfo.coordinates.longitude})">
+              Center Map
+            </button>
+          </div>
+        </div>
+      `;
+
+                    // Open side panel
+                    document.getElementById('sidePanel').classList.add('open');
+                }
+
+                // Center map on specific location
+                function centerMapOnLocation(lat, lng) {
+                    map.setCenter({ lat: parseFloat(lat), lng: parseFloat(lng) });
+                    map.setZoom(15);
+                }
+
+                // Fit map to show all markers
+                function fitMapToMarkers() {
+                    if (markers.length === 0) return;
+
+                    const bounds = new google.maps.LatLngBounds();
+                    markers.forEach(marker => {
+                        bounds.extend(marker.getPosition());
+                    });
+
+                    map.fitBounds(bounds);
+
+                    // Ensure minimum zoom level
+                    google.maps.event.addListenerOnce(map, 'bounds_changed', function () {
+                        if (map.getZoom() > 15) {
+                            map.setZoom(15);
+                        }
+                    });
+                }
+
+                // Clear all markers
+                function clearMarkers() {
+                    markers.forEach(marker => {
+                        marker.setMap(null);
+                    });
+                    markers = [];
+                }
+
+                // Setup search functionality
+                function setupSearch() {
+                    const searchInput = document.getElementById('searchInput');
+
+                    searchInput.addEventListener('input', createDebounce(performSearch, 300));
+
+                    // Setup Places Autocomplete
+                    const autocomplete = new google.maps.places.Autocomplete(searchInput);
+                    autocomplete.setFields(['geometry', 'name']);
+
+                    autocomplete.addListener('place_changed', () => {
+                        const place = autocomplete.getPlace();
+                        if (place.geometry) {
+                            map.setCenter(place.geometry.location);
+                            map.setZoom(12);
+                        }
+                    });
+                }
+
+                // Perform search
+                function performSearch() {
+                    const query = document.getElementById('searchInput').value.toLowerCase();
+
+                    if (!query) {
+                        addMarkersToMap();
+                        return;
+                    }
+
+                    const filteredFlashpoints = flashpoints.filter(flashpoint =>
+                        flashpoint.mapInfo.title.toLowerCase().includes(query) ||
+                        flashpoint.username.toLowerCase().includes(query)
+                    );
+
+                    // Clear current markers
+                    clearMarkers();
+
+                    // Add filtered markers
+                    filteredFlashpoints.forEach((flashpoint, index) => {
+                        const position = {
+                            lat: parseFloat(flashpoint.mapInfo.coordinates.latitude),
+                            lng: parseFloat(flashpoint.mapInfo.coordinates.longitude)
+                        };
+
+                        const marker = new google.maps.Marker({
+                            position: position,
+                            map: map,
+                            title: flashpoint.mapInfo.title,
+                            icon: createCustomMarkerIcon()
+                        });
+
+                        marker.addListener('click', () => {
+                            showLocationDetails(flashpoint, marker);
+                        });
+
+                        markers.push(marker);
+                    });
+
+                    // Update count
+                    document.getElementById('locationCount').textContent = `${filteredFlashpoints.length} locations found`;
+
+                    // Fit map to filtered results
+                    if (markers.length > 0) {
+                        fitMapToMarkers();
+                    }
+                }
+
+                // Debounce function (check if already exists in main.js)
+                function createDebounce(func, wait) {
+                    let timeout;
+                    return function executedFunction(...args) {
+                        const later = () => {
+                            clearTimeout(timeout);
+                            func(...args);
+                        };
+                        clearTimeout(timeout);
+                        timeout = setTimeout(later, wait);
+                    };
+                }
+
+                // Map styles (supports dark mode)
+                function getMapStyles() {
+                    const isDarkMode = document.body.classList.contains('dark-mode');
+
+                    if (isDarkMode) {
+                        return [
+                            { elementType: 'geometry', stylers: [{ color: '#242f3e' }] },
+                            { elementType: 'labels.text.stroke', stylers: [{ color: '#242f3e' }] },
+                            { elementType: 'labels.text.fill', stylers: [{ color: '#746855' }] },
+                            {
+                                featureType: 'administrative.locality',
+                                elementType: 'labels.text.fill',
+                                stylers: [{ color: '#d59563' }]
+                            },
+                            {
+                                featureType: 'poi',
+                                elementType: 'labels.text.fill',
+                                stylers: [{ color: '#d59563' }]
+                            },
+                            {
+                                featureType: 'poi.park',
+                                elementType: 'geometry',
+                                stylers: [{ color: '#263c3f' }]
+                            },
+                            {
+                                featureType: 'poi.park',
+                                elementType: 'labels.text.fill',
+                                stylers: [{ color: '#6b9a76' }]
+                            },
+                            {
+                                featureType: 'road',
+                                elementType: 'geometry',
+                                stylers: [{ color: '#38414e' }]
+                            },
+                            {
+                                featureType: 'road',
+                                elementType: 'geometry.stroke',
+                                stylers: [{ color: '#212a37' }]
+                            },
+                            {
+                                featureType: 'road',
+                                elementType: 'labels.text.fill',
+                                stylers: [{ color: '#9ca5b3' }]
+                            },
+                            {
+                                featureType: 'road.highway',
+                                elementType: 'geometry',
+                                stylers: [{ color: '#746855' }]
+                            },
+                            {
+                                featureType: 'road.highway',
+                                elementType: 'geometry.stroke',
+                                stylers: [{ color: '#1f2835' }]
+                            },
+                            {
+                                featureType: 'road.highway',
+                                elementType: 'labels.text.fill',
+                                stylers: [{ color: '#f3d19c' }]
+                            },
+                            {
+                                featureType: 'transit',
+                                elementType: 'geometry',
+                                stylers: [{ color: '#2f3948' }]
+                            },
+                            {
+                                featureType: 'transit.station',
+                                elementType: 'labels.text.fill',
+                                stylers: [{ color: '#d59563' }]
+                            },
+                            {
+                                featureType: 'water',
+                                elementType: 'geometry',
+                                stylers: [{ color: '#17263c' }]
+                            },
+                            {
+                                featureType: 'water',
+                                elementType: 'labels.text.fill',
+                                stylers: [{ color: '#515c6d' }]
+                            },
+                            {
+                                featureType: 'water',
+                                elementType: 'labels.text.stroke',
+                                stylers: [{ color: '#17263c' }]
+                            }
+                        ];
+                    }
+
+                    return []; // Default Google Maps styling for light mode
+                }
+
+                // Close side panel
+                document.getElementById('closePanelBtn').addEventListener('click', () => {
+                    document.getElementById('sidePanel').classList.remove('open');
+                });
+
+                // Filter button functionality
+                document.getElementById('filterBtn').addEventListener('click', () => {
+                    // Add filter functionality here
+                    alert('Filter functionality coming soon!');
+                });
+
+                // Update map styles when theme changes
+                function updateMapStyles() {
+                    if (map) {
+                        map.setOptions({ styles: getMapStyles() });
+                    }
+                }
+
+                // Listen for theme changes
+                document.addEventListener('DOMContentLoaded', function () {
+                    const themeToggle = document.getElementById('theme-toggle');
+                    if (themeToggle) {
+                        themeToggle.addEventListener('click', () => {
+                            setTimeout(updateMapStyles, 100); // Wait for theme to change
+                        });
+                    }
+                });
+
+                // Error handling for map loading
+                window.gm_authFailure = function () {
+                    document.getElementById('map').innerHTML = `
+        <div style="display: flex; align-items: center; justify-content: center; height: 100%; color: #e74c3c; text-align: center;">
+          <div>
+            <h3>Map Loading Error</h3>
+            <p>Please check your Google Maps API key configuration.</p>
+          </div>
+        </div>
+      `;
+                };
+            </script>
+
+            <!-- Load main.js after our custom scripts -->
+            <script src="../../js/main.js"></script>
+
+            <!-- Bitcoin Price Tracker -->
+            <script src="../../js/btcTracker.js"></script>
+
+            <!-- Tidio Chat Widget -->
+            <script src="//code.tidio.co/widget-v4/wubhfrzwetbvbkgfozwhqxp9w1j3y3rp.js" async></script>
+</body>
+
+</html>

@@ -1,97 +1,233 @@
-/* 
-* This JS file contains:
-* 1. Navigation functions
-* 2. Dark Mode Toggle functions
-* 3. Accordion functions
-* 4. Contact & Waitlist Form functions
-* 5. Credits function
-* 6. Startup functions
-* 7. Event Listeners
-*/
+/*
+ * This JS file contains:
+ * 1. Navigation functions
+ * 2. About Card Handling functions
+ * 3. Accordion functions
+ * 4. Contact Form functions
+ * 5. Startup functions
+ * 6. Dark Mode Toggle functions
+ * 7. Event Listeners
+ * 8. Animations
+ */
 
 // Navigation
-const openNavIcon = document.getElementById('open-nav');
-const mainNav = document.getElementById('main-nav');
-const closeNavIcon = document.getElementById('close-nav');
-const navLinks = document.querySelectorAll('.nav-link');
-const pages = document.querySelectorAll('.page');
+const openNavIcon = document.getElementById("open-nav");
+const mainNav = document.getElementById("main-nav");
+const closeNavIcon = document.getElementById("close-nav");
+const navLinks = document.querySelectorAll(".nav-link");
+const pages = document.querySelectorAll(".page");
 let currentNav = 0;
 let prevNav = currentNav;
 
 function changeMobileNavState() {
-  if (mainNav.dataset.mobState === 'closed') {
-    mainNav.dataset.mobState = 'open';
-    // mainNav.setAttribute('aria-hidden', false);
+  if (mainNav.dataset.mobState === "closed") {
+    mainNav.dataset.mobState = "open";
   } else {
-    mainNav.dataset.mobState = 'closed';
-    // mainNav.setAttribute('aria-hidden', true);
+    mainNav.dataset.mobState = "closed";
   }
 }
 
-// Dark Mode Toggle
-const modeContainer = document.getElementById('darkmode');
-const modeSwitch = document.getElementById('dark-switch');
-const footerHeight = document.querySelector('footer').offsetHeight;
-const padding = window.getComputedStyle(document.documentElement).getPropertyValue('--padding-gen').replace('px', '');
+// Cards (About Page)
+const cards = document.querySelectorAll('.card');
+let currCard = null;
+let prevCard = null;
+const appText = 'Bitcoin gives you the power of a bank in the palm of your hand, without the need for a bank account.';
+const cardsText = 'Flash Cards let you earn rewards and spend your rewards anywhere without needing a phone or internet connection.';
+const pointsText = 'Contact us to add a Flash Point of Sale & rewards system to your business and start accepting Flash in minutes.';
+const textArray = [appText, cardsText, pointsText];
+let playBorderAnim;
 
-function changeTheme(value) {
-  if (value == 'light') {
-    document.querySelector('body').classList.remove('dark-mode');
-    document.querySelector('body').classList.add('light-mode');
-    sessionStorage.setItem("theme", 'light');
-    modeSwitch.checked = false;
-  } else {
-    document.querySelector('body').classList.remove('light-mode');
-    document.querySelector('body').classList.add('dark-mode');
-    sessionStorage.setItem("theme", 'dark');
-    modeSwitch.checked = true;
+for (let i=0; i < cards.length; i++) {
+  cards[i].addEventListener('click', cardSelect.bind(null, i), false);
+}
+
+function changeMsgText(num) {
+  $(".card-msg p").text(textArray[num]);
+}
+function changeMsgAnim(num) {
+  const c = document.querySelector(".card-msg-container");
+  let d = window.getComputedStyle(c).getPropertyValue("--_border-anim-duration");
+  // Clear previous timeout animation
+  clearTimeout(playBorderAnim);
+
+  // Change duration in CSS, not here
+  let sliderDuration = parseFloat(d);
+  duration = parseFloat(d) * 1000;
+  // Border Animation
+  playBorderAnim = setTimeout(() => {
+    $(".card-msg-container").addClass("play");
+    setTimeout(() => {
+      $(".card-msg-container").removeClass("play");
+    }, duration);
+  }, 300);
+
+  // Border Animation Calcs
+  let containerWidth = msgBorderCalcs(c);
+
+  // Slider Animation
+  const sliderDefaultPos = window.getComputedStyle(c).getPropertyValue("--_slider-default-position");
+  let sliderWidth = window.getComputedStyle(c).getPropertyValue("--_slider-width");
+  const sliderDelay = .4;
+  const wiperWidth = parseFloat(sliderWidth) * 3 + parseFloat(sliderDefaultPos);
+  sliderDuration = sliderDuration - sliderDelay * 2;
+  sliderStart = .3;
+  gsap.set("#wiper", {
+    x: containerWidth - wiperWidth,
+    width: containerWidth
+  });
+  gsap.set("#slider-n", {
+    x: containerWidth - parseFloat(sliderDefaultPos) - parseFloat(sliderWidth)
+  });
+  gsap.set("#slider-g", {
+    x: containerWidth - parseFloat(sliderDefaultPos) - parseFloat(sliderWidth) * 1.8
+  });
+  gsap.set("#slider-y", {
+    x: containerWidth - parseFloat(sliderDefaultPos) - parseFloat(sliderWidth) * 2.8
+  });
+  let sliderAnim = gsap.timeline();
+  sliderAnim.to("#wiper", {
+    duration: sliderDuration,
+    ease: "power1.in",
+    x: 0
+  })
+  .call(changeMsgText, [num])
+  .to("#wiper", {
+    duration: 1,
+    delay: sliderDelay * 2,
+    ease: "power1.in",
+    x: -containerWidth
+  })
+  .set("#wiper", {x: containerWidth - wiperWidth})
+  .to("#slider-y", {
+    duration: sliderDuration,
+    ease: "power1.in",
+    x: 0 - sliderWidth * 2,
+    opacity: 0
+  }, sliderStart)
+  .set("#slider-y", {x: containerWidth + sliderWidth, opacity: 1}, ">")
+  .to("#slider-y", {
+    duration: 1,
+    x: containerWidth - parseFloat(sliderDefaultPos) - parseFloat(sliderWidth) * 2.8
+  }, ">")
+  .to("#slider-g", {
+    duration: sliderDuration,
+    ease: "power1.in",
+    x: 0 - sliderWidth * 2,
+    opacity: 0
+  }, sliderStart + sliderDelay)
+  .set("#slider-g", {x: containerWidth + sliderWidth, opacity: 1}, ">")
+  .to("#slider-g", {
+    duration: 1,
+    x: containerWidth - parseFloat(sliderDefaultPos) - parseFloat(sliderWidth) * 1.8
+  }, ">")
+  .to("#slider-n", {
+    duration: sliderDuration,
+    ease: "power1.in",
+    x: 0 - sliderWidth * 2,
+    opacity: 0
+  }, sliderStart + sliderDelay * 2)
+  .set("#slider-n", {x: containerWidth + sliderWidth, opacity: 1}, ">")
+  .to("#slider-n", {
+    duration: 1,
+    x: containerWidth - parseFloat(sliderDefaultPos) - parseFloat(sliderWidth)
+  }, ">")
+}
+function msgBorderCalcs(cont) {
+  // Calculate SVG dash attributes for animation
+  const mWidth = cont.offsetWidth;
+  const mHeight = cont.offsetHeight;
+  const mBorderRadius = window.getComputedStyle(cont).getPropertyValue("--_border-radius");
+  const mPerimeter = 2 * mWidth + 2 * mHeight - (8 - 2 * Math.PI) * parseFloat(mBorderRadius);
+
+  const borderLength = mPerimeter * .5; // length of the moving line
+  const borderGap = mPerimeter - borderLength; // gap between dashes to ensure only 1 line is visible
+  const dashOffset = mWidth * .65 * -1; // position the dash line
+  const dashFinalOffset = (mPerimeter + -dashOffset) * -1; //end position of dash line - FOR ANIMATION ONLY
+  cont.style.setProperty("--_dash-array", `${borderLength} ${borderGap}`);
+  cont.style.setProperty("--_dash-offset", dashOffset);
+  cont.style.setProperty("--_dash-final-offset", dashFinalOffset);
+  return mWidth;
+}
+function cardSelect(num) {
+  if (cards.length > 0) {
+    if (num != currCard) {
+      prevCard = currCard;
+      currCard = num;
+      setActiveCard(num);
+  
+      // Scroll to the clicked tab.
+      var container = document.querySelector('.cards');
+      var scrollLeft = cards[num].offsetLeft - container.offsetLeft;
+      scrollLeft -= (container.offsetWidth - cards[num].offsetWidth) / 2;
+      container.scrollLeft = scrollLeft;
+    }
   }
 }
-function checkThemePreference() {
-  if(window.matchMedia("(prefers-color-scheme:dark)").matches) {
-    changeTheme('dark');
+function checkActiveCard() {
+  let check = false;
+  cards.forEach(card => {
+    if (card.classList.contains('active')) {
+      check = true;
+    };
+  });
+  return check;
+}
+function setActiveCard(num) {
+  const isCardActive = checkActiveCard();
+  if (isCardActive) {
+    if (!cards[num].classList.contains('active')) {
+      removeActiveCard();
+      cards[num].classList.add('active');
+      changeMsgAnim(num);
+    } else {
+      changeMsgAnim(num);
+    }
+  } else {
+    cards[num].classList.add('active');
+    changeMsgAnim(num);
   }
-  if(window.matchMedia("(prefers-color-scheme:light)").matches) {
-    changeTheme('light');
-  }
+}
+function removeActiveCard() {
+  cards.forEach(card => {
+    card.classList.remove('active');
+  });
 }
 
 // Accordion (FAQ Page)
-const accordion = document.querySelector('.accordion');
+const accordion = document.querySelector(".accordion");
 function changeTab(activeTab) {
-  const heads = activeTab.parentElement.querySelectorAll('.accordion-head');
-  const tabs = document.querySelectorAll('.accordion-tab');
-  const answers = activeTab.parentElement.querySelectorAll('.accordion-body');
-  heads.forEach(head => {
-    head.setAttribute('aria-expanded', false);
+  const heads = activeTab.parentElement.querySelectorAll(".accordion-head");
+  const tabs = document.querySelectorAll(".accordion-tab");
+  const answers = activeTab.parentElement.querySelectorAll(".accordion-body");
+  heads.forEach((head) => {
+    head.setAttribute("aria-expanded", false);
   });
-  tabs.forEach(tab => {
-    tab.dataset.active = 'inactive';
-    tab.querySelector('.accordion-body').style.maxHeight = null;
+  tabs.forEach((tab) => {
+    tab.dataset.active = "inactive";
+    tab.querySelector(".accordion-body").style.maxHeight = null;
   });
-  answers.forEach(answer => {
-    answer.setAttribute('aria-hidden', true);
+  answers.forEach((answer) => {
+    answer.setAttribute("aria-hidden", true);
   });
-  activeTab.dataset.active = 'active';
-  activeTab.querySelector('.accordion-head').setAttribute('aria-expanded', true);
-  activeTab.querySelector('.accordion-body').setAttribute('aria-hidden', false);
-  let tabHeight = activeTab.querySelector('.accordion-body').scrollHeight + "px";
-  $(activeTab).find('.accordion-body').css('maxHeight', tabHeight);
+  activeTab.dataset.active = "active";
+  activeTab.querySelector(".accordion-head").setAttribute("aria-expanded", true);
+  activeTab.querySelector(".accordion-body").setAttribute("aria-hidden", false);
+  let tabHeight = activeTab.querySelector(".accordion-body").scrollHeight + "px";
+  $(activeTab).find(".accordion-body").css("maxHeight", tabHeight);
 }
 function closeTab(activeTab) {
-  activeTab.querySelector('.accordion-head').setAttribute('aria-expanded', false);
-  activeTab.dataset.active = 'inactive';
-  activeTab.querySelector('.accordion-body').style.maxHeight = null;
-  activeTab.querySelector('.accordion-body').setAttribute('aria-hidden', true);
+  activeTab.querySelector(".accordion-head").setAttribute("aria-expanded", false);
+  activeTab.dataset.active = "inactive";
+  activeTab.querySelector(".accordion-body").style.maxHeight = null;
+  activeTab.querySelector(".accordion-body").setAttribute("aria-hidden", true);
 }
 
-// Contact & Waitlist Forms
-const sendMsgBtn = document.getElementById('send-msg-btn');
-const signUpBtn = document.getElementById('sign-up-btn');
-const errMsgBtn = document.getElementById('close-error-msg');
-const errWtlBtn = document.getElementById('close-error-wtlist');
+// Contact Form
+const sendMsgBtn = document.getElementById("send-msg-btn");
+const errMsgBtn = document.getElementById("close-error-msg");
+const errWtlBtn = document.getElementById("close-error-wtlist");
 function checkEmpty(val) {
-  if(val.length == 0 || val == " ") {
+  if (val.length == 0 || val == " ") {
     return false;
   }
   return true;
@@ -112,46 +248,36 @@ function emailCheck(val) {
 }
 function highlightError(input, pass) {
   if (!pass) {
-    input.style.borderColor = 'var(--flash-red)';
-    if (input.classList.contains('c-msg')) {
+    input.style.borderColor = "var(--flash-red)";
+    if (input.classList.contains("c-msg")) {
       input.placeholder = "You haven't typed a message!";
-      input.classList.add('error');
+      input.classList.add("error");
     }
   } else {
-    input.style.borderColor = 'var(--text-colour)';
-    if (input.classList.contains('c-msg')) {
+    input.style.borderColor = "var(--text-colour)";
+    if (input.classList.contains("c-msg")) {
       input.placeholder = "";
-      input.classList.remove('error');
+      input.classList.remove("error");
     }
   }
 }
-function patternCheck(form) {
+function patternCheck() {
   let fieldset = [];
   let values = [];
   let pass = true;
   let noError = true;
-  const cName = document.getElementById('c-name');
-  const cEmail = document.getElementById('c-email');
-  const cMsg = document.getElementById('c-msg');
-  const wEmail = document.getElementById('w-email');
-  if (form == 'msg') {
-    fieldset = [
-      {checker: nameCheck(cName.value), error: cName},
-      {checker: emailCheck(cEmail.value), error: cEmail},
-      {checker: checkEmpty(cMsg.value), error: cMsg}
-    ];
-    values = [
-      {name: cName.value},
-      {email: cEmail.value},
-      {msg: cMsg.value}
-    ];
-  } else {
-    fieldset = fieldset = [
-      {checker: emailCheck(wEmail.value), error: wEmail}
-    ];
-    values = wEmail.value;
-  }
-  fieldset.forEach(field => {
+  const cName = document.getElementById("c-name");
+  const cEmail = document.getElementById("c-email");
+  const cMsg = document.getElementById("c-msg");
+
+  fieldset = [
+    { checker: nameCheck(cName.value), error: cName },
+    { checker: emailCheck(cEmail.value), error: cEmail },
+    { checker: checkEmpty(cMsg.value), error: cMsg },
+  ];
+  values = [{ name: cName.value }, { email: cEmail.value }, { msg: cMsg.value }];
+
+  fieldset.forEach((field) => {
     pass = field.checker;
     if (pass == false) {
       noError = false;
@@ -172,238 +298,423 @@ function sendMsg(values) {
     data: {
       user: name,
       email: email,
-      msg: msg
+      msg: msg,
     },
-    dataType: "json"
+    dataType: "json",
   });
   sendMsg.fail(function (jqXHR, textStatus) {
     console.error("Something went wrong! (sendMsg)" + textStatus);
-    $('.error-msg').fadeIn('fast');
+    $(".error-msg").fadeIn("fast");
   });
   sendMsg.done(function (data) {
     if (data.error.id == 0) {
-      $('.contact-form .formfields').css('display', 'none');
-      $('.success-msg').css('display', 'block');
+      $(".contact-form .formfields").css("display", "none");
+      $(".success-msg").css("display", "block");
     }
   });
 }
-function addToWaitlist(values) {
-  const email = values;
-  let sendMsg = $.ajax({
-    url: "./assets/services/addToWaitlist.php",
-    type: "POST",
-    data: {
-      email: email
-    },
-    dataType: "json"
-  });
-  sendMsg.fail(function (jqXHR, textStatus) {
-    console.error("Something went wrong! (sendMsg) " + textStatus);
-    $('.error-waitlist').fadeIn('fast');
-  });
-  sendMsg.done(function (data) {
-    if (data.error.id == 0) {
-      $('.waitlist-form .formfields').css('display', 'none');
-      $('.success-waitlist').css('display', 'block');
-    }
-  });
-}
-
-// Credits Functions
-const creditsBtn = document.getElementById('credits-btn');
-const creditsContent = document.getElementById('credits-content');
-function toggleCredits() {
-  creditsContent.classList.contains('open') ? creditsContent.classList.remove('open') : creditsContent.classList.add('open');
-}
-
 
 // ****** Start-up Functions ******
-function loadScreen() {
-  $('section').hide();
-  progressBar = document.querySelector('.progress-bar');
-  progressBar.style.setProperty('--_animation-name', 'page-load');
-  setTimeout(() => {
-    $('section').show();
-    // Correct active nav if page is refreshed
-    for (let i=0; i<navLinks.length; i++) {
-      navLinks[i].classList.remove('active');
-      if (i === 0) {
-        navLinks[i].classList.add('active');
-      }
-    }
-    $('#loading-screen').fadeOut('fast');
-  }, 2000);
-}
-// Remember theme preference during session
-if (sessionStorage.getItem('theme')) {
-  changeTheme(sessionStorage.getItem('theme'));
-} else {
-  checkThemePreference();
-}
 // Hide nav list items from screen readers if nav is collapsed on small screens
 if (window.innerWidth < 800) {
-  mainNav.setAttribute('aria-hidden', true);
+  mainNav.setAttribute("aria-hidden", true);
+}
+// Add banner video source depending on browser
+// ! Necessary to do this in JS because Firefox on Android would play
+// ! .mov instead of .webm when both were listed as <source> elements 
+// ! and mov transparency does not work on Firefox
+function addVidSource() {
+  const movSource = '<source src="assets/video/out.mov" type="video/quicktime">';
+  const webmSource = '<source src="assets/video/out.webm" type="video/webm">';
+  let safariAgent = navigator.userAgent.toLowerCase().indexOf('safari/') > -1;
+  let chromeAgent = navigator.userAgent.indexOf("Chrome") > -1; 
+  if ((chromeAgent) && (safariAgent)) safariAgent = false;  
+  if (safariAgent) {
+    $("#bannerVideo").html(movSource);
+  } else {
+    $("#bannerVideo").html(webmSource);
+  }
+}
+addVidSource();
+
+// Initialize FAQ
+function initializeAccordion() {
+  const accordion = document.querySelector(".accordion");
+  if (accordion !== null) {
+    accordion.addEventListener("click", (e) => {
+      const activeTab = e.target.closest(".accordion-tab");
+      const headClick = e.target.closest(".accordion-head");
+      if (!activeTab) return;
+      if (activeTab.dataset.active == "inactive") {
+        changeTab(activeTab);
+      } else {
+        // Only close the tab if they click on the tab head
+        if (!headClick) return;
+        closeTab(activeTab);
+      }
+    });
+  }
+}
+// Debounce setup
+// https://webdesign.tutsplus.com/tutorials/javascript-debounce-and-throttle--cms-36783
+let debounceTimer;
+const debounce = (callback, time, param) => {
+    window.clearTimeout(debounceTimer);
+    debounceTimer = window.setTimeout(callback, time, param);
+}
+// Set width of About section dividers
+function setDividerWidth() {
+  const bodyWidth = document.querySelector("body").offsetWidth;
+  const containerWidth = document.querySelector(".container").offsetWidth;
+  let width = (bodyWidth - containerWidth) / 2 + containerWidth;
+  $(".divider").css('--_divider-width', `${width}px`);
+}
+setDividerWidth(); // Run initially once
+
+
+// Add globe to about section
+const globe = document.getElementById('flash-globe');
+if (globe !== null) {
+  insertGlobe();
 }
 
-// 
-function initializeAccordion() {
-  const accordion = document.querySelector('.accordion');
-  accordion.addEventListener('click', (e)=>{
-    const activeTab = e.target.closest('.accordion-tab');
-    const headClick = e.target.closest('.accordion-head');
-    if (!activeTab) return;
-    if (activeTab.dataset.active == 'inactive') {
-      changeTab(activeTab);
-    } else {
-      // Only close the tab if they click on the tab head
-      if (!headClick) return;
-      closeTab(activeTab);
+// Dark Mode Controls and SVG Handling
+// Dark Mode Declarations
+const darkTheme = "dark";
+const lightTheme = "light";
+let theme = darkTheme;
+const yellow = "#fff200";
+const purple = "#5C42AD";
+const green = "#41ad49";
+// Globe Declarations
+let globeStrokes;
+let globeFills;
+if (globe !== null) {
+  globeStrokes = globe.querySelectorAll(".stroke");
+  globeFills = globe.querySelectorAll(".fill");
+}
+// Lightbulb Declarations
+const lightbulb = document.getElementById('lightbulb');
+const bulbStrokes = lightbulb.querySelectorAll(".stroke");
+const bulbFills = lightbulb.querySelectorAll(".fill");
+// Email Icon Declaration
+let emailStrokes;
+const emailIcon = document.getElementById("icon-email");
+if (emailIcon !== null) {
+  emailStrokes = emailIcon.querySelectorAll("path");
+}
+
+// Dark Mode Toggle
+function changeTheme(value) {
+  let dmText = document.getElementById("darkmode-text");
+  if (value == lightTheme) {
+    theme = lightTheme;
+    document.querySelector("body").classList.remove("dark-mode");
+    document.querySelector("body").classList.add("light-mode");
+
+    if (dmText !== null) {
+      $(dmText).text("Off");
     }
+    localStorage.setItem("theme", "light");
+  } else {
+    theme = darkTheme;
+    document.querySelector("body").classList.remove("light-mode");
+    document.querySelector("body").classList.add("dark-mode");
+
+    if (dmText !== null) {
+      $(dmText).text("On");
+    }
+    localStorage.setItem("theme", "dark");
+  }
+  changeSVGGlobe(theme);
+  changeLightbulb(theme);
+  changeEmailIcon(theme);
+}
+// Remember theme preference
+if (localStorage.getItem("theme")) {
+  changeTheme(localStorage.getItem("theme"));
+} else {
+  changeTheme("dark");
+}
+
+// Globe
+function changeSVGGlobe(value) {
+  if (globe !== null) {
+    let bgColour = window.getComputedStyle(document.body).getPropertyValue('--bg-body');
+    let transitionTime = window.getComputedStyle(document.body).getPropertyValue('--_dark-transition');
+    if (value == darkTheme) {
+      globeStrokes.forEach(stroke => {
+        stroke.style.stroke = yellow;
+        stroke.style.transition = `stroke ${transitionTime}`;
+      });
+    } else {
+      globeStrokes.forEach(stroke => {
+        stroke.style.stroke = purple;
+        stroke.style.transition = `stroke ${transitionTime}`;
+      });
+    }
+    globeFills.forEach(fill => {
+      fill.style.fill = bgColour;
+      fill.style.transition = `fill ${transitionTime}`;
+    });
+  }
+}
+// Lightbulb
+function changeLightbulb(value) {
+  let bgColour = window.getComputedStyle(document.body).getPropertyValue('--bg-body');
+  if (value == darkTheme) {
+    bulbStrokes.forEach(stroke => {
+      stroke.style.stroke = "#fff";
+    });
+  } else {
+    bulbStrokes.forEach(stroke => {
+      stroke.style.stroke = "#000";
+    });
+  }
+  bulbFills.forEach(fill => {
+    fill.style.fill = bgColour;
   });
+}
+// Email Icon
+function changeEmailIcon(value) {
+  if (emailIcon !== null) {
+    if (value == darkTheme) {
+      emailStrokes.forEach(stroke => {
+        stroke.style.stroke = "#fff";
+      });
+    } else {
+      emailStrokes.forEach(stroke => {
+        stroke.style.stroke = "#000";
+      });
+    }
+  }
 }
 
 window.onload = () => {
-  loadScreen();
+  // Register GSAP Plugins
+  gsap.registerPlugin(MotionPathPlugin);
+  // Set About Card Message
+  cardSelect(0);
+
+  // Faq Fetch
+  if (document.getElementById('faq') !== null) {
+    let faqContent = new AddFaq("./js/faq.json", document.querySelector(".accordion"));
+    initializeAccordion();
+  }
 
   // ****** Event Listeners ******
   // Dark Mode Changing
-  modeSwitch.addEventListener('change', ()=>{
-    if(modeSwitch.checked) {
-      changeTheme('dark');
-    } else {
-      changeTheme('light');
+  $('.darkmode-switch').click(function() {
+    const currTheme = theme == darkTheme ? lightTheme : darkTheme;
+    changeTheme(currTheme);
+  });
+  const dmSwitch = document.querySelectorAll(".darkmode-switch");
+  dmSwitch.forEach(dm => {
+    dm.onpointerenter = () => {
+      if (theme == darkTheme) {
+        bulbStrokes.forEach(stroke => {
+          stroke.style.stroke = yellow;
+        });
+      } else {
+        bulbStrokes.forEach(stroke => {
+          stroke.style.stroke = green;
+        });
+        bulbFills.forEach(fill => {
+          fill.style.fill = "#000";
+        });
+      }
+    }
+    dm.onpointerleave = () => {
+      changeLightbulb(theme);
     }
   });
 
-  // Faq Fetch
-  let faqContent = new AddFaq("./js/faq.json", document.querySelector('.accordion'));
-  initializeAccordion();
+  // Resize Events
+  window.addEventListener("resize", () => {
+    if (pages != null) {
+      debounce(setDividerWidth, 500);
+      resizeCanvas();
+      cardSelect(0);
+    }
+  });
 
   // Scroll Events
-  window.addEventListener("scroll", ()=>{
-    // Stop Dark Mode switch from sticking to bottom of screen when footer appears
-    let limit = document.body.scrollHeight - window.innerHeight - footerHeight - modeContainer.offsetHeight - (padding * 3);
-    let scroll = window.scrollY;
-    if (scroll > limit) {
-      document.getElementById('spaceholder').style.height = '0';
-      modeContainer.style.position = 'relative';
-    } else {
-      document.getElementById('spaceholder').style.height = '20px';
-      modeContainer.style.position = 'fixed';
-    }
-    
-    // Change Active Navigation Link
-    if (window.scrollY <= pages[0].offsetHeight/2) {
-      prevNav = currentNav;
-      currentNav = 0;
-    } else {
-      for (let i=1; i<pages.length; i++) {
-        if (window.scrollY >= pages[i].offsetTop - (pages[i].offsetHeight/2)) {
-          prevNav = currentNav;
-          currentNav = i;
+  if (pages.length > 0) {
+    window.addEventListener("scroll", () => {
+      // Change Active Navigation Link
+      if (window.scrollY <= pages[0].offsetHeight / 2) {
+        prevNav = currentNav;
+        currentNav = 0;
+      } else {
+        for (let i = 1; i < pages.length; i++) {
+          if (window.scrollY >= pages[i].offsetTop - pages[i].offsetHeight / 2) {
+            prevNav = currentNav;
+            currentNav = i;
+          }
         }
       }
-    }
-    if (currentNav != prevNav) {
-      for (let i=0; i<navLinks.length; i++) {
-        navLinks[i].classList.remove('active');
-        if (i === currentNav) {
-          navLinks[i].classList.add('active');
+      if (currentNav != prevNav) {
+        for (let i = 0; i < navLinks.length; i++) {
+          navLinks[i].classList.remove("active");
+          if (i === currentNav) {
+            navLinks[i].classList.add("active");
+          }
         }
       }
-    }
-  });
-  
+    });
+  }
+  const aboutPage = document.getElementById("pg-about");
+  let gObs = false;
+  const globeObserver = new IntersectionObserver((entries)=>{
+    entries.forEach(entry => {
+      if(entry.isIntersecting) {
+        if(gObs == false) {
+          gObs = true;
+          globeAnimations();
+        }
+      }
+    });
+  }, {threshold: [0.05]});
+  if (aboutPage !== null) {
+    globeObserver.observe(aboutPage);
+  }
+
   // Mobile Navigation Open and Closing
-  openNavIcon.addEventListener('click', changeMobileNavState);
-  closeNavIcon.addEventListener('click', changeMobileNavState);
-  $('.nav-link').click(()=>{changeMobileNavState()});
+  openNavIcon.addEventListener("click", changeMobileNavState);
+  closeNavIcon.addEventListener("click", changeMobileNavState);
+  $(".nav-link").click(() => {
+    changeMobileNavState();
+  });
 
   // Send Message
-  sendMsgBtn.addEventListener('click', (e)=>{
-    e.preventDefault();
-    const checkResult = patternCheck('msg');
-    if (checkResult[0]) {
-      sendMsg(checkResult[1]);
-    }
-  });
-  signUpBtn.addEventListener('click', (e)=>{
-    e.preventDefault();
-    const checkResult = patternCheck('waitlist');
-    if (checkResult[0]) {
-      addToWaitlist(checkResult[1]);
-    }
-  });
-  // Close Form Error
-  errMsgBtn.addEventListener('click', (e)=> {
-    e.preventDefault();
-    $('.error-msg').fadeOut('fast');
-  });
-  errWtlBtn.addEventListener('click', (e)=> {
-    e.preventDefault();
-    $('.error-waitlist').fadeOut('fast');
-  });
-
-  // Credits Open and Close
-  creditsBtn.addEventListener('click', ()=>{
-    toggleCredits();
-  });
-  
-  // Lightning Functions
-  observer.observe(cvsStorm);
-  observer.observe(cvsMtn);
-  observer.observe(cvsCnt);
-  requestAnimationFrame(animate);
-  startLightning(stormInterval);
-
-  // Touch Triggered Lightning
-  cvsTch.onpointerdown = (e) => {
-    cvsTch.setPointerCapture(e.pointerId);
-    // stop other animation
-    clearInterval(lightningInterval);
-    clearCanvas();
-    touch = true;
-    tchTarget = {x: e.clientX - cvsTch.getBoundingClientRect().left, y: e.clientY - cvsTch.getBoundingClientRect().top};
-
-    cvsTch.onpointermove = (e) => {
-        let x = e.clientX - cvsTch.getBoundingClientRect().left;
-        let y = e.clientY - cvsTch.getBoundingClientRect().top;
-        if (x>0 && e.clientX<cvsTch.getBoundingClientRect().right && y>0 && e.clientY<cvsTch.getBoundingClientRect().bottom) {
-        tchTarget = {x: x, y: y};
-      } else {
-        cvsTch.onpointermove = null;
-        cvsTch.onpointerup = null;
-        touch = false;
-        tchLightning.clear(ctxTch);
+  if (sendMsgBtn !== null) {
+    sendMsgBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      const checkResult = patternCheck("msg");
+      if (checkResult[0]) {
+        sendMsg(checkResult[1]);
       }
-      
+    });
+  }
+  // Close Form Error
+  if (errMsgBtn !== null) {
+    errMsgBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      $(".error-msg").fadeOut("fast");
+    });
+  }
+
+  // ****** Animations ******
+  // Lightning Animation Start-up
+  if (document.getElementById("lightning-storm") !== null) {
+    observer.observe(cvsStorm);
+    requestAnimationFrame(animate);
+    startLightning(stormInterval);
+  }
+
+  // Globe Animations
+  gsap.set("#ticker_user", {transformOrigin: "left top"});
+  gsap.set("#user", {transformOrigin: "center center"});
+  gsap.set("#ticker_merchant", {transformOrigin: "left bottom"});
+  gsap.set("#merchant", {transformOrigin: "center center"});
+
+  let bubbleRun = gsap.timeline({repeat: 1, yoyo: true, onComplete: playTicker, onCompleteParams: [true]});
+  let boltFloat = gsap.timeline({repeat: -1, repeatRefresh: true, yoyo: true});
+  let tickerFloat = gsap.timeline();
+  tickerFloat.pause();
+
+  function globeAnimations() {
+    // Stop the observer after first time globe enters viewport
+    if (gObs) {
+      globeObserver.unobserve(aboutPage);
     }
-  
-    cvsTch.onpointerup = (e) => {
-      cvsTch.onpointermove = null;
-      cvsTch.onpointerup = null;
-      touch = false;
-      tchLightning.clear(ctxTch);
-    }
-    cvsTch.onpointercancel = (e) => {
-      cvsTch.onpointermove = null;
-      cvsTch.onpointerup = null;
-      touch = false;
-      tchLightning.clear(ctxTch);
-    }
-    cvsTch.onpointerleave = (e) => {
-      cvsTch.onpointermove = null;
-      cvsTch.onpointerup = null;
-      touch = false;
-      tchLightning.clear(ctxTch);
+    // Animations
+    bubbleRun.to("#bubble_dollar", {
+      duration: 1.2,
+      ease: "power2.inOut",
+      motionPath: {
+        path: "#dollar_path",
+        align: "#dollar_path",
+        alignOrigin: [0.35, 0.3],
+      }
+    })
+    .to("#bubble_bitcoin", {
+      duration: 1.2,
+      ease: "power2.inOut",
+      motionPath: {
+        path: "#bitcoin_path",
+        align: "#bitcoin_path",
+        alignOrigin: [0.5, 0.25]
+      }
+    }, "<.5");
+    
+    boltFloat.to("#bolt", {
+      duration: 1,
+      x: "random(-50, -20, 5)",
+      y: "random(-50, -20, 5)",
+      ease: "power1.inOut"
+    })
+    .to("#bolt", {
+      duration: 1,
+      x: "random(50, 20, 5)",
+      y: "random(20, 50, 5)",
+      ease: "power1.inOut"
+    });
+    
+    const tickerDuration = 2;
+    tickerFloat.to("#ticker_user", {
+      duration: tickerDuration,
+      rotation: 180,
+      ease: "power1.inOut"
+    })
+    .to("#user", {
+      duration: tickerDuration,
+      rotation: -180,
+      ease: "power1.inOut"
+    }, 0)
+    .to("#ticker_merchant", {
+      duration: tickerDuration,
+      rotation: 180,
+      ease: "power1.inOut"
+    }, "<.4")
+    .to("#merchant", {
+      duration: tickerDuration,
+      rotation: -180,
+      ease: "power1.inOut"
+    }, "<")
+    .to("#ticker_merchant", {
+      duration: tickerDuration,
+      rotation: 0,
+      ease: "power1.inOut"
+    })
+    .to("#merchant", {
+      duration: tickerDuration,
+      rotation: 0,
+      ease: "power1.inOut"
+    }, "<")
+    .to("#ticker_user", {
+      duration: tickerDuration,
+      rotation: 0,
+      ease: "power1.inOut"
+    }, "<.4")
+    .to("#user", {
+      duration: tickerDuration,
+      rotation: 0,
+      ease: "power1.inOut"
+    }, "<")
+    .call(playTicker, [false]);
+  }
+
+  function playTicker(state) {
+    if (state) {
+      tickerFloat.play();
+      playBubbleRun(false);
+    } else {
+      tickerFloat.pause(0);
+      playBubbleRun(true);
     }
   }
-  resizeTchCanvas();
-  createTchLightning(lightningThickness, roughness, minSegmentHeight);
-  window.requestAnimationFrame(tchAnimate);
-  
-  
-  $(window).on('resize', function(){
-    resizeCanvas();
-  });
-}
+  function playBubbleRun(state) {
+    state ? bubbleRun.restart() : bubbleRun.pause(0);
+  }
+};

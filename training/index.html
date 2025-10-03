@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Flash Training Session Minutes</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/alpinejs" defer></script>
+</head>
+
+<body class="bg-gray-100 text-gray-800 p-6">
+    <div class="max-w-5xl mx-auto bg-white shadow-xl rounded-xl p-6" x-data="{ tab: 'meeting1' }">
+        <div class="text-center mb-6">
+            <img src="/assets/img/logo-black.png" alt="Flash Logo" class="h-12 inline-block" />
+        </div>
+
+        <h1 class="text-3xl font-bold mb-6 text-center text-blue-700">Training Session Minutes</h1>
+        <div class="mb-6">
+            <select x-model="tab"
+                class="w-full max-w-md mx-auto block px-4 py-2 bg-white border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                <option value="training1">August 4, 2025</option>
+            </select>
+        </div>
+
+    </div>
+
+    <div class="space-y-6 text-[15px] leading-relaxed">
+        <div x-show="tab === 'training1'" x-transition>
+            <div class="bg-gray-50 p-4 rounded shadow-sm">
+                <h2 class="text-xl font-bold">Training Session Minutes – August 4, 2025 @ 12:00PM (Jamaica Time)</h2>
+                <p><strong>Facilitator:</strong> Jabari Ennis</p>
+                <p><strong>Attendees:</strong> Ajene Ennis, Michael Ennis, Roger Kerr, Charmaine Grant, Alana Igbe,
+                    Chalondra Dyce, Kimarley Henry, Elizabeth Lee</p>
+                <p><strong>Duration:</strong> 2.5 hrs (Part 1 & Part 2)</p>
+                <p><strong>Focus:</strong> New Sales Platform & Flash App Training</p>
+            </div>
+
+            <div class="space-y-6 mt-4">
+                <div class="bg-blue-50 p-4 rounded-lg border border-blue-200">
+                    <h3 class="text-lg font-semibold text-blue-700 mb-2">📋 Training Overview</h3>
+                    <p class="mb-3">This comprehensive training session focused on enhancing the skills of the sales and
+                        support teams, addressing both technical issues and the introduction of a new sales platform.
+                        The
+                        session was divided into two parts covering the new sales platform features and Flash app
+                        functionality.</p>
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div>
+                            <h4 class="font-semibold text-blue-600 mb-2">Part 1: Sales Platform</h4>
+                            <ul class="text-sm space-y-1">
+                                <li>• New canvassing & intake forms</li>
+                                <li>• Submission management system</li>
+                                <li>• Lead tracking & filters</li>
+                                <li>• Territory management</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-blue-600 mb-2">Part 2: Flash App</h4>
+                            <ul class="text-sm space-y-1">
+                                <li>• Login methods & security</li>
+                                <li>• Flash Wallet functionality</li>
+                                <li>• Point-of-sale device features</li>
+                                <li>• Payment flow processes</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white p-5 rounded-md border border-gray-200 shadow-sm">
+                    <h3 class="text-lg font-semibold text-blue-600 mb-2">1. Attendance and Technical Issues</h3>
+                    <ul class="list-disc list-inside space-y-1">
+                        <li>Recording difficulties were encountered and need to be resolved for future sessions.</li>
+                        <li>Technical challenges highlighted the need for better meeting logistics preparation.</li>
+                    </ul>
+                </div>
+
+                <div class="bg-white p-5 rounded-md border border-gray-200 shadow-sm">
+                    <h3 class="text-lg font-semibold text-blue-600 mb-2">2. Introduction to New Sales Platform</h3>
+                    <ul class="list-disc list-inside space-y-1">
+                        <li>New platform will replace the old intake form with enhanced functionality.</li>
+                        <li>System designed to track merchant visits, conversations, and conversions effectively.</li>
+                        <li>Includes canvassing form and intake form for detailed merchant interaction capture.</li>
+                        <li>Performance metrics available to track sales conversions and team effectiveness.</li>
+                        <li>Support staff can assist salespeople with platform-related issues.</li>
+                    </ul>
+                </div>
+
+                <div class="bg-white p-5 rounded-md border border-gray-200 shadow-sm">
+                    <h3 class="text-lg font-semibold text-blue-600 mb-2">3. Submission Management and User Access</h3>
+                    <ul class="list-disc list-inside space-y-1">
+                        <li>Emphasized editing submissions under original owner's account to prevent duplication.</li>
+                        <li>Alana can access and edit submissions made by Tatiana for continuity.</li>
+                        <li>Territory-based submission lists planned for better organization.</li>
+                        <li>Submission list filters crucial for tracking merchant interactions by interest level.</li>
+                        <li>Some filter issues acknowledged and will be addressed in future updates.</li>
+                    </ul>
+                </div>
+
+                <div class="bg-white p-5 rounded-md border border-gray-200 shadow-sm">
+                    <h3 class="text-lg font-semibold text-blue-600 mb-2">4. Profile Setup and Territory Management</h3>
+                    <ul class="list-disc list-inside space-y-1">
+                        <li>Alana reported issues with changing territory in profile section.</li>
+                        <li>Territory editing option not available despite multiple attempts.</li>
+                        <li>Issue confirmed and will be addressed post-session.</li>
+                        <li>Various tools available for managing lead pipelines and personal profiles.</li>
+                    </ul>
+                </div>
+
+                <div class="bg-white p-5 rounded-md border border-gray-200 shadow-sm">
+                    <h3 class="text-lg font-semibold text-blue-600 mb-2">5. Flash App Login Methods & Security</h3>
+                    <ul class="list-disc list-inside space-y-1">
+                        <li>Three login methods: phone number, email backup, and QR code transfer.</li>
+                        <li>QR code login allows seamless account migration between devices.</li>
+                        <li>Two-factor authentication and PIN codes enhance security measures.</li>
+                        <li>Account migration process demonstrated with emphasis on logging out old devices.</li>
+                        <li>Security protocols ensure funds only accessible on authorized devices.</li>
+                    </ul>
+                </div>
+
+                <div class="bg-white p-5 rounded-md border border-gray-200 shadow-sm">
+                    <h3 class="text-lg font-semibold text-blue-600 mb-2">6. Flash Wallet Functionality</h3>
+                    <ul class="list-disc list-inside space-y-1">
+                        <li>Wallet enables sending and receiving Bitcoin between users.</li>
+                        <li>Current manual top-up process involves contacting support team.</li>
+                        <li>Automation of wallet top-up process planned for future implementation.</li>
+                        <li>No transaction fees for transfers between Flash Wallets.</li>
+                        <li>Support team (Ajene, Kimarley, Liz) crucial for smooth user experience.</li>
+                    </ul>
+                </div>
+
+                <div class="bg-white p-5 rounded-md border border-gray-200 shadow-sm">
+                    <h3 class="text-lg font-semibold text-blue-600 mb-2">7. Flashpoint Point-of-Sale Device</h3>
+                    <ul class="list-disc list-inside space-y-1">
+                        <li>Device supports QR code payments and tap-to-pay with flashcards.</li>
+                        <li>Merchants can purchase with 90-day payment plan option.</li>
+                        <li>Quick cash-out process allows fund transfers to bank accounts.</li>
+                        <li>Regional coordinators will receive sample devices for demonstrations.</li>
+                        <li>Basic functionality designed for merchant ease of use.</li>
+                    </ul>
+                </div>
+
+                <div class="bg-white p-5 rounded-md border border-gray-200 shadow-sm">
+                    <h3 class="text-lg font-semibold text-blue-600 mb-2">8. Data Security & Platform Improvements</h3>
+                    <ul class="list-disc list-inside space-y-1">
+                        <li>Chalondra reported difficulties with submission process.</li>
+                        <li>Income-related questions to be made optional based on feedback.</li>
+                        <li>Kimarley emphasized need for secure logins to protect sensitive data.</li>
+                        <li>PIN implementation planned for enhanced platform security.</li>
+                        <li>Ongoing feedback encouraged to improve user interface and messaging.</li>
+                    </ul>
+                </div>
+
+                <div class="bg-white p-5 rounded-md border border-gray-200 shadow-sm">
+                    <h3 class="text-lg font-semibold text-blue-600 mb-2">9. Credit Union Integration & Banking</h3>
+                    <ul class="list-disc list-inside space-y-1">
+                        <li>Charmaine raised challenges with merchants using credit unions.</li>
+                        <li>Credit union transfers depend on RTGS network participation.</li>
+                        <li>Most credit unions not directly governed by Bank of Jamaica.</li>
+                        <li>Different processes required for credit union fund transfers.</li>
+                        <li>Goal remains seamless transactions across all account types.</li>
+                    </ul>
+                </div>
+
+                <div class="bg-white p-5 rounded-md border border-yellow-300 shadow-md">
+                    <h3 class="text-lg font-semibold text-yellow-700 mb-2">✅ Action Items:</h3>
+                    <ul class="space-y-4">
+                        <li><strong>Alana Igbe:</strong>
+                            <ul class="ml-5 space-y-1">
+                                <li><label class="flex items-center space-x-2">
+                                        <input type="checkbox" class="form-checkbox h-4 w-4 text-blue-600">
+                                        <span>Record future meetings if recording option becomes available</span>
+                                    </label></li>
+                                <li><label class="flex items-center space-x-2">
+                                        <input type="checkbox" class="form-checkbox h-4 w-4 text-blue-600">
+                                        <span>Work with Michael separately on form understanding and submission</span>
+                                    </label></li>
+                            </ul>
+                        </li>
+
+                        <li><strong>Jabari Ennis:</strong>
+                            <ul class="ml-5 space-y-1">
+                                <li><label class="flex items-center space-x-2">
+                                        <input type="checkbox" class="form-checkbox h-4 w-4 text-blue-600">
+                                        <span>Create territory-based submission list for support team</span>
+                                    </label></li>
+                                <li><label class="flex items-center space-x-2">
+                                        <input type="checkbox" class="form-checkbox h-4 w-4 text-blue-600">
+                                        <span>Make all income-related questions in intake form optional</span>
+                                    </label></li>
+                                <li><label class="flex items-center space-x-2">
+                                        <input type="checkbox" class="form-checkbox h-4 w-4 text-blue-600">
+                                        <span>Add PIN to all logins for enhanced security</span>
+                                    </label></li>
+                                <li><label class="flex items-center space-x-2">
+                                        <input type="checkbox" class="form-checkbox h-4 w-4 text-blue-600">
+                                        <span>Update Flash app intro screens based on user feedback</span>
+                                    </label></li>
+                                <li><label class="flex items-center space-x-2">
+                                        <input type="checkbox" class="form-checkbox h-4 w-4 text-blue-600">
+                                        <span>Provide sample POS device to Alana for demonstrations</span>
+                                    </label></li>
+                                <li><label class="flex items-center space-x-2">
+                                        <input type="checkbox" class="form-checkbox h-4 w-4 text-blue-600">
+                                        <span>Continue discussion on non-Flash wallet types in next session</span>
+                                    </label></li>
+                                <li><label class="flex items-center space-x-2">
+                                        <input type="checkbox" class="form-checkbox h-4 w-4 text-blue-600">
+                                        <span>Assist participants with ProtonMail sign-in if needed</span>
+                                    </label></li>
+                            </ul>
+                        </li>
+
+                        <li><strong>Michael Ennis:</strong>
+                            <ul class="ml-5 space-y-1">
+                                <li><label class="flex items-center space-x-2">
+                                        <input type="checkbox" class="form-checkbox h-4 w-4 text-blue-600">
+                                        <span>Emphasize program of work significance and submission deadlines</span>
+                                    </label></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="bg-white p-5 rounded-md border border-red-300 shadow-md">
+                    <h3 class="text-lg font-semibold text-red-700 mb-2">🔧 Technical Issues to Address:</h3>
+                    <ul class="list-disc list-inside space-y-1">
+                        <li>Microphone and audio quality issues during training sessions</li>
+                        <li>Recording functionality problems need resolution</li>
+                        <li>Territory editing option not accessible in profile section</li>
+                        <li>Some submission list filters not functioning correctly</li>
+                        <li>Credit union integration complexities require further investigation</li>
+                    </ul>
+                </div>
+
+                <div class="bg-white p-5 rounded-md border border-green-300 shadow-md">
+                    <h3 class="text-lg font-semibold text-green-700 mb-2">📈 Key Training Outcomes:</h3>
+                    <ul class="list-disc list-inside space-y-1">
+                        <li>Team familiar with new sales platform features and capabilities</li>
+                        <li>Understanding of Flash app login methods and security protocols</li>
+                        <li>Knowledge of Flash Wallet functionality and transaction processes</li>
+                        <li>Awareness of Flashpoint POS device features for merchant demonstrations</li>
+                        <li>Enhanced collaboration between sales and support teams</li>
+                    </ul>
+                </div>
+
+                <div class="bg-white p-5 rounded-md border border-purple-300 shadow-md">
+                    <h3 class="text-lg font-semibold text-purple-700 mb-2">❓ Key Questions Raised:</h3>
+                    <ul class="list-disc list-inside space-y-1">
+                        <li>How can support team access contact information for regional operators?</li>
+                        <li>Can income-related questions in intake form be made optional?</li>
+                        <li>What should be done if a merchant was not contacted as planned?</li>
+                        <li>What feedback is needed from sales and support to improve Flash app?</li>
+                        <li>How will credit union integration affect transfer processes?</li>
+                        <li>Can regional coordinators receive sample POS devices for demos?</li>
+                    </ul>
+                </div>
+
+                <div class="bg-white p-5 rounded-md border border-blue-300 shadow-md">
+                    <h3 class="text-lg font-semibold text-blue-700 mb-2">📌 Next Training Session Topics</h3>
+                    <ul class="list-disc list-inside space-y-1">
+                        <li>Different wallet types compatible with Flash system</li>
+                        <li>Professional communication using ProtonMail</li>
+                        <li>Advanced merchant demonstration techniques</li>
+                        <li>Advanced sales platform features and reporting</li>
+                        <li>Customer support best practices</li>
+                    </ul>
+                    <p class="mt-3"><strong>Next Training Session:</strong> Monday, August 11th @ 12:00pm (Jamaica Time)
+                    </p>
+                </div>
+
+                <p class="text-center text-gray-600 mt-6">Excellent participation and engagement from all team members —
+                    Looking forward to implementing these improvements!</p>
+
+                <div class="text-center text-sm text-gray-500 mt-10">
+                    &copy; 2025 Island Bitcoin Jamaica Limited. | All rights reserved<br />
+                    Contact: <a href="mailto:support@getflash.io" class="text-blue-500">support@getflash.io</a> |
+                    <a href="https://wa.me/18762909250" class="text-blue-500">WhatsApp 876-290-9250</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </div>
+    </div>
+</body>
+
+</html>

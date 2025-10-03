@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Flash Blog – Insights and stories on Bitcoin and crypto in the Caribbean." />
+    <!-- Favicons -->
+    <link rel="shortcut icon" type="image/png" href="../assets/img/favicon-32x32.png" sizes="32x32" />
+    <link rel="icon" type="image/png" href="../assets/img/favicon-16x16.png" sizes="16x16" />
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+        rel="stylesheet">
+    <!-- CSS -->
+    <link rel="stylesheet" href="../css/main.css" />
+
+    <style>
+        /* Blog Page Specific Styles */
+        .blog-article {
+            background-color: var(--bg-body);
+            color: var(--text-color);
+            font-family: 'Roboto', sans-serif;
+            padding: 80px 0 20px;
+            margin: 0 auto;
+        }
+
+        .blog-hero {
+            text-align: center;
+            margin-bottom: 60px;
+            padding: 80px 0 20px;
+        }
+
+        .blog-hero h1 {
+            font-size: var(--fSize-banner);
+            margin-bottom: 20px;
+            margin-top: 50px;
+        }
+
+        .blog-article h2 {
+            margin-bottom: 20px;
+            margin-top: 40px;
+        }
+
+        .blog-article p {
+            line-height: 2;
+            margin-bottom: 28px;
+        }
+
+        .blog-hero p {
+            font-size: var(--fSize-med);
+            margin-bottom: 30px;
+        }
+
+        /* Container for each blog post */
+        .blog-post {
+            display: flex;
+            align-items: center;
+            margin-bottom: 40px;
+            padding: 20px;
+            background-color: var(--bg-body);
+            border-radius: var(--border-radius);
+            box-shadow: 0 4px 8px var(--box-shadow);
+        }
+
+        /* Alternate direction for even posts */
+        .blog-post:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+
+        /* Thumbnail styles */
+        .blog-thumbnail {
+            flex: 0 0 40%;
+            margin-right: 20px;
+        }
+
+        /* Adjust margin for even posts */
+        .blog-post:nth-child(even) .blog-thumbnail {
+            margin-left: 20px;
+            margin-right: 0;
+        }
+
+        .blog-thumbnail img {
+            width: 100%;
+            height: auto;
+            border-radius: var(--border-radius);
+            object-fit: cover;
+        }
+
+        .blog-img img {
+            width: 30%;
+            height: auto;
+            border-radius: var(--border-radius);
+            display: block;
+            margin: 0 auto 30px;
+        }
+
+        /* Content container */
+        .blog-content {
+            flex: 1;
+        }
+
+        .blog-content h2 {
+            font-size: var(--fSize-lg);
+            font-weight: var(--fWeight-bold);
+            margin-bottom: 10px;
+        }
+
+        .blog-content .date {
+            font-size: var(--fSize-label);
+            color: var(--flash-green);
+            margin-bottom: 15px;
+        }
+
+        .blog-content p {
+            line-height: 1.5;
+            margin-bottom: 15px;
+        }
+
+        .read-more {
+            display: inline-block;
+            padding: 12px 24px;
+            border-radius: 999px;
+            /* pill-shaped */
+            background: linear-gradient(145deg, #ffffff30, #ffffff05);
+            color: var(--flash-green);
+            font-weight: bold;
+            text-decoration: none;
+            border: 2px solid var(--flash-green);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.4);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(8px);
+            /* glassy effect */
+        }
+
+        .read-more:hover {
+            background: var(--flash-green);
+            color: #fff;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+            transform: translateY(-2px);
+        }
+    </style>
+
+    <!-- Script to set dark/light mode background to prevent flicker -->
+    <script>
+        if (localStorage.getItem("theme")) {
+            let t = localStorage.getItem("theme");
+            const r = document.querySelector(':root');
+            t === "light" ? r.style.setProperty("--bg-body", "#fff") : r.style.setProperty("--bg-body", "#000");
+        }
+    </script>
+    <title>Lightning Network in El Salvador | Flash Blog</title>
+</head>
+
+<body>
+    <!-- Header (same as main website) -->
+    <header>
+        <div class="container">
+            <div class="logo-container">
+                <a href="../index.html#pg-download" class="no-style">
+                    <img src="../assets/img/logo-black.png" alt="Flash" class="light" />
+                    <img src="../assets/img/logo-white.png" alt="Flash" class="dark" />
+                </a>
+            </div>
+            <!-- Navigation -->
+            <nav>
+                <svg id="open-nav" class="nav-icon mobile-only" aria-label="open menu" width="41" height="15"
+                    viewBox="0 0 41 15" xmlns="http://www.w3.org/2000/svg">
+                    <line x1="2" y1="2" x2="39" y2="2" stroke="#161313" stroke-width="4" stroke-linecap="round" />
+                    <line x1="15" y1="13" x2="39" y2="13" stroke="#161313" stroke-width="4" stroke-linecap="round" />
+                </svg>
+                <ul class="main-nav" id="main-nav" data-mob-state="closed">
+                    <li class="mobile-only">
+                        <svg id="close-nav" class="nav-icon" aria-label="close menu" width="26" height="26"
+                            viewBox="0 0 26 26" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M23.2129 2L1.99969 23.2132" stroke="black" stroke-width="4"
+                                stroke-linecap="round" />
+                            <path d="M2.21289 2L23.4261 23.2132" stroke="black" stroke-width="4"
+                                stroke-linecap="round" />
+                        </svg>
+                    </li>
+                    <li class="darkmode-switch mobile-only">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                            aria-hidden="true">
+                            <use href="#lightbulb" class="lightbulb"></use>
+                        </svg>
+                    </li>
+                    <li><a href="../index.html#pg-about" class="nav-link">About</a></li>
+                    <li><a href="../mission.html" class="nav-link">Mission</a></li>
+                    <li><a href="../team.html" class="nav-link">Team</a></li>
+                    <li><a href="index.html" class="nav-link active">Blog</a></li>
+                    <li><a href="../index.html#pg-faq" class="nav-link">FAQ</a></li>
+                    <li><a href="../index.html#pg-contact" class="nav-link">Contact</a></li>
+                </ul>
+            </nav>
+            <div id="bitcoin-price" class="btc-widget">
+                <h3>Bitcoin Price:</h3>
+                <p>1 BTC = $ <span id="btc-value"></span> USD</p>
+            </div>
+            <div class="darkmode-switch desktop-only">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true">
+                    <use href="#lightbulb" class="lightbulb"></use>
+                </svg>
+                <p class="desktop-only">Dark Mode <span id="darkmode-text">On</span></p>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="blog-hero">
+            <h1>Lightning Network in El Salvador: Implications for Jamaica</h1>
+            <p>March 31, 2025</p>
+            <img src="../assets/img/ES-BTC-JM.png" alt="Lightning in El Salvador" class="blog-img" />
+            <p>Written By: <a href="https://primal.net/dread">Dread</a></p>
+            <!-- Post Navigation - Top -->
+            <div class="post-navigation">
+                <a href="index.html" class="prev-post" style=" float: left; padding: 10px 20px; text-decoration: none;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M19 12H5"></path>
+                        <path d="M12 19l-7-7 7-7"></path>
+                    </svg>
+                    Previous Article
+                </a>
+                <a href="post-3.html" class="next-post"
+                    style=" float: right; padding: 10px 20px; text-decoration: none;">
+                    Next Article
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M5 12h14"></path>
+                        <path d="M12 5l7 7-7 7"></path>
+                    </svg>
+                </a>
+            </div>
+        </div>
+
+        <article class="blog-article">
+
+
+            <p>El Salvador's bold adoption of Bitcoin – underpinned by the Lightning Network – offers a live case study
+                of how Bitcoin (<strong>not</strong> generic crypto) can transform financial systems. From technical
+                infrastructure to grassroots usage, El Salvador is demonstrating what Bitcoin's Layer-2 Lightning
+                Network can achieve in daily commerce, remittances, and financial inclusion. This article takes a
+                Bitcoin-maximalist perspective, focusing on Bitcoin as the core transformative technology, and explores
+                El Salvador's experience with Lightning. We then forecast potential outcomes and strategic opportunities
+                <strong>if Jamaica were to integrate Lightning</strong> at both grassroots and national levels. The goal
+                is to highlight practical, real-world impacts of Lightning adoption in underbanked economies, with a
+                professional but accessible tone for fintech-savvy readers.
+            </p>
+
+            <h2>El Salvador's Lightning-Powered Bitcoin Economy</h2>
+
+            <p><strong>El Salvador's implementation of Bitcoin as legal tender relied on the Lightning Network for
+                    success.</strong> The Lightning Network is a layer-2 protocol built on Bitcoin that enables instant,
+                low-fee transactions by using off-chain payment channels while still settling to the Bitcoin blockchain
+                for security (<a
+                    href="https://bitcoinmagazine.com/technical/lightning-ballooned-since-el-salvador-bitcoin-bet#:~:text=The%20Lightning%20Network%20is%20a,the%20rules%20of%20the%20protocol">The
+                    State Of Lightning One Year After El Salvador's Bitcoin Adoption</a>). In practice, this means
+                Salvadorans can buy a cup of coffee with Bitcoin and the payment clears in seconds via Lightning, rather
+                than waiting minutes for an on-chain confirmation. To facilitate this, the government launched the
+                <strong>Chivo wallet</strong>, a state-backed Bitcoin wallet with Lightning support, allowing seamless
+                conversion between Bitcoin and USD. Notably, the Lightning infrastructure for Chivo is supported by
+                experienced Bitcoin companies – for example, fintech firm River operates nodes and liquidity channels
+                for Chivo's Lightning backend (<a
+                    href="https://blog.river.com/insights-from-the-4th-largest-lightning-network-node/#:~:text=River%20has%20been%20a%20participant,for%20El%20Salvador%E2%80%99s%20Chivo%20wallet">Insights
+                    From the 4th Largest Lightning Network Node</a>). Multiple private wallets also flourish: the
+                open-source <strong>Bitcoin Beach</strong> wallet (now Blink) was pioneered in El Zonte to serve local
+                communities, and international apps like Strike, Muun, and others have given Salvadorans alternatives
+                for Lightning transactions. This robust wallet infrastructure has onboarded millions: by 2022, more
+                Salvadorans had Bitcoin Lightning wallets than bank accounts (<a
+                    href="https://en.wikipedia.org/wiki/Bitcoin_in_El_Salvador#:~:text=Bukele%20%2C%20the%20president%20of,IMF">Bitcoin
+                    in El Salvador - Wikipedia</a>) – a remarkable statistic that underscores how mobile-first Bitcoin
+                banking leapfrogged traditional finance.
+            </p>
+
+            <p>
+                <img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Cajero_Bitcoin_Athena_El_Salvador.jpg"
+                    width="25%" alt="File:Cajero Bitcoin Athena El Salvador.jpg - Wikimedia Commons"
+                    style="float: left; margin: 0 15px 15px 0;" />
+                <em>Lightning adoption in El Salvador is
+                    supported by new infrastructure like Bitcoin ATMs, such as this Athena Bitcoin ATM installed in El
+                    Zonte (also known as "Bitcoin Beach"). The launch of the Lightning-enabled Chivo wallet in 2021 gave
+                    millions of Salvadorans access to digital payments, reportedly resulting in more citizens having
+                    Lightning wallets than bank accounts by 2022 (<a
+                        href="https://en.wikipedia.org/wiki/Bitcoin_in_El_Salvador#:~:text=Bukele%20%2C%20the%20president%20of,IMF">Bitcoin
+                        in El Salvador - Wikipedia</a>). This widespread access lays the foundation for a Bitcoin-based
+                    economy, even though daily usage is still evolving.</em>
+            </p>
+
+            <p><strong>Merchant adoption has been possible only because Lightning solves Bitcoin's scalability and fee
+                    challenges.</strong> By law, businesses in El Salvador can accept Bitcoin payments, and the
+                Lightning Network enables these transactions to be fast and virtually fee-free, even for tiny purchases.
+                Within the first year, roughly 20% of businesses in El Salvador had begun accepting Bitcoin payments (<a
+                    href="https://en.wikipedia.org/wiki/Bitcoin_in_El_Salvador#:~:text=A%20study%20published%20by%20the,remittance%20payments%20sent%20to%20El">Bitcoin
+                    in El Salvador - Wikipedia</a>). Major chains like Starbucks and McDonald's were famously able to
+                accept Lightning payments from day one, but more importantly, many small and micro-businesses – from
+                street food vendors to corner shops – could use simple phone-based Lightning wallets to transact without
+                needing expensive card terminals. Lightning's capacity and reliability have dramatically improved
+                alongside this rollout. Globally, the total liquidity locked in Lightning channels surged to over
+                <strong>4,350 BTC by late 2022</strong>, reflecting growing trust in Lightning's ability to handle
+                larger volumes (<a
+                    href="https://coingate.com/blog/post/lightning-network-year-over-year-data#:~:text=100%2C000%20to%20over%2080%20million,potential%20users%20by%20early%202022">Year-over-Year
+                    Data Shows Rising Lightning Network Adoption | CoinGate</a>) (<a
+                    href="https://coingate.com/blog/post/lightning-network-year-over-year-data#:~:text=In%202023%2C%20the%20Lightning%20Network,transactions%20recorded%20in%20August%202023">Year-over-Year
+                    Data Shows Rising Lightning Network Adoption | CoinGate</a>). The number of Lightning nodes and
+                channels also climbed, making payment routing more robust. In fact, integrations by platforms like Cash
+                App, Paxful, and Chivo itself expanded Lightning's user base from an estimated 100,000 to over 80
+                <strong>million</strong> potential users in early 2022 (<a
+                    href="https://coingate.com/blog/post/lightning-network-year-over-year-data#:~:text=For%20example%2C%20back%20then%2C%20Block%E2%80%99s,potential%20users%20by%20early%202022">Year-over-Year
+                    Data Shows Rising Lightning Network Adoption | CoinGate</a>). This "El Salvador effect" – putting
+                Bitcoin in the hands of a whole country – created a feedback loop: it boosted global Lightning adoption,
+                which in turn improved network liquidity and success rates for payments. Lightning's technical upgrades
+                (like improved channel management and emerging features such as <strong>multipath payments</strong> for
+                larger transactions) continue to make Bitcoin more scalable for everyday use (<a
+                    href="https://www.securities.io/bitcoins-lightning-network-the-scaling-solution-powering-adoption/#:~:text=Bitcoin%27s%20Lightning%20Network%3A%20The%20Scaling,People%20often%20forget%20that">Bitcoin's
+                    Lightning Network: The Scaling Solution Powering Adoption</a>).
+            </p>
+
+            <p>
+                <img src="https://coingate.com/app/uploads/2024/08/average_percentage_of_btc_via_lightning-1024x576.png"
+                    width="50%" alt="File:Year-over-Year Data Shows Rising Lightning Network Adoption"
+                    style="float: right; margin: 0 15px 15px 30px;" />
+                <em>Global Lightning Network usage has accelerated
+                    since El Salvador's adoption. The share of Bitcoin payments sent via Lightning rose from around 6%
+                    in 2022 to nearly 16% by mid-2024 (<a
+                        href="https://coingate.com/blog/post/lightning-network-year-over-year-data#:~:text=Here%20are%20the%20key%20takeaways,from%20the%20following%20data%20analysis">Year-over-Year
+                        Data Shows Rising Lightning Network Adoption | CoinGate</a>) (<a
+                        href="https://coingate.com/blog/post/lightning-network-year-over-year-data#:~:text=Image%3A%20average%20,so%20far%20in%202024">Year-over-Year
+                        Data Shows Rising Lightning Network Adoption | CoinGate</a>). This dramatic growth (reflected in
+                    the chart above) underscores how Lightning Network scalability is improving, enabling more
+                    transactions to move off-chain for speed and low cost.</em>
+            </p>
+
+            <p><strong>A key Lightning use case in El Salvador is remittances – a backbone of the economy.</strong>
+                President Bukele touted Bitcoin as a way to make it easier and cheaper for Salvadoran expatriates to
+                send money home (<a
+                    href="https://en.wikipedia.org/wiki/Bitcoin_in_El_Salvador#:~:text=On%20June%205%2C%202021%20President,19">Bitcoin
+                    in El Salvador - Wikipedia</a>). In practice, Lightning allows someone in the US to send value to El
+                Salvador instantly, with negligible fees, by converting dollars to Bitcoin, zapping it over Lightning,
+                and letting the recipient immediately spend it as dollars or Bitcoin. Early uptake of this technology
+                has been modest but promising. Between September 2021 and April 2022, about <strong>1.9% of remittance
+                    transactions</strong> to El Salvador were conducted via Bitcoin (<a
+                    href="https://en.wikipedia.org/wiki/Bitcoin_in_El_Salvador#:~:text=had%20conducted%20bitcoin%20transactions%20between,increase%20in%20business">Bitcoin
+                    in El Salvador - Wikipedia</a>). While that is only a small slice of total remittances so far, it
+                represents tens of millions of dollars and foreshadows the potential savings if that slice grows. (For
+                context, El Salvador's remittances are ~23% of its GDP (<a
+                    href="https://en.wikipedia.org/wiki/Bitcoin_in_El_Salvador#:~:text=Remittances%20%20accounted%20for%2023,person%20basis.%5B%209">Bitcoin
+                    in El Salvador - Wikipedia</a>), so even single-digit percentage adoption via Lightning can save
+                hefty fees.) Private services like Strike ramped up Bitcoin-based remittance channels, and Chivo itself
+                lets users send or receive remittances without the typical 5-10% commissions of Western Union. However,
+                technical education and trust are barriers – many families still default to traditional methods until
+                they gain confidence in using a Lightning wallet. The government's solution has included deploying
+                <strong>200+ crypto ATMs and physical Chivo kiosks</strong> around the country so recipients can convert
+                Bitcoin to cash easily if needed, gradually building familiarity. The long-term vision is that as more
+                people hold Bitcoin locally for everyday use, remittances can remain in Bitcoin form – directly
+                empowering recipients instead of forcing conversions to fiat. This remains an area to watch, but the
+                groundwork is laid: Lightning has proven it can move money across borders faster and cheaper than legacy
+                rails, aligning with El Salvador's goal to "bank" its unbanked via mobile phones.
+            </p>
+
+            <h2>Grassroots Adoption: Bitcoin in Daily Life and Education</h2>
+
+            <p>Beyond high-level policy, <strong>El Salvador's Bitcoin experiment lives or dies by grassroots
+                    usage</strong> – how ordinary people and small businesses embrace (or ignore) Lightning in daily
+                life. The early signs are a mixed bag, but with notable bright spots that a long-term Bitcoin strategy
+                can build on. On one hand, surveys in 2022 found that <strong>crypto was not yet widely used day-to-day
+                    in El Salvador, partly due to limited digital literacy</strong> (<a
+                    href="https://en.wikipedia.org/wiki/Bitcoin_in_El_Salvador#:~:text=A%20year%20after%20the%20adoption,2021%20and%20July%202022%2C%20while">Bitcoin
+                    in El Salvador - Wikipedia</a>). Many Salvadorans who downloaded the Chivo wallet simply cashed out
+                the $30 signup bonus and didn't become active users; one study found 61% stopped using the app after
+                spending their bonus (<a
+                    href="https://en.wikipedia.org/wiki/Bitcoin_in_El_Salvador#:~:text=A%20study%20published%20by%20the,remittance%20payments%20sent%20to%20El">Bitcoin
+                    in El Salvador - Wikipedia</a>). Entrenched habits and skepticism – especially among older or rural
+                populations – mean cash is still king for now. On the other hand, the very existence of a nationwide
+                Bitcoin system has sparked grassroots momentum. In the rural town of El Zonte (Bitcoin Beach), where
+                this movement began, a circular Bitcoin economy has been flourishing since before the law, providing a
+                template for community-driven adoption. Locals buy groceries, pay utility bills, and even receive
+                salaries in Bitcoin via Lightning. Across El Salvador, <strong>about 20% of businesses – including many
+                    small shops – have conducted at least one Bitcoin transaction</strong> in the year after adoption
+                (<a
+                    href="https://en.wikipedia.org/wiki/Bitcoin_in_El_Salvador#:~:text=bonus.%2061,that%20its%20use%20even%20in">Bitcoin
+                    in El Salvador - Wikipedia</a>). This is an extraordinary start (as Bitcoin Beach founder Mike
+                Peterson noted, if any other country had 5% of businesses accepting BTC it'd be considered a huge
+                success (<a
+                    href="https://bitcoinmagazine.com/technical/lightning-ballooned-since-el-salvador-bitcoin-bet#:~:text=%E2%80%9CMost%20negative%20stories%20claim%20,would%20be%20thrilled%2C%E2%80%9D%20he%20said">The
+                    State Of Lightning One Year After El Salvador's Bitcoin Adoption</a>)) even if usage frequency is
+                low. Crucially, those who do use Bitcoin are finding it viable: a street vendor can accept a $5
+                Lightning payment for fruit without losing a chunk to fees, or a taxi driver can receive a fare
+                instantly, whereas card payments might take days to settle to their account.</p>
+
+            <p><strong>Community education efforts have been pivotal in driving grassroots adoption.</strong>
+                Recognizing that unfamiliarity is a major hurdle, non-profit groups launched Bitcoin education programs
+                across El Salvador. The most notable is <em>Mi Primer Bitcoin</em> ("My First Bitcoin"), which started
+                in 2021 to teach students and adults about how Bitcoin works, how to secure a wallet, and how to
+                transact. This initiative has reached tens of thousands of people. In fact, as of 2024, <strong>over
+                    35,000 Salvadoran students have graduated</strong> from the Mi Primer Bitcoin diploma program, which
+                is now even being incorporated into public school curriculums with government support (<a
+                    href="https://myfirstbitcoin.io/mi-primer-bitcoin-launches-initiative-to-educate-100000-students-on-bitcoin/#:~:text=Reach%20in%2020%20countries%2C%20focus,on%20El%20Salvador">Mi
+                    Primer Bitcoin Launches Initiative to Educate 100,000 Students about Bitcoin - My First Bitcoin</a>)
+                (<a
+                    href="https://myfirstbitcoin.io/mi-primer-bitcoin-launches-initiative-to-educate-100000-students-on-bitcoin/#:~:text=In%20October%202023%20the%20Ministry,nation%2C%20including%20training%20700%2B%20teachers">Mi
+                    Primer Bitcoin Launches Initiative to Educate 100,000 Students about Bitcoin - My First
+                    Bitcoin</a>). Teachers are being trained to include Bitcoin in financial literacy classes, ensuring
+                the next generation is more comfortable with the technology. Outside the classroom, grassroots meetups
+                and Bitcoin centers have popped up – for example, in San Salvador, one can find workshops for merchants
+                on setting up Lightning payment terminals, often just using a smartphone or a simple point-of-sale app.
+                International Bitcoiners have also contributed to local education: Bitcoin Beach's success drew global
+                attention, bringing in volunteers and funding to spread knowledge in other communities. All these
+                efforts slowly turn Bitcoin from an abstract concept into a practical tool in the eyes of ordinary
+                Salvadorans. Every new corner store that confidently says "Sí, aceptamos Bitcoin" (Yes, we accept
+                Bitcoin) because they learned how to handle Lightning, is a step toward normalization.</p>
+
+            <p>It's worth noting that <strong>grassroots adoption is a gradual process</strong> – habits do not change
+                overnight. Many Salvadorans still express hesitation: some workers immediately convert Bitcoin wages to
+                dollars to avoid volatility, and some merchants prefer not to deal with it unless customers insist.
+                There have also been technical growing pains (e.g. wallet usability issues, or occasional Lightning
+                liquidity shortfalls causing failed payments). Yet the trajectory is positive. Enthusiasts on the ground
+                report that Bitcoin usage, while niche, is steadily growing and creating micro-communities of Bitcoin
+                users who then spread it to neighbors. The Lightning Network's improvements are addressing the early
+                hiccups – for instance, user-friendly features like Lightning addresses (human-readable payment aliases)
+                and <em>offline-capable</em> Lightning vouchers are emerging to make the experience smoother even for
+                those with spotty internet. The Salvadoran experience underscores that <strong>education + easy
+                    technology = the key to grassroots Bitcoin adoption</strong>. It's a long game, but El Salvador has
+                planted seeds that could make Bitcoin as routine as using WhatsApp in the years to come.</p>
+
+            <h2>From El Salvador to Jamaica: Opportunities with Lightning Adoption</h2>
+
+            <p>What does El Salvador's Lightning adventure mean for a country like <strong>Jamaica</strong>? Jamaica has
+                not (yet) made any moves to adopt Bitcoin as legal tender – in fact, the Bank of Jamaica has been
+                cautious, reminding citizens that cryptocurrency is not legal tender locally (while simultaneously
+                rolling out its own central bank digital currency, Jam-Dex) (<a
+                    href="https://boj.org.jm/bank-of-jamaica-reminder-caution-on-cryptocurrencies/#:~:text=In%20addition%2C%20cryptocurrencies%20are%20not,these%20forms%20of%20digital%20currencies">Bank
+                    of Jamaica Reminder Caution on Cryptocurrencies</a>). But if Jamaica were to pursue Lightning
+                integration at either the grassroots level, the national level, or both, El Salvador offers a glimpse of
+                the potential <strong>benefits</strong> and <strong>challenges</strong>. Here we outline key strategic
+                opportunities Lightning could unlock for Jamaica:</p>
+
+            <p>- <strong>Boosting Financial Inclusion:</strong> Jamaica faces a financial inclusion gap similar to El
+                Salvador's. Approximately <strong>22–23% of Jamaicans are unbanked</strong> (with another ~6%
+                underbanked) as of 2023 (<a
+                    href="https://our.today/more-jamaicans-own-bank-accounts-boj-survey/#:~:text=The%20BOJ%E2%80%99s%20Financial%20Inclusion%20Technical,economic%20groups.%E2%80%9D">Our
+                    Today</a>). That means nearly a quarter of the population lacks access to basic banking or digital
+                payment services. Lightning Network adoption could dramatically lower this barrier. Much like
+                Salvadorans only needed a phone and Chivo app to join the financial system, Jamaicans could use
+                Lightning wallets (provided by the government or private sector) to <strong>store, send, and receive
+                    money without a bank account</strong>. With Bitcoin, the wallet <em>is</em> the bank. This could
+                empower rural communities and urban youth who are excluded from traditional banks due to lack of
+                documentation or low income. Jamaica's high mobile penetration and improving internet access make a
+                Lightning-based solution feasible – people who have never had an online bank account might leapfrog
+                directly to a Lightning wallet. Over time, this translates to greater financial resilience: users can
+                save small amounts of money in a wallet secured by Bitcoin's network, make payments as needed, and even
+                access global markets, all while remaining in control of their funds. In short, Lightning integration
+                could bring tens of thousands of Jamaicans into a <strong>new decentralized financial loop</strong>,
+                accelerating the country's financial inclusion efforts beyond what the traditional banking system or
+                even a local-only CBDC can achieve.</p>
+
+            <p>- <strong>Lower Remittance Costs, More Money at Home:</strong> Remittances are an economic lifeline for
+                Jamaica, as with many Caribbean nations. Jamaicans abroad sent home roughly <strong>$3.5 billion in
+                    2023</strong>, amounting to about <strong>18.9% of Jamaica's GDP</strong> (<a
+                    href="https://jamaica-gleaner.com/article/focus/20240714/ransford-smith-remittances-and-development-making-silk-purse-out-sows-ear#:~:text=Jamaica%2C%20with%20a%20remittance%20to,Kosovo%2C%20Uzbekistan%2C%20Haiti%2C%20Vanuatu%2C%20Georgia">Ransford
+                    Smith | Remittances and development: making silk purse out of sow's ear? | In Focus | Jamaica
+                    Gleaner</a>) – one of the highest ratios in the world. However, sending money through legacy
+                channels (money transfer operators, banks) is expensive and slow. Fees and forex spreads often eat 5-10%
+                of the amount, and recipients may need to travel and queue to collect cash. Adopting the Lightning
+                Network for remittances could be a game-changer. For example, a Jamaican in New York could use a service
+                (akin to Strike or a Lightning-enabled MoneyGram) to send $100 in value over Bitcoin to their family in
+                Kingston. In seconds, the recipient's Lightning wallet in Jamaica would show the funds (in Bitcoin or
+                instantly converted to Jamaican dollars/stablecoins), with perhaps pennies in network fee – far less
+                than the ~$7-$10 fee through traditional means. By <strong>bypassing intermediaries</strong>, Lightning
+                can drastically reduce remittance costs, effectively putting more money in the pockets of Jamaican
+                families. On a national scale, even a shift of 10% of remittances to Lightning rails would mean tens of
+                millions of USD equivalent staying in Jamaica's economy rather than going to fees. Moreover, Lightning
+                makes remittances <strong>faster</strong> (near-instant) and <strong>accessible</strong> 24/7, which is
+                vital during emergencies or for people in remote areas. El Salvador's slow uptake in this area shows
+                that education and ease of use are critical – Jamaica would need to ensure user-friendly apps and
+                perhaps incentives (El Salvador gave a ~$30 bonus for trying Chivo) to encourage both senders and
+                receivers to try Bitcoin. But if successful, Jamaica could significantly <strong>increase the net impact
+                    of remittances</strong> on development and livelihoods, turning a costly necessity into a more
+                efficient, empowering exchange.</p>
+
+            <p>- <strong>Empowering Micro-Entrepreneurs and Small Businesses:</strong> Small businesses form the
+                backbone of Jamaica's economy, from market vendors and taxi operators to craft sellers and small tourism
+                operators. Yet they often struggle with payment infrastructure – cash handling is risky and costly, and
+                card merchant accounts are out of reach for many due to fees and paperwork. Lightning Network adoption
+                could <strong>equip every micro-entrepreneur with a modern payment solution</strong> at minimal cost.
+                Just as Salvadoran fruit vendors can accept Lightning payments via a simple phone app, a Jamaican jerk
+                chicken stall or a taxi driver could do the same. This has multiple benefits: it broadens their customer
+                base (they could accept digital payments from locals who prefer cashless, or from foreign visitors with
+                Bitcoin), it improves security (less cash on hand reduces theft risk), and it potentially gives them
+                access to a <strong>global customer pool</strong>. For instance, a Jamaican craft artisan could sell
+                products online and get paid in Bitcoin over Lightning from international buyers, without worrying about
+                setting up international banking. Lightning is also ideal for <strong>micropayments</strong>, enabling
+                new business models – imagine a few satoshis as a tip for a street performer, or paying per-minute for
+                mobile services. As Lightning adoption grows, Jamaican entrepreneurs could leverage it for innovative
+                solutions like community crowdfunding (via Lightning invoices), paying suppliers overseas instantly, or
+                interoperating with Bitcoin economies in other countries. In El Salvador, some businesses in the Bitcoin
+                Beach area reported a <strong>30% increase in sales from Bitcoin-tourism</strong> after gaining
+                Lightning acceptance (<a
+                    href="https://en.wikipedia.org/wiki/Bitcoin_in_El_Salvador#:~:text=Central%20Reserve%20Bank%2C%20bitcoin%20was,66">Bitcoin
+                    in El Salvador - Wikipedia</a>). Jamaica too could see a boost: integrating Lightning nationwide
+                might attract tech-savvy tourists and digital nomads who favor destinations where they can spend
+                Bitcoin. It would also signal that Jamaica is <strong>open for fintech business</strong>, perhaps
+                spurring local startups to build Lightning services (wallets, payment processors, point-of-sale systems)
+                and creating jobs in the digital economy.</p>
+
+            <p>- <strong>Sovereign Bitcoin Infrastructure and Economic Resilience:</strong> A longer-term strategic
+                opportunity is for Jamaica to build out <strong>sovereign Bitcoin infrastructure</strong> – meaning the
+                country and its institutions actively participate in the Bitcoin Lightning network, thereby gaining more
+                autonomy in finance. El Salvador has taken steps in this direction by running its Chivo infrastructure
+                (with partners) and even engaging in Bitcoin mining for future revenue. Jamaica could similarly
+                encourage local banks or telecoms to run Lightning nodes and liquidity hubs that interconnect with the
+                global network. By doing so, Jamaican Lightning transactions between local users could be routed
+                efficiently within the country when possible, improving speed and reliability (much like local internet
+                peering). It also ensures <strong>Jamaica owns a piece of this new financial rail</strong>, rather than
+                relying 100% on external providers. In a scenario where Bitcoin usage grows, Jamaica having its own
+                Lightning channels with international counterparts (say, a direct channel between a Jamaican node and a
+                US exchange's node) could facilitate smoother remittance flows and currency conversions at lower cost.
+                Sovereign Bitcoin infrastructure also extends to <strong>policy and reserves</strong>. If Jamaica
+                observes El Salvador's experiment paying off (for example, if Bitcoin's value rises over years and
+                bolsters El Salvador's fiscal position), it might consider holding a small portion of reserves in
+                Bitcoin or at least creating regulatory clarity to attract Bitcoin businesses. By laying the groundwork
+                with Lightning at a grassroots level now, Jamaica would be <strong>positioned to integrate Bitcoin more
+                    deeply</strong> later – whether that means using it as a strategic reserve asset, or leveraging it
+                in trade and investment. The beauty of Lightning is that it <em>coexists</em> with existing systems.
+                Jamaica can start by weaving Lightning payments into its economy (even informally), and over time this
+                parallel network can provide resilience. Should there be issues with correspondent banking or external
+                economic shocks, an established Bitcoin/Lightning ecosystem offers an alternative channel for commerce
+                that is <strong>decentralized and censorship-resistant</strong>. In essence, Lightning adoption could
+                help Jamaica future-proof its financial system, ensuring it's not left behind as Bitcoin grows globally.
+            </p>
+
+            <p>Of course, these opportunities come with challenges and considerations. Bitcoin's volatility is a concern
+                – one mitigant is to allow Lightning wallets to denominate balances in a stable asset (El Salvador's
+                Chivo lets users hold USD or BTC, switching instantly). There's also the need for <strong>public
+                    education and trust</strong>: Jamaicans would need to see Bitcoin not as a risky gamble but as a
+                useful tool; this requires transparent communication and perhaps gradual phasing (e.g. pilot programs in
+                remittance corridors or tourist areas). The government could encourage Lightning use by
+                <strong>incentives</strong> (tax breaks for merchants who accept Bitcoin, or discounts on fees if one
+                pays government services in Bitcoin, etc.). Additionally, collaborating with proven Bitcoin service
+                providers would be key – as El Salvador did with tech partners – to ensure technical reliability.
+                Jamaica has already shown interest in digital currency through its Jam-Dex CBDC initiative, aiming to
+                boost inclusion. A Bitcoin Lightning strategy could run in parallel: while Jam-Dex covers domestic
+                digital payments in Jamaican dollars, Bitcoin Lightning would connect Jamaica to the <strong>global
+                    value network</strong> (and potentially even interoperate, for example using Lightning for
+                cross-border and then converting to Jam-Dex locally). The <strong>synergy of a dual approach</strong> –
+                a domestic CBDC for local stable payments and Bitcoin Lightning for international and savings – could
+                put Jamaica on the cutting edge of fintech innovation in the Caribbean.
+            </p>
+
+            <h2>Conclusion</h2>
+
+            <p>El Salvador's experience with Bitcoin and the Lightning Network provides invaluable lessons. In just a
+                couple of years, it has built an unprecedented <strong>nation-scale Bitcoin payment system</strong>,
+                revealing both the power of the technology and the importance of human factors like education and trust.
+                The Lightning Network has proven capable of handling everyday transactions – from buying pupusas in a
+                village to receiving remittances from abroad – in a fast and cheap manner that would be impossible on
+                Bitcoin's base layer alone. Technical hiccups and slow uptake remind us that adoption is a gradual
+                journey, but the trajectory is toward greater use: Lightning's global growth in capacity and
+                transactions continues unabated, and tools to make it user-friendly are maturing.</p>
+
+            <p>For Jamaica, watching from afar, the message is that <strong>Bitcoin isn't just theoretical – it's a
+                    practical option for financial transformation</strong>. A Jamaican Lightning integration, if
+                pursued, could dramatically advance financial inclusion, slash the cost of remittances (putting more
+                money into local communities), empower small businesses to participate in the digital economy, and lay
+                the groundwork for a more sovereign financial infrastructure. It would align with a Bitcoin maximalist
+                view that <em>Bitcoin is the transformative technology</em> – a neutral, decentralized monetary network
+                that any country can plug into for its advantage. By learning from El Salvador's rollout – investing in
+                user education, combining top-down support with bottom-up community projects, and addressing volatility
+                concerns – Jamaica could avoid pitfalls and maximize the benefits. In an increasingly digital and
+                globalized financial system, embracing the Lightning Network might allow Jamaica to "leapfrog" legacy
+                limitations, much like how mobile phones leapfrogged landlines. The result would not just be a more
+                efficient financial system, but one that is more <strong>inclusive, innovative, and resilient</strong>.
+            </p>
+
+            <p>In summary, El Salvador's pioneering step has illuminated the path; the question now is whether others,
+                like Jamaica, will seize the opportunity to follow – tailoring the blueprint to their context and
+                ushering in their own Bitcoin-powered renaissance.</p>
+
+            <h2>Sources:</h2>
+
+            <p>1. Wikipedia – <em>Use and legal status of Bitcoin in El Salvador</em> (<a
+                    href="https://en.wikipedia.org/wiki/Bitcoin_in_El_Salvador#:~:text=Bukele%20%2C%20the%20president%20of,IMF">Bitcoin
+                    in El Salvador - Wikipedia</a>) (<a
+                    href="https://en.wikipedia.org/wiki/Bitcoin_in_El_Salvador#:~:text=A%20study%20published%20by%20the,Media%20outlets%20reported">Bitcoin
+                    in El Salvador - Wikipedia</a>)<br>
+                2. Bitcoin Magazine – <em>State of Lightning: One Year After El Salvador's Bitcoin Adoption</em> (<a
+                    href="https://bitcoinmagazine.com/technical/lightning-ballooned-since-el-salvador-bitcoin-bet#:~:text=The%20adoption%20of%20bitcoin%20by,of%20Lightning%20is%20in%20order">The
+                    State Of Lightning One Year After El Salvador's Bitcoin Adoption</a>) (<a
+                    href="https://bitcoinmagazine.com/technical/lightning-ballooned-since-el-salvador-bitcoin-bet#:~:text=%E2%80%9CMost%20negative%20stories%20claim%20,would%20be%20thrilled%2C%E2%80%9D%20he%20said">The
+                    State Of Lightning One Year After El Salvador's Bitcoin Adoption</a>)<br>
+                3. CoinGate – <em>Year-over-Year Data Shows Rising Lightning Network Adoption</em> (<a
+                    href="https://coingate.com/blog/post/lightning-network-year-over-year-data#:~:text=For%20example%2C%20back%20then%2C%20Block%E2%80%99s,potential%20users%20by%20early%202022">Year-over-Year
+                    Data Shows Rising Lightning Network Adoption | CoinGate</a>) (<a
+                    href="https://coingate.com/blog/post/lightning-network-year-over-year-data#:~:text=In%202023%2C%20the%20Lightning%20Network,transactions%20recorded%20in%20August%202023">Year-over-Year
+                    Data Shows Rising Lightning Network Adoption | CoinGate</a>)<br>
+                4. River Financial – <em>Lightning Infrastructure for El Salvador's Chivo Wallet</em> (<a
+                    href="https://blog.river.com/insights-from-the-4th-largest-lightning-network-node/#:~:text=River%20has%20been%20a%20participant,for%20El%20Salvador%E2%80%99s%20Chivo%20wallet">Insights
+                    From the 4th Largest Lightning Network Node</a>)<br>
+                5. Mi Primer Bitcoin – <em>Bitcoin Education in El Salvador</em> (<a
+                    href="https://myfirstbitcoin.io/mi-primer-bitcoin-launches-initiative-to-educate-100000-students-on-bitcoin/#:~:text=Reach%20in%2020%20countries%2C%20focus,on%20El%20Salvador">Mi
+                    Primer Bitcoin Launches Initiative to Educate 100,000 Students about Bitcoin - My First Bitcoin</a>)
+                (<a
+                    href="https://myfirstbitcoin.io/mi-primer-bitcoin-launches-initiative-to-educate-100000-students-on-bitcoin/#:~:text=In%20October%202023%20the%20Ministry,nation%2C%20including%20training%20700%2B%20teachers">Mi
+                    Primer Bitcoin Launches Initiative to Educate 100,000 Students about Bitcoin - My First
+                    Bitcoin</a>)<br>
+                6. Jamaica Gleaner – <em>Remittances as % of GDP (Jamaica 2023)</em> (<a
+                    href="https://jamaica-gleaner.com/article/focus/20240714/ransford-smith-remittances-and-development-making-silk-purse-out-sows-ear#:~:text=Jamaica%2C%20with%20a%20remittance%20to,Kosovo%2C%20Uzbekistan%2C%20Haiti%2C%20Vanuatu%2C%20Georgia">Ransford
+                    Smith | Remittances and development: making silk purse out of sow's ear? | In Focus | Jamaica
+                    Gleaner</a>)<br>
+                7. Bank of Jamaica Survey – <em>Financial Inclusion Statistics 2023</em> (<a
+                    href="https://our.today/more-jamaicans-own-bank-accounts-boj-survey/#:~:text=The%20BOJ%E2%80%99s%20Financial%20Inclusion%20Technical,economic%20groups.%E2%80%9D">Our
+                    Today</a>)<br>
+                8. Wikipedia – <em>Bitcoin in El Salvador (Remittances and usage data)</em></p>
+        </article>
+
+        <!-- Post Navigation - Bottom -->
+        <div class="post-navigation">
+            <a href="index.html" class="prev-post" style=" float: left; padding: 10px 20px; text-decoration: none;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M19 12H5"></path>
+                    <path d="M12 19l-7-7 7-7"></path>
+                </svg>
+                Previous Article
+            </a>
+            <a href="post-3.html" class="next-post" style=" float: right; padding: 10px 20px; text-decoration: none;">
+                Next Article
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M5 12h14"></path>
+                    <path d="M12 5l7 7-7 7"></path>
+                </svg>
+            </a>
+        </div>
+    </main>
+
+
+    <footer>
+        <div class="footer-top">
+            <div class="container">
+                <div class="footer-links">
+                    <a href="../index.html#pg-download" class="no-style">
+                        <img src="../assets/img/logo-black.png" alt="Flash" class="light logo" loading="lazy" />
+                        <img src="../assets/img/logo-white.png" alt="Flash" class="dark logo" loading="lazy" />
+                    </a>
+                    <a href="https://play.google.com/store/apps/details?id=com.lnflash" target="_blank"
+                        class="no-style">
+                        <img src="../assets/img/google-play-badge.png" alt="Get it on Google Play" class="badge"
+                            loading="lazy" />
+                    </a>
+                    <a href="https://apps.apple.com/jm/app/flash-send-spend-and-save/id6451129095" target="_blank"
+                        class="no-style">
+                        <img src="../assets/img/ios-badge.png" alt="Download on the App Store" class="badge ios"
+                            loading="lazy" />
+                    </a>
+                </div>
+                <div class="legal">
+                    <div>
+                        <a href="../legal/terms.html">Terms &amp; Conditions</a>
+                        <a href="../legal/privacy.html">Privacy Policy</a>
+                    </div>
+                    <p class="powered">Powered by Bitcoin.</p>
+                </div>
+            </div>
+        </div>
+        <div class="footer-mid">
+            <div class="container">
+                <p class="copyright">2021 Flash<span>&trade;</span> All rights reserved.</p>
+                <p class="copyright"><span>&copy;</span> 2023 Island Bitcoin C.A. de S.V.</p>
+            </div>
+        </div>
+        <div class="footer-btm">
+            <div class="container">
+                <p>
+                    Island Bitcoin C.A. de S.V. entity is regulated by BCR and by the Superintendent of the Financial
+                    System of
+                    El Salvador.
+                    For unresolved queries or complaints, please contact atencionalusuario@ssf.gob.sv
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- SVG Icons -->
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" style="display: none">
+        <symbol>
+            <g id="plus">
+                <rect class="vert" x="8" y="0" width="4" height="20" rx="2" ry="2" />
+                <rect class="hori" x="8" y="0" width="4" height="20" rx="2" ry="2"
+                    transform="translate(0 20) rotate(-90)" />
+            </g>
+        </symbol>
+        <symbol>
+            <rect id="minus" x="8" y="0" width="4" height="20" rx="2" ry="2" transform="translate(0 20) rotate(-90)" />
+        </symbol>
+    </svg>
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="display: none">
+        <symbol>
+            <g id="lightbulb">
+                <path class="stroke" d="M8.25 21.75H15.75" stroke="white" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round" />
+                <path class="stroke fill"
+                    d="M7.37824 15.6563C6.48665 14.9598 5.76449 14.0703 5.266 13.0546C4.76751 12.039 4.50566 10.9236 4.50012 9.79219C4.47762 5.72719 7.75512 2.34375 11.8192 2.25C13.3942 2.21185 14.9412 2.67066 16.2408 3.56132C17.5403 4.45198 18.5264 5.72927 19.0591 7.21196C19.5918 8.69464 19.644 10.3074 19.2084 11.8215C18.7728 13.3355 17.8715 14.674 16.6323 15.6469C16.359 15.8588 16.1375 16.1302 15.9846 16.4404C15.8318 16.7507 15.7516 17.0917 15.7501 17.4375V18C15.7501 18.1989 15.6711 18.3897 15.5304 18.5303C15.3898 18.671 15.199 18.75 15.0001 18.75H9.00011C8.8012 18.75 8.61044 18.671 8.46978 18.5303C8.32913 18.3897 8.25011 18.1989 8.25011 18V17.4375C8.24976 17.0939 8.17104 16.7548 8.01996 16.4462C7.86888 16.1375 7.64941 15.8673 7.37824 15.6563Z"
+                    fill="black" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                <path class="stroke" d="M12.75 5.25C14.625 5.56594 16.1822 7.125 16.5 9" stroke="white"
+                    stroke-linecap="round" stroke-linejoin="round" />
+            </g>
+        </symbol>
+    </svg>
+
+    <!-- jQuery CDN -->
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"
+        integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+
+    <!-- GSAP & Plugins CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/MotionPathPlugin.min.js"></script>
+
+    <!-- Custom JS -->
+    <script src="../js/main.js"></script>
+    <script src="../js/btcTracker.js"></script>
+    <script src="//code.tidio.co/0kbm4jqybxrrarlw7cjflhnb8fzv6lyt.js" async></script>
+</body>
+
+</html>

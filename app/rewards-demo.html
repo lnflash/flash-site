@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Flashcard Demo</title>
+    <style>
+        body {
+            background-color: #0a0f0d;
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            height: 100vh;
+            color: white;
+            overflow: hidden;
+        }
+
+        .demo-container {
+            position: relative;
+            width: 320px;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .status-text {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 1rem;
+            font-weight: 600;
+            color: #00ff99;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 10px 16px;
+            border-radius: 12px;
+            border: 1px solid rgba(0, 255, 153, 0.4);
+            box-shadow: 0 0 12px rgba(0, 255, 153, 0.3);
+            transition: opacity 0.3s ease;
+            opacity: 1;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        canvas#bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .pos {
+            width: 100%;
+            display: block;
+            position: absolute;
+            top: 10px;
+            left: -100px;
+            z-index: 0;
+        }
+
+        .flashcard {
+            width: 160px;
+            position: absolute;
+            top: 50px;
+            left: 90%;
+            transform: translate(-90%, 0) rotate(45deg);
+            transform-origin: bottom center;
+            z-index: 1;
+            cursor: pointer;
+        }
+
+        .flashcard.swing-down {
+            animation: swingDown 0.7s forwards ease-out;
+        }
+
+        .flashcard.swing-up {
+            animation: swingUp 0.7s forwards ease-in;
+        }
+
+        @keyframes swingDown {
+            0% {
+                transform: translate(-90%, 0) rotate(45deg);
+                top: 50px;
+            }
+
+            100% {
+                transform: translate(-140%, 0) rotate(-45deg);
+                /* extra slide to the left */
+                top: 10px;
+            }
+        }
+
+        @keyframes swingUp {
+            0% {
+                transform: translate(-140%, 0) rotate(-45deg);
+                top: 10px;
+            }
+
+            100% {
+                transform: translate(-90%, 0) rotate(45deg);
+                top: 50px;
+            }
+        }
+
+
+        .pulse {
+            position: absolute;
+            top: 30px;
+            left: 30%;
+            transform: translateX(50%);
+            width: 60px;
+            height: 60px;
+            background: rgba(162, 18, 152, 0.55);
+            border-radius: 75%;
+            z-index: 2;
+            pointer-events: none;
+            opacity: 0;
+        }
+
+        .pulse.active {
+            animation: ripple 0.5s ease-out;
+        }
+
+        @keyframes ripple {
+            0% {
+                transform: translateX(-75%) scale(0.5);
+                opacity: 0.8;
+            }
+
+            100% {
+                transform: translateX(-75%) scale(2.2);
+                opacity: 0;
+            }
+        }
+
+        .back-button {
+            position: fixed;
+            bottom: 130px;
+            left: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            color: #00ff99;
+            font-weight: 500;
+            padding: 10px 16px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-size: 0.95rem;
+            border: 1px solid rgba(0, 255, 153, 0.3);
+            box-shadow: 0 0 10px rgba(0, 255, 153, 0.2);
+            z-index: 10;
+            transition: all 0.2s ease;
+        }
+
+        .back-button:hover {
+            background: rgba(0, 0, 0, 0.9);
+            transform: scale(1.03);
+            box-shadow: 0 0 14px rgba(0, 255, 153, 0.4);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="status-text" id="statusText">Tap to try the Flashcard</div>
+    <canvas id="bg"></canvas>
+    <a href="index.html" class="back-button">← Back to Install Page</a>
+    <div class="demo-container">
+        <img src="rewards.png" alt="Flash POS" class="pos" id="posImage" />
+        <div class="pulse" id="pulseEffect"></div>
+        <img src="flashcard-front.png" alt="FlashCard" class="flashcard" id="card" />
+    </div>
+
+    <script>
+        const card = document.getElementById("card");
+        const pulse = document.getElementById("pulseEffect");
+        const posImage = document.getElementById("posImage");
+
+        card.addEventListener("click", () => {
+            card.classList.remove("swing-up");
+            card.classList.add("swing-down");
+
+            setTimeout(() => {
+                pulse.classList.add("active");
+                posImage.src = "received.png";
+            }, 700);
+
+            setTimeout(() => {
+                card.classList.remove("swing-down");
+                card.classList.add("swing-up");
+
+                pulse.classList.remove("active");
+                posImage.src = "rewards.png";
+            }, 3200);
+        });
+        const statusText = document.getElementById("statusText");
+
+        function updateStatus(message) {
+            statusText.style.opacity = 0;
+            setTimeout(() => {
+                statusText.textContent = message;
+                statusText.style.opacity = 1;
+            }, 300);
+        }
+
+
+        updateStatus("Tap the card to see how it works!");
+
+        card.addEventListener("click", () => {
+            updateStatus("Swinging card to reader…");
+            card.classList.remove("swing-up");
+            card.classList.add("swing-down");
+
+            setTimeout(() => {
+                pulse.classList.add("active");
+                posImage.src = "received.png";
+                updateStatus("Reward points received! 🎉");
+            }, 700);
+
+            setTimeout(() => {
+                card.classList.remove("swing-down");
+                card.classList.add("swing-up");
+                pulse.classList.remove("active");
+                posImage.src = "rewards.png";
+                updateStatus("Tap the card to see how it works!");
+            }, 3200);
+        });
+        // Background shimmer grid
+        const canvas = document.getElementById("bg");
+        const ctx = canvas.getContext("2d");
+        let width, height, t = 0;
+
+        function resize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+        window.addEventListener("resize", resize);
+        resize();
+
+        function draw() {
+            ctx.clearRect(0, 0, width, height);
+            const gridSize = 60;
+
+            for (let x = 0; x < width; x += gridSize) {
+                for (let y = 0; y < height; y += gridSize) {
+                    const offset = Math.sin((x + t) * 0.01) * 10;
+                    const alpha = 0.06 + 0.04 * Math.sin((y + t) * 0.015);
+                    ctx.fillStyle = `rgba(0,255,153,${alpha})`;
+                    ctx.fillRect(x + offset, y, 2, 2);
+                }
+            }
+            t += 1.4;
+            requestAnimationFrame(draw);
+        }
+        draw();
+
+    </script>
+</body>
+
+</html>
