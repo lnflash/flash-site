@@ -13,66 +13,14 @@
   <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
   <!-- CSS -->
   <link rel="stylesheet" href="../css/main.css" />
-  <!-- Script (not deferred to set the html background colour and remove "dark mode flicker" issue) -->
-  <script>
-    // DO NOT ADD OTHER SCRIPTS HERE
-    if (localStorage.getItem("theme")) {
-      let t = localStorage.getItem("theme");
-      const r = document.querySelector(':root');
-      t === "light" ? r.style.setProperty("--bg-body", "#fff") : r.style.setProperty("--bg-body", "#000");
-    }
-  </script>
+
+  <!-- Dark Mode Init -->
+  <script src="../js/core/dark-mode-init.js"></script>
   <title>Flash | Privacy Policy</title>
 </head>
 
 <body>
-  <header>
-    <div class="container">
-      <div class="logo-container">
-        <a href="../#pg-download" class="no-style">
-          <img src="../assets/img/logo-black.png" alt="Flash" class="light" />
-          <img src="../assets/img/logo-white.png" alt="Flash" class="dark" />
-        </a>
-      </div>
-      <!-- Navigation -->
-      <nav>
-        <svg id="open-nav" class="nav-icon mobile-only" aria-label="close menu" width="41" height="15"
-          viewBox="0 0 41 15" xmlns="http://www.w3.org/2000/svg">
-          <line x1="2" y1="2" x2="39" y2="2" stroke="#161313" stroke-width="4" stroke-linecap="round" />
-          <line x1="15" y1="13" x2="39" y2="13" stroke="#161313" stroke-width="4" stroke-linecap="round" />
-        </svg>
-        <ul class="main-nav" id="main-nav" data-mob-state="closed">
-          <li class="mobile-only">
-            <svg id="close-nav" class="nav-icon" aria-label="close menu" width="26" height="26"
-              viewBox="0 0 26 26" xmlns="http://www.w3.org/2000/svg">
-              <path d="M23.2129 2L1.99969 23.2132" stroke="black" stroke-width="4" stroke-linecap="round" />
-              <path d="M2.21289 2L23.4261 23.2132" stroke="black" stroke-width="4" stroke-linecap="round" />
-            </svg>
-          </li>
-          <li class="darkmode-switch mobile-only">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true">
-              <use href="#lightbulb" class="lightbulb"></use>
-            </svg>
-          </li>
-          <li><a href="../#pg-download" class="nav-link mobile-only active">Home</a></li>
-          <li><a href="../#pg-about" class="nav-link">About</a></li>
-          <li><a href="../#pg-faq" class="nav-link">FAQ</a></li>
-          <li><a href="../#pg-contact" class="nav-link">Contact</a></li>
-        </ul>
-      </nav>
-      <!-- End of Navigation -->
-      <div id="bitcoin-price" class="btc-widget">
-        <h3>Bitcoin Price:</h3>
-        <p>1 BTC = $ <span id="btc-value"></span> USD</p>
-      </div>
-      <div class="darkmode-switch desktop-only">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true">
-          <use href="#lightbulb" class="lightbulb"></use>
-        </svg>
-        <p class="desktop-only">Dark Mode <span id="darkmode-text">On</span></p>
-      </div>
-    </div>
-  </header>
+  <div id="header-placeholder"></div>
   <main>
     <!-- Privacy Page -->
     <section id="privacy" class="legal-pages">
@@ -138,65 +86,11 @@
     </section>
   </main>
 
-  <footer>
-    <div class="footer-top">
-      <div class="container">
-        <div class="footer-links">
-          <a href="../#pg-download" class="no-style"> 
-            <img src="../assets/img/logo-black.png" alt="Flash" class="light logo" loading="lazy" />
-            <img src="../assets/img/logo-white.png" alt="Flash" class="dark logo" loading="lazy" />
-          </a>
-          <a href="https://play.google.com/store/apps/details?id=com.lnflash" target="_blank" class="no-style">
-            <img src="../assets/img/google-play-badge.png" alt="Get it on Google Play" class="badge" loading="lazy" />
-          </a>
-          <a href="https://apps.apple.com/jm/app/flash-send-spend-and-save/id6451129095" target="_blank" class="no-style">
-            <img src="../assets/img/ios-badge.png" alt="Download on the App Store" class="badge ios" loading="lazy" />
-          </a>
-        </div>
-        <div class="legal">
-          <div>
-            <a href="terms.html">Terms & Conditions</a>
-            <a href="#privacy">Privacy Policy</a>
-          </div>
-          <p class="powered">Powered by Bitcoin.</p>
-        </div>
-      </div>
-      <div class="footer-mid">
-        <div class="container">
-          <p class="copyright">2021 Flash<span>&trade;</span> All rights reserved.
-            
-          </p>
-          <p class="copyright"><span>&copy;</span> 2023 Island Bitcoin C.A. de S.V. </p>
-        </div>
-      </div>
-      <div class="footer-btm">
-        <div class="container">
-          <p>Island Bitcoin C.A. de S.V. entity is regulated by BCR and by the Superintendent of the Financial System of El Salvador. For unresolved queries or complaints, please contact atencionalusuario@ssf.gob.sv</p>
-        </div>
-      </div>
-  </footer>
+  <div id="footer-placeholder"></div>
+  <div id="svg-icons-placeholder"></div>
 
-  <!-- SVG Icons - DO NOT DELETE -->
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" style="display: none">
-    <symbol>
-      <g id="plus">
-        <rect class="vert" x="8" y="0" width="4" height="20" rx="2" ry="2" />
-        <rect class="hori" x="8" y="0" width="4" height="20" rx="2" ry="2" transform="translate(0 20) rotate(-90)" />
-      </g>
-    </symbol>
-    <symbol>
-      <rect id="minus" x="8" y="0" width="4" height="20" rx="2" ry="2" transform="translate(0 20) rotate(-90)" />
-    </symbol>
-  </svg>
-  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="display: none">
-    <symbol>
-      <g id="lightbulb">
-        <path class="stroke" d="M8.25 21.75H15.75" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        <path class="stroke fill" d="M7.37824 15.6563C6.48665 14.9598 5.76449 14.0703 5.266 13.0546C4.76751 12.039 4.50566 10.9236 4.50012 9.79219C4.47762 5.72719 7.75512 2.34375 11.8192 2.25C13.3942 2.21185 14.9412 2.67066 16.2408 3.56132C17.5403 4.45198 18.5264 5.72927 19.0591 7.21196C19.5918 8.69464 19.644 10.3074 19.2084 11.8215C18.7728 13.3355 17.8715 14.674 16.6323 15.6469C16.359 15.8588 16.1375 16.1302 15.9846 16.4404C15.8318 16.7507 15.7516 17.0917 15.7501 17.4375V18C15.7501 18.1989 15.6711 18.3897 15.5304 18.5303C15.3898 18.671 15.199 18.75 15.0001 18.75H9.00011C8.8012 18.75 8.61044 18.671 8.46978 18.5303C8.32913 18.3897 8.25011 18.1989 8.25011 18V17.4375C8.24976 17.0939 8.17104 16.7548 8.01996 16.4462C7.86888 16.1375 7.64941 15.8673 7.37824 15.6563Z" fill="black" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        <path class="stroke" d="M12.75 5.25C14.625 5.56594 16.1822 7.125 16.5 9" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
-      </g>
-    </symbol>
-  </svg>
+  <!-- Load components BEFORE other scripts -->
+  <script src="../js/core/component-loader.js"></script>
 
   <!-- jQuery CDN -->
   <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
@@ -211,8 +105,8 @@
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/MotionPathPlugin.min.js"></script>
   
   <!-- Custom JS -->
-  <script src="../js/main.js"></script>
-  <script src="../js/btcTracker.js"></script>
+  <script src="../js/core/main.js"></script>
+  <script src="../js/modules/btcTracker.js"></script>
   <script src="//code.tidio.co/0kbm4jqybxrrarlw7cjflhnb8fzv6lyt.js" async></script>
 </body>
 

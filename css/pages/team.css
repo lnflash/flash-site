@@ -1,0 +1,235 @@
+/* Team Page Specific Styles */
+
+/* Modern Egalitarian Team Grid Styles */
+.team-hero {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+/* Main team grid - responsive and egalitarian */
+.team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin-top: 50px;
+    padding: 0 20px;
+}
+
+/* Unified team member cards */
+.team-member {
+    text-align: center;
+    background-color: var(--bg-body);
+    border-radius: 20px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: all 0.3s ease;
+    position: relative;
+    cursor: pointer;
+}
+
+.team-member:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.15);
+}
+
+/* Uniform image containers */
+.team-image-container {
+    height: 280px;
+    overflow: hidden;
+    position: relative;
+    background: linear-gradient(135deg, var(--flash-green), #45a049);
+}
+
+.team-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    transition: transform 0.3s ease;
+    display: block;
+    border-radius: 0;
+    /* Force rectangular display and remove any circular masks */
+    -webkit-mask: none;
+    mask: none;
+    clip-path: none;
+    border: none;
+}
+
+.team-member:hover .team-image {
+    transform: scale(1.05);
+}
+
+/* Team member info section */
+.team-info {
+    padding: 25px 20px;
+    border-bottom: 4px solid var(--flash-green);
+    position: relative;
+}
+
+.team-name {
+    font-size: 1.3rem;
+    font-weight: var(--fWeight-bold);
+    margin-bottom: 8px;
+    color: var(--text-color);
+}
+
+/* Skill badges instead of hierarchical titles */
+.team-skills {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 15px;
+}
+
+.skill-badge {
+    background: linear-gradient(135deg, var(--flash-green), #45a049);
+    color: white;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 2px 8px rgba(76, 175, 80, 0.3);
+}
+
+/* Different skill categories with subtle color variations */
+.skill-badge.leadership {
+    background: linear-gradient(135deg, #ff6b6b, #ff5252);
+    box-shadow: 0 2px 8px rgba(255, 107, 107, 0.3);
+}
+
+.skill-badge.engineering {
+    background: linear-gradient(135deg, #4dabf7, #339af0);
+    box-shadow: 0 2px 8px rgba(77, 171, 247, 0.3);
+}
+
+.skill-badge.design {
+    background: linear-gradient(135deg, #9c88ff, #845ef7);
+    box-shadow: 0 2px 8px rgba(156, 136, 255, 0.3);
+}
+
+.skill-badge.operations {
+    background: linear-gradient(135deg, #ffa726, #ff9800);
+    box-shadow: 0 2px 8px rgba(255, 167, 38, 0.3);
+}
+
+.skill-badge.field {
+    background: linear-gradient(135deg, #26c6da, #00bcd4);
+    box-shadow: 0 2px 8px rgba(38, 198, 218, 0.3);
+}
+
+/* Hidden bio section for expand effect */
+.team-bio {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease, padding 0.3s ease;
+    line-height: 1.6;
+    color: var(--text-color);
+    opacity: 0.8;
+}
+
+.team-member.expanded .team-bio {
+    max-height: 200px;
+    padding-top: 15px;
+}
+
+/* Social links */
+.team-social {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 15px;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.3s ease;
+}
+
+.team-member:hover .team-social,
+.team-member.expanded .team-social {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.social-icon {
+    width: 24px;
+    height: 24px;
+    transition: transform 0.2s ease;
+}
+
+.social-icon:hover {
+    transform: scale(1.3);
+}
+
+/* Expand indicator */
+.expand-indicator {
+    position: absolute;
+    bottom: 10px;
+    right: 15px;
+    width: 30px;
+    height: 30px;
+    background: var(--flash-green);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 16px;
+    transition: transform 0.3s ease;
+    cursor: pointer;
+}
+
+.team-member.expanded .expand-indicator {
+    transform: rotate(45deg);
+}
+
+/* Responsive design */
+@media screen and (max-width: 768px) {
+    .team-grid {
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 20px;
+        padding: 0 10px;
+    }
+
+    .team-image-container {
+        height: 250px;
+    }
+
+    .team-info {
+        padding: 20px 15px;
+    }
+
+    .team-name {
+        font-size: 1.2rem;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .team-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .skill-badge {
+        font-size: 0.75rem;
+        padding: 5px 10px;
+    }
+}
+
+/* Accessibility improvements */
+@media (prefers-reduced-motion: reduce) {
+
+    .team-member,
+    .team-image,
+    .team-social,
+    .expand-indicator {
+        transition: none;
+    }
+}
+
+/* Focus states for accessibility */
+.team-member:focus {
+    outline: 3px solid var(--flash-green);
+    outline-offset: 2px;
+}
