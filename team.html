@@ -29,11 +29,13 @@
 
     <main>
         <!-- Page: Team Hero -->
-        <section id="pg-team-hero" style="padding: 60px 0 30px; text-align: center; background-color: var(--bg-body);">
+        <section id="pg-team-hero" class="team-hero page">
             <div class="container">
-                <h1 class="banner-txt">Our <span class="banner-highlight">Team</span></h1>
-                <p class="slogan" style="margin-bottom: 20px;">Meet the passionate people powering financial inclusion
-                    across the Caribbean</p>
+                <div class="section-header-centered">
+                    <span class="section-badge">Our Team</span>
+                    <h1 class="hero-title">Meet the Flash <span class="highlight-text">Team</span></h1>
+                    <p class="section-subtitle">Meet the passionate people powering financial inclusion across the Caribbean</p>
+                </div>
             </div>
         </section>
         <!-- End of Team Hero -->
@@ -171,6 +173,28 @@
                             <div class="team-skills">
                                 <span class="skill-badge leadership">Leadership</span>
                                 <span class="skill-badge operations">Finance</span>
+                            </div>
+                            <div class="team-bio">
+                                Financial expert ensuring Flash's fiscal health and sustainable growth. Brings deep
+                                expertise in financial planning and analysis to support the company's expansion.
+                            </div>
+                            <div class="team-social">
+                                <!-- Add social links if available -->
+                            </div>
+                            <div class="expand-indicator">+</div>
+                        </div>
+                    </div>
+
+                    <!-- Chanelle de Lau -->
+                    <div class="team-member" tabindex="0" role="button" aria-label="Learn more about Chanelle de Lau">
+                        <div class="team-image-container">
+                            <img src="assets/img/chanelle.png" alt=" Chanelle de Lau" class="team-image">
+                        </div>
+                        <div class="team-info">
+                            <h3 class="team-name">Chanelle de Lau</h3>
+                            <div class="team-skills">
+                                <span class="skill-badge leadership">Leadership</span>
+                                <span class="skill-badge operations">Brand</span>
                             </div>
                             <div class="team-bio">
                                 Financial expert ensuring Flash's fiscal health and sustainable growth. Brings deep
@@ -328,8 +352,7 @@
                     <!-- Abhay Raizada -->
                     <div class="team-member" tabindex="0" role="button" aria-label="Learn more about Abhay Raizada">
                         <div class="team-image-container">
-                            <img src="https://primaldata.s3.us-east-005.backblazeb2.com/cache/b/9a/3f/b9a3febdced7185aca368530c50426bf6b3bfea75c1397b4b04725b477b554c9.gif"
-                                alt="Abhay Raizada" class="team-image">
+                            <img src="assets/img/abhay.png" alt="Abhay Raizada" class="team-image">
                         </div>
                         <div class="team-info">
                             <h3 class="team-name">Abhay Raizada</h3>
@@ -451,83 +474,22 @@
         <!-- End of Unified Team Grid Section -->
 
         <!-- Join Our Team Section -->
-        <section id="join-team" class="page" style="padding-top: 0;">
+        <section id="join-team" class="join-team-cta page">
             <div class="container">
-                <div
-                    style="text-align: center; background-color: var(--bg-body); padding: 50px 30px; border-radius: var(--border-radius); box-shadow: 0 4px 8px var(--box-shadow); border-bottom: 3px solid var(--flash-green);">
-                    <h2>Join Our Team</h2>
-                    <p style="max-width: 700px; margin: 20px auto 30px;">We're always looking for talented individuals
-                        who are passionate about financial inclusion and technological innovation in the Caribbean.
-                        Contact us below if you would like to join our Team!</p>
-                    <!-- Page: Contact -->
-                    <section id="pg-contact" class="pg-contact page">
-                        <div class="container">
-                            <div class="forms-bg" id="forms-bg">
-                                <h2>Contact Us</h2>
-                                <div class="contact-content">
-                                    <!-- Contact Form -->
-                                    <form class="contact-form" method="post">
-                                        <div class="formfields">
-                                            <label for="c-name">Name</label>
-                                            <input type="text" name="c-name" id="c-name" />
-                                            <label for="c-email">Email</label>
-                                            <input type="email" name="c-email" id="c-email" />
-                                            <label for="c-nostr">Nostr (optional)</label>
-                                            <input type="nostr" name="c-nostr" id="c-nostr" placeholder="npub1..." />
-                                            <label for="c-msg">Message</label>
-                                            <textarea name="c-msg" id="c-msg" class="c-msg" placeholder=""></textarea>
-                                            <div class="button-container">
-                                                <button id="send-msg-btn" class="button-1">
-                                                    Send
-                                                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
-                                                        aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
-                                                        <path d="M11.25 10H6.25" stroke="black" stroke-linecap="round"
-                                                            stroke-linejoin="round" />
-                                                        <path
-                                                            d="M3.7881 17.2874C3.74416 17.4074 3.73807 17.538 3.77065 17.6616C3.80323 17.7852 3.87292 17.8958 3.97032 17.9786C4.06772 18.0613 4.18815 18.1122 4.31537 18.1244C4.4426 18.1366 4.57051 18.1095 4.68185 18.0468L17.8069 10.5397C17.9045 10.4857 17.986 10.4064 18.0427 10.3103C18.0994 10.2141 18.1293 10.1045 18.1293 9.99285C18.1293 9.8812 18.0994 9.7716 18.0427 9.67543C17.986 9.57925 17.9045 9.50002 17.8069 9.44597L4.68185 1.95769C4.57084 1.89561 4.44353 1.86887 4.31693 1.88105C4.19032 1.89323 4.07044 1.94374 3.9733 2.02585C3.87616 2.10796 3.80639 2.21775 3.7733 2.34057C3.7402 2.46338 3.74537 2.59336 3.7881 2.71316L6.24982 9.99988L3.7881 17.2874Z"
-                                                            stroke="black" stroke-width="2" stroke-linecap="round"
-                                                            stroke-linejoin="round" />
-                                                    </svg>
-                                                </button>
-                                            </div>
-                                        </div>
-                                        <div class="success-msg form-success">
-                                            <h2>Message Sent!</h2>
-                                            <svg id="success-icon" xmlns="http://www.w3.org/2000/svg"
-                                                viewBox="0 0 564.13 190.74">
-                                                <g class="envelope">
-                                                    <rect width="564.13" height="190.68" fill="none" />
-                                                    <path
-                                                        d="m166.86,46.16l112.27,68.69c3.49,2.14,7.9,2.07,11.32-.17l103.7-67.92"
-                                                        fill="none" fill-rule="evenodd" stroke="#000"
-                                                        stroke-miterlimit="10" stroke-width="4" />
-                                                    <path
-                                                        d="m129.27,59.88l.6-29.23s-.6-25.65,28.64-28.64h248.77s26.25-.6,28.64,28.64v129.45s.6,26.85-28.64,28.64h-248.77s-26.25.6-28.64-28.64v-37.03"
-                                                        fill="none" fill-rule="evenodd" stroke="#000"
-                                                        stroke-miterlimit="10" stroke-width="4" />
-                                                    <line x1="154.16" y1="72.2" x2="24.11" y2="72.2" fill="none"
-                                                        stroke="#000" stroke-miterlimit="10" stroke-width="4" />
-                                                    <line x1="153.56" y1="111.2" x2="75.41" y2="111.2" fill="none"
-                                                        stroke="#000" stroke-miterlimit="10" stroke-width="4" />
-                                                </g>
-                                            </svg>
-                                            <p>Thanks for reaching out to us!</p>
-                                        </div>
-                                        <!-- Error Notice: Contact Form -->
-                                        <div class="error-msg form-error hidden">
-                                            <p>We're sorry! Something went wrong and your message didn't get sent.</p>
-                                            <div class="btn-container">
-                                                <button id="close-error-msg" class="button-2">Close</button>
-                                            </div>
-                                        </div>
-                                    </form>
-                                    <!-- End of Contact Form -->
-
-                                </div>
-                            </div>
+                <div class="cta-box">
+                    <div class="cta-content">
+                        <h2>Join Our Team</h2>
+                        <p>We're always looking for talented individuals who are passionate about financial inclusion and technological innovation in the Caribbean.</p>
+                        <div class="cta-buttons">
+                            <a href="/#pg-contact" class="cta-button primary large">
+                                <span>Get in Touch</span>
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                                    <polyline points="12 5 19 12 12 19"></polyline>
+                                </svg>
+                            </a>
                         </div>
-                    </section>
-                    <!-- End of Page: Contact -->
+                    </div>
                 </div>
             </div>
         </section>

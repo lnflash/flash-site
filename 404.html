@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>404 - Page Not Found | Flash</title>
+
+  <!-- Favicons -->
+  <link rel="shortcut icon" type="image/png" href="assets/img/favicon-32x32.png" sizes="32x32" />
+  <link rel="icon" type="image/png" href="assets/img/favicon-16x16.png" sizes="16x16" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/main.css" />
+
+  <!-- Dark Mode Init -->
+  <script src="js/core/dark-mode-init.js"></script>
+
+  <style>
+    .error-404 {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+      background: var(--bg-body);
+    }
+
+    .error-content {
+      text-align: center;
+      max-width: 600px;
+    }
+
+    .error-404-number {
+      font-size: 10rem;
+      font-weight: 700;
+      line-height: 1;
+      background: linear-gradient(135deg, var(--flash-green), var(--flash-yellow));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 20px;
+    }
+
+    .error-title {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--text-colour);
+      margin-bottom: 16px;
+    }
+
+    .error-message {
+      font-size: 1.15rem;
+      color: var(--text-colour);
+      opacity: 0.75;
+      margin-bottom: 40px;
+      line-height: 1.6;
+    }
+
+    .error-actions {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .error-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 16px 32px;
+      border-radius: 8px;
+      font-size: 1.05rem;
+      font-weight: 600;
+      text-decoration: none !important;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .error-button.primary {
+      background: var(--flash-green);
+      color: var(--flash-black) !important;
+      box-shadow: 0 4px 20px rgba(65, 173, 73, 0.3);
+    }
+
+    .error-button.primary:hover {
+      background: var(--flash-yellow);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 30px rgba(65, 173, 73, 0.4);
+    }
+
+    .error-button.secondary {
+      background: transparent;
+      color: var(--text-colour) !important;
+      border: 2px solid var(--text-colour);
+    }
+
+    .error-button.secondary:hover {
+      background: var(--text-colour);
+      color: var(--bg-body) !important;
+    }
+
+    @media (max-width: 768px) {
+      .error-404-number {
+        font-size: 6rem;
+      }
+
+      .error-title {
+        font-size: 2rem;
+      }
+
+      .error-message {
+        font-size: 1rem;
+      }
+
+      .error-actions {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .error-button {
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div id="header-placeholder"></div>
+
+  <main>
+    <section class="error-404">
+      <div class="error-content">
+        <div class="error-404-number">404</div>
+        <h1 class="error-title">Page Not Found</h1>
+        <p class="error-message">
+          Oops! The page you're looking for seems to have wandered off. Let's get you back on track.
+        </p>
+        <div class="error-actions">
+          <a href="/" class="error-button primary">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+              <polyline points="9 22 9 12 15 12 15 22"></polyline>
+            </svg>
+            <span>Go Home</span>
+          </a>
+          <a href="/#pg-contact" class="error-button secondary">
+            <span>Contact Support</span>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="footer-placeholder"></div>
+  <div id="svg-icons-placeholder"></div>
+
+  <!-- Load components -->
+  <script src="js/core/component-loader.js"></script>
+
+  <!-- Scripts -->
+  <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+  <script src="js/core/main.js"></script>
+</body>
+
+</html>

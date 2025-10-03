@@ -606,6 +606,47 @@ window.onload = () => {
     changeMobileNavState();
   });
 
+  // Dropdown Menu Toggle for Mobile
+  const dropdownTriggers = document.querySelectorAll('.dropdown-trigger');
+  dropdownTriggers.forEach(trigger => {
+    trigger.addEventListener('click', (e) => {
+      // On mobile (screens < 899px), toggle dropdown on click
+      if (window.innerWidth < 899) {
+        e.preventDefault();
+        const parentDropdown = trigger.closest('.nav-dropdown');
+        const isActive = parentDropdown.classList.contains('active');
+
+        // Close all other dropdowns
+        document.querySelectorAll('.nav-dropdown.active').forEach(dropdown => {
+          dropdown.classList.remove('active');
+        });
+
+        // Toggle current dropdown
+        if (!isActive) {
+          parentDropdown.classList.add('active');
+        }
+      }
+    });
+  });
+
+  // Close dropdowns when clicking non-dropdown nav links on mobile
+  document.querySelectorAll('.nav-link:not(.dropdown-trigger)').forEach(link => {
+    link.addEventListener('click', () => {
+      document.querySelectorAll('.nav-dropdown.active').forEach(dropdown => {
+        dropdown.classList.remove('active');
+      });
+    });
+  });
+
+  // Close mobile menu when clicking dropdown links
+  document.querySelectorAll('.dropdown-link').forEach(link => {
+    link.addEventListener('click', () => {
+      if (window.innerWidth < 899 && mainNav.dataset.mobState === "open") {
+        changeMobileNavState();
+      }
+    });
+  });
+
   // Send Message
   if (sendMsgBtn !== null) {
     sendMsgBtn.addEventListener("click", (e) => {

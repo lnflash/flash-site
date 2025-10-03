@@ -1,18 +1,20 @@
 <header>
   <div class="container">
     <div class="logo-container">
-      <a href="#pg-download" class="no-style">
+      <a href="/" class="no-style">
         <img src="assets/img/logo-black.png" alt="Flash" class="light" />
         <img src="assets/img/logo-white.png" alt="Flash" class="dark" />
       </a>
     </div>
+
     <!-- Navigation -->
     <nav>
-      <svg id="open-nav" class="nav-icon mobile-only" aria-label="close menu" width="41" height="15"
+      <svg id="open-nav" class="nav-icon mobile-only" aria-label="open menu" width="41" height="15"
         viewBox="0 0 41 15" xmlns="http://www.w3.org/2000/svg">
         <line x1="2" y1="2" x2="39" y2="2" stroke="#161313" stroke-width="4" stroke-linecap="round" />
         <line x1="15" y1="13" x2="39" y2="13" stroke="#161313" stroke-width="4" stroke-linecap="round" />
       </svg>
+
       <ul class="main-nav" id="main-nav" data-mob-state="closed">
         <li class="mobile-only">
           <svg id="close-nav" class="nav-icon" aria-label="close menu" width="26" height="26" viewBox="0 0 26 26"
@@ -21,29 +23,69 @@
             <path d="M2.21289 2L23.4261 23.2132" stroke="black" stroke-width="4" stroke-linecap="round" />
           </svg>
         </li>
+
         <li class="darkmode-switch mobile-only">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true">
             <use href="#lightbulb" class="lightbulb"></use>
           </svg>
         </li>
-        <li><a href="#pg-download" class="nav-link mobile-only active">Home</a></li>
-        <li><a href="#pg-products" class="nav-link">Products</a></li>
-        <li><a href="/blog" class="nav-link">Blog</a></li>
-        <li><a href="#pg-contact" class="nav-link">Contact</a></li>
-        <li><a href="https://documentation.getflash.io" target="_blank" rel="noopener noreferrer"
-            class="nav-link">Docs</a>
-        <li><a href="https://documentation.getflash.io/en/faq" class="nav-link">FAQ</a></li>
-        <li><a href="mission.html" class="nav-link">Mission</a></li>
-        <li><a href="/rewards.html" class="nav-link">Rewards</a></li>
-        <li><a href="team.html" class="nav-link">Team</a></li>
+
+        <!-- Home -->
+        <li><a href="/" class="nav-link">Home</a></li>
+
+        <!-- Products Dropdown -->
+        <li class="nav-dropdown">
+          <a href="#" class="nav-link dropdown-trigger">
+            Products
+            <svg class="dropdown-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </a>
+          <ul class="dropdown-menu">
+            <li><a href="/#pg-products" class="dropdown-link">All Products</a></li>
+            <li><a href="/rewards.html" class="dropdown-link">Flash Rewards</a></li>
+            <li><a href="/map" class="dropdown-link">Merchant Map</a></li>
+          </ul>
+        </li>
+
+        <!-- About Dropdown -->
+        <li class="nav-dropdown">
+          <a href="#" class="nav-link dropdown-trigger">
+            About
+            <svg class="dropdown-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </a>
+          <ul class="dropdown-menu">
+            <li><a href="/team.html" class="dropdown-link">Our Team</a></li>
+            <li><a href="/mission.html" class="dropdown-link">Our Mission</a></li>
+            <li><a href="https://documentation.getflash.io" target="_blank" rel="noopener noreferrer" class="dropdown-link">Documentation</a></li>
+            <li><a href="https://documentation.getflash.io/en/faq" target="_blank" rel="noopener noreferrer" class="dropdown-link">FAQ</a></li>
+          </ul>
+        </li>
+
+        <!-- Contact Dropdown -->
+        <li class="nav-dropdown">
+          <a href="#" class="nav-link dropdown-trigger">
+            Contact
+            <svg class="dropdown-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </a>
+          <ul class="dropdown-menu">
+            <li><a href="/blog" class="dropdown-link">Blog</a></li>
+            <li><a href="/#pg-contact" class="dropdown-link">Contact Us</a></li>
+          </ul>
         </li>
       </ul>
     </nav>
     <!-- End of Navigation -->
+
     <div id="bitcoin-price" class="btc-widget">
       <h3>Bitcoin Price:</h3>
       <p>1 BTC = $ <span id="btc-value"></span> USD</p>
     </div>
+
     <div class="darkmode-switch desktop-only">
       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true">
         <use href="#lightbulb" class="lightbulb"></use>

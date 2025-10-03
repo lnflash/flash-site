@@ -1,10 +1,56 @@
 /* Team Page Specific Styles */
 
-/* Modern Egalitarian Team Grid Styles */
+/* Team Hero Section */
 .team-hero {
-    text-align: center;
-    margin-bottom: 60px;
+    padding: 80px 0 40px;
+    background: var(--bg-body);
 }
+
+.team-hero .section-header-centered {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.team-hero .section-badge {
+    display: inline-block;
+    padding: 8px 16px;
+    background: linear-gradient(135deg, var(--flash-green), var(--flash-yellow));
+    color: var(--flash-black);
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 20px;
+}
+
+body.dark-mode .team-hero .section-badge {
+    background: linear-gradient(135deg, #7ed957, #fff44d);
+}
+
+.team-hero .hero-title {
+    font-size: 3rem;
+    font-weight: 700;
+    line-height: 1.1;
+    margin-bottom: 16px;
+    color: var(--text-colour);
+}
+
+.team-hero .highlight-text {
+    color: var(--flash-green);
+}
+
+.team-hero .section-subtitle {
+    font-size: 1.15rem;
+    color: var(--text-colour);
+    opacity: 0.75;
+    line-height: 1.6;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+/* Modern Egalitarian Team Grid Styles */
 
 /* Main team grid - responsive and egalitarian */
 .team-grid {
@@ -232,4 +278,59 @@
 .team-member:focus {
     outline: 3px solid var(--flash-green);
     outline-offset: 2px;
+}
+
+/* Join Team CTA Section */
+.join-team-cta {
+    padding: 60px 0 80px;
+    background: var(--bg-body);
+}
+
+.join-team-cta .cta-box {
+    background: linear-gradient(135deg, rgba(65, 173, 73, 0.1), rgba(255, 242, 0, 0.05));
+    border: 2px solid rgba(65, 173, 73, 0.3);
+    border-radius: 24px;
+    padding: 60px 50px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.join-team-cta .cta-content h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 16px;
+    color: var(--text-colour);
+}
+
+.join-team-cta .cta-content p {
+    font-size: 1.15rem;
+    line-height: 1.6;
+    color: var(--text-colour);
+    opacity: 0.8;
+    max-width: 700px;
+    margin: 0 auto 32px;
+}
+
+/* Responsive adjustments for team page */
+@media (max-width: 768px) {
+    .team-hero {
+        padding: 60px 0 30px;
+    }
+
+    .team-hero .hero-title {
+        font-size: 2.25rem;
+    }
+
+    .team-hero .section-subtitle {
+        font-size: 1rem;
+    }
+
+    .join-team-cta .cta-box {
+        padding: 40px 32px;
+    }
+
+    .join-team-cta .cta-content h2 {
+        font-size: 2rem;
+    }
 }
