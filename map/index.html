@@ -23,8 +23,6 @@
     <link rel="stylesheet" href="../../css/pages/map.css" />
 
     <!-- Google Maps API -->
-    <!-- Google Maps API temporarily disabled for Coming Soon page -->
-    <!-- 
     <script>
         function initMap() {
             // This will be defined in our main script below
@@ -33,7 +31,6 @@
     </script>
     <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBrZtvg_PSLuDUcMQ9BapDyTlc821oLM2w&libraries=places&callback=initMap&loading=async"></script>
-    -->
 
     <title>Flash Map - Find Payment Locations Worldwide | Flash</title>
     <script src="../../js/core/dark-mode-init.js"></script>
@@ -46,17 +43,17 @@
     <!-- Map Container with Overlay Search -->
     <section class="container" style="padding-top: 0; margin-top: 0;">
         <div class="map-container">
-            <!-- Search Overlay (Disabled) -->
-            <div class="search-overlay disabled">
-                <input type="text" class="search-input" id="searchInput" placeholder="Search coming soon..." disabled>
-                <button class="filter-btn" id="filterBtn" disabled>Filter</button>
+            <!-- Search Overlay -->
+            <div class="search-overlay">
+                <input type="text" class="search-input" id="searchInput" placeholder="Search locations...">
+                <button class="filter-btn" id="filterBtn">Filter</button>
                 <div class="location-count">
-                    <span id="locationCount">Coming Soon</span>
+                    <span id="locationCount">0 locations</span>
                 </div>
             </div>
 
             <!-- Coming Soon Overlay -->
-            <div class="coming-soon-overlay">
+            <div class="coming-soon-overlay" style="display: none;">
                 <div class="coming-soon-content">
                     <div class="coming-soon-icon">🚀</div>
                     <h2 class="coming-soon-title">Coming Soon</h2>
@@ -111,57 +108,45 @@
                 let flashpoints = [];
                 let infoWindow;
 
-                // Initialize the map placeholder (Coming Soon)
+                // Initialize the map
                 window.initMapCallback = function () {
-                    // Show a placeholder map background instead of loading Google Maps
-                    const mapElement = document.getElementById('map');
-                    mapElement.innerHTML = `
-                <div style="
-                    width: 100%; 
-                    height: 100%; 
-                    background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
-                    display: flex; 
-                    align-items: center; 
-                    justify-content: center;
-                    position: relative;
-                    overflow: hidden;
-                ">
-                    <div style="
-                        position: absolute;
-                        top: 0;
-                        left: 0;
-                        width: 100%;
-                        height: 100%;
-                        background-image: 
-                            radial-gradient(circle at 25% 25%, rgba(255,255,255,0.1) 2px, transparent 2px),
-                            radial-gradient(circle at 75% 75%, rgba(255,255,255,0.1) 1px, transparent 1px);
-                        background-size: 50px 50px;
-                        opacity: 0.3;
-                    "></div>
-                    <div style="
-                        text-align: center; 
-                        color: white; 
-                        z-index: 1;
-                        font-size: 1.2rem;
-                        opacity: 0.7;
-                    ">
-                        🗺️ Interactive Map Preview
-                    </div>
-                </div>
-            `;
+                    // Show loading spinner
+                    document.getElementById('loadingSpinner').style.display = 'flex';
+
+                    // Create the map
+                    map = new google.maps.Map(document.getElementById('map'), {
+                        center: { lat: 0, lng: 0 },
+                        zoom: 2,
+                        styles: getMapStyles(),
+                        mapTypeControl: true,
+                        streetViewControl: true,
+                        fullscreenControl: true,
+                        zoomControl: true
+                    });
+
+                    // Create info window
+                    infoWindow = new google.maps.InfoWindow();
+
+                    // Load flashpoints from API
+                    loadFlashpoints().then(() => {
+                        document.getElementById('loadingSpinner').style.display = 'none';
+                    }).catch((error) => {
+                        console.error('Error loading map:', error);
+                        document.getElementById('loadingSpinner').style.display = 'none';
+                    });
+
+                    // Setup search functionality
+                    setupSearch();
                 };
 
-                // Document ready initialization
-                document.addEventListener('DOMContentLoaded', function () {
-                    // Initialize the map placeholder immediately
-                    window.initMapCallback();
-                });
-
-                // Remove unused functions since we're showing coming soon
-                // Load flashpoints from GraphQL API (disabled for coming soon)
+                // Load flashpoints from GraphQL API
                 async function loadFlashpoints() {
                     try {
-                        const response = await fetch('https://api.flashapp.me/graphql', {
+                        // Determine API URL based on deployment environment
+                        const apiUrl = window.location.hostname === 'getflash.io' || window.location.hostname === 'www.getflash.io'
+                            ? 'https://api.flashapp.me/graphql'
+                            : 'https://api.test.flashapp.me/graphql';
+                        const response = await fetch(apiUrl, {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
