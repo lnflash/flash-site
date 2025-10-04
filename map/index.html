@@ -15,7 +15,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&amp;display=swap"
         rel="stylesheet">
 
     <!-- Font Awesome for icons -->
@@ -74,6 +74,43 @@
                         <i class="fas fa-sliders-h"></i>
                         <span class="filter-text">Filters</span>
                     </button>
+                </div>
+                <button class="info-toggle-btn" id="infoBtn" title="About this map">
+                    <i class="fas fa-info-circle"></i>
+                    <span>About</span>
+                </button>
+                <div class="info-tooltip" id="infoTooltip" style="display: none;">
+                    <div class="info-tooltip-content">
+
+                        <h3><i class="fas fa-map-marked-alt"></i> Flash Location Finder</h3>
+                        <p>
+                            Discover businesses across Jamaica that provide Flash services, called FLASHPOINTS.
+                            Find nearby locations, view services, and connect directly with merchants.
+                        </p>
+                        <div class="info-highlight">
+                            <i class="fas fa-credit-card"></i>
+                            <div>
+                                <strong>Get Your Free Flash Rewards Card!</strong>
+                                <p>Request a free reloadable Flash Rewards Card from any of these locations. Use it to
+                                    earn
+                                    reward points instantly at participating merchants.</p>
+                            </div>
+                        </div>
+                        <div class="info-features">
+                            <div class="info-feature">
+                                <i class="fas fa-bolt"></i>
+                                <span>Instant Payments</span>
+                            </div>
+                            <div class="info-feature">
+                                <i class="fas fa-message"></i>
+                                <span>Direct Messaging</span>
+                            </div>
+                            <div class="info-feature">
+                                <i class="fas fa-gift"></i>
+                                <span>Rewards Programs</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="filter-panel" id="filterPanel" style="display: none;">
                     <div class="filter-group">
@@ -833,8 +870,8 @@
                     const address = flashpoint.googlePlaces?.address?.toLowerCase() || '';
 
                     return title.includes(query) ||
-                           username.includes(query) ||
-                           address.includes(query);
+                        username.includes(query) ||
+                        address.includes(query);
                 })
                 .map(flashpoint => {
                     // Calculate match score (higher is better)
@@ -941,15 +978,51 @@
             }
         });
 
-        // Filter panel toggle functionality
+        // Get all UI elements first
         const filterBtn = document.getElementById('filterBtn');
         const filterPanel = document.getElementById('filterPanel');
+        const infoBtn = document.getElementById('infoBtn');
+        const infoTooltip = document.getElementById('infoTooltip');
+        const closeInfoBtn = document.getElementById('closeInfoBtn');
 
-        filterBtn.addEventListener('click', () => {
-            const isVisible = filterPanel.style.display === 'block';
-            filterPanel.style.display = isVisible ? 'none' : 'block';
-            filterBtn.classList.toggle('active', !isVisible);
-        });
+        // Filter panel toggle functionality
+        if (filterBtn) {
+            filterBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                const isVisible = filterPanel.style.display === 'block';
+                filterPanel.style.display = isVisible ? 'none' : 'block';
+                filterBtn.classList.toggle('active', !isVisible);
+
+                // Close info tooltip if open
+                if (!isVisible && infoTooltip && infoTooltip.style.display === 'block') {
+                    infoTooltip.style.display = 'none';
+                    infoBtn.classList.remove('active');
+                }
+            });
+        }
+
+        // Info tooltip toggle functionality
+        if (infoBtn) {
+            infoBtn.addEventListener('click', () => {
+                const isVisible = infoTooltip.style.display === 'block';
+                infoTooltip.style.display = isVisible ? 'none' : 'block';
+                infoBtn.classList.toggle('active', !isVisible);
+
+                // Close filter panel if open
+                if (!isVisible && filterPanel && filterPanel.style.display === 'block') {
+                    filterPanel.style.display = 'none';
+                    filterBtn.classList.remove('active');
+                }
+            });
+        }
+
+        if (closeInfoBtn) {
+            closeInfoBtn.addEventListener('click', () => {
+                infoTooltip.style.display = 'none';
+                infoBtn.classList.remove('active');
+            });
+        }
 
         // Clear search button functionality (called from setupSearch)
         document.getElementById('clearSearchBtn').addEventListener('click', () => {
