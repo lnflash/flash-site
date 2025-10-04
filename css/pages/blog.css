@@ -1,19 +1,58 @@
 /* Blog Page Specific Styles */
 
+/* Blog Hero Section */
 .blog-hero {
-    text-align: center;
-    margin-bottom: 60px;
-    padding: 80px 0 20px;
+    padding: 80px 0 40px;
+    background: var(--bg-body);
 }
 
-.blog-hero h1 {
-    font-size: var(--fSize-banner);
+.blog-hero .section-header-centered {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.blog-hero .section-badge {
+    display: inline-block;
+    padding: 8px 16px;
+    background: linear-gradient(135deg, var(--flash-green), var(--flash-yellow));
+    color: var(--flash-black);
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
     margin-bottom: 20px;
 }
 
-.blog-hero p {
-    font-size: var(--fSize-med);
-    margin-bottom: 30px;
+body.dark-mode .blog-hero .section-badge {
+    background: linear-gradient(135deg, #7ed957, #fff44d);
+}
+
+.blog-hero .hero-title {
+    font-size: 3rem;
+    font-weight: 700;
+    line-height: 1.1;
+    margin-bottom: 16px;
+    color: var(--text-colour);
+}
+
+.blog-hero .highlight-text {
+    color: var(--flash-green);
+}
+
+.blog-hero .section-subtitle {
+    font-size: 1.15rem;
+    color: var(--text-colour);
+    opacity: 0.75;
+    line-height: 1.6;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+/* Blog Posts Section */
+.blog-posts-section {
+    padding: 40px 0 60px;
 }
 
 /* Container for each blog post */
@@ -95,4 +134,38 @@
     color: #fff;
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
     transform: translateY(-2px);
+}
+
+/* Responsive Design for Blog Page */
+@media (max-width: 768px) {
+    .blog-hero {
+        padding: 60px 0 30px;
+    }
+
+    .blog-hero .hero-title {
+        font-size: 2.25rem;
+    }
+
+    .blog-hero .section-subtitle {
+        font-size: 1rem;
+    }
+
+    .blog-post {
+        flex-direction: column !important;
+        padding: 15px;
+    }
+
+    .blog-thumbnail {
+        flex: 1;
+        margin: 0 0 20px 0 !important;
+    }
+
+    .blog-content h2 {
+        font-size: 1.5rem;
+    }
+
+    .read-more {
+        width: 100%;
+        text-align: center;
+    }
 }

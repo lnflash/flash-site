@@ -29,17 +29,20 @@
 
     <main>
 
-        <!-- Mission Stats Section -->
-        <section id="mission-stats" class="page">
-            <!-- Content -->
+        <!-- Mission Hero Section -->
+        <section id="mission-hero" class="mission-hero page">
             <div class="container">
-                <div class="banner-left" style="max-width: 700px; margin: 80px auto 0; text-align: center;">
-                    <h1 class="banner-txt">Our <span class="banner-highlight">Mission</span></h1>
-                    <p class="slogan" style="font-size: x-large;">Empowering the Caribbean through financial inclusion
-                        and technological innovation.
-                    </p>
+                <div class="section-header-centered">
+                    <span class="section-badge">Our Mission</span>
+                    <h1 class="hero-title">Empowering the <span class="highlight-text">Caribbean</span></h1>
+                    <p class="section-subtitle">Building financial inclusion and technological innovation across the Caribbean through Bitcoin.</p>
                 </div>
             </div>
+        </section>
+        <!-- End of Mission Hero -->
+
+        <!-- Mission Stats Section -->
+        <section id="mission-stats" class="mission-stats-section page">
             <div class="container">
                 <div class="mission-stats">
                     <div class="mission-stat">
@@ -179,38 +182,34 @@
         <!-- End of Mission Journey Timeline -->
 
         <!-- Page: Mission Pillars -->
-        <section id="pg-mission-pillars" class="pg-about page" style="position: relative; overflow: hidden;">
-            <!-- Background image with 25% opacity -->
-            <div
-                style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: url('assets/img/three-pillars-columns.jpg'); background-size: cover; background-position: center; opacity: 0.25; z-index: 0;">
-            </div>
+        <section id="pg-mission-pillars" class="mission-pillars-section page">
+            <div class="pillars-background"></div>
 
-            <div class="container" style="position: relative; z-index: 1;">
-                <h2 class="mar-top-60">The Three Pillars of Our Mission</h2>
-                <p style="margin-bottom: 40px;">These fundamental tenets of freedom guide everything we do at Flash.</p>
+            <div class="container">
+                <div class="section-header-centered">
+                    <h2>The Three Pillars of Our Mission</h2>
+                    <p class="section-subtitle">These fundamental tenets of freedom guide everything we do at Flash.</p>
+                </div>
 
-                <div style="display: grid; grid-template-columns: 1fr; gap: 30px;">
-                    <div
-                        style="border-left: 4px solid var(--flash-green); padding-left: 20px; background-color: rgba(var(--bg-body-rgb, 0, 0, 0), 0.7); border-radius: var(--border-radius); padding: 20px 20px 20px 24px;">
-                        <h3 style="margin-bottom: 15px; font-weight: var(--fWeight-bold);">Free the Code</h3>
+                <div class="pillars-grid">
+                    <div class="pillar-card">
+                        <h3>Free the Code</h3>
                         <p>We are committed to open-source development, creating transparent, accessible technology that
                             anyone can verify, contribute to, and build upon. By developing in the open, we ensure our
                             solutions remain accountable to the communities we serve while fostering innovation that
                             benefits everyone, not just those with privileged access.</p>
                     </div>
 
-                    <div
-                        style="border-left: 4px solid var(--flash-green); padding-left: 20px; background-color: rgba(var(--bg-body-rgb, 0, 0, 0), 0.7); border-radius: var(--border-radius); padding: 20px 20px 20px 24px;">
-                        <h3 style="margin-bottom: 15px; font-weight: var(--fWeight-bold);">Free the Money</h3>
+                    <div class="pillar-card">
+                        <h3>Free the Money</h3>
                         <p>Financial freedom means access to borderless, affordable, instant value transfer without
                             unnecessary gatekeepers. We're building infrastructure that enables Caribbean people to
                             send, receive, and store value without the prohibitive fees and delays of traditional
                             systems. This economic empowerment is essential for true financial inclusion.</p>
                     </div>
 
-                    <div
-                        style="border-left: 4px solid var(--flash-green); padding-left: 20px; background-color: rgba(var(--bg-body-rgb, 0, 0, 0), 0.7); border-radius: var(--border-radius); padding: 20px 20px 20px 24px;">
-                        <h3 style="margin-bottom: 15px; font-weight: var(--fWeight-bold);">Free the Market</h3>
+                    <div class="pillar-card">
+                        <h3>Free the Market</h3>
                         <p>We envision truly open peer-to-peer digital economies where Caribbean businesses and
                             individuals can participate in global commerce without artificial barriers. By promoting
                             decentralized marketplaces and direct economic relationships, we're creating opportunities
@@ -218,11 +217,8 @@
                     </div>
                 </div>
 
-                <div
-                    style="margin-top: 50px; padding: 30px; background-color: rgba(var(--bg-body-rgb, 0, 0, 0), 0.8); border-radius: var(--border-radius); box-shadow: 0 4px 8px var(--box-shadow); border-bottom: 3px solid var(--flash-green);">
-                    <p style="text-align: center; font-weight: var(--fWeight-med); font-size: var(--fSize-med);">Through
-                        financial inclusion and technological innovation, we're building a more prosperous and connected
-                        Caribbean.</p>
+                <div class="mission-statement-box">
+                    <p>Through financial inclusion and technological innovation, we're building a more prosperous and connected Caribbean.</p>
                 </div>
             </div>
         </section>
@@ -269,16 +265,20 @@
                                 transforming lives across the Caribbean. Join our Discord Community to see what we are
                                 up to.</p>
 
-                            <div class="mar-top-50" style="display: flex; flex-wrap: wrap; gap: 15px;">
-                                <a href="index.html#pg-download" class="button-1"
-                                    style="display: inline-block; text-decoration: none; line-height: 40px; font-size: 1.1em; font-weight: 700; padding: 0 25px; min-width: 160px; text-align: center; box-shadow: 0 4px 8px var(--box-shadow);">Download
-                                    Flash</a>
-                                <a href="https://discord.gg/flashcommunity" target="_blank" class="button-2"
-                                    style="display: inline-block; text-decoration: none; line-height: 40px; font-size: 1.1em; font-weight: 700; padding: 0 25px; min-width: 160px; text-align: center; box-shadow: 0 4px 8px var(--box-shadow); background-color: #5865F2; border-color: #5865F2; color: white;">Join
-                                    our Discord</a>
-                                <a href="index.html#pg-contact" class="button-2"
-                                    style="display: inline-block; text-decoration: none; line-height: 40px; font-size: 1.1em; font-weight: 700; padding: 0 25px; min-width: 160px; text-align: center; box-shadow: 0 4px 8px var(--box-shadow);">Contact
-                                    Us</a>
+                            <div class="mission-cta-buttons">
+                                <a href="index.html#pg-download" class="cta-button primary">
+                                    <span>Download Flash</span>
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                                        <polyline points="12 5 19 12 12 19"></polyline>
+                                    </svg>
+                                </a>
+                                <a href="https://discord.gg/flashcommunity" target="_blank" class="cta-button discord">
+                                    <span>Join our Discord</span>
+                                </a>
+                                <a href="index.html#pg-contact" class="cta-button secondary">
+                                    <span>Contact Us</span>
+                                </a>
                             </div>
                         </div>
                     </div>

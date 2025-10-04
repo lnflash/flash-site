@@ -212,10 +212,10 @@ a.nav-link {
 a:not(.no-style, .nav-link)::after {
   content: "";
   position: absolute;
-  left: 0;
+  left: 5px;
   bottom: -3px;
   height: 3px;
-  width: 80%;
+  width: 95%;
   border-radius: 3px;
   background-color: var(--flash-green);
   transition: width var(--transition-time);

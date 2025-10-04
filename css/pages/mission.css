@@ -1,5 +1,60 @@
 /* Mission Page Specific Styles */
 
+/* Mission Hero Section */
+.mission-hero {
+    padding: 80px 0 40px;
+    background: var(--bg-body);
+}
+
+.mission-hero .section-header-centered {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.mission-hero .section-badge {
+    display: inline-block;
+    padding: 8px 16px;
+    background: linear-gradient(135deg, var(--flash-green), var(--flash-yellow));
+    color: var(--flash-black);
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 20px;
+}
+
+body.dark-mode .mission-hero .section-badge {
+    background: linear-gradient(135deg, #7ed957, #fff44d);
+}
+
+.mission-hero .hero-title {
+    font-size: 3rem;
+    font-weight: 700;
+    line-height: 1.1;
+    margin-bottom: 16px;
+    color: var(--text-colour);
+}
+
+.mission-hero .highlight-text {
+    color: var(--flash-green);
+}
+
+.mission-hero .section-subtitle {
+    font-size: 1.15rem;
+    color: var(--text-colour);
+    opacity: 0.75;
+    line-height: 1.6;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+/* Mission Stats Section */
+.mission-stats-section {
+    padding: 40px 0;
+}
+
 .timeline-container {
     position: relative;
     max-width: 1200px;
@@ -127,5 +182,154 @@
 
     .right {
         left: 0;
+    }
+}
+
+/* Mission Pillars Section */
+.mission-pillars-section {
+    padding: 60px 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.pillars-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('../../assets/img/three-pillars-columns.jpg');
+    background-size: cover;
+    background-position: center;
+    opacity: 0.25;
+    z-index: 0;
+}
+
+.mission-pillars-section .container {
+    position: relative;
+    z-index: 1;
+}
+
+.mission-pillars-section .section-header-centered {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto 48px;
+}
+
+.mission-pillars-section h2 {
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: var(--text-colour);
+}
+
+.pillars-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 30px;
+    margin-bottom: 50px;
+}
+
+.pillar-card {
+    border-left: 4px solid var(--flash-green);
+    padding: 24px 24px 24px 28px;
+    background: rgba(0, 0, 0, 0.6);
+    border-radius: 12px;
+    transition: all 0.3s ease;
+}
+
+body.light-mode .pillar-card {
+    background: rgba(255, 255, 255, 0.7);
+    border: 1px solid rgba(65, 173, 73, 0.2);
+    border-left: 4px solid var(--flash-green);
+}
+
+.pillar-card:hover {
+    transform: translateX(8px);
+    box-shadow: 0 12px 40px rgba(65, 173, 73, 0.2);
+}
+
+.pillar-card h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 15px;
+    color: var(--text-colour);
+}
+
+.pillar-card p {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: var(--text-colour);
+    opacity: 0.9;
+}
+
+.mission-statement-box {
+    padding: 30px;
+    background: rgba(0, 0, 0, 0.7);
+    border-radius: 12px;
+    box-shadow: 0 4px 8px var(--box-shadow);
+    border-bottom: 3px solid var(--flash-green);
+    text-align: center;
+}
+
+body.light-mode .mission-statement-box {
+    background: rgba(255, 255, 255, 0.8);
+}
+
+.mission-statement-box p {
+    font-weight: 500;
+    font-size: 1.15rem;
+    color: var(--text-colour);
+    margin: 0;
+}
+
+/* Mission CTA Buttons */
+.mission-cta-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-top: 50px;
+}
+
+.mission-cta-buttons .cta-button.discord {
+    background: #5865F2;
+    color: white !important;
+    border: none;
+}
+
+.mission-cta-buttons .cta-button.discord:hover {
+    background: #4752C4;
+    color: white !important;
+}
+
+/* Responsive Design for Mission Page */
+@media (max-width: 768px) {
+    .mission-hero {
+        padding: 60px 0 30px;
+    }
+
+    .mission-hero .hero-title {
+        font-size: 2.25rem;
+    }
+
+    .mission-hero .section-subtitle {
+        font-size: 1rem;
+    }
+
+    .mission-stats {
+        flex-direction: column;
+    }
+
+    .mission-stat {
+        min-width: 100%;
+    }
+
+    .mission-cta-buttons {
+        flex-direction: column;
+    }
+
+    .mission-cta-buttons .cta-button {
+        width: 100%;
+        justify-content: center;
     }
 }
