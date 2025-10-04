@@ -50,83 +50,154 @@ body.dark-mode .mission-hero .section-badge {
     margin: 0 auto;
 }
 
+/* Mission Journey Timeline Section */
+.mission-journey-section {
+    padding: 60px 0;
+    background: var(--bg-body);
+}
+
+.mission-journey-section .section-header-centered {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto 40px;
+}
+
+.mission-journey-section h2 {
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: var(--text-colour);
+}
+
+.timeline-carousel-wrapper {
+    position: relative;
+    padding: 20px 0 50px;
+}
+
+.timeline-swiper {
+    padding: 0 50px;
+}
+
+.timeline-swiper .swiper-slide {
+    height: auto;
+    display: flex;
+}
+
+.timeline-card {
+    background: var(--bg-body);
+    border: 2px solid rgba(65, 173, 73, 0.3);
+    border-radius: 16px;
+    padding: 24px;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.timeline-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, var(--flash-green), var(--flash-yellow));
+}
+
+.timeline-card:hover {
+    border-color: var(--flash-green);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(65, 173, 73, 0.2);
+}
+
+.timeline-card-future {
+    border-color: var(--flash-yellow);
+}
+
+.timeline-card-future::before {
+    background: linear-gradient(90deg, var(--flash-yellow), var(--flash-green));
+}
+
+.timeline-year {
+    display: inline-block;
+    padding: 6px 16px;
+    background: var(--flash-green);
+    color: var(--flash-black);
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    margin-bottom: 16px;
+    width: fit-content;
+}
+
+.timeline-card-future .timeline-year {
+    background: var(--flash-yellow);
+}
+
+.timeline-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--text-colour);
+    margin-bottom: 12px;
+    line-height: 1.3;
+}
+
+.timeline-text {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--text-colour);
+    opacity: 0.85;
+    margin: 0;
+}
+
+/* Timeline Navigation Buttons */
+.timeline-nav-btn {
+    width: 40px;
+    height: 40px;
+    background: var(--flash-green);
+    border-radius: 50%;
+    color: var(--flash-black);
+    transition: all 0.3s ease;
+}
+
+.timeline-nav-btn:hover {
+    background: var(--flash-yellow);
+    transform: scale(1.1);
+}
+
+.timeline-nav-btn::after {
+    font-size: 18px;
+    font-weight: 900;
+    color: var(--flash-black);
+}
+
+.swiper-button-disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
+/* Timeline Pagination */
+.timeline-pagination {
+    bottom: 0 !important;
+}
+
+.timeline-pagination .swiper-pagination-bullet {
+    background: var(--flash-green);
+    opacity: 0.4;
+    width: 10px;
+    height: 10px;
+}
+
+.timeline-pagination .swiper-pagination-bullet-active {
+    opacity: 1;
+    background: var(--flash-green);
+}
+
 /* Mission Stats Section */
 .mission-stats-section {
     padding: 40px 0;
-}
-
-.timeline-container {
-    position: relative;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 40px 0;
-}
-
-.timeline-container::after {
-    content: '';
-    position: absolute;
-    width: 6px;
-    background-color: var(--flash-green);
-    top: 0;
-    bottom: 0;
-    left: 50%;
-    margin-left: -3px;
-    border-radius: 3px;
-}
-
-.timeline-item {
-    padding: 10px 40px;
-    position: relative;
-    width: 50%;
-    box-sizing: border-box;
-}
-
-.timeline-item::after {
-    content: '';
-    position: absolute;
-    width: 20px;
-    height: 20px;
-    background-color: var(--flash-white);
-    border: 4px solid var(--flash-green);
-    top: 20px;
-    border-radius: 50%;
-    z-index: 1;
-}
-
-.dark-mode .timeline-item::after {
-    background-color: var(--flash-black);
-}
-
-.left {
-    left: 0;
-}
-
-.right {
-    left: 50%;
-}
-
-.left::after {
-    right: -12px;
-}
-
-.right::after {
-    left: -12px;
-}
-
-.timeline-content {
-    padding: 20px 30px;
-    background-color: var(--bg-body);
-    position: relative;
-    border-radius: var(--border-radius);
-    box-shadow: 0 4px 8px var(--box-shadow);
-    border-left: 3px solid var(--flash-green);
-}
-
-.timeline-content h3 {
-    margin-bottom: 10px;
-    display: inline-block;
-    border-bottom: 2px solid var(--flash-green);
-    padding-bottom: 5px;
 }
 
 .mission-stats {
@@ -161,27 +232,25 @@ body.dark-mode .mission-hero .section-badge {
 }
 
 @media screen and (max-width: 799px) {
-    .timeline-container::after {
-        left: 31px;
+    .timeline-swiper {
+        padding: 0 20px;
     }
 
-    .timeline-item {
-        width: 100%;
-        padding-left: 70px;
-        padding-right: 25px;
+    .timeline-nav-btn {
+        width: 35px;
+        height: 35px;
     }
 
-    .timeline-item::after {
-        left: 19px;
+    .timeline-card {
+        padding: 20px;
     }
 
-    .left::after,
-    .right::after {
-        left: 19px;
+    .timeline-title {
+        font-size: 1.1rem;
     }
 
-    .right {
-        left: 0;
+    .timeline-text {
+        font-size: 0.9rem;
     }
 }
 
@@ -314,6 +383,10 @@ body.light-mode .mission-statement-box {
 
     .mission-hero .section-subtitle {
         font-size: 1rem;
+    }
+
+    .mission-journey-section h2 {
+        font-size: 1.75rem;
     }
 
     .mission-stats {

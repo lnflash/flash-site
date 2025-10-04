@@ -2,335 +2,1150 @@
 
 /* Team Hero Section */
 .team-hero {
-    padding: 80px 0 40px;
-    background: var(--bg-body);
+  padding: 80px 0 40px;
+  background: var(--bg-body);
 }
 
 .team-hero .section-header-centered {
-    text-align: center;
-    max-width: 800px;
-    margin: 0 auto;
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto;
 }
 
 .team-hero .section-badge {
-    display: inline-block;
-    padding: 8px 16px;
-    background: linear-gradient(135deg, var(--flash-green), var(--flash-yellow));
-    color: var(--flash-black);
-    border-radius: 20px;
-    font-size: 0.85rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin-bottom: 20px;
+  display: inline-block;
+  padding: 8px 16px;
+  background: linear-gradient(135deg, var(--flash-green), var(--flash-yellow));
+  color: var(--flash-black);
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 20px;
 }
 
 body.dark-mode .team-hero .section-badge {
-    background: linear-gradient(135deg, #7ed957, #fff44d);
+  background: linear-gradient(135deg, #7ed957, #fff44d);
 }
 
 .team-hero .hero-title {
-    font-size: 3rem;
-    font-weight: 700;
-    line-height: 1.1;
-    margin-bottom: 16px;
-    color: var(--text-colour);
+  font-size: 3rem;
+  font-weight: 700;
+  line-height: 1.1;
+  margin-bottom: 16px;
+  color: var(--text-colour);
 }
 
 .team-hero .highlight-text {
-    color: var(--flash-green);
+  color: var(--flash-green);
 }
 
 .team-hero .section-subtitle {
-    font-size: 1.15rem;
-    color: var(--text-colour);
-    opacity: 0.75;
-    line-height: 1.6;
-    max-width: 700px;
-    margin: 0 auto;
+  font-size: 1.15rem;
+  color: var(--text-colour);
+  opacity: 0.75;
+  line-height: 1.6;
+  max-width: 700px;
+  margin: 0 auto;
 }
 
 /* Modern Egalitarian Team Grid Styles */
 
 /* Main team grid - responsive and egalitarian */
 .team-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 30px;
-    margin-top: 50px;
-    padding: 0 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 24px;
+  margin-top: 50px;
+  padding: 0 20px;
 }
 
 /* Unified team member cards */
 .team-member {
-    text-align: center;
-    background-color: var(--bg-body);
-    border-radius: 20px;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-    transition: all 0.3s ease;
-    position: relative;
-    cursor: pointer;
+  text-align: center;
+  background-color: var(--bg-body);
+  border-radius: 16px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: all 0.3s ease;
+  position: relative;
+  cursor: pointer;
 }
 
 .team-member:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.15);
+  transform: translateY(-8px);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.15);
 }
 
 /* Uniform image containers */
 .team-image-container {
-    height: 280px;
-    overflow: hidden;
-    position: relative;
-    background: linear-gradient(135deg, var(--flash-green), #45a049);
+  height: 240px;
+  overflow: hidden;
+  position: relative;
+  background: linear-gradient(135deg, var(--flash-green), #45a049);
 }
 
 .team-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center top;
-    transition: transform 0.3s ease;
-    display: block;
-    border-radius: 0;
-    /* Force rectangular display and remove any circular masks */
-    -webkit-mask: none;
-    mask: none;
-    clip-path: none;
-    border: none;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  transition: transform 0.3s ease;
+  display: block;
+  border-radius: 0;
+  /* Force rectangular display and remove any circular masks */
+  -webkit-mask: none;
+  mask: none;
+  clip-path: none;
+  border: none;
 }
 
 .team-member:hover .team-image {
-    transform: scale(1.05);
+  transform: scale(1.05);
 }
 
 /* Team member info section */
 .team-info {
-    padding: 25px 20px;
-    border-bottom: 4px solid var(--flash-green);
-    position: relative;
+  padding: 20px 16px;
+  border-bottom: 4px solid var(--flash-green);
+  position: relative;
 }
 
 .team-name {
-    font-size: 1.3rem;
-    font-weight: var(--fWeight-bold);
-    margin-bottom: 8px;
-    color: var(--text-color);
+  font-size: 1.15rem;
+  font-weight: var(--fWeight-bold);
+  margin-bottom: 8px;
+  color: var(--text-color);
 }
 
 /* Skill badges instead of hierarchical titles */
 .team-skills {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 8px;
-    margin-bottom: 15px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+  margin-bottom: 12px;
 }
 
 .skill-badge {
-    background: linear-gradient(135deg, var(--flash-green), #45a049);
-    color: white;
-    padding: 6px 12px;
-    border-radius: 20px;
-    font-size: 0.85rem;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    box-shadow: 0 2px 8px rgba(76, 175, 80, 0.3);
+  background: transparent;
+  color: var(--flash-green);
+  border: 2px solid var(--flash-green);
+  padding: 4px 10px;
+  border-radius: 16px;
+  font-size: 0.55rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
+}
+
+.skill-badge:hover {
+  background: var(--flash-green);
+  color: var(--flash-black);
 }
 
 /* Different skill categories with subtle color variations */
 .skill-badge.leadership {
-    background: linear-gradient(135deg, #ff6b6b, #ff5252);
-    box-shadow: 0 2px 8px rgba(255, 107, 107, 0.3);
+  color: #ff6b6b;
+  border-color: #ff6b6b;
+}
+
+.skill-badge.leadership:hover {
+  background: #ff6b6b;
+  color: white;
 }
 
 .skill-badge.engineering {
-    background: linear-gradient(135deg, #4dabf7, #339af0);
-    box-shadow: 0 2px 8px rgba(77, 171, 247, 0.3);
+  color: #4dabf7;
+  border-color: #4dabf7;
+}
+
+.skill-badge.engineering:hover {
+  background: #4dabf7;
+  color: white;
 }
 
 .skill-badge.design {
-    background: linear-gradient(135deg, #9c88ff, #845ef7);
-    box-shadow: 0 2px 8px rgba(156, 136, 255, 0.3);
+  color: #9c88ff;
+  border-color: #9c88ff;
+}
+
+.skill-badge.design:hover {
+  background: #9c88ff;
+  color: white;
 }
 
 .skill-badge.operations {
-    background: linear-gradient(135deg, #ffa726, #ff9800);
-    box-shadow: 0 2px 8px rgba(255, 167, 38, 0.3);
+  color: #ffa726;
+  border-color: #ffa726;
+}
+
+.skill-badge.operations:hover {
+  background: #ffa726;
+  color: white;
 }
 
 .skill-badge.field {
-    background: linear-gradient(135deg, #26c6da, #00bcd4);
-    box-shadow: 0 2px 8px rgba(38, 198, 218, 0.3);
+  color: #26c6da;
+  border-color: #26c6da;
+}
+
+.skill-badge.field:hover {
+  background: #26c6da;
+  color: white;
 }
 
 /* Hidden bio section for expand effect */
 .team-bio {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.3s ease, padding 0.3s ease;
-    line-height: 1.6;
-    color: var(--text-color);
-    opacity: 0.8;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease, padding 0.3s ease;
+  line-height: 1.6;
+  color: var(--text-color);
+  opacity: 0.8;
 }
 
 .team-member.expanded .team-bio {
-    max-height: 200px;
-    padding-top: 15px;
+  max-height: 200px;
+  padding-top: 15px;
 }
 
 /* Social links */
 .team-social {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    margin-top: 15px;
-    opacity: 0;
-    transform: translateY(10px);
-    transition: all 0.3s ease;
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 15px;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.3s ease;
 }
 
 .team-member:hover .team-social,
 .team-member.expanded .team-social {
-    opacity: 1;
-    transform: translateY(0);
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .social-icon {
-    width: 24px;
-    height: 24px;
-    transition: transform 0.2s ease;
+  width: 24px;
+  height: 24px;
+  transition: transform 0.2s ease;
 }
 
 .social-icon:hover {
-    transform: scale(1.3);
+  transform: scale(1.3);
 }
 
 /* Expand indicator */
 .expand-indicator {
-    position: absolute;
-    bottom: 10px;
-    right: 15px;
-    width: 30px;
-    height: 30px;
-    background: var(--flash-green);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-size: 16px;
-    transition: transform 0.3s ease;
-    cursor: pointer;
+  position: absolute;
+  bottom: 10px;
+  right: 15px;
+  width: 30px;
+  height: 30px;
+  background: var(--flash-green);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 16px;
+  transition: transform 0.3s ease;
+  cursor: pointer;
 }
 
 .team-member.expanded .expand-indicator {
-    transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+/* Join Team Card Styles */
+.join-team-card {
+  border: 2px dashed rgba(65, 173, 73, 0.5);
+  background: linear-gradient(135deg, rgba(65, 173, 73, 0.05), rgba(255, 242, 0, 0.05));
+  cursor: pointer;
+}
+
+.join-team-card:hover {
+  border-color: var(--flash-green);
+  background: linear-gradient(135deg, rgba(65, 173, 73, 0.1), rgba(255, 242, 0, 0.1));
+}
+
+.join-team-image {
+  background: linear-gradient(135deg, rgba(65, 173, 73, 0.2), rgba(255, 242, 0, 0.2));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.join-team-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: pulse 2s ease-in-out infinite;
+  transition: transform 0.3s ease;
+}
+
+.join-team-card:hover .join-team-icon {
+  transform: scale(1.15);
+  animation-play-state: paused;
+}
+
+.join-team-icon svg {
+  color: var(--flash-green);
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.8;
+  }
+}
+
+.join-team-card .team-info {
+  border-bottom-color: var(--flash-yellow);
+}
+
+.join-team-text {
+  padding: 0 10px;
+}
+
+.join-team-card.expanded .join-team-text {
+  margin: 15px 0;
+}
+
+.join-team-text p {
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--text-color);
+  opacity: 0.85;
+  margin: 0 0 15px 0;
+}
+
+.join-team-cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  background: var(--flash-green);
+  color: var(--flash-black);
+  border-radius: 24px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.join-team-cta-btn:hover {
+  background: var(--flash-yellow);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(65, 173, 73, 0.3);
+}
+
+.join-team-cta-btn svg {
+  transition: transform 0.3s ease;
+}
+
+.join-team-cta-btn:hover svg {
+  transform: translateX(4px);
+}
+
+.join-team-card .skill-badge {
+  background: transparent;
+  color: var(--flash-yellow);
+  border: 2px solid var(--flash-yellow);
+}
+
+.join-team-card .skill-badge:hover {
+  background: var(--flash-yellow);
+  color: var(--flash-black);
+}
+
+.join-team-card.expanded .team-bio {
+  max-height: 250px;
+}
+
+.join-team-card .expand-indicator {
+  background: var(--flash-yellow);
+}
+
+.join-team-card:hover .expand-indicator {
+  background: var(--flash-green);
 }
 
 /* Responsive design */
+@media screen and (max-width: 1024px) {
+  .team-grid {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+  }
+}
+
 @media screen and (max-width: 768px) {
-    .team-grid {
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        gap: 20px;
-        padding: 0 10px;
-    }
+  .team-grid {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    padding: 0 10px;
+  }
 
-    .team-image-container {
-        height: 250px;
-    }
+  .team-image-container {
+    height: 260px;
+  }
 
-    .team-info {
-        padding: 20px 15px;
-    }
+  .team-info {
+    padding: 20px 15px;
+  }
 
-    .team-name {
-        font-size: 1.2rem;
-    }
+  .team-name {
+    font-size: 1.2rem;
+  }
+
+  .skill-badge {
+    font-size: 0.8rem;
+    padding: 5px 11px;
+  }
 }
 
 @media screen and (max-width: 480px) {
-    .team-grid {
-        grid-template-columns: 1fr;
-        gap: 20px;
-    }
+  .team-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
 
-    .skill-badge {
-        font-size: 0.75rem;
-        padding: 5px 10px;
-    }
+  .skill-badge {
+    font-size: 0.75rem;
+    padding: 5px 10px;
+  }
 }
 
 /* Accessibility improvements */
 @media (prefers-reduced-motion: reduce) {
-
-    .team-member,
-    .team-image,
-    .team-social,
-    .expand-indicator {
-        transition: none;
-    }
+  .team-member,
+  .team-image,
+  .team-social,
+  .expand-indicator {
+    transition: none;
+  }
 }
 
 /* Focus states for accessibility */
 .team-member:focus {
-    outline: 3px solid var(--flash-green);
-    outline-offset: 2px;
+  outline: 3px solid var(--flash-green);
+  outline-offset: 2px;
+}
+
+/* Open Positions Section */
+.open-positions-section {
+  padding: 60px 0;
+  background: var(--bg-body);
+}
+
+.open-positions-section .section-header-centered {
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto 40px;
+}
+
+/* Job Filters */
+.job-filters {
+  max-width: 900px;
+  margin: 0 auto 40px;
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.search-box {
+  position: relative;
+  flex: 1;
+  min-width: 250px;
+}
+
+.search-box svg {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-colour);
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.search-box input {
+  width: 100%;
+  padding: 14px 16px 14px 48px;
+  border: 2px solid rgba(65, 173, 73, 0.3);
+  border-radius: 12px;
+  background: var(--bg-body);
+  color: var(--text-colour);
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.search-box input:focus {
+  outline: none;
+  border-color: var(--flash-green);
+  box-shadow: 0 0 0 3px rgba(65, 173, 73, 0.1);
+}
+
+.search-box input::placeholder {
+  color: var(--text-colour);
+  opacity: 0.5;
+}
+
+.filter-buttons {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.filter-btn {
+  padding: 10px 20px;
+  border: 2px solid rgba(65, 173, 73, 0.3);
+  border-radius: 24px;
+  background: transparent;
+  color: var(--text-colour);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.filter-btn:hover {
+  border-color: var(--flash-green);
+  background: rgba(65, 173, 73, 0.1);
+}
+
+.filter-btn.active {
+  background: var(--flash-green);
+  color: var(--flash-black);
+  border-color: var(--flash-green);
+}
+
+.open-positions-section .section-badge {
+  display: inline-block;
+  padding: 8px 16px;
+  background: linear-gradient(135deg, var(--flash-green), var(--flash-yellow));
+  color: var(--flash-black);
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 20px;
+}
+
+body.dark-mode .open-positions-section .section-badge {
+  background: linear-gradient(135deg, #7ed957, #fff44d);
+}
+
+.open-positions-section .section-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  line-height: 1.1;
+  margin-bottom: 16px;
+  color: var(--text-colour);
+}
+
+.open-positions-section .section-subtitle {
+  font-size: 1.15rem;
+  color: var(--text-colour);
+  opacity: 0.75;
+  line-height: 1.6;
+}
+
+.job-listings {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.job-card {
+  background: var(--bg-body);
+  border: 2px solid rgba(65, 173, 73, 0.3);
+  border-radius: 16px;
+  padding: 40px;
+  margin-bottom: 30px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.job-card:hover {
+  border-color: var(--flash-green);
+  box-shadow: 0 8px 24px rgba(65, 173, 73, 0.15);
+  transform: translateY(-4px);
+}
+
+.job-card.collapsed .job-description,
+.job-card.collapsed .job-footer {
+  display: none;
+}
+
+.job-card.hidden {
+  display: none;
+}
+
+.job-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.job-card.collapsed .job-header {
+  margin-bottom: 0;
+}
+
+.job-card:not(.collapsed) .job-header {
+  margin-bottom: 24px;
+}
+
+.job-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.job-title-area {
+  flex: 1;
+}
+
+.job-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--text-colour);
+  margin-bottom: 12px;
+  line-height: 1.2;
+}
+
+.job-meta {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.job-location {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--text-colour);
+  opacity: 0.8;
+  font-size: 0.95rem;
+}
+
+.job-location svg {
+  color: var(--flash-green);
+}
+
+.job-type {
+  display: inline-block;
+  padding: 6px 14px;
+  background: rgba(65, 173, 73, 0.15);
+  color: var(--flash-green);
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.job-badge {
+  padding: 8px 16px;
+  background: var(--flash-green);
+  color: var(--flash-black);
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.job-expand-indicator {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(65, 173, 73, 0.15);
+  color: var(--flash-green);
+  border-radius: 50%;
+  font-size: 1.5rem;
+  font-weight: 700;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+}
+
+.job-card:not(.collapsed) .job-expand-indicator {
+  transform: rotate(45deg);
+  background: var(--flash-green);
+  color: var(--flash-black);
+}
+
+.job-description {
+  color: var(--text-colour);
+  line-height: 1.7;
+  margin-bottom: 32px;
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.job-description p {
+  margin-bottom: 20px;
+  opacity: 0.9;
+}
+
+.job-description h4 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-colour);
+  margin-top: 24px;
+  margin-bottom: 12px;
+}
+
+.job-description ul {
+  list-style: none;
+  padding-left: 0;
+  margin-bottom: 20px;
+}
+
+.job-description ul li {
+  position: relative;
+  padding-left: 28px;
+  margin-bottom: 10px;
+  opacity: 0.85;
+}
+
+.job-description ul li:before {
+  content: "→";
+  position: absolute;
+  left: 0;
+  color: var(--flash-green);
+  font-weight: 700;
+}
+
+.job-footer {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.job-footer .cta-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  position: relative;
+  z-index: 10;
+  border: none;
+  cursor: pointer;
+}
+
+/* Job Application Modal */
+.application-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.application-modal.active {
+  display: flex;
+}
+
+.modal-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(4px);
+}
+
+.modal-content {
+  position: relative;
+  background: var(--bg-body);
+  border: 2px solid rgba(65, 173, 73, 0.3);
+  border-radius: 16px;
+  max-width: 700px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 40px;
+  z-index: 10000;
+  animation: modalSlideIn 0.3s ease-out;
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.modal-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: transparent;
+  border: none;
+  color: var(--text-colour);
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-close:hover {
+  background: rgba(65, 173, 73, 0.15);
+  color: var(--flash-green);
+}
+
+.modal-header {
+  margin-bottom: 32px;
+  padding-right: 40px;
+}
+
+.modal-header h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text-colour);
+  margin-bottom: 8px;
+}
+
+.applying-for {
+  color: var(--text-colour);
+  opacity: 0.7;
+  font-size: 1rem;
+}
+
+.applying-for span {
+  color: var(--flash-green);
+  font-weight: 600;
+}
+
+.job-application-form .form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.job-application-form .form-group {
+  margin-bottom: 20px;
+}
+
+.job-application-form label {
+  display: block;
+  color: var(--text-colour);
+  font-weight: 600;
+  margin-bottom: 8px;
+  font-size: 0.95rem;
+}
+
+.job-application-form input,
+.job-application-form textarea {
+  width: 100%;
+  padding: 14px 16px;
+  border: 2px solid rgba(65, 173, 73, 0.3);
+  border-radius: 8px;
+  background: var(--bg-body);
+  color: var(--text-colour);
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  font-family: inherit;
+}
+
+.job-application-form input:focus,
+.job-application-form textarea:focus {
+  outline: none;
+  border-color: var(--flash-green);
+  box-shadow: 0 0 0 3px rgba(65, 173, 73, 0.1);
+}
+
+.file-upload-wrapper {
+  position: relative;
+}
+
+.file-upload-wrapper input[type="file"] {
+  position: absolute;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
+.file-upload-display {
+  border: 2px dashed rgba(65, 173, 73, 0.3);
+  border-radius: 8px;
+  padding: 32px 20px;
+  text-align: center;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.file-upload-display:hover {
+  border-color: var(--flash-green);
+  background: rgba(65, 173, 73, 0.05);
+}
+
+.file-upload-display svg {
+  color: var(--flash-green);
+  margin-bottom: 12px;
+}
+
+.file-upload-display .file-name {
+  display: block;
+  color: var(--text-colour);
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.file-upload-display .file-hint {
+  display: block;
+  color: var(--text-colour);
+  opacity: 0.6;
+  font-size: 0.85rem;
+}
+
+.file-upload-wrapper.has-file .file-upload-display {
+  border-color: var(--flash-green);
+  background: rgba(65, 173, 73, 0.1);
+}
+
+.form-actions {
+  display: flex;
+  gap: 16px;
+  justify-content: flex-end;
+  margin-top: 32px;
+}
+
+.btn-primary,
+.btn-secondary {
+  padding: 14px 28px;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-primary {
+  background: var(--flash-green);
+  color: var(--flash-black);
+}
+
+.btn-primary:hover {
+  background: var(--flash-yellow);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(65, 173, 73, 0.3);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--text-colour);
+  border: 2px solid rgba(65, 173, 73, 0.3);
+}
+
+.btn-secondary:hover {
+  border-color: var(--flash-green);
+  background: rgba(65, 173, 73, 0.1);
+}
+
+.submission-success {
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.success-icon {
+  margin-bottom: 24px;
+}
+
+.success-icon svg {
+  color: var(--flash-green);
+}
+
+.submission-success h3 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--text-colour);
+  margin-bottom: 12px;
+}
+
+.submission-success p {
+  color: var(--text-colour);
+  opacity: 0.8;
+  line-height: 1.6;
+  margin-bottom: 32px;
 }
 
 /* Join Team CTA Section */
 .join-team-cta {
-    padding: 60px 0 80px;
-    background: var(--bg-body);
+  padding: 60px 0 80px;
+  background: var(--bg-body);
 }
 
 .join-team-cta .cta-box {
-    background: linear-gradient(135deg, rgba(65, 173, 73, 0.1), rgba(255, 242, 0, 0.05));
-    border: 2px solid rgba(65, 173, 73, 0.3);
-    border-radius: 24px;
-    padding: 60px 50px;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
+  background: linear-gradient(135deg, rgba(65, 173, 73, 0.1), rgba(255, 242, 0, 0.05));
+  border: 2px solid rgba(65, 173, 73, 0.3);
+  border-radius: 24px;
+  padding: 60px 50px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
 }
 
 .join-team-cta .cta-content h2 {
-    font-size: 2.5rem;
-    font-weight: 700;
-    margin-bottom: 16px;
-    color: var(--text-colour);
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 16px;
+  color: var(--text-colour);
 }
 
 .join-team-cta .cta-content p {
-    font-size: 1.15rem;
-    line-height: 1.6;
-    color: var(--text-colour);
-    opacity: 0.8;
-    max-width: 700px;
-    margin: 0 auto 32px;
+  font-size: 1.15rem;
+  line-height: 1.6;
+  color: var(--text-colour);
+  opacity: 0.8;
+  max-width: 700px;
+  margin: 0 auto 32px;
 }
 
 /* Responsive adjustments for team page */
 @media (max-width: 768px) {
-    .team-hero {
-        padding: 60px 0 30px;
-    }
+  .team-hero {
+    padding: 60px 0 30px;
+  }
 
-    .team-hero .hero-title {
-        font-size: 2.25rem;
-    }
+  .team-hero .hero-title {
+    font-size: 2.25rem;
+  }
 
-    .team-hero .section-subtitle {
-        font-size: 1rem;
-    }
+  .team-hero .section-subtitle {
+    font-size: 1rem;
+  }
 
-    .join-team-cta .cta-box {
-        padding: 40px 32px;
-    }
+  .join-team-cta .cta-box {
+    padding: 40px 32px;
+  }
 
-    .join-team-cta .cta-content h2 {
-        font-size: 2rem;
-    }
+  .join-team-cta .cta-content h2 {
+    font-size: 2rem;
+  }
+
+  .open-positions-section .section-title {
+    font-size: 2rem;
+  }
+
+  .open-positions-section .section-subtitle {
+    font-size: 1rem;
+  }
+
+  .job-card {
+    padding: 24px;
+  }
+
+  .job-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .job-title {
+    font-size: 1.5rem;
+  }
+
+  .job-badge {
+    align-self: flex-start;
+  }
+
+  .job-footer {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .job-footer .cta-button {
+    justify-content: center;
+    width: 100%;
+  }
+
+  .job-filters {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .search-box {
+    min-width: 100%;
+  }
+
+  .filter-buttons {
+    justify-content: center;
+  }
+
+  .filter-btn {
+    flex: 1;
+    min-width: 100px;
+  }
+
+  .job-actions {
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+  }
+
+  .modal-content {
+    padding: 24px;
+    max-height: 95vh;
+  }
+
+  .modal-header h2 {
+    font-size: 1.5rem;
+  }
+
+  .job-application-form .form-row {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .form-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    width: 100%;
+    justify-content: center;
+  }
 }
