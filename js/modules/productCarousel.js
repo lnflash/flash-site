@@ -2,6 +2,10 @@
 document.addEventListener("DOMContentLoaded", function () {
   // Initialize carousel
   const track = document.querySelector(".carousel-track");
+
+  // Exit early if carousel doesn't exist on this page
+  if (!track) return;
+
   const cards = Array.from(track.querySelectorAll(".product-card"));
   const nextButton = document.querySelector(".next-btn");
   const prevButton = document.querySelector(".prev-btn");

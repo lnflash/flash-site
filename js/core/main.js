@@ -14,9 +14,13 @@
 let openNavIcon, mainNav, closeNavIcon, navLinks, pages;
 let currentNav = 0;
 let prevNav = currentNav;
+let mobileMenuListenersAttached = false;
 
 // Initialize navigation elements after components are loaded
 function initNavigationElements() {
+  // Only initialize if not already initialized
+  if (mainNav) return;
+
   openNavIcon = document.getElementById("open-nav");
   mainNav = document.getElementById("main-nav");
   closeNavIcon = document.getElementById("close-nav");
@@ -25,6 +29,8 @@ function initNavigationElements() {
 }
 
 function changeMobileNavState() {
+  if (!mainNav) return;
+
   if (mainNav.dataset.mobState === "closed") {
     mainNav.dataset.mobState = "open";
   } else {
@@ -321,7 +327,7 @@ function sendMsg(values) {
 
 // ****** Start-up Functions ******
 // Hide nav list items from screen readers if nav is collapsed on small screens
-if (window.innerWidth < 800) {
+if (window.innerWidth < 800 && mainNav) {
   mainNav.setAttribute("aria-hidden", true);
 }
 // Add banner video source depending on browser
@@ -507,8 +513,31 @@ function changeEmailIcon(value) {
   }
 }
 
+// Listen for components loaded event (for pages using component-loader)
+document.addEventListener('componentsLoaded', () => {
+  initNavigationElements();
+  attachMobileMenuListeners();
+});
+
+// Attach mobile menu listeners - called after components load
+function attachMobileMenuListeners() {
+  // Prevent double-attaching
+  if (mobileMenuListenersAttached) return;
+
+  // Mobile Navigation Open and Closing
+  if (openNavIcon) {
+    openNavIcon.addEventListener("click", changeMobileNavState);
+  }
+  if (closeNavIcon) {
+    closeNavIcon.addEventListener("click", changeMobileNavState);
+  }
+
+  mobileMenuListenersAttached = true;
+}
+
 window.onload = () => {
   // Initialize navigation elements (must be first since components are now loaded)
+  // Call again in case componentsLoaded already fired
   initNavigationElements();
 
   // Register GSAP Plugins
@@ -599,19 +628,22 @@ window.onload = () => {
     globeObserver.observe(aboutPage);
   }
 
-  // Mobile Navigation Open and Closing
-  openNavIcon.addEventListener("click", changeMobileNavState);
-  closeNavIcon.addEventListener("click", changeMobileNavState);
-  $(".nav-link").click(() => {
-    changeMobileNavState();
+  // Attach mobile menu event listeners
+  attachMobileMenuListeners();
+
+  // Close mobile menu when clicking non-dropdown nav links
+  $(".nav-link:not(.dropdown-trigger)").click(() => {
+    if (mainNav) {
+      changeMobileNavState();
+    }
   });
 
   // Dropdown Menu Toggle for Mobile
   const dropdownTriggers = document.querySelectorAll('.dropdown-trigger');
   dropdownTriggers.forEach(trigger => {
     trigger.addEventListener('click', (e) => {
-      // On mobile (screens < 899px), toggle dropdown on click
-      if (window.innerWidth < 899) {
+      // On mobile (screens ≤ 799px), toggle dropdown on click
+      if (window.innerWidth <= 799) {
         e.preventDefault();
         const parentDropdown = trigger.closest('.nav-dropdown');
         const isActive = parentDropdown.classList.contains('active');
@@ -641,7 +673,7 @@ window.onload = () => {
   // Close mobile menu when clicking dropdown links
   document.querySelectorAll('.dropdown-link').forEach(link => {
     link.addEventListener('click', () => {
-      if (window.innerWidth < 899 && mainNav.dataset.mobState === "open") {
+      if (window.innerWidth <= 799 && mainNav && mainNav.dataset.mobState === "open") {
         changeMobileNavState();
       }
     });

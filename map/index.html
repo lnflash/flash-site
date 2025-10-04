@@ -40,7 +40,7 @@
     </script>
     <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBrZtvg_PSLuDUcMQ9BapDyTlc821oLM2w&libraries=places,marker&callback=initMap&loading=async">
-    </script>
+        </script>
 
     <title>Flash Map - Find Payment Locations Worldwide | Flash</title>
     <script src="../../js/core/dark-mode-init.js"></script>
@@ -53,16 +53,23 @@
     <!-- Map Container with Overlay Search -->
     <section class="container" style="padding-top: 0; margin-top: 0;">
         <div class="map-container">
+            <!-- Floating Back Button (Mobile Only) -->
+            <a href="/" class="floating-back-btn" aria-label="Back to home">
+                <i class="fas fa-arrow-left"></i>
+                <span>Home</span>
+            </a>
+
             <!-- Search Overlay -->
             <div class="search-overlay">
                 <div class="search-bar-container">
                     <div class="search-input-wrapper">
                         <i class="fas fa-search search-icon"></i>
-                        <input type="text" class="search-input" id="searchInput" placeholder="Search locations, services, or areas...">
-                        <button class="clear-search-btn" id="clearSearchBtn" style="display: none;">
-                            <i class="fas fa-times"></i>
-                        </button>
+                        <input type="text" class="search-input" id="searchInput"
+                            placeholder="Search locations, services, or areas...">
                     </div>
+                    <button class="clear-search-btn" id="clearSearchBtn" style="display: none;" title="Clear search">
+                        <i class="fas fa-times"></i>
+                    </button>
                     <button class="filter-toggle-btn" id="filterBtn" title="Filter by services">
                         <i class="fas fa-sliders-h"></i>
                         <span class="filter-text">Filters</span>
@@ -154,10 +161,12 @@
                         <!-- Payment details will be populated here -->
                     </div>
                     <div style="display: flex; gap: 12px; margin-top: 20px; flex-wrap: wrap;">
-                        <button class="filter-btn" onclick="handleMessageFlashpoint()" style="flex: 1; min-width: 200px;">
+                        <button class="filter-btn" onclick="handleMessageFlashpoint()"
+                            style="flex: 1; min-width: 200px;">
                             <i class="fas fa-message"></i> Message Flashpoint
                         </button>
-                        <button class="filter-btn" onclick="closeSuccessModal()" style="flex: 1; min-width: 200px;">Close</button>
+                        <button class="filter-btn" onclick="closeSuccessModal()"
+                            style="flex: 1; min-width: 200px;">Close</button>
                     </div>
                 </div>
             </div>
@@ -177,6 +186,9 @@
                 </div>
                 <div class="nostr-chat-input">
                     <textarea id="chatInput" placeholder="Type a message..." rows="1"></textarea>
+                    <button onclick="openPaymentFromChat()" class="chat-pay-btn" title="Pay Flashpoint">
+                        <i class="fas fa-bolt"></i>
+                    </button>
                     <button onclick="sendChatMessage()" class="chat-send-btn">
                         <i class="fas fa-paper-plane"></i>
                     </button>
@@ -193,77 +205,77 @@
     <!-- Load components BEFORE other scripts -->
     <script src="../../js/core/component-loader.js"></script>
 
-            <!-- Scripts -->
-            <!-- jQuery (for main.js compatibility) -->
-            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Scripts -->
+    <!-- jQuery (for main.js compatibility) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-            <script>
-                // Global variables
-                let map;
-                let markers = [];
-                let flashpoints = [];
-                let infoWindow;
-                let currentFlashpoint = null; // Track currently selected flashpoint
-                let flashpointMap = new Map(); // Map marker to flashpoint data
+    <script>
+        // Global variables
+        let map;
+        let markers = [];
+        let flashpoints = [];
+        let infoWindow;
+        let currentFlashpoint = null; // Track currently selected flashpoint
+        let flashpointMap = new Map(); // Map marker to flashpoint data
 
-                // Initialize the map
-                window.initMapCallback = function () {
-                    // Show loading spinner
-                    document.getElementById('loadingSpinner').style.display = 'flex';
+        // Initialize the map
+        window.initMapCallback = function () {
+            // Show loading spinner
+            document.getElementById('loadingSpinner').style.display = 'flex';
 
-                    // Create the map with Map ID for Advanced Markers
-                    map = new google.maps.Map(document.getElementById('map'), {
-                        center: { lat: 0, lng: 0 },
-                        zoom: 2,
-                        mapId: 'FLASH_MAP', // Required for Advanced Markers
-                        // Note: styles are controlled via Cloud Console when using mapId
-                        mapTypeControl: true,
-                        streetViewControl: true,
-                        fullscreenControl: true,
-                        zoomControl: true
-                    });
+            // Create the map with Map ID for Advanced Markers
+            map = new google.maps.Map(document.getElementById('map'), {
+                center: { lat: 0, lng: 0 },
+                zoom: 2,
+                mapId: 'FLASH_MAP', // Required for Advanced Markers
+                // Note: styles are controlled via Cloud Console when using mapId
+                mapTypeControl: true,
+                streetViewControl: true,
+                fullscreenControl: true,
+                zoomControl: true
+            });
 
-                    // Create info window
-                    infoWindow = new google.maps.InfoWindow();
+            // Create info window
+            infoWindow = new google.maps.InfoWindow();
 
-                    // Load flashpoints from API
-                    loadFlashpoints().then(() => {
-                        document.getElementById('loadingSpinner').style.display = 'none';
-                    }).catch((error) => {
-                        console.error('Error loading map:', error);
-                        document.getElementById('loadingSpinner').style.display = 'none';
-                    });
+            // Load flashpoints from API
+            loadFlashpoints().then(() => {
+                document.getElementById('loadingSpinner').style.display = 'none';
+            }).catch((error) => {
+                console.error('Error loading map:', error);
+                document.getElementById('loadingSpinner').style.display = 'none';
+            });
 
-                    // Setup search functionality
-                    setupSearch();
-                };
+            // Setup search functionality
+            setupSearch();
+        };
 
-                // Load flashpoints from GraphQL API
-                async function loadFlashpoints() {
-                    try {
-                        // Determine API URL based on deployment environment
-                        let apiUrl;
+        // Load flashpoints from GraphQL API
+        async function loadFlashpoints() {
+            try {
+                // Determine API URL based on deployment environment
+                let apiUrl;
 
-                        if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-                            // Use CORS proxy for local development
-                            apiUrl = 'https://corsproxy.io/?https://api.flashapp.me/graphql';
-                        } else if (window.location.hostname === 'getflash.io' || window.location.hostname === 'www.getflash.io') {
-                            // Production environment
-                            apiUrl = 'https://api.flashapp.me/graphql';
-                        } else {
-                            // Test/staging environments
-                            apiUrl = 'https://api.test.flashapp.me/graphql';
-                        }
+                if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+                    // Use CORS proxy for local development
+                    apiUrl = 'https://corsproxy.io/?https://api.flashapp.me/graphql';
+                } else if (window.location.hostname === 'getflash.io' || window.location.hostname === 'www.getflash.io') {
+                    // Production environment
+                    apiUrl = 'https://api.flashapp.me/graphql';
+                } else {
+                    // Test/staging environments
+                    apiUrl = 'https://api.test.flashapp.me/graphql';
+                }
 
-                        console.log('Fetching from:', apiUrl);
+                console.log('Fetching from:', apiUrl);
 
-                        const response = await fetch(apiUrl, {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                            },
-                            body: JSON.stringify({
-                                query: `
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        query: `
               query BusinessMapMarkers {
                 businessMapMarkers {
                   mapInfo {
@@ -277,233 +289,235 @@
                 }
               }
             `
-                            })
-                        });
+                    })
+                });
 
-                        console.log('Response status:', response.status, response.statusText);
+                console.log('Response status:', response.status, response.statusText);
 
-                        const data = await response.json();
+                const data = await response.json();
 
-                        // Debug logging
-                        console.log('API Response:', data);
+                // Debug logging
+                console.log('API Response:', data);
 
-                        if (!data || !data.data || !data.data.businessMapMarkers) {
-                            console.error('Invalid response structure:', data);
-                            throw new Error('Invalid API response: ' + JSON.stringify(data));
-                        }
-
-                        flashpoints = data.data.businessMapMarkers;
-
-                        // Update location count
-                        document.getElementById('locationCount').textContent = `${flashpoints.length} locations found`;
-
-                        // Add markers to map (await for enrichment to complete)
-                        await addMarkersToMap();
-
-                        // Fit map to show all markers after they're added
-                        fitMapToMarkers();
-
-                    } catch (error) {
-                        console.error('Error loading flashpoints:', error);
-                        document.getElementById('locationCount').textContent = 'Error loading locations';
-                    }
+                if (!data || !data.data || !data.data.businessMapMarkers) {
+                    console.error('Invalid response structure:', data);
+                    throw new Error('Invalid API response: ' + JSON.stringify(data));
                 }
 
-                // Add markers to the map
-                async function addMarkersToMap() {
-                    // Clear existing markers
-                    clearMarkers();
+                flashpoints = data.data.businessMapMarkers;
 
-                    // Import AdvancedMarkerElement
-                    const { AdvancedMarkerElement, PinElement } = await google.maps.importLibrary("marker");
+                // Update location count
+                document.getElementById('locationCount').textContent = `${flashpoints.length} locations found`;
 
-                    // Enrich all flashpoints first (in parallel)
-                    console.log('Enriching flashpoints with Google Places data...');
-                    await Promise.all(
-                        flashpoints.map(flashpoint =>
-                            enrichFlashpointData(flashpoint).catch(err => {
-                                console.warn('Could not enrich', flashpoint.mapInfo.title, err);
-                            })
-                        )
-                    );
-                    console.log('Enrichment complete!');
+                // Add markers to map (await for enrichment to complete)
+                await addMarkersToMap();
 
-                    // Now create markers with enriched data
-                    flashpoints.forEach((flashpoint, index) => {
-                        const position = {
-                            lat: parseFloat(flashpoint.mapInfo.coordinates.latitude),
-                            lng: parseFloat(flashpoint.mapInfo.coordinates.longitude)
-                        };
+                // Fit map to show all markers after they're added
+                fitMapToMarkers();
 
-                        // Create custom pin with Flash colors
-                        const pin = new PinElement({
-                            background: "#f39c12",
-                            borderColor: "#e74c3c",
-                            glyphColor: "white",
-                            glyph: "₿",
-                            scale: 1.2
-                        });
+            } catch (error) {
+                console.error('Error loading flashpoints:', error);
+                document.getElementById('locationCount').textContent = 'Error loading locations';
+            }
+        }
 
-                        // Create advanced marker
-                        const marker = new AdvancedMarkerElement({
-                            map: map,
-                            position: position,
-                            content: pin.element,
-                            title: flashpoint.mapInfo.title
-                        });
+        // Add markers to the map
+        async function addMarkersToMap() {
+            // Clear existing markers
+            clearMarkers();
 
-                        // Store flashpoint reference with unique ID
-                        flashpoint._id = `flashpoint-${index}`;
-                        flashpointMap.set(flashpoint._id, flashpoint);
+            // Import AdvancedMarkerElement
+            const { AdvancedMarkerElement, PinElement } = await google.maps.importLibrary("marker");
 
-                        // Add click listener
-                        marker.addListener('click', () => {
-                            showLocationDetails(flashpoint, marker);
-                        });
+            // Enrich all flashpoints first (in parallel)
+            console.log('Enriching flashpoints with Google Places data...');
+            await Promise.all(
+                flashpoints.map(flashpoint =>
+                    enrichFlashpointData(flashpoint).catch(err => {
+                        console.warn('Could not enrich', flashpoint.mapInfo.title, err);
+                    })
+                )
+            );
+            console.log('Enrichment complete!');
 
-                        markers.push(marker);
+            // Now create markers with enriched data
+            flashpoints.forEach((flashpoint, index) => {
+                const position = {
+                    lat: parseFloat(flashpoint.mapInfo.coordinates.latitude),
+                    lng: parseFloat(flashpoint.mapInfo.coordinates.longitude)
+                };
+
+                // Create custom marker with Flash logo
+                const markerContent = document.createElement('div');
+                markerContent.className = 'custom-flash-marker';
+                markerContent.innerHTML = `
+                            <div class="marker-pin">
+                                <div class="marker-logo-container">
+                                    <img src="../../assets/img/flash-icon-logo-white.png" alt="Flash" class="marker-logo">
+                                </div>
+                            </div>
+                        `;
+
+                // Create advanced marker
+                const marker = new AdvancedMarkerElement({
+                    map: map,
+                    position: position,
+                    content: markerContent,
+                    title: flashpoint.mapInfo.title
+                });
+
+                // Store flashpoint reference with unique ID
+                flashpoint._id = `flashpoint-${index}`;
+                flashpointMap.set(flashpoint._id, flashpoint);
+
+                // Add click listener
+                marker.addListener('click', () => {
+                    showLocationDetails(flashpoint, marker);
+                });
+
+                markers.push(marker);
+            });
+
+            console.log('Created', markers.length, 'markers');
+        }
+
+
+        // Enrich flashpoint with Google Places data using new Places API
+        async function enrichFlashpointData(flashpoint) {
+            try {
+                // Import the new Places library
+                const { Place } = await google.maps.importLibrary("places");
+
+                // Build search query with location to help narrow results
+                const searchQuery = `${flashpoint.mapInfo.title} Jamaica`;
+
+                // Search for places using text query with location bias
+                const request = {
+                    fields: ['displayName', 'formattedAddress', 'location', 'internationalPhoneNumber',
+                        'nationalPhoneNumber', 'websiteURI', 'rating', 'userRatingCount',
+                        'regularOpeningHours', 'photos', 'priceLevel', 'types'],
+                    textQuery: searchQuery,
+                    locationBias: {
+                        center: {
+                            lat: flashpoint.mapInfo.coordinates.latitude,
+                            lng: flashpoint.mapInfo.coordinates.longitude
+                        },
+                        radius: 500 // Search within 500m radius
+                    },
+                    maxResultCount: 5 // Get top 5 to find closest match
+                };
+
+                const { places } = await Place.searchByText(request);
+
+                if (places && places.length > 0) {
+                    // Find the closest place to our coordinates
+                    const flashpointLat = flashpoint.mapInfo.coordinates.latitude;
+                    const flashpointLng = flashpoint.mapInfo.coordinates.longitude;
+
+                    let closestPlace = places[0];
+                    let minDistance = Number.MAX_VALUE;
+
+                    places.forEach(place => {
+                        if (place.location) {
+                            const distance = Math.sqrt(
+                                Math.pow(place.location.lat() - flashpointLat, 2) +
+                                Math.pow(place.location.lng() - flashpointLng, 2)
+                            );
+                            if (distance < minDistance) {
+                                minDistance = distance;
+                                closestPlace = place;
+                            }
+                        }
                     });
 
-                    console.log('Created', markers.length, 'markers');
-                }
-
-
-                // Enrich flashpoint with Google Places data using new Places API
-                async function enrichFlashpointData(flashpoint) {
-                    try {
-                        // Import the new Places library
-                        const { Place } = await google.maps.importLibrary("places");
-
-                        // Build search query with location to help narrow results
-                        const searchQuery = `${flashpoint.mapInfo.title} Jamaica`;
-
-                        // Search for places using text query with location bias
-                        const request = {
-                            fields: ['displayName', 'formattedAddress', 'location', 'internationalPhoneNumber',
-                                     'nationalPhoneNumber', 'websiteURI', 'rating', 'userRatingCount',
-                                     'regularOpeningHours', 'photos', 'priceLevel', 'types'],
-                            textQuery: searchQuery,
-                            locationBias: {
-                                center: {
-                                    lat: flashpoint.mapInfo.coordinates.latitude,
-                                    lng: flashpoint.mapInfo.coordinates.longitude
-                                },
-                                radius: 500 // Search within 500m radius
-                            },
-                            maxResultCount: 5 // Get top 5 to find closest match
+                    // Only use the place if it's within ~1km (roughly 0.01 degrees)
+                    if (minDistance < 0.01) {
+                        // Enrich flashpoint with Google Places data
+                        flashpoint.googlePlaces = {
+                            address: closestPlace.formattedAddress,
+                            phone: closestPlace.internationalPhoneNumber || closestPlace.nationalPhoneNumber,
+                            website: closestPlace.websiteURI,
+                            rating: closestPlace.rating,
+                            userRatingsTotal: closestPlace.userRatingCount,
+                            openingHours: closestPlace.regularOpeningHours ? {
+                                weekday_text: closestPlace.regularOpeningHours.weekdayDescriptions,
+                                isOpen: closestPlace.regularOpeningHours.isOpen ? closestPlace.regularOpeningHours.isOpen() : undefined
+                            } : undefined,
+                            photos: closestPlace.photos,
+                            priceLevel: closestPlace.priceLevel,
+                            types: closestPlace.types
                         };
-
-                        const { places } = await Place.searchByText(request);
-
-                        if (places && places.length > 0) {
-                            // Find the closest place to our coordinates
-                            const flashpointLat = flashpoint.mapInfo.coordinates.latitude;
-                            const flashpointLng = flashpoint.mapInfo.coordinates.longitude;
-
-                            let closestPlace = places[0];
-                            let minDistance = Number.MAX_VALUE;
-
-                            places.forEach(place => {
-                                if (place.location) {
-                                    const distance = Math.sqrt(
-                                        Math.pow(place.location.lat() - flashpointLat, 2) +
-                                        Math.pow(place.location.lng() - flashpointLng, 2)
-                                    );
-                                    if (distance < minDistance) {
-                                        minDistance = distance;
-                                        closestPlace = place;
-                                    }
-                                }
-                            });
-
-                            // Only use the place if it's within ~1km (roughly 0.01 degrees)
-                            if (minDistance < 0.01) {
-                                // Enrich flashpoint with Google Places data
-                                flashpoint.googlePlaces = {
-                                    address: closestPlace.formattedAddress,
-                                    phone: closestPlace.internationalPhoneNumber || closestPlace.nationalPhoneNumber,
-                                    website: closestPlace.websiteURI,
-                                    rating: closestPlace.rating,
-                                    userRatingsTotal: closestPlace.userRatingCount,
-                                    openingHours: closestPlace.regularOpeningHours ? {
-                                        weekday_text: closestPlace.regularOpeningHours.weekdayDescriptions,
-                                        isOpen: closestPlace.regularOpeningHours.isOpen ? closestPlace.regularOpeningHours.isOpen() : undefined
-                                    } : undefined,
-                                    photos: closestPlace.photos,
-                                    priceLevel: closestPlace.priceLevel,
-                                    types: closestPlace.types
-                                };
-                                console.log('Enriched:', flashpoint.mapInfo.title, flashpoint.googlePlaces);
-                            } else {
-                                console.log('No nearby place found for:', flashpoint.mapInfo.title, 'distance:', minDistance);
-                            }
-                        } else {
-                            console.log('No place found for:', flashpoint.mapInfo.title);
-                        }
-                    } catch (error) {
-                        console.warn('Error enriching flashpoint:', flashpoint.mapInfo.title, error);
+                        console.log('Enriched:', flashpoint.mapInfo.title, flashpoint.googlePlaces);
+                    } else {
+                        console.log('No nearby place found for:', flashpoint.mapInfo.title, 'distance:', minDistance);
                     }
-                    return flashpoint;
+                } else {
+                    console.log('No place found for:', flashpoint.mapInfo.title);
                 }
+            } catch (error) {
+                console.warn('Error enriching flashpoint:', flashpoint.mapInfo.title, error);
+            }
+            return flashpoint;
+        }
 
-                // Service badges configuration
-                const SERVICE_BADGES = [
-                    {
-                        key: 'acceptsFlash',
-                        icon: 'fa-credit-card',
-                        label: 'Flash Pay',
-                        color: 'flash-payment',
-                        description: 'Accepts instant Bitcoin payments via Flash app and Flashcards'
-                    },
-                    {
-                        key: 'redeemTopup',
-                        icon: 'fa-money-bill-transfer',
-                        label: 'Cash',
-                        color: 'cash-service',
-                        description: 'Top up or redeem funds from Flash Cash wallets'
-                    },
-                    {
-                        key: 'hasRewards',
-                        icon: 'fa-gift',
-                        label: 'Rewards',
-                        color: 'loyalty-rewards',
-                        description: 'Earn points on purchases, redeemable at any participating location'
-                    }
-                ];
+        // Service badges configuration
+        const SERVICE_BADGES = [
+            {
+                key: 'acceptsFlash',
+                icon: 'fa-credit-card',
+                label: 'Flash Pay',
+                color: 'flash-payment',
+                description: 'Accepts instant Bitcoin payments via Flash app and Flashcards'
+            },
+            {
+                key: 'redeemTopup',
+                icon: 'fa-money-bill-transfer',
+                label: 'Cash',
+                color: 'cash-service',
+                description: 'Top up or redeem funds from Flash Cash wallets'
+            },
+            {
+                key: 'hasRewards',
+                icon: 'fa-gift',
+                label: 'Rewards',
+                color: 'loyalty-rewards',
+                description: 'Earn points on purchases, redeemable at any participating location'
+            }
+        ];
 
-                // Show location details with rich business card
-                function showLocationDetails(flashpoint, marker) {
-                    console.log('Showing details for:', flashpoint.mapInfo.title);
-                    console.log('Google Places data:', flashpoint.googlePlaces);
+        // Show location details with rich business card
+        function showLocationDetails(flashpoint, marker) {
+            console.log('Showing details for:', flashpoint.mapInfo.title);
+            console.log('Google Places data:', flashpoint.googlePlaces);
 
-                    // Store current flashpoint
-                    currentFlashpoint = flashpoint;
+            // Store current flashpoint
+            currentFlashpoint = flashpoint;
 
-                    // Center map on clicked marker
-                    map.panTo(marker.position);
+            // Center map on clicked marker
+            map.panTo(marker.position);
 
-                    const firstLetter = flashpoint.mapInfo.title.charAt(0).toUpperCase();
+            const firstLetter = flashpoint.mapInfo.title.charAt(0).toUpperCase();
 
-                    // Set service defaults if not specified
-                    const services = {
-                        acceptsFlash: flashpoint.acceptsFlash !== false,
-                        redeemTopup: flashpoint.redeemTopup === true,
-                        hasRewards: flashpoint.hasRewards === true
-                    };
+            // Set service defaults if not specified
+            const services = {
+                acceptsFlash: flashpoint.acceptsFlash !== false,
+                redeemTopup: flashpoint.redeemTopup === true,
+                hasRewards: flashpoint.hasRewards === true
+            };
 
-                    // Generate service badges HTML
-                    const serviceBadgesHTML = SERVICE_BADGES.map(badge => {
-                        const isActive = services[badge.key];
-                        return `
+            // Generate service badges HTML
+            const serviceBadgesHTML = SERVICE_BADGES.map(badge => {
+                const isActive = services[badge.key];
+                return `
                             <div class="service-badge-icon ${badge.color} ${isActive ? 'active' : ''}"
                                  title="${badge.description}">
                                 <i class="fas ${badge.icon}"></i>
                                 <div class="service-badge-text">${badge.label}</div>
                             </div>
                         `;
-                    }).join('');
+            }).join('');
 
-                    const content = `
+            const content = `
                         <div class="business-card">
                             <div class="business-header">
                                 <div class="business-logo-container">
@@ -546,7 +560,7 @@
                                         Call
                                     </button>
                                 ` : ''}
-                                <button class="action-btn action-btn-secondary" onclick="handleDirections(${flashpoint.mapInfo.coordinates.latitude}, ${flashpoint.mapInfo.coordinates.longitude})">
+                                <button class="action-btn action-btn-secondary" onclick="handleDirections(${flashpoint.mapInfo.coordinates.latitude}, ${flashpoint.mapInfo.coordinates.longitude}, '${flashpoint._id}')">
                                     <i class="fas fa-location-arrow"></i>
                                     Directions
                                 </button>
@@ -568,61 +582,61 @@
                         </div>
                     `;
 
-                    infoWindow.setContent(content);
-                    infoWindow.open(map, marker);
-                }
+            infoWindow.setContent(content);
+            infoWindow.open(map, marker);
+        }
 
-                // Populate side panel with detailed information
-                function populateSidePanel(flashpoint) {
-                    const panelContent = document.getElementById('panelContent');
-                    const panelTitle = document.getElementById('panelTitle');
-                    const firstLetter = flashpoint.mapInfo.title.charAt(0).toUpperCase();
+        // Populate side panel with detailed information
+        function populateSidePanel(flashpoint) {
+            const panelContent = document.getElementById('panelContent');
+            const panelTitle = document.getElementById('panelTitle');
+            const firstLetter = flashpoint.mapInfo.title.charAt(0).toUpperCase();
 
-                    panelTitle.textContent = flashpoint.mapInfo.title;
+            panelTitle.textContent = flashpoint.mapInfo.title;
 
-                    // Pan map to account for sidebar on desktop
-                    // Calculate offset based on sidebar width (400px on desktop, 100vw on mobile)
-                    const isMobile = window.innerWidth <= 768;
-                    if (!isMobile) {
-                        const sidebarWidth = 400; // pixels
-                        const center = {
-                            lat: flashpoint.mapInfo.coordinates.latitude,
-                            lng: flashpoint.mapInfo.coordinates.longitude
-                        };
+            // Pan map to account for sidebar on desktop
+            // Calculate offset based on sidebar width (400px on desktop, 100vw on mobile)
+            const isMobile = window.innerWidth <= 768;
+            if (!isMobile) {
+                const sidebarWidth = 400; // pixels
+                const center = {
+                    lat: flashpoint.mapInfo.coordinates.latitude,
+                    lng: flashpoint.mapInfo.coordinates.longitude
+                };
 
-                        // Convert sidebar width to lng offset
-                        // Get current map bounds to calculate pixel to degree ratio
-                        const bounds = map.getBounds();
-                        const ne = bounds.getNorthEast();
-                        const sw = bounds.getSouthWest();
-                        const lngDiff = ne.lng() - sw.lng();
-                        const mapWidth = document.getElementById('map').offsetWidth;
-                        const lngPerPixel = lngDiff / mapWidth;
+                // Convert sidebar width to lng offset
+                // Get current map bounds to calculate pixel to degree ratio
+                const bounds = map.getBounds();
+                const ne = bounds.getNorthEast();
+                const sw = bounds.getSouthWest();
+                const lngDiff = ne.lng() - sw.lng();
+                const mapWidth = document.getElementById('map').offsetWidth;
+                const lngPerPixel = lngDiff / mapWidth;
 
-                        // Offset the center to the right (so pin moves left visually)
-                        const offsetLng = center.lng + (sidebarWidth / 2 * lngPerPixel);
+                // Offset the center to the right (so pin moves left visually)
+                const offsetLng = center.lng + (sidebarWidth / 2 * lngPerPixel);
 
-                        map.panTo({ lat: center.lat, lng: offsetLng });
-                    }
+                map.panTo({ lat: center.lat, lng: offsetLng });
+            }
 
-                    // Set service defaults
-                    const services = {
-                        acceptsFlash: flashpoint.acceptsFlash !== false,
-                        redeemTopup: flashpoint.redeemTopup === true,
-                        hasRewards: flashpoint.hasRewards === true
-                    };
+            // Set service defaults
+            const services = {
+                acceptsFlash: flashpoint.acceptsFlash !== false,
+                redeemTopup: flashpoint.redeemTopup === true,
+                hasRewards: flashpoint.hasRewards === true
+            };
 
-                    // Generate active services list
-                    const activeServices = SERVICE_BADGES.filter(badge => services[badge.key]);
-                    const servicesListHTML = activeServices.length > 0
-                        ? `<ul>${activeServices.map(badge => `
+            // Generate active services list
+            const activeServices = SERVICE_BADGES.filter(badge => services[badge.key]);
+            const servicesListHTML = activeServices.length > 0
+                ? `<ul>${activeServices.map(badge => `
                             <li>
                                 <strong>${badge.label}:</strong> ${badge.description}
                             </li>
                         `).join('')}</ul>`
-                        : '<p>No service information available.</p>';
+                : '<p>No service information available.</p>';
 
-                    panelContent.innerHTML = `
+            panelContent.innerHTML = `
                         <div class="location-details">
                             <div style="text-align: center; margin-bottom: 20px;">
                                 <div class="business-logo-container">
@@ -683,7 +697,7 @@
                                 <button class="sidebar-action-btn sidebar-btn-secondary" onclick="centerMapOnLocation(${flashpoint.mapInfo.coordinates.latitude}, ${flashpoint.mapInfo.coordinates.longitude})">
                                     <i class="fas fa-crosshairs"></i> Center Map
                                 </button>
-                                <button class="sidebar-action-btn sidebar-btn-secondary" onclick="handleDirections(${flashpoint.mapInfo.coordinates.latitude}, ${flashpoint.mapInfo.coordinates.longitude})">
+                                <button class="sidebar-action-btn sidebar-btn-secondary" onclick="handleDirections(${flashpoint.mapInfo.coordinates.latitude}, ${flashpoint.mapInfo.coordinates.longitude}, '${flashpoint._id}')">
                                     <i class="fas fa-location-arrow"></i> Directions
                                 </button>
                                 ${services.acceptsFlash ? `
@@ -708,221 +722,293 @@
                         </div>
                     `;
 
-                    // Open side panel
-                    document.getElementById('sidePanel').classList.add('open');
-                }
+            // Open side panel
+            document.getElementById('sidePanel').classList.add('open');
+        }
 
-                // Handle Get Directions button
-                function handleDirections(latitude, longitude) {
-                    const url = `https://www.google.com/maps/search/?api=1&query=${latitude},${longitude}`;
-                    window.open(url, '_blank');
-                }
+        // Handle Get Directions button with enriched data
+        function handleDirections(latitude, longitude, flashpointId = null) {
+            let url;
 
-                // Handle View Details button
-                function handleViewDetails(flashpointId) {
-                    const flashpoint = flashpointMap.get(flashpointId);
-                    if (flashpoint) {
-                        populateSidePanel(flashpoint);
-                    }
-                }
+            if (flashpointId) {
+                const flashpoint = flashpointMap.get(flashpointId);
 
-                // Center map on specific location
-                function centerMapOnLocation(lat, lng) {
-                    map.setCenter({ lat: parseFloat(lat), lng: parseFloat(lng) });
+                if (flashpoint?.googlePlaces?.address) {
+                    // Use full address and business name for best results
+                    const destination = encodeURIComponent(`${flashpoint.mapInfo.title}, ${flashpoint.googlePlaces.address}`);
+                    url = `https://www.google.com/maps/dir/?api=1&destination=${destination}`;
+                } else if (flashpoint?.mapInfo?.title) {
+                    // Use business name with coordinates
+                    const destination = encodeURIComponent(`${flashpoint.mapInfo.title}`);
+                    url = `https://www.google.com/maps/dir/?api=1&destination=${destination}&destination_place_id=${latitude},${longitude}`;
+                } else {
+                    // Fallback to coordinates only
+                    url = `https://www.google.com/maps/dir/?api=1&destination=${latitude},${longitude}`;
+                }
+            } else {
+                // Direct call with just coordinates (legacy support)
+                url = `https://www.google.com/maps/dir/?api=1&destination=${latitude},${longitude}`;
+            }
+
+            window.open(url, '_blank');
+        }
+
+        // Handle View Details button
+        function handleViewDetails(flashpointId) {
+            const flashpoint = flashpointMap.get(flashpointId);
+            if (flashpoint) {
+                populateSidePanel(flashpoint);
+            }
+        }
+
+        // Center map on specific location
+        function centerMapOnLocation(lat, lng) {
+            map.setCenter({ lat: parseFloat(lat), lng: parseFloat(lng) });
+            map.setZoom(15);
+        }
+
+        // Fit map to show all markers
+        function fitMapToMarkers() {
+            if (markers.length === 0) {
+                console.log('No markers to fit bounds to');
+                return;
+            }
+
+            console.log('Fitting map to', markers.length, 'markers');
+            const bounds = new google.maps.LatLngBounds();
+            markers.forEach(marker => {
+                // AdvancedMarkerElement uses .position property, not .getPosition()
+                bounds.extend(marker.position);
+            });
+
+            map.fitBounds(bounds);
+
+            // Ensure minimum zoom level
+            google.maps.event.addListenerOnce(map, 'bounds_changed', function () {
+                if (map.getZoom() > 15) {
                     map.setZoom(15);
                 }
+            });
+        }
 
-                // Fit map to show all markers
-                function fitMapToMarkers() {
-                    if (markers.length === 0) {
-                        console.log('No markers to fit bounds to');
-                        return;
-                    }
+        // Clear all markers
+        function clearMarkers() {
+            markers.forEach(marker => {
+                marker.setMap(null);
+            });
+            markers = [];
+        }
 
-                    console.log('Fitting map to', markers.length, 'markers');
-                    const bounds = new google.maps.LatLngBounds();
-                    markers.forEach(marker => {
-                        // AdvancedMarkerElement uses .position property, not .getPosition()
-                        bounds.extend(marker.position);
-                    });
+        // Setup search functionality
+        async function setupSearch() {
+            const searchInput = document.getElementById('searchInput');
+            const clearSearchBtn = document.getElementById('clearSearchBtn');
 
-                    map.fitBounds(bounds);
+            // Debounced search on input
+            searchInput.addEventListener('input', createDebounce(performSearch, 300));
 
-                    // Ensure minimum zoom level
-                    google.maps.event.addListenerOnce(map, 'bounds_changed', function () {
-                        if (map.getZoom() > 15) {
-                            map.setZoom(15);
-                        }
-                    });
-                }
+            // Show/hide clear button
+            searchInput.addEventListener('input', () => {
+                clearSearchBtn.style.display = searchInput.value ? 'flex' : 'none';
+            });
 
-                // Clear all markers
-                function clearMarkers() {
-                    markers.forEach(marker => {
-                        marker.setMap(null);
-                    });
-                    markers = [];
-                }
+            // Note: Only searching through flashpoints, no external location search
+            console.log('Search initialized for flashpoints only');
+        }
 
-                // Setup search functionality
-                async function setupSearch() {
-                    const searchInput = document.getElementById('searchInput');
-                    const clearSearchBtn = document.getElementById('clearSearchBtn');
+        // Perform search
+        async function performSearch() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
 
-                    // Debounced search on input
-                    searchInput.addEventListener('input', createDebounce(performSearch, 300));
+            if (!query) {
+                addMarkersToMap();
+                return;
+            }
 
-                    // Show/hide clear button
-                    searchInput.addEventListener('input', () => {
-                        clearSearchBtn.style.display = searchInput.value ? 'flex' : 'none';
-                    });
+            // Filter and sort flashpoints by relevance
+            const filteredFlashpoints = flashpoints
+                .filter(flashpoint => {
+                    const title = flashpoint.mapInfo.title.toLowerCase();
+                    const username = flashpoint.username.toLowerCase();
+                    const address = flashpoint.googlePlaces?.address?.toLowerCase() || '';
 
-                    // Setup Places Autocomplete using new API
-                    try {
-                        const { PlaceAutocompleteElement } = await google.maps.importLibrary("places");
+                    return title.includes(query) ||
+                           username.includes(query) ||
+                           address.includes(query);
+                })
+                .map(flashpoint => {
+                    // Calculate match score (higher is better)
+                    const title = flashpoint.mapInfo.title.toLowerCase();
+                    const username = flashpoint.username.toLowerCase();
+                    const address = flashpoint.googlePlaces?.address?.toLowerCase() || '';
 
-                        const autocomplete = new PlaceAutocompleteElement();
-                        autocomplete.id = 'place-autocomplete';
+                    let score = 0;
 
-                        // Replace the input with autocomplete element
-                        searchInput.parentNode.insertBefore(autocomplete, searchInput);
-                        searchInput.style.display = 'none';
+                    // Exact match gets highest priority
+                    if (title === query) score += 1000;
+                    if (username === query) score += 900;
 
-                        autocomplete.addEventListener('gmp-placeselect', async ({ place }) => {
-                            await place.fetchFields({
-                                fields: ['displayName', 'formattedAddress', 'location'],
-                            });
+                    // Starts with query gets high priority
+                    if (title.startsWith(query)) score += 500;
+                    if (username.startsWith(query)) score += 400;
 
-                            if (place.location) {
-                                map.setCenter(place.location);
-                                map.setZoom(12);
-                            }
-                        });
-                    } catch (error) {
-                        console.warn('Could not initialize autocomplete:', error);
-                    }
-                }
+                    // Contains query gets medium priority
+                    if (title.includes(query)) score += 100;
+                    if (username.includes(query)) score += 90;
+                    if (address.includes(query)) score += 50;
 
-                // Perform search
-                async function performSearch() {
-                    const query = document.getElementById('searchInput').value.toLowerCase();
+                    // Shorter names rank higher for same match type
+                    score -= title.length * 0.1;
 
-                    if (!query) {
-                        addMarkersToMap();
-                        return;
-                    }
+                    return { flashpoint, score };
+                })
+                .sort((a, b) => b.score - a.score) // Sort by score descending
+                .map(item => item.flashpoint); // Extract flashpoints
 
-                    const filteredFlashpoints = flashpoints.filter(flashpoint =>
-                        flashpoint.mapInfo.title.toLowerCase().includes(query) ||
-                        flashpoint.username.toLowerCase().includes(query)
-                    );
+            // Clear current markers
+            clearMarkers();
 
-                    // Clear current markers
-                    clearMarkers();
+            // Import AdvancedMarkerElement
+            const { AdvancedMarkerElement, PinElement } = await google.maps.importLibrary("marker");
 
-                    // Import AdvancedMarkerElement
-                    const { AdvancedMarkerElement, PinElement } = await google.maps.importLibrary("marker");
+            // Add filtered markers
+            filteredFlashpoints.forEach((flashpoint, index) => {
+                const position = {
+                    lat: parseFloat(flashpoint.mapInfo.coordinates.latitude),
+                    lng: parseFloat(flashpoint.mapInfo.coordinates.longitude)
+                };
 
-                    // Add filtered markers
-                    filteredFlashpoints.forEach((flashpoint, index) => {
-                        const position = {
-                            lat: parseFloat(flashpoint.mapInfo.coordinates.latitude),
-                            lng: parseFloat(flashpoint.mapInfo.coordinates.longitude)
-                        };
+                // Create custom marker with Flash logo
+                const markerContent = document.createElement('div');
+                markerContent.className = 'custom-flash-marker';
+                markerContent.innerHTML = `
+                            <div class="marker-pin">
+                                <div class="marker-logo-container">
+                                    <img src="../../assets/img/flash-icon-logo-white.png" alt="Flash" class="marker-logo">
+                                </div>
+                            </div>
+                        `;
 
-                        // Create custom pin with Flash colors
-                        const pin = new PinElement({
-                            background: "#f39c12",
-                            borderColor: "#e74c3c",
-                            glyphColor: "white",
-                            glyph: "₿",
-                            scale: 1.2
-                        });
-
-                        const marker = new AdvancedMarkerElement({
-                            map: map,
-                            position: position,
-                            content: pin.element,
-                            title: flashpoint.mapInfo.title
-                        });
-
-                        marker.addListener('click', () => {
-                            showLocationDetails(flashpoint, marker);
-                        });
-
-                        markers.push(marker);
-                    });
-
-                    // Update count
-                    document.getElementById('locationCount').textContent = `${filteredFlashpoints.length} locations found`;
-
-                    // Fit map to filtered results
-                    if (markers.length > 0) {
-                        fitMapToMarkers();
-                    }
-                }
-
-                // Debounce function (check if already exists in main.js)
-                function createDebounce(func, wait) {
-                    let timeout;
-                    return function executedFunction(...args) {
-                        const later = () => {
-                            clearTimeout(timeout);
-                            func(...args);
-                        };
-                        clearTimeout(timeout);
-                        timeout = setTimeout(later, wait);
-                    };
-                }
-
-                // Note: Map styles are now controlled via Google Cloud Console Map Styles
-                // when using a mapId. Dark mode support should be configured there.
-
-                // Close side panel
-                document.getElementById('closePanelBtn').addEventListener('click', () => {
-                    document.getElementById('sidePanel').classList.remove('open');
-
-                    // Re-center map on the flashpoint when closing sidebar
-                    if (currentFlashpoint) {
-                        map.panTo({
-                            lat: currentFlashpoint.mapInfo.coordinates.latitude,
-                            lng: currentFlashpoint.mapInfo.coordinates.longitude
-                        });
-                    }
+                const marker = new AdvancedMarkerElement({
+                    map: map,
+                    position: position,
+                    content: markerContent,
+                    title: flashpoint.mapInfo.title
                 });
 
-                // Filter panel toggle functionality
-                const filterBtn = document.getElementById('filterBtn');
-                const filterPanel = document.getElementById('filterPanel');
-
-                filterBtn.addEventListener('click', () => {
-                    const isVisible = filterPanel.style.display === 'block';
-                    filterPanel.style.display = isVisible ? 'none' : 'block';
-                    filterBtn.classList.toggle('active', !isVisible);
+                marker.addListener('click', () => {
+                    showLocationDetails(flashpoint, marker);
                 });
 
-                // Clear search button functionality (called from setupSearch)
-                document.getElementById('clearSearchBtn').addEventListener('click', () => {
-                    const searchInput = document.getElementById('searchInput');
-                    searchInput.value = '';
-                    document.getElementById('clearSearchBtn').style.display = 'none';
-                    searchInput.focus();
-                    performSearch(); // Clear the search results
-                });
+                markers.push(marker);
+            });
 
-                // TODO: Implement filter functionality
-                // Add event listeners for filter checkboxes
-                const filterCheckboxes = document.querySelectorAll('#filterPanel input[type="checkbox"]');
-                filterCheckboxes.forEach(checkbox => {
-                    checkbox.addEventListener('change', () => {
-                        // TODO: Filter markers based on selected services
-                        console.log('Filter changed:', checkbox.id, checkbox.checked);
-                    });
-                });
+            // Update count
+            document.getElementById('locationCount').textContent = `${filteredFlashpoints.length} locations found`;
 
-                // Error handling for map loading
-                window.gm_authFailure = function () {
-                    document.getElementById('map').innerHTML = `
+            // Fit map to filtered results
+            if (markers.length > 0) {
+                fitMapToMarkers();
+            }
+        }
+
+        // Debounce function (check if already exists in main.js)
+        function createDebounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+
+        // Note: Map styles are now controlled via Google Cloud Console Map Styles
+        // when using a mapId. Dark mode support should be configured there.
+
+        // Close side panel
+        document.getElementById('closePanelBtn').addEventListener('click', () => {
+            document.getElementById('sidePanel').classList.remove('open');
+
+            // Re-center map on the flashpoint when closing sidebar
+            if (currentFlashpoint) {
+                map.panTo({
+                    lat: currentFlashpoint.mapInfo.coordinates.latitude,
+                    lng: currentFlashpoint.mapInfo.coordinates.longitude
+                });
+            }
+        });
+
+        // Filter panel toggle functionality
+        const filterBtn = document.getElementById('filterBtn');
+        const filterPanel = document.getElementById('filterPanel');
+
+        filterBtn.addEventListener('click', () => {
+            const isVisible = filterPanel.style.display === 'block';
+            filterPanel.style.display = isVisible ? 'none' : 'block';
+            filterBtn.classList.toggle('active', !isVisible);
+        });
+
+        // Clear search button functionality (called from setupSearch)
+        document.getElementById('clearSearchBtn').addEventListener('click', () => {
+            const searchInput = document.getElementById('searchInput');
+            searchInput.value = '';
+            document.getElementById('clearSearchBtn').style.display = 'none';
+            searchInput.focus();
+            performSearch(); // Clear the search results
+        });
+
+        // Implement filter functionality
+        const filterCheckboxes = document.querySelectorAll('#filterPanel input[type="checkbox"]');
+        filterCheckboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', () => {
+                applyFilters();
+            });
+        });
+
+        // Apply filters to show/hide markers
+        function applyFilters() {
+            const flashPayChecked = document.getElementById('filterFlashPay').checked;
+            const cashChecked = document.getElementById('filterCash').checked;
+            const rewardsChecked = document.getElementById('filterRewards').checked;
+
+            let visibleCount = 0;
+
+            markers.forEach((marker, index) => {
+                const flashpoint = flashpoints[index];
+
+                // Determine flashpoint services (same logic as in showLocationDetails)
+                const services = {
+                    acceptsFlash: flashpoint.acceptsFlash !== false, // All are Flash Pay by default
+                    redeemTopup: flashpoint.redeemTopup === true,
+                    hasRewards: flashpoint.hasRewards === true
+                };
+
+                // Check if flashpoint matches any selected filter
+                let shouldShow = false;
+
+                if (flashPayChecked && services.acceptsFlash) shouldShow = true;
+                if (cashChecked && services.redeemTopup) shouldShow = true;
+                if (rewardsChecked && services.hasRewards) shouldShow = true;
+
+                // Show/hide marker
+                if (shouldShow) {
+                    marker.map = map;
+                    visibleCount++;
+                } else {
+                    marker.map = null;
+                }
+            });
+
+            // Update location count
+            document.getElementById('locationCount').textContent = `${visibleCount} locations found`;
+        }
+
+        // Error handling for map loading
+        window.gm_authFailure = function () {
+            document.getElementById('map').innerHTML = `
         <div style="display: flex; align-items: center; justify-content: center; height: 100%; color: #e74c3c; text-align: center;">
           <div>
             <h3>Map Loading Error</h3>
@@ -930,51 +1016,51 @@
           </div>
         </div>
       `;
-                };
+        };
 
-                // ==================== Payment Functionality ====================
+        // ==================== Payment Functionality ====================
 
-                let paymentWebSocket = null;
-                let paymentTimer = null;
-                let paymentPollInterval = null;
-                let currentInvoice = null;
+        let paymentWebSocket = null;
+        let paymentTimer = null;
+        let paymentPollInterval = null;
+        let currentInvoice = null;
 
-                // Get API URLs based on environment
-                function getApiUrls() {
-                    let httpUrl, wsUrl;
+        // Get API URLs based on environment
+        function getApiUrls() {
+            let httpUrl, wsUrl;
 
-                    if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-                        // Use CORS proxy for local development
-                        httpUrl = 'https://corsproxy.io/?https://api.flashapp.me/graphql';
-                        wsUrl = 'wss://ws.flashapp.me/graphql';
-                    } else if (window.location.hostname === 'getflash.io' || window.location.hostname === 'www.getflash.io') {
-                        // Production environment
-                        httpUrl = 'https://api.flashapp.me/graphql';
-                        wsUrl = 'wss://ws.flashapp.me/graphql';
-                    } else {
-                        // Test/staging environments
-                        httpUrl = 'https://api.test.flashapp.me/graphql';
-                        wsUrl = 'wss://ws.test.flashapp.me/graphql';
-                    }
+            if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+                // Use CORS proxy for local development
+                httpUrl = 'https://corsproxy.io/?https://api.flashapp.me/graphql';
+                wsUrl = 'wss://ws.flashapp.me/graphql';
+            } else if (window.location.hostname === 'getflash.io' || window.location.hostname === 'www.getflash.io') {
+                // Production environment
+                httpUrl = 'https://api.flashapp.me/graphql';
+                wsUrl = 'wss://ws.flashapp.me/graphql';
+            } else {
+                // Test/staging environments
+                httpUrl = 'https://api.test.flashapp.me/graphql';
+                wsUrl = 'wss://ws.test.flashapp.me/graphql';
+            }
 
-                    return { httpUrl, wsUrl };
-                }
+            return { httpUrl, wsUrl };
+        }
 
-                // Handle Pay Flashpoint button click
-                function handlePayFlashpoint(flashpointId) {
-                    const flashpoint = flashpointMap.get(flashpointId);
-                    if (!flashpoint) {
-                        alert('Flashpoint not found');
-                        return;
-                    }
+        // Handle Pay Flashpoint button click
+        function handlePayFlashpoint(flashpointId) {
+            const flashpoint = flashpointMap.get(flashpointId);
+            if (!flashpoint) {
+                alert('Flashpoint not found');
+                return;
+            }
 
-                    // Show amount input modal
-                    showAmountInputModal(flashpoint);
-                }
+            // Show amount input modal
+            showAmountInputModal(flashpoint);
+        }
 
-                // Show amount input modal with keypad
-                function showAmountInputModal(flashpoint) {
-                    const modalBody = `
+        // Show amount input modal with keypad
+        function showAmountInputModal(flashpoint) {
+            const modalBody = `
                         <div style="text-align: center;">
                             <div style="font-size: 14px; color: #7f8c8d; margin-bottom: 16px;">
                                 Enter amount to pay ${flashpoint.mapInfo.title}
@@ -1005,119 +1091,119 @@
                         </div>
                     `;
 
-                    showPaymentModal(`Pay ${flashpoint.mapInfo.title}`, modalBody);
+            showPaymentModal(`Pay ${flashpoint.mapInfo.title}`, modalBody);
+        }
+
+        // Amount input handling
+        let currentAmount = '';
+
+        function appendDigit(digit) {
+            // Prevent multiple decimal points
+            if (digit === '.' && currentAmount.includes('.')) {
+                return;
+            }
+
+            // Limit to 2 decimal places
+            if (currentAmount.includes('.')) {
+                const decimalPart = currentAmount.split('.')[1];
+                if (decimalPart && decimalPart.length >= 2) {
+                    return;
+                }
+            }
+
+            currentAmount += digit;
+            updateAmountDisplay();
+        }
+
+        function deleteDigit() {
+            currentAmount = currentAmount.slice(0, -1);
+            updateAmountDisplay();
+        }
+
+        function updateAmountDisplay() {
+            const display = document.getElementById('amountDisplay');
+            if (display) {
+                display.textContent = currentAmount || '0.00';
+            }
+        }
+
+        async function submitAmount(flashpointId) {
+            const flashpoint = flashpointMap.get(flashpointId);
+            if (!flashpoint) {
+                return;
+            }
+
+            const amount = parseFloat(currentAmount);
+
+            if (!currentAmount || isNaN(amount) || amount <= 0) {
+                // Show error in modal
+                const display = document.getElementById('amountDisplay');
+                if (display) {
+                    display.style.color = '#e74c3c';
+                    setTimeout(() => {
+                        display.style.color = '#2c3e50';
+                    }, 500);
+                }
+                return;
+            }
+
+            const amountCents = Math.round(amount * 100); // Convert to cents
+
+            // Reset amount for next time
+            currentAmount = '';
+
+            try {
+                // Show loading in modal
+                showPaymentModal('Generating Invoice...', '<div style="text-align: center; padding: 40px;"><i class="fas fa-spinner fa-spin fa-3x" style="color: #f39c12;"></i></div>');
+
+                // Step 1: Get wallet ID from username
+                const walletId = await getWalletIdFromUsername(flashpoint.username);
+
+                if (!walletId) {
+                    throw new Error('Could not find wallet for this flashpoint');
                 }
 
-                // Amount input handling
-                let currentAmount = '';
+                // Step 2: Create invoice
+                const invoice = await createInvoice(walletId, amountCents);
 
-                function appendDigit(digit) {
-                    // Prevent multiple decimal points
-                    if (digit === '.' && currentAmount.includes('.')) {
-                        return;
-                    }
-
-                    // Limit to 2 decimal places
-                    if (currentAmount.includes('.')) {
-                        const decimalPart = currentAmount.split('.')[1];
-                        if (decimalPart && decimalPart.length >= 2) {
-                            return;
-                        }
-                    }
-
-                    currentAmount += digit;
-                    updateAmountDisplay();
+                if (!invoice || !invoice.paymentRequest) {
+                    throw new Error('Failed to create invoice');
                 }
 
-                function deleteDigit() {
-                    currentAmount = currentAmount.slice(0, -1);
-                    updateAmountDisplay();
-                }
+                currentInvoice = invoice;
 
-                function updateAmountDisplay() {
-                    const display = document.getElementById('amountDisplay');
-                    if (display) {
-                        display.textContent = currentAmount || '0.00';
-                    }
-                }
+                // Step 3: Display QR code and start timer
+                displayInvoiceQR(invoice, amount, flashpoint);
 
-                async function submitAmount(flashpointId) {
-                    const flashpoint = flashpointMap.get(flashpointId);
-                    if (!flashpoint) {
-                        return;
-                    }
+                // Step 4: Start WebSocket subscription for payment status
+                subscribeToPaymentStatus(invoice.paymentRequest, flashpoint, amount);
 
-                    const amount = parseFloat(currentAmount);
+                // Step 5: Also start polling as a fallback
+                startPaymentPolling(invoice.paymentRequest, flashpoint, amount);
 
-                    if (!currentAmount || isNaN(amount) || amount <= 0) {
-                        // Show error in modal
-                        const display = document.getElementById('amountDisplay');
-                        if (display) {
-                            display.style.color = '#e74c3c';
-                            setTimeout(() => {
-                                display.style.color = '#2c3e50';
-                            }, 500);
-                        }
-                        return;
-                    }
-
-                    const amountCents = Math.round(amount * 100); // Convert to cents
-
-                    // Reset amount for next time
-                    currentAmount = '';
-
-                    try {
-                        // Show loading in modal
-                        showPaymentModal('Generating Invoice...', '<div style="text-align: center; padding: 40px;"><i class="fas fa-spinner fa-spin fa-3x" style="color: #f39c12;"></i></div>');
-
-                        // Step 1: Get wallet ID from username
-                        const walletId = await getWalletIdFromUsername(flashpoint.username);
-
-                        if (!walletId) {
-                            throw new Error('Could not find wallet for this flashpoint');
-                        }
-
-                        // Step 2: Create invoice
-                        const invoice = await createInvoice(walletId, amountCents);
-
-                        if (!invoice || !invoice.paymentRequest) {
-                            throw new Error('Failed to create invoice');
-                        }
-
-                        currentInvoice = invoice;
-
-                        // Step 3: Display QR code and start timer
-                        displayInvoiceQR(invoice, amount, flashpoint);
-
-                        // Step 4: Start WebSocket subscription for payment status
-                        subscribeToPaymentStatus(invoice.paymentRequest, flashpoint, amount);
-
-                        // Step 5: Also start polling as a fallback
-                        startPaymentPolling(invoice.paymentRequest, flashpoint, amount);
-
-                    } catch (error) {
-                        console.error('Payment error:', error);
-                        showPaymentModal('Payment Error', `
+            } catch (error) {
+                console.error('Payment error:', error);
+                showPaymentModal('Payment Error', `
                             <div style="text-align: center; padding: 20px;">
                                 <i class="fas fa-exclamation-triangle" style="color: #e74c3c; font-size: 48px; margin-bottom: 16px;"></i>
                                 <p style="color: #e74c3c; font-size: 16px;">${error.message}</p>
                                 <button class="filter-btn" onclick="closePaymentModal()" style="margin-top: 20px;">Close</button>
                             </div>
                         `);
-                    }
-                }
+            }
+        }
 
-                // Get wallet ID from username using GraphQL query
-                async function getWalletIdFromUsername(username) {
-                    const { httpUrl } = getApiUrls();
+        // Get wallet ID from username using GraphQL query
+        async function getWalletIdFromUsername(username) {
+            const { httpUrl } = getApiUrls();
 
-                    const response = await fetch(httpUrl, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({
-                            query: `
+            const response = await fetch(httpUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    query: `
                                 query accountDefaultWallet($username: Username!) {
                                     accountDefaultWallet(username: $username) {
                                         __typename
@@ -1126,32 +1212,32 @@
                                     }
                                 }
                             `,
-                            variables: {
-                                username: username
-                            }
-                        })
-                    });
-
-                    const data = await response.json();
-
-                    if (data.errors) {
-                        throw new Error(data.errors[0].message);
+                    variables: {
+                        username: username
                     }
+                })
+            });
 
-                    return data.data?.accountDefaultWallet?.id;
-                }
+            const data = await response.json();
 
-                // Create invoice using GraphQL mutation
-                async function createInvoice(walletId, amountCents) {
-                    const { httpUrl } = getApiUrls();
+            if (data.errors) {
+                throw new Error(data.errors[0].message);
+            }
 
-                    const response = await fetch(httpUrl, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({
-                            query: `
+            return data.data?.accountDefaultWallet?.id;
+        }
+
+        // Create invoice using GraphQL mutation
+        async function createInvoice(walletId, amountCents) {
+            const { httpUrl } = getApiUrls();
+
+            const response = await fetch(httpUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    query: `
                                 mutation lnUsdInvoiceCreateOnBehalfOfRecipient($input: LnUsdInvoiceCreateOnBehalfOfRecipientInput!) {
                                     lnUsdInvoiceCreateOnBehalfOfRecipient(input: $input) {
                                         errors {
@@ -1169,37 +1255,37 @@
                                     }
                                 }
                             `,
-                            variables: {
-                                input: {
-                                    recipientWalletId: walletId,
-                                    amount: amountCents,
-                                    memo: "Flash Map Payment"
-                                }
-                            }
-                        })
-                    });
-
-                    const data = await response.json();
-
-                    if (data.errors) {
-                        throw new Error(data.errors[0].message);
+                    variables: {
+                        input: {
+                            recipientWalletId: walletId,
+                            amount: amountCents,
+                            memo: "Flash Map Payment"
+                        }
                     }
+                })
+            });
 
-                    const result = data.data?.lnUsdInvoiceCreateOnBehalfOfRecipient;
+            const data = await response.json();
 
-                    if (result?.errors && result.errors.length > 0) {
-                        throw new Error(result.errors[0].message);
-                    }
+            if (data.errors) {
+                throw new Error(data.errors[0].message);
+            }
 
-                    return result?.invoice;
-                }
+            const result = data.data?.lnUsdInvoiceCreateOnBehalfOfRecipient;
 
-                // Display invoice QR code in modal
-                function displayInvoiceQR(invoice, amount, flashpoint) {
-                    const expiryTime = 600; // 10 minutes in seconds
-                    let timeRemaining = expiryTime;
+            if (result?.errors && result.errors.length > 0) {
+                throw new Error(result.errors[0].message);
+            }
 
-                    const modalBody = `
+            return result?.invoice;
+        }
+
+        // Display invoice QR code in modal
+        function displayInvoiceQR(invoice, amount, flashpoint) {
+            const expiryTime = 600; // 10 minutes in seconds
+            let timeRemaining = expiryTime;
+
+            const modalBody = `
                         <div style="text-align: center;">
                             <div class="payment-amount">$${amount.toFixed(2)} USD</div>
                             ${invoice.satoshis ? `
@@ -1224,82 +1310,82 @@
                         </div>
                     `;
 
-                    showPaymentModal('Scan to Pay', modalBody);
+            showPaymentModal('Scan to Pay', modalBody);
 
-                    // Generate QR code
-                    const qrContainer = document.getElementById('qrCodeContainer');
-                    qrContainer.innerHTML = ''; // Clear any existing QR code
-                    new QRCode(qrContainer, {
-                        text: invoice.paymentRequest.toLowerCase(), // Lightning invoices should be lowercase
-                        width: 280,
-                        height: 280,
-                        colorDark: "#000000",
-                        colorLight: "#ffffff",
-                        correctLevel: QRCode.CorrectLevel.M
-                    });
+            // Generate QR code
+            const qrContainer = document.getElementById('qrCodeContainer');
+            qrContainer.innerHTML = ''; // Clear any existing QR code
+            new QRCode(qrContainer, {
+                text: invoice.paymentRequest.toLowerCase(), // Lightning invoices should be lowercase
+                width: 280,
+                height: 280,
+                colorDark: "#000000",
+                colorLight: "#ffffff",
+                correctLevel: QRCode.CorrectLevel.M
+            });
 
-                    // Start countdown timer
-                    paymentTimer = setInterval(() => {
-                        timeRemaining--;
-                        const timerElement = document.getElementById('paymentTimer');
-                        if (timerElement) {
-                            timerElement.innerHTML = `<i class="fas fa-clock"></i> Expires in ${formatTime(timeRemaining)}`;
-                        }
+            // Start countdown timer
+            paymentTimer = setInterval(() => {
+                timeRemaining--;
+                const timerElement = document.getElementById('paymentTimer');
+                if (timerElement) {
+                    timerElement.innerHTML = `<i class="fas fa-clock"></i> Expires in ${formatTime(timeRemaining)}`;
+                }
 
-                        if (timeRemaining <= 0) {
-                            clearInterval(paymentTimer);
-                            if (paymentWebSocket) {
-                                paymentWebSocket.close();
-                            }
-                            showPaymentModal('Invoice Expired', `
+                if (timeRemaining <= 0) {
+                    clearInterval(paymentTimer);
+                    if (paymentWebSocket) {
+                        paymentWebSocket.close();
+                    }
+                    showPaymentModal('Invoice Expired', `
                                 <div style="text-align: center; padding: 20px;">
                                     <i class="fas fa-exclamation-circle" style="color: #e74c3c; font-size: 48px; margin-bottom: 16px;"></i>
                                     <p style="color: #e74c3c; font-size: 16px;">This invoice has expired. Please create a new one.</p>
                                     <button class="filter-btn" onclick="closePaymentModal()" style="margin-top: 20px;">Close</button>
                                 </div>
                             `);
-                        }
-                    }, 1000);
                 }
+            }, 1000);
+        }
 
-                // Format time from seconds to MM:SS
-                function formatTime(seconds) {
-                    const mins = Math.floor(seconds / 60);
-                    const secs = seconds % 60;
-                    return `${mins}:${secs.toString().padStart(2, '0')}`;
-                }
+        // Format time from seconds to MM:SS
+        function formatTime(seconds) {
+            const mins = Math.floor(seconds / 60);
+            const secs = seconds % 60;
+            return `${mins}:${secs.toString().padStart(2, '0')}`;
+        }
 
-                // Copy invoice to clipboard
-                function copyInvoice(paymentRequest) {
-                    navigator.clipboard.writeText(paymentRequest).then(() => {
-                        // Show temporary success message
-                        const btn = event.target.closest('button');
-                        const originalHTML = btn.innerHTML;
-                        btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
-                        setTimeout(() => {
-                            btn.innerHTML = originalHTML;
-                        }, 2000);
-                    }).catch(err => {
-                        console.error('Failed to copy:', err);
-                        alert('Failed to copy invoice');
-                    });
-                }
+        // Copy invoice to clipboard
+        function copyInvoice(paymentRequest) {
+            navigator.clipboard.writeText(paymentRequest).then(() => {
+                // Show temporary success message
+                const btn = event.target.closest('button');
+                const originalHTML = btn.innerHTML;
+                btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                setTimeout(() => {
+                    btn.innerHTML = originalHTML;
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy:', err);
+                alert('Failed to copy invoice');
+            });
+        }
 
-                // Poll payment status as fallback
-                async function startPaymentPolling(paymentRequest, flashpoint, amount) {
-                    console.log('Starting payment polling fallback...');
+        // Poll payment status as fallback
+        async function startPaymentPolling(paymentRequest, flashpoint, amount) {
+            console.log('Starting payment polling fallback...');
 
-                    const { httpUrl } = getApiUrls();
+            const { httpUrl } = getApiUrls();
 
-                    paymentPollInterval = setInterval(async () => {
-                        try {
-                            const response = await fetch(httpUrl, {
-                                method: 'POST',
-                                headers: {
-                                    'Content-Type': 'application/json',
-                                },
-                                body: JSON.stringify({
-                                    query: `
+            paymentPollInterval = setInterval(async () => {
+                try {
+                    const response = await fetch(httpUrl, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            query: `
                                         query lnInvoicePaymentStatus($input: LnInvoicePaymentStatusInput!) {
                                             lnInvoicePaymentStatus(input: $input) {
                                                 __typename
@@ -1311,63 +1397,63 @@
                                             }
                                         }
                                     `,
-                                    variables: {
-                                        input: {
-                                            paymentRequest: paymentRequest
-                                        }
-                                    }
-                                })
-                            });
-
-                            const data = await response.json();
-                            console.log('Polling response:', data);
-
-                            const status = data.data?.lnInvoicePaymentStatus?.status;
-
-                            if (status === 'PAID') {
-                                console.log('Payment confirmed via polling!');
-                                clearInterval(paymentPollInterval);
-                                handlePaymentSuccess(flashpoint, amount, currentInvoice);
+                            variables: {
+                                input: {
+                                    paymentRequest: paymentRequest
+                                }
                             }
-                        } catch (error) {
-                            console.error('Polling error:', error);
-                        }
-                    }, 2000); // Poll every 2 seconds
+                        })
+                    });
+
+                    const data = await response.json();
+                    console.log('Polling response:', data);
+
+                    const status = data.data?.lnInvoicePaymentStatus?.status;
+
+                    if (status === 'PAID') {
+                        console.log('Payment confirmed via polling!');
+                        clearInterval(paymentPollInterval);
+                        handlePaymentSuccess(flashpoint, amount, currentInvoice);
+                    }
+                } catch (error) {
+                    console.error('Polling error:', error);
                 }
+            }, 2000); // Poll every 2 seconds
+        }
 
-                // Subscribe to payment status via WebSocket
-                function subscribeToPaymentStatus(paymentRequest, flashpoint, amount) {
-                    const { wsUrl } = getApiUrls();
+        // Subscribe to payment status via WebSocket
+        function subscribeToPaymentStatus(paymentRequest, flashpoint, amount) {
+            const { wsUrl } = getApiUrls();
 
-                    console.log('Connecting to WebSocket:', wsUrl);
+            console.log('Connecting to WebSocket:', wsUrl);
 
-                    // Create WebSocket connection with graphql-ws subprotocol
-                    paymentWebSocket = new WebSocket(wsUrl, 'graphql-ws');
+            // Create WebSocket connection with graphql-ws subprotocol
+            paymentWebSocket = new WebSocket(wsUrl, 'graphql-ws');
 
-                    paymentWebSocket.onopen = () => {
-                        console.log('WebSocket connected successfully');
+            paymentWebSocket.onopen = () => {
+                console.log('WebSocket connected successfully');
 
-                        // Send connection init message (graphql-ws protocol)
-                        const initMessage = {
-                            type: 'connection_init',
-                            payload: {}
-                        };
-                        console.log('Sending init:', initMessage);
-                        paymentWebSocket.send(JSON.stringify(initMessage));
-                    };
+                // Send connection init message (graphql-ws protocol)
+                const initMessage = {
+                    type: 'connection_init',
+                    payload: {}
+                };
+                console.log('Sending init:', initMessage);
+                paymentWebSocket.send(JSON.stringify(initMessage));
+            };
 
-                    paymentWebSocket.onmessage = (event) => {
-                        const message = JSON.parse(event.data);
-                        console.log('WebSocket message received:', message);
+            paymentWebSocket.onmessage = (event) => {
+                const message = JSON.parse(event.data);
+                console.log('WebSocket message received:', message);
 
-                        if (message.type === 'connection_ack') {
-                            console.log('Connection acknowledged, subscribing to payment status...');
-                            // Connection acknowledged, now subscribe to payment status
-                            const subscribeMessage = {
-                                id: '1',
-                                type: 'start',
-                                payload: {
-                                    query: `
+                if (message.type === 'connection_ack') {
+                    console.log('Connection acknowledged, subscribing to payment status...');
+                    // Connection acknowledged, now subscribe to payment status
+                    const subscribeMessage = {
+                        id: '1',
+                        type: 'start',
+                        payload: {
+                            query: `
                                         subscription lnInvoicePaymentStatus($input: LnInvoicePaymentStatusInput!) {
                                             lnInvoicePaymentStatus(input: $input) {
                                                 __typename
@@ -1379,70 +1465,70 @@
                                             }
                                         }
                                     `,
-                                    variables: {
-                                        input: {
-                                            paymentRequest: paymentRequest
-                                        }
-                                    }
+                            variables: {
+                                input: {
+                                    paymentRequest: paymentRequest
                                 }
-                            };
-                            console.log('Sending subscription:', subscribeMessage);
-                            paymentWebSocket.send(JSON.stringify(subscribeMessage));
-                        } else if (message.type === 'data') {
-                            // Payment status update
-                            console.log('Payment status data:', message.payload);
-                            const status = message.payload?.data?.lnInvoicePaymentStatus?.status;
-                            const errors = message.payload?.data?.lnInvoicePaymentStatus?.errors;
-
-                            console.log('Payment status:', status);
-
-                            if (status === 'PAID') {
-                                console.log('Payment confirmed! Showing success modal...');
-                                handlePaymentSuccess(flashpoint, amount, currentInvoice);
-                            } else if (errors && errors.length > 0) {
-                                console.error('Payment error:', errors);
                             }
-                        } else if (message.type === 'error') {
-                            console.error('WebSocket subscription error:', message);
                         }
                     };
+                    console.log('Sending subscription:', subscribeMessage);
+                    paymentWebSocket.send(JSON.stringify(subscribeMessage));
+                } else if (message.type === 'data') {
+                    // Payment status update
+                    console.log('Payment status data:', message.payload);
+                    const status = message.payload?.data?.lnInvoicePaymentStatus?.status;
+                    const errors = message.payload?.data?.lnInvoicePaymentStatus?.errors;
 
-                    paymentWebSocket.onerror = (error) => {
-                        console.error('WebSocket error:', error);
-                    };
+                    console.log('Payment status:', status);
 
-                    paymentWebSocket.onclose = (event) => {
-                        console.log('WebSocket disconnected:', event.code, event.reason);
-                    };
+                    if (status === 'PAID') {
+                        console.log('Payment confirmed! Showing success modal...');
+                        handlePaymentSuccess(flashpoint, amount, currentInvoice);
+                    } else if (errors && errors.length > 0) {
+                        console.error('Payment error:', errors);
+                    }
+                } else if (message.type === 'error') {
+                    console.error('WebSocket subscription error:', message);
                 }
+            };
 
-                // Handle successful payment
-                function handlePaymentSuccess(flashpoint, amount, invoice) {
-                    console.log('handlePaymentSuccess called with:', { flashpoint, amount, invoice });
+            paymentWebSocket.onerror = (error) => {
+                console.error('WebSocket error:', error);
+            };
 
-                    // Clear timer and close WebSocket
-                    if (paymentTimer) {
-                        clearInterval(paymentTimer);
-                        paymentTimer = null;
-                    }
-                    if (paymentWebSocket) {
-                        paymentWebSocket.close();
-                        paymentWebSocket = null;
-                    }
-                    if (paymentPollInterval) {
-                        clearInterval(paymentPollInterval);
-                        paymentPollInterval = null;
-                    }
+            paymentWebSocket.onclose = (event) => {
+                console.log('WebSocket disconnected:', event.code, event.reason);
+            };
+        }
 
-                    // Close payment modal
-                    closePaymentModal();
+        // Handle successful payment
+        function handlePaymentSuccess(flashpoint, amount, invoice) {
+            console.log('handlePaymentSuccess called with:', { flashpoint, amount, invoice });
 
-                    // Show success modal
-                    // Check if flashpoint has custom instructions
-                    const customInstructions = flashpoint.customInstructions || '';
-                    const hasCustomInstructions = customInstructions && customInstructions.trim() !== '';
+            // Clear timer and close WebSocket
+            if (paymentTimer) {
+                clearInterval(paymentTimer);
+                paymentTimer = null;
+            }
+            if (paymentWebSocket) {
+                paymentWebSocket.close();
+                paymentWebSocket = null;
+            }
+            if (paymentPollInterval) {
+                clearInterval(paymentPollInterval);
+                paymentPollInterval = null;
+            }
 
-                    const successBody = `
+            // Close payment modal
+            closePaymentModal();
+
+            // Show success modal
+            // Check if flashpoint has custom instructions
+            const customInstructions = flashpoint.customInstructions || '';
+            const hasCustomInstructions = customInstructions && customInstructions.trim() !== '';
+
+            const successBody = `
                         <div class="payment-details" style="text-align: center; padding: 20px;">
                             <div style="font-size: 48px; color: #27ae60; margin-bottom: 20px;">
                                 <i class="fas fa-check-circle"></i>
@@ -1478,304 +1564,304 @@
                         </div>
                     `;
 
-                    document.getElementById('successModalBody').innerHTML = successBody;
-                    document.getElementById('successModal').style.display = 'flex';
-                }
+            document.getElementById('successModalBody').innerHTML = successBody;
+            document.getElementById('successModal').style.display = 'flex';
+        }
 
-                // Show payment modal
-                function showPaymentModal(title, body) {
-                    document.getElementById('paymentModalTitle').textContent = title;
-                    document.getElementById('paymentModalBody').innerHTML = body;
-                    document.getElementById('paymentModal').style.display = 'flex';
-                }
+        // Show payment modal
+        function showPaymentModal(title, body) {
+            document.getElementById('paymentModalTitle').textContent = title;
+            document.getElementById('paymentModalBody').innerHTML = body;
+            document.getElementById('paymentModal').style.display = 'flex';
+        }
 
-                // Close payment modal
-                function closePaymentModal() {
-                    document.getElementById('paymentModal').style.display = 'none';
-                    if (paymentTimer) {
-                        clearInterval(paymentTimer);
-                        paymentTimer = null;
-                    }
-                    if (paymentWebSocket) {
-                        paymentWebSocket.close();
-                        paymentWebSocket = null;
-                    }
-                    if (paymentPollInterval) {
-                        clearInterval(paymentPollInterval);
-                        paymentPollInterval = null;
-                    }
-                }
+        // Close payment modal
+        function closePaymentModal() {
+            document.getElementById('paymentModal').style.display = 'none';
+            if (paymentTimer) {
+                clearInterval(paymentTimer);
+                paymentTimer = null;
+            }
+            if (paymentWebSocket) {
+                paymentWebSocket.close();
+                paymentWebSocket = null;
+            }
+            if (paymentPollInterval) {
+                clearInterval(paymentPollInterval);
+                paymentPollInterval = null;
+            }
+        }
 
-                // Close success modal
-                function closeSuccessModal() {
-                    document.getElementById('successModal').style.display = 'none';
-                }
+        // Close success modal
+        function closeSuccessModal() {
+            document.getElementById('successModal').style.display = 'none';
+        }
 
-                // Close modals when clicking outside
-                window.onclick = function(event) {
-                    const paymentModal = document.getElementById('paymentModal');
-                    const successModal = document.getElementById('successModal');
+        // Close modals when clicking outside
+        window.onclick = function (event) {
+            const paymentModal = document.getElementById('paymentModal');
+            const successModal = document.getElementById('successModal');
 
-                    if (event.target === paymentModal) {
-                        closePaymentModal();
-                    }
-                    if (event.target === successModal) {
-                        closeSuccessModal();
-                    }
-                }
+            if (event.target === paymentModal) {
+                closePaymentModal();
+            }
+            if (event.target === successModal) {
+                closeSuccessModal();
+            }
+        }
 
-                // ==================== Nostr Chat Functionality ====================
+        // ==================== Nostr Chat Functionality ====================
 
-                let currentChatFlashpoint = null;
-                let ephemeralKeys = null;
-                let recipientNpub = null;
-                let ephemeralDisplayName = null;
-                let messageSubscription = null;
+        let currentChatFlashpoint = null;
+        let ephemeralKeys = null;
+        let recipientNpub = null;
+        let ephemeralDisplayName = null;
+        let messageSubscription = null;
 
-                // Nostr relay list - verified working relays for messaging
-                const NOSTR_RELAYS = [
-                    "wss://relay.damus.io",         // Popular, reliable relay
-                    "wss://relay.primal.net",       // High-performance relay
-                    "wss://relay.snort.social",     // Popular social relay
-                    "wss://nostr.mom",              // Open, reliable relay
-                    "wss://relay.nostr.bg",         // EU-based relay
-                    "wss://nostr.land",             // Open messaging relay
-                    "wss://relay.current.fyi",      // Bitcoin-focused relay
-                    "wss://nostr-pub.wellorder.net" // Public relay
-                ];
+        // Nostr relay list - verified working relays for messaging
+        const NOSTR_RELAYS = [
+            "wss://relay.damus.io",         // Popular, reliable relay
+            "wss://relay.primal.net",       // High-performance relay
+            "wss://relay.snort.social",     // Popular social relay
+            "wss://nostr.mom",              // Open, reliable relay
+            "wss://relay.nostr.bg",         // EU-based relay
+            "wss://nostr.land",             // Open messaging relay
+            "wss://relay.current.fyi",      // Bitcoin-focused relay
+            "wss://nostr-pub.wellorder.net" // Public relay
+        ];
 
-                // NIP-17 Helper Functions (from flash-mobile)
-                const now = () => Math.round(Date.now() / 1000);
+        // NIP-17 Helper Functions (from flash-mobile)
+        const now = () => Math.round(Date.now() / 1000);
 
-                function bytesToHex(bytes) {
-                    return Array.from(bytes)
-                        .map(b => b.toString(16).padStart(2, '0'))
-                        .join('');
-                }
+        function bytesToHex(bytes) {
+            return Array.from(bytes)
+                .map(b => b.toString(16).padStart(2, '0'))
+                .join('');
+        }
 
-                function createRumor(message, privateKey, recipientPubkey) {
-                    const rumor = {
-                        created_at: now(),
-                        content: message,
-                        tags: [["p", recipientPubkey]],
-                        kind: 14,
-                        pubkey: window.NostrTools.getPublicKey(privateKey),
-                    };
-                    rumor.id = window.NostrTools.getEventHash(rumor);
-                    return rumor;
-                }
+        function createRumor(message, privateKey, recipientPubkey) {
+            const rumor = {
+                created_at: now(),
+                content: message,
+                tags: [["p", recipientPubkey]],
+                kind: 14,
+                pubkey: window.NostrTools.getPublicKey(privateKey),
+            };
+            rumor.id = window.NostrTools.getEventHash(rumor);
+            return rumor;
+        }
 
-                function encryptNip44Message(privateKey, message, receiverPublicKey) {
-                    const conversationKey = window.NostrTools.nip44.v2.utils.getConversationKey(
-                        bytesToHex(privateKey),
-                        receiverPublicKey
-                    );
-                    const ciphertext = window.NostrTools.nip44.v2.encrypt(message, conversationKey);
-                    return ciphertext;
-                }
+        function encryptNip44Message(privateKey, message, receiverPublicKey) {
+            const conversationKey = window.NostrTools.nip44.v2.utils.getConversationKey(
+                bytesToHex(privateKey),
+                receiverPublicKey
+            );
+            const ciphertext = window.NostrTools.nip44.v2.encrypt(message, conversationKey);
+            return ciphertext;
+        }
 
-                function decryptNip44Message(cipher, publicKey, privateKey) {
-                    const conversationKey = window.NostrTools.nip44.v2.utils.getConversationKey(
-                        bytesToHex(privateKey),
-                        publicKey
-                    );
-                    const message = window.NostrTools.nip44.v2.decrypt(cipher, conversationKey);
-                    return message;
-                }
+        function decryptNip44Message(cipher, publicKey, privateKey) {
+            const conversationKey = window.NostrTools.nip44.v2.utils.getConversationKey(
+                bytesToHex(privateKey),
+                publicKey
+            );
+            const message = window.NostrTools.nip44.v2.decrypt(cipher, conversationKey);
+            return message;
+        }
 
-                function getRumorFromWrap(wrapEvent, privateKey) {
-                    // Decrypt wrap to get seal
-                    const sealString = decryptNip44Message(wrapEvent.content, wrapEvent.pubkey, privateKey);
-                    const seal = JSON.parse(sealString);
+        function getRumorFromWrap(wrapEvent, privateKey) {
+            // Decrypt wrap to get seal
+            const sealString = decryptNip44Message(wrapEvent.content, wrapEvent.pubkey, privateKey);
+            const seal = JSON.parse(sealString);
 
-                    // Decrypt seal to get rumor
-                    const rumorString = decryptNip44Message(seal.content, seal.pubkey, privateKey);
-                    const rumor = JSON.parse(rumorString);
+            // Decrypt seal to get rumor
+            const rumorString = decryptNip44Message(seal.content, seal.pubkey, privateKey);
+            const rumor = JSON.parse(rumorString);
 
-                    return rumor;
-                }
+            return rumor;
+        }
 
-                function createSeal(rumor, privateKey, recipientPublicKey) {
-                    return window.NostrTools.finalizeEvent(
-                        {
-                            kind: 13,
-                            content: encryptNip44Message(privateKey, JSON.stringify(rumor), recipientPublicKey),
-                            created_at: now(),
-                            tags: [],
-                        },
-                        privateKey
-                    );
-                }
+        function createSeal(rumor, privateKey, recipientPublicKey) {
+            return window.NostrTools.finalizeEvent(
+                {
+                    kind: 13,
+                    content: encryptNip44Message(privateKey, JSON.stringify(rumor), recipientPublicKey),
+                    created_at: now(),
+                    tags: [],
+                },
+                privateKey
+            );
+        }
 
-                function createWrap(sealEvent, recipientPublicKey) {
-                    const randomKey = window.NostrTools.generateSecretKey();
-                    return window.NostrTools.finalizeEvent(
-                        {
-                            kind: 1059,
-                            content: encryptNip44Message(randomKey, JSON.stringify(sealEvent), recipientPublicKey),
-                            created_at: now(),
-                            tags: [["p", recipientPublicKey]],
-                        },
-                        randomKey
-                    );
-                }
+        function createWrap(sealEvent, recipientPublicKey) {
+            const randomKey = window.NostrTools.generateSecretKey();
+            return window.NostrTools.finalizeEvent(
+                {
+                    kind: 1059,
+                    content: encryptNip44Message(randomKey, JSON.stringify(sealEvent), recipientPublicKey),
+                    created_at: now(),
+                    tags: [["p", recipientPublicKey]],
+                },
+                randomKey
+            );
+        }
 
-                async function publishToRelay(relayUrl, event) {
-                    try {
-                        const relay = await window.NostrTools.Relay.connect(relayUrl);
-                        await relay.publish(event);
-                        relay.close();
-                        console.log(`✓ Published to ${relayUrl}`);
-                        return true;
-                    } catch (error) {
-                        console.warn(`✗ Failed to publish to ${relayUrl}:`, error.message);
-                        return false;
-                    }
-                }
+        async function publishToRelay(relayUrl, event) {
+            try {
+                const relay = await window.NostrTools.Relay.connect(relayUrl);
+                await relay.publish(event);
+                relay.close();
+                console.log(`✓ Published to ${relayUrl}`);
+                return true;
+            } catch (error) {
+                console.warn(`✗ Failed to publish to ${relayUrl}:`, error.message);
+                return false;
+            }
+        }
 
-                async function publishNip17Message(message, recipientNpub) {
-                    if (!ephemeralKeys) {
-                        throw new Error('Ephemeral keys not generated');
-                    }
+        async function publishNip17Message(message, recipientNpub) {
+            if (!ephemeralKeys) {
+                throw new Error('Ephemeral keys not generated');
+            }
 
-                    // Decode npub to hex pubkey
-                    const decoded = window.NostrTools.nip19.decode(recipientNpub);
-                    const recipientPubkey = decoded.data;
+            // Decode npub to hex pubkey
+            const decoded = window.NostrTools.nip19.decode(recipientNpub);
+            const recipientPubkey = decoded.data;
 
-                    // Create rumor (the actual message)
-                    const rumor = createRumor(message, ephemeralKeys.secretKey, recipientPubkey);
-                    console.log('Created rumor:', rumor);
+            // Create rumor (the actual message)
+            const rumor = createRumor(message, ephemeralKeys.secretKey, recipientPubkey);
+            console.log('Created rumor:', rumor);
 
-                    // Create seal (encrypted rumor)
-                    const seal = createSeal(rumor, ephemeralKeys.secretKey, recipientPubkey);
-                    console.log('Created seal');
+            // Create seal (encrypted rumor)
+            const seal = createSeal(rumor, ephemeralKeys.secretKey, recipientPubkey);
+            console.log('Created seal');
 
-                    // Create wrap (gift wrap with random key)
-                    const wrap = createWrap(seal, recipientPubkey);
-                    console.log('Created wrap');
+            // Create wrap (gift wrap with random key)
+            const wrap = createWrap(seal, recipientPubkey);
+            console.log('Created wrap');
 
-                    // Publish to all relays
-                    const results = await Promise.allSettled(
-                        NOSTR_RELAYS.map(relay => publishToRelay(relay, wrap))
-                    );
+            // Publish to all relays
+            const results = await Promise.allSettled(
+                NOSTR_RELAYS.map(relay => publishToRelay(relay, wrap))
+            );
 
-                    const successCount = results.filter(r => r.status === 'fulfilled' && r.value).length;
-                    console.log(`Published to ${successCount}/${NOSTR_RELAYS.length} relays`);
+            const successCount = results.filter(r => r.status === 'fulfilled' && r.value).length;
+            console.log(`Published to ${successCount}/${NOSTR_RELAYS.length} relays`);
 
-                    return rumor;
-                }
+            return rumor;
+        }
 
-                async function publishProfile(displayName) {
-                    if (!ephemeralKeys) {
-                        throw new Error('Ephemeral keys not generated');
-                    }
+        async function publishProfile(displayName) {
+            if (!ephemeralKeys) {
+                throw new Error('Ephemeral keys not generated');
+            }
 
-                    const profileContent = JSON.stringify({
-                        name: displayName,
-                        about: "Messaging from Flash website",
-                        display_name: displayName
-                    });
+            const profileContent = JSON.stringify({
+                name: displayName,
+                about: "Messaging from Flash website",
+                display_name: displayName
+            });
 
-                    const profileEvent = window.NostrTools.finalizeEvent(
-                        {
-                            kind: 0,
-                            content: profileContent,
-                            tags: [],
-                            created_at: now(),
-                        },
-                        ephemeralKeys.secretKey
-                    );
+            const profileEvent = window.NostrTools.finalizeEvent(
+                {
+                    kind: 0,
+                    content: profileContent,
+                    tags: [],
+                    created_at: now(),
+                },
+                ephemeralKeys.secretKey
+            );
 
-                    // Publish to relays
-                    await Promise.allSettled(
-                        NOSTR_RELAYS.map(relay => publishToRelay(relay, profileEvent))
-                    );
+            // Publish to relays
+            await Promise.allSettled(
+                NOSTR_RELAYS.map(relay => publishToRelay(relay, profileEvent))
+            );
 
-                    console.log('Published profile:', displayName);
-                }
+            console.log('Published profile:', displayName);
+        }
 
-                // Subscribe to incoming messages
-                async function subscribeToMessages() {
-                    if (!ephemeralKeys) {
-                        console.error('Cannot subscribe: no ephemeral keys');
-                        return;
-                    }
+        // Subscribe to incoming messages
+        async function subscribeToMessages() {
+            if (!ephemeralKeys) {
+                console.error('Cannot subscribe: no ephemeral keys');
+                return;
+            }
 
-                    // Note: getPublicKey() already returns a hex string, no need to convert
-                    const publicKey = ephemeralKeys.publicKey;
-                    console.log('Subscribing to messages for pubkey:', publicKey);
+            // Note: getPublicKey() already returns a hex string, no need to convert
+            const publicKey = ephemeralKeys.publicKey;
+            console.log('Subscribing to messages for pubkey:', publicKey);
 
-                    // Create subscription pool
-                    const pool = new window.NostrTools.SimplePool();
+            // Create subscription pool
+            const pool = new window.NostrTools.SimplePool();
 
-                    // Subscribe to gift wraps (kind 1059) addressed to us
-                    const filter = {
-                        kinds: [1059],
-                        '#p': [publicKey],
-                        limit: 50
-                    };
+            // Subscribe to gift wraps (kind 1059) addressed to us
+            const filter = {
+                kinds: [1059],
+                '#p': [publicKey],
+                limit: 50
+            };
 
-                    messageSubscription = pool.subscribeMany(
-                        NOSTR_RELAYS,
-                        [filter],
-                        {
-                            onevent: (event) => {
-                                console.log('Received gift wrap event:', event);
-                                try {
-                                    const rumor = getRumorFromWrap(event, ephemeralKeys.secretKey);
-                                    console.log('Decrypted rumor:', rumor);
-                                    displayReceivedMessage(rumor);
-                                } catch (error) {
-                                    console.error('Failed to decrypt message:', error);
-                                }
-                            },
-                            oneose: () => {
-                                console.log('Subscription EOSE received');
-                            }
+            messageSubscription = pool.subscribeMany(
+                NOSTR_RELAYS,
+                [filter],
+                {
+                    onevent: (event) => {
+                        console.log('Received gift wrap event:', event);
+                        try {
+                            const rumor = getRumorFromWrap(event, ephemeralKeys.secretKey);
+                            console.log('Decrypted rumor:', rumor);
+                            displayReceivedMessage(rumor);
+                        } catch (error) {
+                            console.error('Failed to decrypt message:', error);
                         }
-                    );
-
-                    console.log('✓ Subscribed to incoming messages');
-                }
-
-                // Display received message in chat UI
-                function displayReceivedMessage(rumor) {
-                    const messagesContainer = document.getElementById('chatMessages');
-                    if (!messagesContainer) return;
-
-                    // Remove welcome message if present
-                    const welcomeMsg = messagesContainer.querySelector('.chat-welcome');
-                    if (welcomeMsg) {
-                        messagesContainer.innerHTML = '';
+                    },
+                    oneose: () => {
+                        console.log('Subscription EOSE received');
                     }
+                }
+            );
 
-                    // Create message element
-                    const messageEl = document.createElement('div');
-                    messageEl.className = 'chat-message received';
-                    const timestamp = new Date(rumor.created_at * 1000);
-                    messageEl.innerHTML = `
+            console.log('✓ Subscribed to incoming messages');
+        }
+
+        // Display received message in chat UI
+        function displayReceivedMessage(rumor) {
+            const messagesContainer = document.getElementById('chatMessages');
+            if (!messagesContainer) return;
+
+            // Remove welcome message if present
+            const welcomeMsg = messagesContainer.querySelector('.chat-welcome');
+            if (welcomeMsg) {
+                messagesContainer.innerHTML = '';
+            }
+
+            // Create message element
+            const messageEl = document.createElement('div');
+            messageEl.className = 'chat-message received';
+            const timestamp = new Date(rumor.created_at * 1000);
+            messageEl.innerHTML = `
                         <div class="message-content">${escapeHtml(rumor.content)}</div>
                         <div class="message-time">${timestamp.toLocaleTimeString()}</div>
                     `;
-                    messagesContainer.appendChild(messageEl);
-                    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            messagesContainer.appendChild(messageEl);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
 
-                    console.log('✓ Displayed received message');
-                }
+            console.log('✓ Displayed received message');
+        }
 
-                // Get npub from username using GraphQL query
-                async function getNpubFromUsername(username) {
-                    const { httpUrl } = getApiUrls();
+        // Get npub from username using GraphQL query
+        async function getNpubFromUsername(username) {
+            const { httpUrl } = getApiUrls();
 
-                    console.log('Fetching npub for username:', username);
+            console.log('Fetching npub for username:', username);
 
-                    const response = await fetch(httpUrl, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({
-                            query: `
+            const response = await fetch(httpUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    query: `
                                 query NpubByUsername($username: Username!) {
                                     npubByUsername(username: $username) {
                                         npub
@@ -1783,100 +1869,100 @@
                                     }
                                 }
                             `,
-                            variables: {
-                                username: username
-                            }
-                        })
-                    });
-
-                    const data = await response.json();
-                    console.log('NpubByUsername response:', data);
-                    console.log('Data field:', data.data);
-
-                    // Check if npub exists (whether there are errors or not)
-                    if (!data.data?.npubByUsername?.npub) {
-                        console.warn('No npub found for username:', username);
-                        throw new Error(`This merchant hasn't enabled messaging yet. Try contacting them by phone or visiting their location.`);
+                    variables: {
+                        username: username
                     }
+                })
+            });
 
-                    if (data.errors && data.errors.length > 0) {
-                        console.warn('Got errors but npub exists, proceeding:', data.errors);
-                    }
+            const data = await response.json();
+            console.log('NpubByUsername response:', data);
+            console.log('Data field:', data.data);
 
-                    console.log('Successfully retrieved npub:', data.data.npubByUsername.npub);
-                    return data.data.npubByUsername.npub;
+            // Check if npub exists (whether there are errors or not)
+            if (!data.data?.npubByUsername?.npub) {
+                console.warn('No npub found for username:', username);
+                throw new Error(`This merchant hasn't enabled messaging yet. Try contacting them by phone or visiting their location.`);
+            }
+
+            if (data.errors && data.errors.length > 0) {
+                console.warn('Got errors but npub exists, proceeding:', data.errors);
+            }
+
+            console.log('Successfully retrieved npub:', data.data.npubByUsername.npub);
+            return data.data.npubByUsername.npub;
+        }
+
+        // Handle Message Flashpoint button click
+        async function handleMessageFlashpoint(flashpointId) {
+            // Get the flashpoint - use flashpointId if provided, otherwise use currentFlashpoint
+            let flashpoint;
+            if (flashpointId) {
+                flashpoint = flashpointMap.get(flashpointId);
+                if (!flashpoint) {
+                    alert('Flashpoint not found');
+                    return;
+                }
+            } else {
+                flashpoint = currentFlashpoint;
+            }
+
+            if (!flashpoint) {
+                console.error('No flashpoint selected');
+                return;
+            }
+
+            try {
+                // Show loading in chat
+                document.getElementById('chatMessages').innerHTML = '<div class="chat-loading"><i class="fas fa-spinner fa-spin"></i> Connecting...</div>';
+                document.getElementById('chatRecipientName').textContent = `Chat with ${flashpoint.mapInfo.title}`;
+                document.getElementById('nostrChatContainer').style.display = 'flex';
+
+                // Get npub from username
+                const npub = await getNpubFromUsername(flashpoint.username);
+
+                if (!npub) {
+                    throw new Error('Could not find Nostr profile for this flashpoint');
                 }
 
-                // Handle Message Flashpoint button click
-                async function handleMessageFlashpoint(flashpointId) {
-                    // Get the flashpoint - use flashpointId if provided, otherwise use currentFlashpoint
-                    let flashpoint;
-                    if (flashpointId) {
-                        flashpoint = flashpointMap.get(flashpointId);
-                        if (!flashpoint) {
-                            alert('Flashpoint not found');
-                            return;
-                        }
-                    } else {
-                        flashpoint = currentFlashpoint;
-                    }
+                recipientNpub = npub;
+                currentChatFlashpoint = flashpoint;
 
-                    if (!flashpoint) {
-                        console.error('No flashpoint selected');
-                        return;
-                    }
+                // Generate ephemeral keypair (if not already generated)
+                if (!ephemeralKeys && window.NostrTools) {
+                    const sk = window.NostrTools.generateSecretKey();
+                    const pk = window.NostrTools.getPublicKey(sk);
+                    ephemeralKeys = { secretKey: sk, publicKey: pk };
 
-                    try {
-                        // Show loading in chat
-                        document.getElementById('chatMessages').innerHTML = '<div class="chat-loading"><i class="fas fa-spinner fa-spin"></i> Connecting...</div>';
-                        document.getElementById('chatRecipientName').textContent = `Chat with ${flashpoint.mapInfo.title}`;
-                        document.getElementById('nostrChatContainer').style.display = 'flex';
+                    // Generate random 4-digit visitor number
+                    const visitorNumber = Math.floor(1000 + Math.random() * 9000);
+                    ephemeralDisplayName = `Flash website visitor #${visitorNumber}`;
 
-                        // Get npub from username
-                        const npub = await getNpubFromUsername(flashpoint.username);
+                    console.log('Generated ephemeral keypair for session');
+                    console.log('Display name:', ephemeralDisplayName);
 
-                        if (!npub) {
-                            throw new Error('Could not find Nostr profile for this flashpoint');
-                        }
+                    // Publish profile to relays
+                    await publishProfile(ephemeralDisplayName);
+                }
 
-                        recipientNpub = npub;
-                        currentChatFlashpoint = flashpoint;
+                // Initialize chat
+                initializeChat(npub);
 
-                        // Generate ephemeral keypair (if not already generated)
-                        if (!ephemeralKeys && window.NostrTools) {
-                            const sk = window.NostrTools.generateSecretKey();
-                            const pk = window.NostrTools.getPublicKey(sk);
-                            ephemeralKeys = { secretKey: sk, publicKey: pk };
-
-                            // Generate random 4-digit visitor number
-                            const visitorNumber = Math.floor(1000 + Math.random() * 9000);
-                            ephemeralDisplayName = `Flash website visitor #${visitorNumber}`;
-
-                            console.log('Generated ephemeral keypair for session');
-                            console.log('Display name:', ephemeralDisplayName);
-
-                            // Publish profile to relays
-                            await publishProfile(ephemeralDisplayName);
-                        }
-
-                        // Initialize chat
-                        initializeChat(npub);
-
-                    } catch (error) {
-                        console.error('Chat initialization error:', error);
-                        document.getElementById('chatMessages').innerHTML = `
+            } catch (error) {
+                console.error('Chat initialization error:', error);
+                document.getElementById('chatMessages').innerHTML = `
                             <div style="text-align: center; padding: 20px; color: #e74c3c;">
                                 <i class="fas fa-exclamation-triangle" style="font-size: 32px; margin-bottom: 12px;"></i>
                                 <p>${error.message}</p>
                             </div>
                         `;
-                    }
-                }
+            }
+        }
 
-                // Initialize chat with recipient
-                function initializeChat(npub) {
-                    // Clear loading message
-                    document.getElementById('chatMessages').innerHTML = `
+        // Initialize chat with recipient
+        function initializeChat(npub) {
+            // Clear loading message
+            document.getElementById('chatMessages').innerHTML = `
                         <div class="chat-welcome">
                             <i class="fas fa-comments" style="font-size: 48px; color: #f39c12; margin-bottom: 12px;"></i>
                             <p>Start a conversation with ${currentChatFlashpoint.mapInfo.title}</p>
@@ -1886,100 +1972,109 @@
                         </div>
                     `;
 
-                    // Subscribe to incoming messages
-                    subscribeToMessages();
+            // Subscribe to incoming messages
+            subscribeToMessages();
 
-                    console.log('Chat initialized with npub:', npub);
+            console.log('Chat initialized with npub:', npub);
+        }
+
+        // Send chat message
+        async function sendChatMessage() {
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
+
+            if (!message || !recipientNpub || !ephemeralKeys) {
+                return;
+            }
+
+            try {
+                const messagesContainer = document.getElementById('chatMessages');
+                const welcomeMsg = messagesContainer.querySelector('.chat-welcome');
+                if (welcomeMsg) {
+                    messagesContainer.innerHTML = '';
                 }
 
-                // Send chat message
-                async function sendChatMessage() {
-                    const input = document.getElementById('chatInput');
-                    const message = input.value.trim();
-
-                    if (!message || !recipientNpub || !ephemeralKeys) {
-                        return;
-                    }
-
-                    try {
-                        const messagesContainer = document.getElementById('chatMessages');
-                        const welcomeMsg = messagesContainer.querySelector('.chat-welcome');
-                        if (welcomeMsg) {
-                            messagesContainer.innerHTML = '';
-                        }
-
-                        // Add message to UI (optimistically)
-                        const messageEl = document.createElement('div');
-                        messageEl.className = 'chat-message sent';
-                        messageEl.innerHTML = `
+                // Add message to UI (optimistically)
+                const messageEl = document.createElement('div');
+                messageEl.className = 'chat-message sent';
+                messageEl.innerHTML = `
                             <div class="message-content">${escapeHtml(message)}</div>
                             <div class="message-time">${new Date().toLocaleTimeString()}</div>
                         `;
-                        messagesContainer.appendChild(messageEl);
-                        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                messagesContainer.appendChild(messageEl);
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
 
-                        // Clear input
-                        input.value = '';
-                        input.style.height = 'auto';
+                // Clear input
+                input.value = '';
+                input.style.height = 'auto';
 
-                        // Send via Nostr NIP-17
-                        console.log('Sending message via Nostr...');
-                        await publishNip17Message(message, recipientNpub);
-                        console.log('✓ Message sent successfully');
+                // Send via Nostr NIP-17
+                console.log('Sending message via Nostr...');
+                await publishNip17Message(message, recipientNpub);
+                console.log('✓ Message sent successfully');
 
-                    } catch (error) {
-                        console.error('Error sending message:', error);
-                        alert('Failed to send message. Please try again.');
-                    }
-                }
+            } catch (error) {
+                console.error('Error sending message:', error);
+                alert('Failed to send message. Please try again.');
+            }
+        }
 
-                // Close chat widget
-                function closeChatWidget() {
-                    document.getElementById('nostrChatContainer').style.display = 'none';
-                    currentChatFlashpoint = null;
+        // Open payment modal from chat
+        function openPaymentFromChat() {
+            if (currentChatFlashpoint && currentChatFlashpoint._id) {
+                handlePayFlashpoint(currentChatFlashpoint._id);
+            } else {
+                alert('No flashpoint selected');
+            }
+        }
 
-                    // Close subscription if active
-                    if (messageSubscription) {
-                        messageSubscription.close();
-                        messageSubscription = null;
-                        console.log('Closed message subscription');
-                    }
-                }
+        // Close chat widget
+        function closeChatWidget() {
+            document.getElementById('nostrChatContainer').style.display = 'none';
+            currentChatFlashpoint = null;
 
-                // Escape HTML for security
-                function escapeHtml(text) {
-                    const div = document.createElement('div');
-                    div.textContent = text;
-                    return div.innerHTML;
-                }
+            // Close subscription if active
+            if (messageSubscription) {
+                messageSubscription.close();
+                messageSubscription = null;
+                console.log('Closed message subscription');
+            }
+        }
 
-                // Auto-resize textarea
-                document.addEventListener('DOMContentLoaded', () => {
-                    const chatInput = document.getElementById('chatInput');
-                    if (chatInput) {
-                        chatInput.addEventListener('input', function() {
-                            this.style.height = 'auto';
-                            this.style.height = (this.scrollHeight) + 'px';
-                        });
+        // Escape HTML for security
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
 
-                        chatInput.addEventListener('keydown', function(e) {
-                            if (e.key === 'Enter' && !e.shiftKey) {
-                                e.preventDefault();
-                                sendChatMessage();
-                            }
-                        });
+        // Auto-resize textarea
+        document.addEventListener('DOMContentLoaded', () => {
+            const chatInput = document.getElementById('chatInput');
+            if (chatInput) {
+                chatInput.addEventListener('input', function () {
+                    this.style.height = 'auto';
+                    this.style.height = (this.scrollHeight) + 'px';
+                });
+
+                chatInput.addEventListener('keydown', function (e) {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                        e.preventDefault();
+                        sendChatMessage();
                     }
                 });
-            </script>
+            }
+        });
+    </script>
 
-            <!-- Load main.js after our custom scripts -->
-            <script src="../../js/core/main.js"></script>
+    <!-- Load main.js after our custom scripts -->
+    <script src="../../js/core/main.js"></script>
 
-            <!-- Bitcoin Price Tracker -->
-            <script src="../../js/modules/btcTracker.js"></script>
+    <!-- Bitcoin Price Tracker -->
+    <script src="../../js/modules/btcTracker.js"></script>
 
-            <!-- Tidio Chat Widget -->
-            <script src="//code.tidio.co/widget-v4/wubhfrzwetbvbkgfozwhqxp9w1j3y3rp.js" async></script>
+    <!-- Tidio Chat Widget -->
+    <script src="//code.tidio.co/widget-v4/wubhfrzwetbvbkgfozwhqxp9w1j3y3rp.js" async></script>
 </body>
 
 </html>

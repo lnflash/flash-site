@@ -1594,6 +1594,17 @@ footer {
     text-align: right;
   }
 
+  /* Remove green animated underlines from mobile menu */
+  .main-nav a::after {
+    display: none !important;
+  }
+
+  .main-nav .nav-link,
+  .main-nav .dropdown-trigger,
+  .main-nav .dropdown-link {
+    box-shadow: none !important;
+  }
+
   /* Mobile dropdown styles */
   .nav-dropdown {
     width: 100%;
@@ -1817,6 +1828,9 @@ footer {
     flex-direction: column-reverse;
     align-items: center;
     justify-content: center;
+  }
+  .dropdown-menu li {
+    margin-left: 80px;
   }
 }
 
