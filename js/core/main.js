@@ -705,11 +705,19 @@ window.onload = () => {
     startLightning(stormInterval);
   }
 
-  // Globe Animations
-  gsap.set("#ticker_user", {transformOrigin: "left top"});
-  gsap.set("#user", {transformOrigin: "center center"});
-  gsap.set("#ticker_merchant", {transformOrigin: "left bottom"});
-  gsap.set("#merchant", {transformOrigin: "center center"});
+  // Globe Animations (only if elements exist)
+  if (document.querySelector("#ticker_user")) {
+    gsap.set("#ticker_user", {transformOrigin: "left top"});
+  }
+  if (document.querySelector("#user")) {
+    gsap.set("#user", {transformOrigin: "center center"});
+  }
+  if (document.querySelector("#ticker_merchant")) {
+    gsap.set("#ticker_merchant", {transformOrigin: "left bottom"});
+  }
+  if (document.querySelector("#merchant")) {
+    gsap.set("#merchant", {transformOrigin: "center center"});
+  }
 
   let bubbleRun = gsap.timeline({repeat: 1, yoyo: true, onComplete: playTicker, onCompleteParams: [true]});
   let boltFloat = gsap.timeline({repeat: -1, repeatRefresh: true, yoyo: true});

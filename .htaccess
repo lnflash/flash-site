@@ -29,7 +29,7 @@ RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
     Header always set Referrer-Policy "strict-origin-when-cross-origin"
 
     # Content Security Policy (adjust as needed)
-    Header always set Content-Security-Policy "default-src 'self' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://code.jquery.com https://code.tidio.co; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https: http:; connect-src 'self' https:;"
+    Header always set Content-Security-Policy "default-src 'self' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://code.jquery.com https://code.tidio.co https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net https://code.tidio.co; font-src 'self' data: https://fonts.gstatic.com https://code.tidio.co; img-src 'self' data: https: http:; connect-src 'self' https: wss: blob:; frame-src 'self' https://code.tidio.co https://www.google.com;"
 </IfModule>
 
 # Compression
