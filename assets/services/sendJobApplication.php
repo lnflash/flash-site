@@ -14,8 +14,10 @@ try {
     error_log("Job application received - FILES: " . print_r($_FILES, true));
 
     // Validate required POST data
-    if (!isset($_POST["name"]) || !isset($_POST["email"]) || !isset($_POST["phone"]) ||
-        !isset($_POST["position"]) || !isset($_POST["message"])) {
+    if (
+        !isset($_POST["name"]) || !isset($_POST["email"]) || !isset($_POST["phone"]) ||
+        !isset($_POST["position"]) || !isset($_POST["message"])
+    ) {
         $missing = [];
         if (!isset($_POST["name"])) $missing[] = "name";
         if (!isset($_POST["email"])) $missing[] = "email";
@@ -246,7 +248,7 @@ try {
                     <ul>
                         <li><a href=\"https://getflash.io\">Our Website</a></li>
                         <li><a href=\"https://twitter.com/LNFlash\">Twitter</a></li>
-                        <li><a href=\"https://nostrudel.ninja/#/t/flashsupport\">Nostr</a></li>
+                        <li><a href=\"https://primal.net/p/nprofile1qqs0hnh7hfjhg8rlz8dc5lasauvy6palktklxy5gqe9qe7krwqel5ucr5hca0\">Nostr</a></li>
                     </ul>
                     <p>Best regards,<br>The Flash Team</p>
                 </div>
@@ -288,4 +290,3 @@ if ($errorCode !== 0) {
 
 header("Content-Type: application/json");
 echo json_encode($data);
-?>
