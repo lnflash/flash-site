@@ -34,6 +34,11 @@ let lightning = [];
 let lightningSplit = [];
 let hasFork = false;
 
+// Stage 1: The Awakening - Rabbit Hole Easter Egg
+let lightningStrikeCount = 0;
+let rabbitHoleRevealed = false;
+let hunterToken = null;
+
 function resizeCanvas() {
   let stormCvsHeight = window.screen.height;
   let stormCvsWidth = document.body.offsetWidth;
@@ -116,11 +121,8 @@ function render() {
   // draw the lightning
   draw(lightning, lightningSplit, opacity);
 
-  // Easter egg messages
-  // Uncomment to enable random console messages
-
+  // Easter egg messages for Keys of the Caribbean
   const logMessages = [
-    "code for the rabbit hole is 69420",
     "you are not alone",
     "there is no spoon",
     "wake up, sons and daughters",
@@ -141,6 +143,12 @@ function render() {
   ];
   const logMessage = logMessages[Math.floor(Math.random() * logMessages.length)];
   console.log(logMessage);
+
+  // Stage 1: The Awakening - Trigger after 15 lightning strikes
+  lightningStrikeCount++;
+  if (lightningStrikeCount === 15 && !rabbitHoleRevealed) {
+    revealRabbitHole();
+  }
 }
 
 function createLightning() {
@@ -240,3 +248,51 @@ function chooseCanvas() {
     return;
   }
 }
+
+// Stage 1: Reveal Rabbit Hole with per-hunter HMAC token
+async function revealRabbitHole() {
+  rabbitHoleRevealed = true;
+
+  // Check if hunter is logged in
+  const token = localStorage.getItem('hunt_token');
+
+  if (!token) {
+    // Not logged in - generic hint to register
+    console.log('%c🐰 The rabbit hole awaits...', 'font-size: 18px; color: #F6C453; font-weight: bold;');
+    console.log('%cBut only registered hunters can enter.', 'font-size: 14px; color: #7C8A92;');
+    console.log('%cRegister at: /treasure-hunt/register.html', 'font-size: 14px; color: #41AD49;');
+    return;
+  }
+
+  // Fetch hunter-specific Stage 1 token
+  try {
+    const response = await fetch('/treasure-hunt/api/get-stage1-token.php', {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    });
+
+    const data = await response.json();
+
+    if (data.success && data.stage1_token) {
+      hunterToken = data.stage1_token;
+
+      // Reveal the rabbit hole with personalized token
+      console.log('%c🐰 The rabbit hole has been revealed!', 'font-size: 18px; color: #F6C453; font-weight: bold;');
+      console.log('%cYou have found the first key...', 'font-size: 14px; color: #7C8A92;');
+      console.log('%c⚡ Navigate to:', 'font-size: 14px; color: #41AD49; font-weight: bold;');
+      console.log(`%c/treasure-hunt/rabbithole?token=${hunterToken}`, 'font-size: 16px; color: #41AD49; font-weight: bold; text-decoration: underline;');
+      console.log('%c', 'font-size: 0;'); // Spacer
+      console.log('%cThe awakening begins...', 'font-size: 12px; color: #7C8A92; font-style: italic;');
+    } else {
+      // Token generation failed
+      console.log('%c🐰 Something went wrong...', 'font-size: 16px; color: #FCA5A5;');
+      console.log('%cPlease try refreshing the page or contact support.', 'font-size: 14px; color: #7C8A92;');
+    }
+  } catch (error) {
+    console.error('Failed to fetch Stage 1 token:', error);
+  }
+}
+
+// Observer setup
+observer.observe(cvsStorm);

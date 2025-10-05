@@ -667,7 +667,7 @@
                         </div>
 
                         <div class="job-footer">
-                            <button class="cta-button primary apply-now-btn">
+                            <button class="cta-button primary apply-now-btn" data-position="Merchant Sales Manager">
                                 <span>Apply Now</span>
                                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                     stroke-width="2">
@@ -742,7 +742,7 @@
                         </div>
 
                         <div class="job-footer">
-                            <button class="cta-button primary apply-now-btn">
+                            <button class="cta-button primary apply-now-btn" data-position="Software Developer Intern">
                                 <span>Apply Now</span>
                                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                     stroke-width="2">
@@ -818,7 +818,7 @@
                         </div>
 
                         <div class="job-footer">
-                            <button class="cta-button primary apply-now-btn">
+                            <button class="cta-button primary apply-now-btn" data-position="Social Media & Content Manager">
                                 <span>Apply Now</span>
                                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                     stroke-width="2">
@@ -891,7 +891,7 @@
                         </div>
 
                         <div class="job-footer">
-                            <button class="cta-button primary apply-now-btn">
+                            <button class="cta-button primary apply-now-btn" data-position="Customer Support Specialist">
                                 <span>Apply Now</span>
                                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                     stroke-width="2">
@@ -966,7 +966,7 @@
                         </div>
 
                         <div class="job-footer">
-                            <button class="cta-button primary apply-now-btn">
+                            <button class="cta-button primary apply-now-btn" data-position="Executive Assistant to Leadership">
                                 <span>Apply Now</span>
                                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                     stroke-width="2">
@@ -1191,6 +1191,173 @@
                 const $card = $(this);
                 const isExpanded = $card.hasClass('expanded');
                 $card.attr('aria-expanded', isExpanded);
+            });
+
+            // ========================================
+            // JOB APPLICATION MODAL FUNCTIONALITY
+            // ========================================
+
+            const $modal = $('#application-modal');
+            const $form = $('#job-application-form');
+            const $successDiv = $('.submission-success');
+
+            // Open modal when "Apply Now" is clicked
+            $('.apply-now-btn').on('click', function (e) {
+                e.preventDefault();
+                e.stopPropagation(); // Prevent card expansion
+                const positionTitle = $(this).data('position');
+                $('#job-position-name').text(positionTitle);
+                $('#position-name').val(positionTitle);
+                $modal.addClass('active');
+                $('body').css('overflow', 'hidden'); // Prevent body scroll when modal is open
+            });
+
+            // Close modal
+            function closeModal() {
+                $modal.removeClass('active');
+                $('body').css('overflow', ''); // Re-enable body scroll
+                // Reset form after a delay
+                setTimeout(() => {
+                    $form[0].reset();
+                    $('.file-name').text('Click to upload or drag & drop');
+                    $form.show();
+                    $successDiv.hide();
+                }, 300);
+            }
+
+            $('.modal-close, .modal-overlay, #cancel-application, #close-success').on('click', closeModal);
+
+            // File upload display
+            $('#applicant-resume').on('change', function () {
+                const fileName = this.files[0]?.name || 'Click to upload or drag & drop';
+                $('.file-name').text(fileName);
+            });
+
+            // Form validation
+            function validateJobForm() {
+                const name = $('#applicant-name').val().trim();
+                const email = $('#applicant-email').val().trim();
+                const phone = $('#applicant-phone').val().trim();
+                const message = $('#applicant-message').val().trim();
+                const resume = $('#applicant-resume')[0].files[0];
+
+                let errors = [];
+
+                // Name validation
+                if (!name) {
+                    errors.push('Please enter your full name');
+                    $('#applicant-name').css('border-color', '#ef4444');
+                } else {
+                    $('#applicant-name').css('border-color', '');
+                }
+
+                // Email validation
+                const emailPattern = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+                if (!email || !emailPattern.test(email)) {
+                    errors.push('Please enter a valid email address');
+                    $('#applicant-email').css('border-color', '#ef4444');
+                } else {
+                    $('#applicant-email').css('border-color', '');
+                }
+
+                // Phone validation
+                if (!phone) {
+                    errors.push('Please enter your phone number');
+                    $('#applicant-phone').css('border-color', '#ef4444');
+                } else {
+                    $('#applicant-phone').css('border-color', '');
+                }
+
+                // Message validation
+                if (!message) {
+                    errors.push('Please provide a cover letter or message');
+                    $('#applicant-message').css('border-color', '#ef4444');
+                } else {
+                    $('#applicant-message').css('border-color', '');
+                }
+
+                // Resume validation
+                if (!resume) {
+                    errors.push('Please upload your resume/CV');
+                    $('.file-upload-wrapper').css('border-color', '#ef4444');
+                } else {
+                    // Check file size (5MB max)
+                    const maxSize = 5 * 1024 * 1024; // 5MB in bytes
+                    if (resume.size > maxSize) {
+                        errors.push('Resume file size must be less than 5MB');
+                        $('.file-upload-wrapper').css('border-color', '#ef4444');
+                    } else {
+                        $('.file-upload-wrapper').css('border-color', '');
+                    }
+                }
+
+                if (errors.length > 0) {
+                    alert(errors.join('\n'));
+                    return false;
+                }
+
+                return true;
+            }
+
+            // Form submission
+            $form.on('submit', function (e) {
+                e.preventDefault();
+
+                if (!validateJobForm()) {
+                    return;
+                }
+
+                // Create FormData object to handle file upload
+                const formData = new FormData();
+                formData.append('name', $('#applicant-name').val().trim());
+                formData.append('email', $('#applicant-email').val().trim());
+                formData.append('phone', $('#applicant-phone').val().trim());
+                formData.append('linkedin', $('#applicant-linkedin').val().trim());
+                formData.append('position', $('#position-name').val());
+                formData.append('message', $('#applicant-message').val().trim());
+                formData.append('resume', $('#applicant-resume')[0].files[0]);
+
+                // Disable submit button and show loading state
+                const $submitBtn = $form.find('button[type="submit"]');
+                const originalText = $submitBtn.find('span').text();
+                $submitBtn.prop('disabled', true);
+                $submitBtn.find('span').text('Submitting...');
+
+                // Send the application
+                $.ajax({
+                    url: './assets/services/sendJobApplication.php',
+                    type: 'POST',
+                    data: formData,
+                    processData: false, // Don't process the data
+                    contentType: false, // Don't set content type (FormData sets it)
+                    dataType: 'json',
+                    success: function (data) {
+                        console.log('Server response:', data);
+                        if (data.error.id === 0) {
+                            // Hide form and show success message
+                            $form.hide();
+                            $successDiv.show();
+                        } else {
+                            alert('Error submitting application: ' + data.error.message);
+                            console.error('Application error:', data);
+                        }
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        console.error('AJAX error details:', {
+                            status: jqXHR.status,
+                            statusText: jqXHR.statusText,
+                            responseText: jqXHR.responseText,
+                            textStatus: textStatus,
+                            errorThrown: errorThrown
+                        });
+                        alert('Error submitting application. Please check console for details.\n\nError: ' + errorThrown);
+                    },
+                    complete: function () {
+                        // Re-enable submit button
+                        $submitBtn.prop('disabled', false);
+                        $submitBtn.find('span').text(originalText);
+                    }
+                });
             });
         });
     </script>
