@@ -1,0 +1,450 @@
+/* Stage Pages Common Styles */
+
+.stage-page {
+    background: linear-gradient(135deg, var(--rich-black) 0%, var(--deep-teal) 100%);
+    min-height: 100vh;
+}
+
+/* Loading Screen */
+.loading-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--rich-black);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+
+.loading-content {
+    text-align: center;
+}
+
+.loading-spinner-large {
+    margin-bottom: 2rem;
+}
+
+.loading-spinner-large .spinner {
+    width: 80px;
+    height: 80px;
+    animation: rotate 1s linear infinite;
+}
+
+.loading-spinner-large .path {
+    stroke: var(--flash-green);
+    stroke-linecap: round;
+    animation: dash 1.5s ease-in-out infinite;
+}
+
+.loading-text {
+    font-size: 1.2rem;
+    color: var(--sea-gray);
+}
+
+/* Error Screen */
+.error-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--rich-black);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+
+.error-content {
+    text-align: center;
+    max-width: 500px;
+    padding: 2rem;
+}
+
+.error-icon {
+    font-size: 5rem;
+    margin-bottom: 1rem;
+}
+
+.error-content h1 {
+    font-size: 2.5rem;
+    color: #FCA5A5;
+    margin-bottom: 1rem;
+}
+
+.error-content p {
+    font-size: 1.1rem;
+    color: var(--sea-gray);
+    margin-bottom: 2rem;
+}
+
+/* Stage Content */
+.stage-content {
+    padding: 6rem 0 4rem;
+    min-height: 100vh;
+}
+
+.stage-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.stage-title {
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, var(--gold-accent) 0%, var(--flash-green) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.stage-subtitle {
+    font-size: 1.3rem;
+    color: var(--sea-gray);
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+/* Stage Video */
+.stage-video-container {
+    max-width: 800px;
+    margin: 0 auto 3rem;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 2px solid rgba(65, 173, 73, 0.3);
+}
+
+.stage-video-container video {
+    width: 100%;
+    display: block;
+}
+
+.video-placeholder {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 4rem 2rem;
+    text-align: center;
+}
+
+.video-icon {
+    font-size: 5rem;
+    margin-bottom: 1rem;
+}
+
+.video-placeholder p {
+    font-size: 1.2rem;
+    color: var(--sea-gray);
+}
+
+/* Stage Story */
+.stage-story {
+    max-width: 800px;
+    margin: 0 auto 3rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(65, 173, 73, 0.2);
+    border-radius: 16px;
+    padding: 3rem;
+}
+
+.stage-story h2 {
+    font-size: 2rem;
+    color: var(--gold-accent);
+    margin-bottom: 1.5rem;
+}
+
+.stage-story p {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: var(--white);
+    margin-bottom: 1.5rem;
+}
+
+.stage-story p:last-child {
+    margin-bottom: 0;
+}
+
+/* Prize Info */
+.prize-info {
+    max-width: 600px;
+    margin: 0 auto 3rem;
+    background: rgba(246, 196, 83, 0.1);
+    border: 2px solid var(--gold-accent);
+    border-radius: 16px;
+    padding: 2rem;
+}
+
+.prize-badge {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.prize-icon {
+    font-size: 3rem;
+    flex-shrink: 0;
+}
+
+.prize-details {
+    flex: 1;
+}
+
+.prize-label {
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    color: var(--sea-gray);
+    letter-spacing: 1px;
+    margin-bottom: 0.25rem;
+}
+
+.prize-amount {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--gold-accent);
+    font-family: 'Urbanist', sans-serif;
+}
+
+.prize-note {
+    font-size: 0.95rem;
+    color: var(--sea-gray);
+    text-align: center;
+}
+
+/* Next Stage Preview */
+.next-stage-preview {
+    max-width: 800px;
+    margin: 0 auto 3rem;
+    background: rgba(65, 173, 73, 0.1);
+    border: 1px solid var(--flash-green);
+    border-radius: 16px;
+    padding: 2rem;
+}
+
+.next-stage-preview h3 {
+    font-size: 1.5rem;
+    color: var(--flash-green);
+    margin-bottom: 1rem;
+}
+
+.next-stage-preview p {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: var(--white);
+    margin-bottom: 1rem;
+}
+
+.next-stage-preview p:last-child {
+    margin-bottom: 0;
+    color: var(--sea-gray);
+}
+
+/* Stage Action */
+.stage-action {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.stage-action .btn {
+    min-width: 280px;
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.stage-action .btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Stage Messages */
+.stage-message {
+    max-width: 600px;
+    margin: 2rem auto;
+    padding: 1.5rem;
+    border-radius: 12px;
+    text-align: center;
+    font-weight: 500;
+}
+
+.stage-message.success {
+    background: rgba(65, 173, 73, 0.1);
+    border: 1px solid var(--flash-green);
+    color: var(--flash-green);
+}
+
+.stage-message.error {
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.5);
+    color: #FCA5A5;
+}
+
+.stage-message.info {
+    background: rgba(246, 196, 83, 0.1);
+    border: 1px solid var(--gold-accent);
+    color: var(--gold-accent);
+}
+
+/* Puzzle Container */
+.puzzle-container {
+    max-width: 900px;
+    margin: 0 auto 3rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(65, 173, 73, 0.2);
+    border-radius: 16px;
+    padding: 3rem;
+}
+
+.puzzle-container h3 {
+    font-size: 1.8rem;
+    color: var(--flash-green);
+    margin-bottom: 1.5rem;
+}
+
+.puzzle-input-group {
+    margin-bottom: 1.5rem;
+}
+
+.puzzle-input-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: var(--white);
+}
+
+.puzzle-input-group input,
+.puzzle-input-group textarea {
+    width: 100%;
+    padding: 0.875rem 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 2px solid rgba(124, 138, 146, 0.3);
+    border-radius: 8px;
+    color: var(--white);
+    font-size: 1rem;
+    font-family: 'Inter', sans-serif;
+    transition: all 0.3s ease;
+}
+
+.puzzle-input-group input:focus,
+.puzzle-input-group textarea:focus {
+    outline: none;
+    border-color: var(--flash-green);
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.puzzle-hint {
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+    color: var(--sea-gray);
+}
+
+/* LNURL Withdrawal */
+.lnurl-container {
+    max-width: 600px;
+    margin: 0 auto;
+    background: rgba(246, 196, 83, 0.1);
+    border: 2px solid var(--gold-accent);
+    border-radius: 16px;
+    padding: 2rem;
+    text-align: center;
+}
+
+.lnurl-container h3 {
+    font-size: 1.8rem;
+    color: var(--gold-accent);
+    margin-bottom: 1rem;
+}
+
+.lnurl-qr {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 12px;
+    display: inline-block;
+    margin: 1.5rem 0;
+}
+
+.lnurl-instructions {
+    color: var(--sea-gray);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+}
+
+.lnurl-code {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(246, 196, 83, 0.3);
+    border-radius: 8px;
+    padding: 1rem;
+    font-family: 'Courier New', monospace;
+    font-size: 0.85rem;
+    color: var(--gold-accent);
+    word-break: break-all;
+    margin-bottom: 1rem;
+}
+
+.copy-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: rgba(246, 196, 83, 0.2);
+    border: 1px solid var(--gold-accent);
+    border-radius: 6px;
+    color: var(--gold-accent);
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.copy-btn:hover {
+    background: rgba(246, 196, 83, 0.3);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .stage-content {
+        padding: 4rem 0 3rem;
+    }
+
+    .stage-story {
+        padding: 2rem;
+    }
+
+    .puzzle-container {
+        padding: 2rem;
+    }
+
+    .prize-badge {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .stage-action .btn {
+        min-width: auto;
+        width: 100%;
+    }
+}
+
+/* Animations */
+@keyframes rotate {
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes dash {
+    0% {
+        stroke-dasharray: 1, 150;
+        stroke-dashoffset: 0;
+    }
+    50% {
+        stroke-dasharray: 90, 150;
+        stroke-dashoffset: -35;
+    }
+    100% {
+        stroke-dasharray: 90, 150;
+        stroke-dashoffset: -124;
+    }
+}

@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Register for Keys of the Caribbean - Prove your Bitcoin knowledge and begin your treasure hunt.">
+    <title>Register | Keys of the Caribbean</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="css/hunt.css">
+    <link rel="stylesheet" href="css/register.css">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="../favicon.ico">
+</head>
+<body class="hunt-page register-page">
+    <!-- Navigation -->
+    <nav class="hunt-nav">
+        <div class="container">
+            <a href="../index.html" class="logo">
+                <span class="logo-text">Flash</span>
+            </a>
+            <div class="nav-links">
+                <a href="index.html">Hunt Home</a>
+                <a href="leaderboard.html">Leaderboard</a>
+                <a href="rules.html">Rules</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Registration Section -->
+    <section class="register-section">
+        <div class="container">
+            <div class="register-content">
+                <div class="register-header">
+                    <div class="hunt-badge">Season 1 — The Vault</div>
+                    <h1>Begin Your Journey</h1>
+                    <p class="register-tagline">Only true Bitcoin believers can unlock the first key. Prove your knowledge of Satoshi's legacy.</p>
+                </div>
+
+                <div class="register-form-container">
+                    <form id="register-form" class="register-form">
+                        <div class="form-group">
+                            <label for="username">Hunter Name</label>
+                            <input
+                                type="text"
+                                id="username"
+                                name="username"
+                                required
+                                minlength="3"
+                                maxlength="20"
+                                pattern="[a-zA-Z0-9_]+"
+                                placeholder="Choose your hunter name"
+                                autocomplete="off">
+                            <small class="form-help">3-20 characters, letters, numbers, and underscores only</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input
+                                type="email"
+                                id="email"
+                                name="email"
+                                required
+                                placeholder="your@email.com"
+                                autocomplete="email">
+                            <small class="form-help">Used for prize notifications and important updates</small>
+                        </div>
+
+                        <div class="satoshi-challenge">
+                            <div class="challenge-header">
+                                <h3>⚡ The Satoshi Challenge</h3>
+                                <p>Answer these questions to prove you're worthy of the hunt</p>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="satoshi-date">When did Satoshi publish the Bitcoin whitepaper?</label>
+                                <input
+                                    type="date"
+                                    id="satoshi-date"
+                                    name="satoshi_date"
+                                    required
+                                    min="2008-01-01"
+                                    max="2009-12-31"
+                                    placeholder="YYYY-MM-DD">
+                                <small class="form-help">Month and year required (exact date format: YYYY-MM-DD)</small>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="satoshi-topic">What was the title of Satoshi's whitepaper?</label>
+                                <input
+                                    type="text"
+                                    id="satoshi-topic"
+                                    name="satoshi_topic"
+                                    required
+                                    placeholder="Enter the exact title"
+                                    autocomplete="off">
+                                <small class="form-help">Hint: It's about electronic cash and peer-to-peer systems</small>
+                            </div>
+                        </div>
+
+                        <div class="form-group checkbox-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="agree-rules" name="agree_rules" required>
+                                <span>I agree to the <a href="rules.html" target="_blank">Official Rules</a> and understand this is a skill-based competition</span>
+                            </label>
+                        </div>
+
+                        <div class="form-group checkbox-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="age-confirm" name="age_confirm" required>
+                                <span>I am 18 years or older and eligible to participate</span>
+                            </label>
+                        </div>
+
+                        <div id="error-message" class="error-message" style="display: none;"></div>
+                        <div id="success-message" class="success-message" style="display: none;"></div>
+
+                        <button type="submit" class="btn btn-large btn-primary" id="submit-btn">
+                            <span class="btn-text">Begin The Hunt</span>
+                            <span class="btn-loader" style="display: none;">
+                                <svg class="spinner" viewBox="0 0 50 50">
+                                    <circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>
+                                </svg>
+                            </span>
+                        </button>
+                    </form>
+
+                    <div class="register-footer">
+                        <p>Already registered? <a href="login.html">Login here</a></p>
+                    </div>
+                </div>
+
+                <div class="register-info">
+                    <div class="info-card">
+                        <div class="info-icon">🔒</div>
+                        <h4>Secure & Private</h4>
+                        <p>Your data is encrypted and stored securely. We never share your information.</p>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-icon">⚡</div>
+                        <h4>Lightning Fast</h4>
+                        <p>Win Bitcoin prizes instantly via Lightning Network withdrawals.</p>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-icon">🏆</div>
+                        <h4>Fair Competition</h4>
+                        <p>Anti-cheat measures ensure everyone has an equal chance at glory.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="hunt-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <h3>Keys of the Caribbean</h3>
+                    <p>Season 1 — The Vault</p>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-column">
+                        <h4>Hunt</h4>
+                        <a href="index.html">Home</a>
+                        <a href="leaderboard.html">Leaderboard</a>
+                        <a href="rules.html">Official Rules</a>
+                    </div>
+                    <div class="footer-column">
+                        <h4>Flash</h4>
+                        <a href="../index.html">Home</a>
+                        <a href="../about.html">About</a>
+                        <a href="../merchants.html">Merchants</a>
+                    </div>
+                    <div class="footer-column">
+                        <h4>Support</h4>
+                        <a href="../faq.html">FAQ</a>
+                        <a href="../contact.html">Contact</a>
+                        <a href="../privacy.html">Privacy</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Flash. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/register.js"></script>
+</body>
+</html>

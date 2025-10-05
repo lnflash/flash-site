@@ -1,0 +1,309 @@
+/* Registration Page Styles */
+
+.register-page {
+    min-height: 100vh;
+    background: linear-gradient(135deg, var(--rich-black) 0%, var(--deep-teal) 100%);
+}
+
+.register-section {
+    padding: 120px 0 80px;
+}
+
+.register-content {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.register-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.register-header h1 {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, var(--white) 0%, var(--flash-green) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.register-tagline {
+    font-size: 1.2rem;
+    color: var(--sea-gray);
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Form Container */
+.register-form-container {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(65, 173, 73, 0.2);
+    border-radius: 20px;
+    padding: 3rem;
+    margin-bottom: 3rem;
+    backdrop-filter: blur(10px);
+}
+
+/* Form Styles */
+.register-form {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: var(--white);
+    font-size: 1rem;
+}
+
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="date"] {
+    width: 100%;
+    padding: 0.875rem 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 2px solid rgba(124, 138, 146, 0.3);
+    border-radius: 8px;
+    color: var(--white);
+    font-size: 1rem;
+    font-family: 'Inter', sans-serif;
+    transition: all 0.3s ease;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: var(--flash-green);
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.form-group input::placeholder {
+    color: var(--sea-gray);
+    opacity: 0.7;
+}
+
+.form-help {
+    display: block;
+    margin-top: 0.5rem;
+    font-size: 0.85rem;
+    color: var(--sea-gray);
+}
+
+/* Satoshi Challenge Section */
+.satoshi-challenge {
+    background: rgba(246, 196, 83, 0.1);
+    border: 1px solid var(--gold-accent);
+    border-radius: 12px;
+    padding: 2rem;
+    margin: 2rem 0;
+}
+
+.challenge-header {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.challenge-header h3 {
+    font-size: 1.5rem;
+    color: var(--gold-accent);
+    margin-bottom: 0.5rem;
+}
+
+.challenge-header p {
+    color: var(--sea-gray);
+    font-size: 0.95rem;
+}
+
+/* Checkbox Groups */
+.checkbox-group {
+    margin-bottom: 1rem;
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    cursor: pointer;
+    font-weight: 400;
+    color: var(--sea-gray);
+}
+
+.checkbox-label input[type="checkbox"] {
+    margin-top: 0.25rem;
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    cursor: pointer;
+    accent-color: var(--flash-green);
+}
+
+.checkbox-label a {
+    color: var(--flash-green);
+    text-decoration: underline;
+}
+
+.checkbox-label a:hover {
+    color: var(--gold-accent);
+}
+
+/* Messages */
+.error-message,
+.success-message {
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    font-weight: 500;
+}
+
+.error-message {
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.5);
+    color: #FCA5A5;
+}
+
+.success-message {
+    background: rgba(65, 173, 73, 0.1);
+    border: 1px solid var(--flash-green);
+    color: var(--flash-green);
+}
+
+/* Submit Button */
+.register-form button[type="submit"] {
+    width: 100%;
+    margin-top: 1rem;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.register-form button[type="submit"]:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.btn-loader {
+    display: inline-flex;
+    align-items: center;
+}
+
+.spinner {
+    animation: rotate 1s linear infinite;
+    width: 20px;
+    height: 20px;
+}
+
+.spinner .path {
+    stroke: currentColor;
+    stroke-linecap: round;
+    animation: dash 1.5s ease-in-out infinite;
+}
+
+@keyframes rotate {
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes dash {
+    0% {
+        stroke-dasharray: 1, 150;
+        stroke-dashoffset: 0;
+    }
+    50% {
+        stroke-dasharray: 90, 150;
+        stroke-dashoffset: -35;
+    }
+    100% {
+        stroke-dasharray: 90, 150;
+        stroke-dashoffset: -124;
+    }
+}
+
+/* Register Footer */
+.register-footer {
+    text-align: center;
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--sea-gray);
+}
+
+.register-footer a {
+    color: var(--flash-green);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.register-footer a:hover {
+    text-decoration: underline;
+}
+
+/* Info Cards */
+.register-info {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+}
+
+.info-card {
+    text-align: center;
+    padding: 2rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(65, 173, 73, 0.2);
+    border-radius: 12px;
+    transition: all 0.3s ease;
+}
+
+.info-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--flash-green);
+}
+
+.info-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.info-card h4 {
+    color: var(--white);
+    margin-bottom: 0.5rem;
+    font-size: 1.25rem;
+}
+
+.info-card p {
+    color: var(--sea-gray);
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+/* Input validation states */
+.form-group input:invalid:not(:placeholder-shown) {
+    border-color: rgba(239, 68, 68, 0.5);
+}
+
+.form-group input:valid:not(:placeholder-shown) {
+    border-color: rgba(65, 173, 73, 0.5);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .register-form-container {
+        padding: 2rem 1.5rem;
+    }
+
+    .satoshi-challenge {
+        padding: 1.5rem;
+    }
+
+    .register-section {
+        padding: 100px 0 60px;
+    }
+}

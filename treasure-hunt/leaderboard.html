@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Track the progress of legendary hunters in Keys of the Caribbean Bitcoin treasure hunt.">
+    <title>Leaderboard | Keys of the Caribbean</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="css/hunt.css">
+    <link rel="stylesheet" href="css/leaderboard.css">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="../favicon.ico">
+</head>
+<body class="hunt-page leaderboard-page">
+    <!-- Navigation -->
+    <nav class="hunt-nav">
+        <div class="container">
+            <a href="../index.html" class="logo">
+                <span class="logo-text">Flash</span>
+            </a>
+            <div class="nav-links">
+                <a href="index.html">Hunt Home</a>
+                <a href="leaderboard.html" class="active">Leaderboard</a>
+                <a href="rules.html">Rules</a>
+                <a href="register.html" class="btn-primary">Register</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Leaderboard Section -->
+    <section class="leaderboard-section">
+        <div class="container">
+            <div class="leaderboard-header-section">
+                <div class="hunt-badge">Season 1 — The Vault</div>
+                <h1>Hall of Heroes</h1>
+                <p class="leaderboard-tagline">Track the legendary hunters on their quest to unlock the vault</p>
+            </div>
+
+            <!-- Stats Overview -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">👥</div>
+                    <div class="stat-value" id="total-hunters">-</div>
+                    <div class="stat-label">Active Hunters</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">🏆</div>
+                    <div class="stat-value" id="total-completed">-</div>
+                    <div class="stat-label">Completed</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">⚡</div>
+                    <div class="stat-value" id="total-sats">-</div>
+                    <div class="stat-label">Sats Distributed</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">🎯</div>
+                    <div class="stat-value" id="avg-stage">-</div>
+                    <div class="stat-label">Average Stage</div>
+                </div>
+            </div>
+
+            <!-- Leaderboard Filters -->
+            <div class="leaderboard-filters">
+                <div class="filter-group">
+                    <label for="filter-stage">Filter by Stage:</label>
+                    <select id="filter-stage">
+                        <option value="all">All Stages</option>
+                        <option value="0">Stage 0 (Registered)</option>
+                        <option value="1">Stage 1</option>
+                        <option value="2">Stage 2</option>
+                        <option value="3">Stage 3</option>
+                        <option value="4">Stage 4</option>
+                        <option value="5">Stage 5</option>
+                        <option value="6">Stage 6</option>
+                        <option value="7">Stage 7 (Completed)</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="sort-by">Sort by:</label>
+                    <select id="sort-by">
+                        <option value="stage_desc">Stage (Highest First)</option>
+                        <option value="stage_asc">Stage (Lowest First)</option>
+                        <option value="sats_desc">Sats Won (Highest First)</option>
+                        <option value="sats_asc">Sats Won (Lowest First)</option>
+                        <option value="recent">Most Recent</option>
+                    </select>
+                </div>
+                <button id="refresh-btn" class="btn btn-secondary">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                        <path d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/>
+                        <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/>
+                    </svg>
+                    Refresh
+                </button>
+            </div>
+
+            <!-- Leaderboard Table -->
+            <div class="leaderboard-table-container">
+                <table class="leaderboard-table">
+                    <thead>
+                        <tr>
+                            <th>Rank</th>
+                            <th>Hunter</th>
+                            <th>Current Stage</th>
+                            <th>Total Sats Won</th>
+                            <th>Status</th>
+                            <th>Registered</th>
+                        </tr>
+                    </thead>
+                    <tbody id="leaderboard-tbody">
+                        <!-- Loading state -->
+                        <tr class="loading-row">
+                            <td colspan="6">
+                                <div class="loading-spinner">
+                                    <svg class="spinner" viewBox="0 0 50 50">
+                                        <circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>
+                                    </svg>
+                                    <p>Loading leaderboard...</p>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Hall of Heroes Section -->
+            <div class="hall-of-heroes-section" id="hall-of-heroes">
+                <h2>⭐ Hall of Heroes</h2>
+                <p class="section-subtitle">Hunters who chose The Satoshi Way and shared their prize with the community</p>
+
+                <div id="heroes-grid" class="heroes-grid">
+                    <!-- Will be populated by JavaScript -->
+                    <div class="heroes-empty">
+                        <div class="empty-icon">🏴‍☠️</div>
+                        <p>No heroes inducted yet...</p>
+                        <p class="empty-subtitle">Be the first to complete the hunt and choose The Satoshi Way.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="hunt-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <h3>Keys of the Caribbean</h3>
+                    <p>Season 1 — The Vault</p>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-column">
+                        <h4>Hunt</h4>
+                        <a href="index.html">Home</a>
+                        <a href="register.html">Register</a>
+                        <a href="rules.html">Official Rules</a>
+                    </div>
+                    <div class="footer-column">
+                        <h4>Flash</h4>
+                        <a href="../index.html">Home</a>
+                        <a href="../about.html">About</a>
+                        <a href="../merchants.html">Merchants</a>
+                    </div>
+                    <div class="footer-column">
+                        <h4>Support</h4>
+                        <a href="../faq.html">FAQ</a>
+                        <a href="../contact.html">Contact</a>
+                        <a href="../privacy.html">Privacy</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Flash. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/leaderboard.js"></script>
+</body>
+</html>

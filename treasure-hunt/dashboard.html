@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Your Keys of the Caribbean dashboard - Track your progress and continue the hunt.">
+    <title>Hunter Dashboard | Keys of the Caribbean</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="css/hunt.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="../favicon.ico">
+</head>
+<body class="hunt-page dashboard-page">
+    <!-- Navigation -->
+    <nav class="hunt-nav">
+        <div class="container">
+            <a href="../index.html" class="logo">
+                <span class="logo-text">Flash</span>
+            </a>
+            <div class="nav-links">
+                <a href="index.html">Hunt Home</a>
+                <a href="leaderboard.html">Leaderboard</a>
+                <a href="dashboard.html" class="active">Dashboard</a>
+                <button id="logout-btn" class="btn-secondary btn-small">Logout</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Dashboard Section -->
+    <section class="dashboard-section">
+        <div class="container">
+            <!-- Welcome Header -->
+            <div class="dashboard-header">
+                <div class="welcome-message">
+                    <h1>Welcome back, <span id="hunter-username">Hunter</span>! 🏴‍☠️</h1>
+                    <p class="tagline">Your journey through the Keys of the Caribbean continues...</p>
+                </div>
+                <div class="hunter-stats">
+                    <div class="stat-box">
+                        <div class="stat-label">Current Stage</div>
+                        <div class="stat-value" id="current-stage">-</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-label">Total Sats Won</div>
+                        <div class="stat-value" id="total-sats">-</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Progress Tracker -->
+            <div class="progress-tracker">
+                <h2>Your Progress</h2>
+                <div class="stages-progress">
+                    <div class="stage-item" data-stage="1">
+                        <div class="stage-circle">1</div>
+                        <div class="stage-info">
+                            <h3>The Awakening</h3>
+                            <p class="stage-status">Locked</p>
+                        </div>
+                    </div>
+                    <div class="stage-connector"></div>
+                    <div class="stage-item" data-stage="2">
+                        <div class="stage-circle">2</div>
+                        <div class="stage-info">
+                            <h3>The Ledger</h3>
+                            <p class="stage-status">Locked</p>
+                        </div>
+                    </div>
+                    <div class="stage-connector"></div>
+                    <div class="stage-item" data-stage="3">
+                        <div class="stage-circle">3</div>
+                        <div class="stage-info">
+                            <h3>The Gallery</h3>
+                            <p class="stage-status">Locked</p>
+                        </div>
+                    </div>
+                    <div class="stage-connector"></div>
+                    <div class="stage-item" data-stage="4">
+                        <div class="stage-circle">4</div>
+                        <div class="stage-info">
+                            <h3>The Pilgrimage</h3>
+                            <p class="stage-status">Locked</p>
+                        </div>
+                    </div>
+                    <div class="stage-connector"></div>
+                    <div class="stage-item" data-stage="5">
+                        <div class="stage-circle">5</div>
+                        <div class="stage-info">
+                            <h3>The Cipher</h3>
+                            <p class="stage-status">Locked</p>
+                        </div>
+                    </div>
+                    <div class="stage-connector"></div>
+                    <div class="stage-item" data-stage="6">
+                        <div class="stage-circle">6</div>
+                        <div class="stage-info">
+                            <h3>The Genesis</h3>
+                            <p class="stage-status">Locked</p>
+                        </div>
+                    </div>
+                    <div class="stage-connector"></div>
+                    <div class="stage-item" data-stage="7">
+                        <div class="stage-circle">7</div>
+                        <div class="stage-info">
+                            <h3>The Vault</h3>
+                            <p class="stage-status">Locked</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Current Task -->
+            <div class="current-task">
+                <h2>📍 Next Step</h2>
+                <div id="next-task-content" class="task-card">
+                    <div class="task-icon">🔍</div>
+                    <div class="task-details">
+                        <h3 id="task-title">Loading...</h3>
+                        <p id="task-description">Please wait while we load your next task.</p>
+                    </div>
+                    <a href="#" id="task-action" class="btn btn-primary" style="display: none;">Continue</a>
+                </div>
+            </div>
+
+            <!-- Recent Prizes -->
+            <div class="prizes-section">
+                <h2>⚡ Your Prizes</h2>
+                <div id="prizes-list" class="prizes-grid">
+                    <!-- Will be populated by JavaScript -->
+                    <div class="prizes-empty">
+                        <p>No prizes claimed yet. Complete stages to earn Bitcoin!</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Links -->
+            <div class="quick-links">
+                <a href="leaderboard.html" class="quick-link-card">
+                    <div class="quick-link-icon">🏆</div>
+                    <h3>Leaderboard</h3>
+                    <p>See how you rank</p>
+                </a>
+                <a href="rules.html" class="quick-link-card">
+                    <div class="quick-link-icon">📜</div>
+                    <h3>Official Rules</h3>
+                    <p>Review the guidelines</p>
+                </a>
+                <a href="../contact.html" class="quick-link-card">
+                    <div class="quick-link-icon">💬</div>
+                    <h3>Get Help</h3>
+                    <p>Contact support</p>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="hunt-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <h3>Keys of the Caribbean</h3>
+                    <p>Season 1 — The Vault</p>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-column">
+                        <h4>Hunt</h4>
+                        <a href="index.html">Home</a>
+                        <a href="leaderboard.html">Leaderboard</a>
+                        <a href="rules.html">Rules</a>
+                    </div>
+                    <div class="footer-column">
+                        <h4>Flash</h4>
+                        <a href="../index.html">Home</a>
+                        <a href="../about.html">About</a>
+                        <a href="../merchants.html">Merchants</a>
+                    </div>
+                    <div class="footer-column">
+                        <h4>Support</h4>
+                        <a href="../faq.html">FAQ</a>
+                        <a href="../contact.html">Contact</a>
+                        <a href="../privacy.html">Privacy</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Flash. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/dashboard.js"></script>
+</body>
+</html>
