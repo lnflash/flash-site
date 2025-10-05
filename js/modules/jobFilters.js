@@ -106,13 +106,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Here you would normally send the data to your server
         // For now, we'll just show the success message
-        console.log('Application submitted for:', formData.get('position-name'));
-        console.log('Applicant:', formData.get('applicant-name'));
-        console.log('Email:', formData.get('applicant-email'));
-        console.log('Phone:', formData.get('applicant-phone'));
-        console.log('LinkedIn:', formData.get('applicant-linkedin'));
-        console.log('Message:', formData.get('applicant-message'));
-        console.log('Resume:', formData.get('applicant-resume').name);
 
         // Show success message
         modalForm.style.display = 'none';

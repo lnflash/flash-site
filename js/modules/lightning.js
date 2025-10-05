@@ -115,16 +115,19 @@ function render() {
   }
   // draw the lightning
   draw(lightning, lightningSplit, opacity);
-  // print out log that randomly displays different console log messages, with the 5th message being 'code for the rabbit hole is 69420'
+
+  // Easter egg messages (commented out for production)
+  // Uncomment to enable random console messages
+  /*
   const logMessages = [
-    'code for the rabbit hole is 69420', 
-    'you are not alone', 
-    'there is no spoon', 
-    'wake up, sons and daughters', 
-    'the cake is a lie', 
-    'the answer is 42', 
-    'dont panic', 
-    'are you lost?', 
+    'code for the rabbit hole is 69420',
+    'you are not alone',
+    'there is no spoon',
+    'wake up, sons and daughters',
+    'the cake is a lie',
+    'the answer is 42',
+    'dont panic',
+    'are you lost?',
     'you are not lost',
     'we are all Satoshi',
     'the revolution is decentralized',
@@ -138,6 +141,7 @@ function render() {
   ];
   const logMessage = logMessages[Math.floor(Math.random() * logMessages.length)];
   console.log(logMessage);
+  */
 }
 
 function createLightning() {

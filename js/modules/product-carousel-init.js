@@ -102,7 +102,6 @@ document.addEventListener('DOMContentLoaded', function () {
       },
       slideChangeTransitionEnd: function () {
         // Optional: Add analytics or custom behavior
-        console.log('Active product:', this.realIndex);
       },
       transitionEnd: function () {
         // Ensure smooth state after transition
