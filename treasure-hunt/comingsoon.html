@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coming Soon | Quays of the Karribean</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="css/hunt.css">
+
+    <style>
+        body {
+            background: linear-gradient(135deg, #0B0E11 0%, #053B44 50%, #0B0E11 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        .treasure-container {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .treasure-box {
+            max-width: 700px;
+            text-align: center;
+            background: rgba(11, 14, 17, 0.8);
+            border: 2px solid var(--flash-green);
+            border-radius: 20px;
+            padding: 3rem;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 20px 60px rgba(65, 173, 73, 0.3);
+        }
+
+        .treasure-icon {
+            font-size: 8rem;
+            margin-bottom: 1rem;
+            animation: float 3s ease-in-out infinite;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .treasure-icon:active {
+            animation: spin 0.5s ease;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0px) rotate(0deg);
+            }
+
+            50% {
+                transform: translateY(-20px) rotate(5deg);
+            }
+        }
+
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        h1 {
+            font-size: 3rem;
+            color: var(--flash-yellow);
+            margin-bottom: 1rem;
+            text-shadow: 0 0 20px rgba(246, 196, 83, 0.5);
+        }
+
+        .subtitle {
+            font-size: 1.8rem;
+            color: var(--flash-green);
+            margin-bottom: 2rem;
+        }
+
+        .countdown {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            margin: 3rem 0;
+        }
+
+        .countdown-item {
+            background: rgba(65, 173, 73, 0.1);
+            border: 1px solid var(--flash-green);
+            border-radius: 12px;
+            padding: 1.5rem 1rem;
+        }
+
+        .countdown-number {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--flash-yellow);
+            font-family: monospace;
+        }
+
+        .countdown-label {
+            font-size: 0.9rem;
+            color: var(--sea-gray);
+            text-transform: uppercase;
+            margin-top: 0.5rem;
+        }
+
+        .compass-container {
+            margin: 3rem 0;
+            position: relative;
+            width: 200px;
+            height: 200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .compass {
+            width: 100%;
+            height: 100%;
+            border: 3px solid var(--flash-green);
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(65, 173, 73, 0.2) 0%, rgba(11, 14, 17, 0.8) 70%);
+            position: relative;
+            cursor: grab;
+            transition: transform 0.3s ease;
+        }
+
+        .compass:active {
+            cursor: grabbing;
+        }
+
+        .compass-needle {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 4px;
+            height: 80px;
+            background: linear-gradient(to bottom, var(--flash-red) 0%, var(--flash-yellow) 100%);
+            transform-origin: center bottom;
+            transform: translate(-50%, -100%);
+            border-radius: 2px;
+            transition: transform 0.5s ease;
+        }
+
+        .compass-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 20px;
+            height: 20px;
+            background: var(--flash-yellow);
+            border: 2px solid var(--flash-green);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 2;
+        }
+
+        .notify-form {
+            margin-top: 2rem;
+            display: flex;
+            gap: 1rem;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .notify-input {
+            flex: 1;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(65, 173, 73, 0.3);
+            border-radius: 8px;
+            color: white;
+            font-size: 1rem;
+        }
+
+        .notify-input:focus {
+            outline: none;
+            border-color: var(--flash-green);
+        }
+
+        .notify-btn {
+            padding: 1rem 2rem;
+            background: var(--flash-green);
+            color: var(--flash-black);
+            border: none;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .notify-btn:hover {
+            background: var(--flash-yellow);
+            transform: scale(1.05);
+        }
+
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .particle {
+            position: absolute;
+            opacity: 0.6;
+            animation: drift 15s infinite;
+        }
+
+        @keyframes drift {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 0.6;
+            }
+
+            90% {
+                opacity: 0.6;
+            }
+
+            100% {
+                transform: translateY(-100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .hint-text {
+            margin-top: 2rem;
+            font-size: 0.9rem;
+            color: var(--sea-gray);
+            font-style: italic;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .subtitle {
+                font-size: 1.2rem;
+            }
+
+            .countdown {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+            }
+
+            .countdown-number {
+                font-size: 2rem;
+            }
+
+            .treasure-icon {
+                font-size: 5rem;
+            }
+        }
+    </style>
+</head>
+
+<body class="hunt-page">
+    <!-- Navigation -->
+    <nav class="hunt-nav">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <img src="../treasure-hunt-for-real-this-time-2140/assets/img/kotc_icon_primary.svg" alt="KOTC Logo"
+                    class="logo-icon">
+                <span class="logo-text">Quays of the Karribean</span>
+            </a>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="rabbithole.html">Rules</a>
+                <a href="dashboard.html">Leaderboard</a>
+                <a href="register.html" class="btn-primary">Register</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Floating Particles -->
+    <div class="particles" id="particles"></div>
+
+    <!-- Main Content -->
+    <div class="treasure-container">
+        <div class="treasure-box">
+            <div class="treasure-icon" id="treasureIcon" onclick="spinTreasure()">🏴‍☠️</div>
+            <h1>Coming Soon!</h1>
+            <p class="subtitle">The Greatest Digital Gold Treasure Hunt Ever in the Caribbean</p>
+
+            <div class="countdown" id="countdown">
+                <div class="countdown-item">
+                    <div class="countdown-number" id="days">--</div>
+                    <div class="countdown-label">Days</div>
+                </div>
+                <div class="countdown-item">
+                    <div class="countdown-number" id="hours">--</div>
+                    <div class="countdown-label">Hours</div>
+                </div>
+                <div class="countdown-item">
+                    <div class="countdown-number" id="minutes">--</div>
+                    <div class="countdown-label">Minutes</div>
+                </div>
+                <div class="countdown-item">
+                    <div class="countdown-number" id="seconds">--</div>
+                    <div class="countdown-label">Seconds</div>
+                </div>
+            </div>
+
+            <p style="color: var(--flash-yellow); font-size: 1.1rem; margin-bottom: 1rem;">
+                🧭 Spin the compass to find your fortune...
+            </p>
+
+            <div class="compass-container">
+                <div class="compass" id="compass" onclick="spinCompass()">
+                    <div class="compass-needle" id="needle"></div>
+                    <div class="compass-center"></div>
+                </div>
+            </div>
+
+            <form class="notify-form" id="notifyForm">
+                <input type="email" class="notify-input" placeholder="your@email.com" required>
+                <button type="submit" class="notify-btn">Notify Me</button>
+            </form>
+
+            <p class="hint-text">
+                "Not all treasure is silver and gold, mate..." - Captain Jack Sparrow
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // Countdown Timer (counts to a date that already passed - the joke!)
+        const targetDate = new Date('September 31, 2025 00:00:00').getTime();
+
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = targetDate - now;
+
+            // If the date is in the past, show negative time (the joke)
+            const days = Math.floor(Math.abs(distance) / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((Math.abs(distance) % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((Math.abs(distance) % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((Math.abs(distance) % (1000 * 60)) / 1000);
+
+            document.getElementById('days').textContent = distance < 0 ? '-' + days : days;
+            document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+            document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
+            document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
+        }
+
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
+
+        // Compass Spinner
+        let currentRotation = 0;
+        function spinCompass() {
+            const needle = document.getElementById('needle');
+            const randomSpins = Math.floor(Math.random() * 5) + 3; // 3-7 full spins
+            const randomAngle = Math.random() * 360;
+            currentRotation += (360 * randomSpins) + randomAngle;
+            needle.style.transform = `translate(-50%, -100%) rotate(${currentRotation}deg)`;
+        }
+
+        // Treasure Icon Spin
+        let spinCount = 0;
+        function spinTreasure() {
+            const icon = document.getElementById('treasureIcon');
+            spinCount++;
+
+            if (spinCount === 7) {
+                // Easter egg after 7 clicks
+                icon.textContent = '💀';
+                setTimeout(() => {
+                    icon.textContent = '🏴‍☠️';
+                }, 1000);
+            }
+        }
+
+        // Notify Form (fake submission)
+        document.getElementById('notifyForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const btn = this.querySelector('.notify-btn');
+            const originalText = btn.textContent;
+            btn.textContent = 'Sending...';
+            btn.disabled = true;
+
+            setTimeout(() => {
+                btn.textContent = '✓ You\'ve been tricked!';
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    btn.disabled = false;
+                    this.querySelector('input').value = '';
+                }, 3000);
+            }, 1500);
+        });
+
+        // Floating Particles
+        function createParticle() {
+            const particles = document.getElementById('particles');
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.fontSize = (Math.random() * 20 + 15) + 'px';
+            particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
+            particle.style.animationDelay = Math.random() * 5 + 's';
+
+            const symbols = ['₿', '⚡', '🪙', '💰', '🗝️', '🏴‍☠️'];
+            particle.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+
+            particles.appendChild(particle);
+
+            // Remove after animation
+            setTimeout(() => {
+                particle.remove();
+            }, 20000);
+        }
+
+        // Create particles periodically
+        for (let i = 0; i < 15; i++) {
+            setTimeout(createParticle, i * 1000);
+        }
+        setInterval(() => {
+            createParticle();
+        }, 15000);
+
+        // Console Easter Egg
+        const styles = {
+            title: 'color: #F6C453; font-size: 20px; font-weight: bold;',
+            message: 'color: #41AD49; font-size: 14px;',
+            warning: 'color: #D12229; font-size: 12px;'
+        };
+
+        console.log('%c🏴‍☠️ Ahoy, Clever Hunter! 🏴‍☠️', styles.title);
+        console.log('%cYou found the console, but this page is a decoy!', styles.message);
+        console.log('%cThe countdown is going BACKWARDS because this hunt already happened... or did it?', styles.warning);
+        console.log('%cKeep searching. X marks the spot... somewhere else. 🗺️', styles.message);
+        console.log('%c\nHint: The URL path might give you a clue about what\'s real and what\'s not...', styles.warning);
+    </script>
+
+    <!-- Footer -->
+    <footer class="hunt-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <h3>Quays of the Karribean</h3>
+                    <p>Coming Soon™</p>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-column">
+                        <h4>Hunt</h4>
+                        <a href="index.html">Home</a>
+                        <a href="register.html">Register</a>
+                        <a href="dashboard.html">Dashboard</a>
+                    </div>
+                    <div class="footer-column">
+                        <h4>Flash</h4>
+                        <a href="../index.html">Home</a>
+                        <a href="../team.html">Team</a>
+                        <a href="../faq.html">FAQ</a>
+                    </div>
+                    <div class="footer-column">
+                        <h4>Community</h4>
+                        <a href="https://twitter.com/LNFlash" target="_blank">Twitter</a>
+                        <a href="https://t.me/flashapp" target="_blank">Telegram</a>
+                        <a href="../index.html#pg-contact">Contact</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Quays of the Karribean. Powered by <a href="../index.html">Flash</a></p>
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>

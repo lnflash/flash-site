@@ -1459,6 +1459,53 @@ footer {
   text-align: center;
 }
 
+/* KOTC Easter Egg - Floating Bottom Right */
+.floating-kotc-logo {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  left: 50px;
+  width: 32px;
+  height: 32px;
+  opacity: 0.2;
+  transition: all 0.3s ease;
+  animation: kotc-float 4s ease-in-out infinite;
+  z-index: 9999;
+  cursor: pointer;
+  display: block;
+  overflow: hidden;
+}
+
+.floating-kotc-logo img {
+  width: 100%;
+  height: 100%;
+  max-width: 32px;
+  max-height: 32px;
+  display: block;
+  object-fit: contain;
+  filter: grayscale(0.3) opacity(0.8);
+}
+
+.floating-kotc-logo:hover {
+  opacity: 0.8;
+  transform: scale(1.2) rotate(5deg);
+  filter: none;
+}
+
+.floating-kotc-logo:hover img {
+  filter: grayscale(0) opacity(1);
+}
+
+@keyframes kotc-float {
+  0%,
+  100% {
+    transform: translateY(-50%) translateX(0px);
+  }
+  50% {
+    transform: translateY(-50%) translateX(2px);
+  }
+}
+
 /* Media Queries */
 /* Hover */
 @media (hover: none) {
@@ -1860,6 +1907,16 @@ footer {
   }
   .banner-bg {
     bottom: 0;
+  }
+  .floating-kotc-logo {
+    width: 28px;
+    height: 28px;
+    bottom: 16px;
+    right: 16px;
+  }
+  .floating-kotc-logo img {
+    max-width: 28px;
+    max-height: 28px;
   }
   .pg-about {
     margin-top: 0;
