@@ -1,0 +1,14 @@
+# Force trailing slash for directory
+DirectorySlash On
+
+# Redirect to add trailing slash if missing
+RewriteEngine On
+RewriteBase /treasure-hunt-for-real-this-time-2140/
+
+# If requesting the directory without trailing slash, add it
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_URI} !(.*)/$
+RewriteRule ^(.*)$ /$1/ [L,R=301]
+
+# Default index file
+DirectoryIndex index.html

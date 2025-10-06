@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200" role="img" aria-label="KOTC logo">
+    <defs>
+      <linearGradient id="goldGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+        <stop offset="0%" stop-color="#FDB64B"/>
+        <stop offset="100%" stop-color="#F7931A"/>
+      </linearGradient>
+      <filter id="softGlow" x="-50%" y="-50%" width="200%" height="200%">
+        <feGaussianBlur stdDeviation="3" result="glow"/>
+        <feMerge>
+          <feMergeNode in="glow"/>
+          <feMergeNode in="SourceGraphic"/>
+        </feMerge>
+      </filter>
+    </defs>
+    <rect width="200" height="200" fill="#0A0F1F" rx="20"/><polygon points="132.37,75.00 132.37,117.00 96.00,138.00 59.63,117.00 59.63,75.00 96.00,54.00" fill="url(#goldGrad)" filter="url(#softGlow)"/>
+<path d="M 96.00 74.00 L 104.00 94.00 L 94.00 94.00 L 106.00 114.00 L 84.00 98.00 L 98.00 98.00 L 90.00 118.00 Z" fill="#FFFFFF"/>
+<g fill="url(#goldGrad)"><rect x="88" y="131" width="16" height="60" rx="8" /></g>
+<g fill="url(#goldGrad)"><rect x="102" y="156" width="24" height="10" rx="2" /><rect x="102" y="174" width="16" height="10" rx="2" /></g>
+<path d="
+    M 46 206
+    C 70.0 198, 82.0 214, 106.0 206
+    C 130.0 198, 142.0 214, 166 206
+    L 166 212 L 46 212 Z
+    " fill="#00E0FF" opacity="0.9"/>
+</svg>

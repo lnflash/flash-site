@@ -378,53 +378,153 @@ section {
     line-height: 1.6;
 }
 
-/* Stages Section */
-.stages-hunt {
+/* Visual Journey Section */
+.visual-journey {
     background: var(--deep-teal);
 }
 
-.stages-timeline {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-    max-width: 800px;
-    margin: 0 auto;
+/* Hunt Video Container */
+.hunt-video-container {
+    max-width: 900px;
+    margin: 0 auto 4rem;
 }
 
-.stage-card {
-    display: flex;
-    gap: 2rem;
-    align-items: flex-start;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(124, 138, 146, 0.3);
-    border-radius: 12px;
-    padding: 1.5rem;
-    transition: all 0.3s ease;
+.video-placeholder {
+    position: relative;
+    width: 100%;
+    padding-bottom: 56.25%; /* 16:9 aspect ratio */
+    background: linear-gradient(135deg, rgba(11, 14, 17, 0.8) 0%, rgba(5, 59, 68, 0.9) 100%);
+    border-radius: 20px;
+    overflow: hidden;
+    border: 2px solid rgba(65, 173, 73, 0.3);
+    cursor: pointer;
+    transition: all 0.4s ease;
 }
 
-.stage-card:hover {
-    border-color: var(--gold-accent);
-    transform: translateX(10px);
+.video-placeholder:hover {
+    border-color: var(--flash-green);
+    transform: scale(1.02);
+    box-shadow: 0 20px 60px rgba(65, 173, 73, 0.3);
 }
 
-.stage-final {
-    border-color: var(--gold-accent);
-    background: rgba(246, 196, 83, 0.1);
+.video-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    z-index: 2;
+    width: 100%;
+    padding: 2rem;
 }
 
-.stage-number {
-    flex-shrink: 0;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
+.video-overlay h3 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 0.5rem;
+}
+
+.video-overlay p {
+    font-size: 1.2rem;
+    color: var(--sea-gray);
+    font-style: italic;
+}
+
+.play-button {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80px;
+    height: 80px;
     background: var(--flash-green);
-    color: var(--rich-black);
+    border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
+    font-size: 2rem;
+    color: var(--rich-black);
+    z-index: 1;
+    transition: all 0.3s ease;
+    box-shadow: 0 10px 40px rgba(65, 173, 73, 0.4);
+}
+
+.video-placeholder:hover .play-button {
+    transform: translate(-50%, -50%) scale(1.1);
+    background: var(--gold-accent);
+    box-shadow: 0 15px 50px rgba(246, 196, 83, 0.5);
+}
+
+/* Hunt Visuals Grid */
+.hunt-visuals {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
+}
+
+.visual-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(65, 173, 73, 0.2);
+    border-radius: 16px;
+    overflow: hidden;
+    transition: all 0.4s ease;
+    cursor: pointer;
+}
+
+.visual-card:hover {
+    transform: translateY(-10px);
+    border-color: var(--flash-green);
+    box-shadow: 0 20px 40px rgba(65, 173, 73, 0.3);
+}
+
+.visual-image {
+    width: 100%;
+    height: 250px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s ease;
+}
+
+.visual-card:hover .visual-image {
+    transform: scale(1.05);
+}
+
+.visual-caption {
+    padding: 1.5rem;
+    text-align: center;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--flash-green);
+    background: rgba(11, 14, 17, 0.8);
+    transition: all 0.3s ease;
+}
+
+.visual-card:hover .visual-caption {
+    color: var(--gold-accent);
+    background: rgba(11, 14, 17, 1);
+}
+
+/* Hunt CTA Section */
+.hunt-cta-section {
+    text-align: center;
+    margin-top: 4rem;
+}
+
+.hunt-tagline {
     font-size: 1.5rem;
-    font-weight: 800;
-    font-family: 'Urbanist', sans-serif;
+    color: var(--sea-gray);
+    margin-bottom: 2rem;
+    font-weight: 500;
+    font-style: italic;
+}
+
+.hunt-cta-section .btn {
+    margin-top: 1rem;
 }
 
 .stage-final .stage-number {
@@ -483,11 +583,40 @@ section {
     margin-bottom: 1rem;
 }
 
+.leaderboard-row {
+    display: grid;
+    grid-template-columns: 60px 1fr 100px 120px 100px;
+    gap: 1rem;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.02);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    transition: background 0.3s ease;
+    align-items: center;
+}
+
+.leaderboard-row:hover {
+    background: rgba(65, 173, 73, 0.05);
+}
+
+.leaderboard-row .rank-cell {
+    font-weight: 700;
+    color: var(--flash-yellow);
+}
+
+.leaderboard-row .username-cell {
+    font-weight: 600;
+    color: var(--text-colour);
+}
+
+.leaderboard-row .stage-cell,
+.leaderboard-row .sats-cell,
+.leaderboard-row .status-cell {
+    color: var(--text-colour);
+    opacity: 0.8;
+}
+
 .leaderboard-body {
     min-height: 200px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
 .leaderboard-empty {
@@ -704,5 +833,23 @@ section {
     .btn-large {
         width: 100%;
         max-width: 300px;
+    }
+
+    .hunt-visuals {
+        grid-template-columns: 1fr;
+    }
+
+    .visual-image {
+        height: 200px;
+    }
+
+    .video-overlay h3 {
+        font-size: 1.5rem;
+    }
+
+    .play-button {
+        width: 60px;
+        height: 60px;
+        font-size: 1.5rem;
     }
 }

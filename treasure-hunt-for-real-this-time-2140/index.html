@@ -1,35 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Keys of the Caribbean - A $5,000+ Bitcoin treasure hunt across Jamaica combining cryptography, culture, and physical adventure.">
+    <base href="/treasure-hunt-for-real-this-time-2140/">
+    <meta name="description"
+        content="Keys of the Caribbean - A $5,000+ Bitcoin treasure hunt across Jamaica combining cryptography, culture, and physical adventure.">
     <title>Keys of the Caribbean | Bitcoin Treasure Hunt</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet">
 
     <!-- Styles -->
     <link rel="stylesheet" href="../css/main.css">
     <link rel="stylesheet" href="css/hunt.css">
 
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="../favicon.ico">
+    <link rel="icon" type="image/png" sizes="256x256" href="assets/img/kotc_icon_primary_256.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="assets/img/kotc_icon_primary_512.png">
+    <link rel="apple-touch-icon" sizes="1024x1024" href="assets/img/kotc_icon_primary_1024.png">
 </head>
+
 <body class="hunt-page">
     <!-- Navigation -->
     <nav class="hunt-nav">
         <div class="container">
-            <a href="../index.html" class="logo">
-                <span class="logo-text">Flash</span>
+            <a href="index.html" class="logo">
+                <img src="assets/img/kotc_icon_primary.svg" alt="KOTC Logo" class="logo-icon">
+                <span class="logo-text">Keys of the Caribbean</span>
             </a>
             <div class="nav-links">
-                <a href="#about">About</a>
-                <a href="#stages">Stages</a>
-                <a href="#leaderboard">Leaderboard</a>
-                <a href="#prizes">Prizes</a>
+                <a href="index.html">Home</a>
+                <a href="rules.html">Rules</a>
+                <a href="leaderboard.html">Leaderboard</a>
                 <a href="register.html" class="btn-primary">Register</a>
             </div>
         </div>
@@ -40,6 +48,17 @@
         <canvas id="lightning-bg"></canvas>
         <div class="container">
             <div class="hero-content">
+
+                <!-- Video Teaser -->
+                <div class="hunt-video-container">
+                    <div class="video-placeholder">
+                        <div class="play-button">▶</div>
+                        <div class="video-overlay">
+                            <h3>Watch the Teaser</h3>
+                            <p>Coming Soon</p>
+                        </div>
+                    </div>
+                </div>
                 <div class="hunt-badge">Season 1 — The Vault</div>
                 <h1 class="hero-title">
                     Keys of the <span class="highlight">Caribbean</span>
@@ -47,7 +66,8 @@
                 <p class="hero-tagline">Solve the code. Walk the island. Claim the sats.</p>
                 <div class="hero-stats">
                     <div class="stat">
-                        <div class="stat-value">$5,000+</div>
+                        <div class="stat-value">USD
+                            $5,000+</div>
                         <div class="stat-label">Prize Pool</div>
                     </div>
                     <div class="stat">
@@ -66,7 +86,8 @@
                 <div class="hero-scroll">
                     <span>Scroll to explore</span>
                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                        <path d="M10 4V16M10 16L4 10M10 16L16 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M10 4V16M10 16L4 10M10 16L16 10" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round" />
                     </svg>
                 </div>
             </div>
@@ -78,97 +99,80 @@
         <div class="container">
             <div class="section-header">
                 <h2>The Legend Begins</h2>
-                <p class="section-subtitle">Before Satoshi disappeared, they left encrypted clues across the Caribbean—the birthplace of freedom and rebellion.</p>
+                <p class="section-subtitle">Before Satoshi disappeared, they left encrypted clues across the
+                    Caribbean—the birthplace of freedom and rebellion.</p>
             </div>
             <div class="about-grid">
                 <div class="about-card">
                     <div class="card-icon">🔐</div>
                     <h3>Cryptographic Puzzles</h3>
-                    <p>Decode messages, analyze blockchain transactions, and crack ciphers using real Bitcoin history and cryptography.</p>
+                    <p>Decode messages, analyze blockchain transactions, and crack ciphers using real Bitcoin history
+                        and cryptography.</p>
                 </div>
                 <div class="about-card">
                     <div class="card-icon">🇯🇲</div>
                     <h3>Physical Adventure</h3>
-                    <p>Travel to Jamaica and discover hidden markers, interact with Flash merchants, and prove your location.</p>
+                    <p>Travel to Jamaica and discover hidden markers, interact with Flash merchants, and prove your
+                        location.</p>
                 </div>
                 <div class="about-card">
                     <div class="card-icon">⚡</div>
                     <h3>Lightning Rewards</h3>
-                    <p>Win Bitcoin prizes at every stage via instant LNURL withdrawals. Satoshis flow directly to your wallet.</p>
+                    <p>Win Bitcoin prizes at every stage via instant LNURL withdrawals. Satoshis flow directly to your
+                        wallet.</p>
                 </div>
                 <div class="about-card">
                     <div class="card-icon">🏆</div>
                     <h3>The Final Choice</h3>
-                    <p>Stage 7 isn't a puzzle—it's a moral dilemma inspired by Satoshi's philosophy. What will you choose?</p>
+                    <p>Stage 7 isn't a puzzle—it's a moral dilemma inspired by Satoshi's philosophy. What will you
+                        choose?</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Stages Section -->
-    <section id="stages" class="stages-hunt">
+    <!-- Visual Journey Section -->
+    <section id="journey" class="visual-journey">
         <div class="container">
             <div class="section-header">
-                <h2>The Seven Stages</h2>
-                <p class="section-subtitle">Each stage brings you closer to the vault, testing your wit, courage, and character.</p>
+                <h2>The Hunt</h2>
+                <p class="section-subtitle">Seven stages. Real Bitcoin. One unforgettable adventure.</p>
             </div>
-            <div class="stages-timeline">
-                <div class="stage-card">
-                    <div class="stage-number">1</div>
-                    <div class="stage-content">
-                        <h3>The Awakening</h3>
-                        <p>Follow the lightning strikes and decode the hidden console messages on the Flash website.</p>
-                        <div class="stage-prize">Prize: $13</div>
+
+            <!-- Visual Grid -->
+            <div class="hunt-visuals">
+                <div class="visual-card">
+                    <div class="visual-image"
+                        style="background: linear-gradient(135deg, #0B0E11 0%, #1a4d2e 100%); position: relative;">
+                        <div
+                            style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 4rem;">
+                            💻</div>
                     </div>
+                    <div class="visual-caption">Digital</div>
                 </div>
-                <div class="stage-card">
-                    <div class="stage-number">2</div>
-                    <div class="stage-content">
-                        <h3>The Ledger</h3>
-                        <p>Analyze blockchain transactions and crack the cipher hidden in Bitcoin's history.</p>
-                        <div class="stage-prize">Prize: $26</div>
+                <div class="visual-card">
+                    <div class="visual-image"
+                        style="background: linear-gradient(135deg, #0B0E11 0%, #2e4d1a 100%); position: relative;">
+                        <div
+                            style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 4rem;">
+                            🏝️</div>
                     </div>
+                    <div class="visual-caption">Physical</div>
                 </div>
-                <div class="stage-card">
-                    <div class="stage-number">3</div>
-                    <div class="stage-content">
-                        <h3>The Gallery of Legends</h3>
-                        <p>Discover the message concealed within the image using steganography techniques.</p>
-                        <div class="stage-prize">Prize: $62</div>
+                <div class="visual-card">
+                    <div class="visual-image"
+                        style="background: linear-gradient(135deg, #0B0E11 0%, #4d2e1a 100%); position: relative;">
+                        <div
+                            style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 4rem;">
+                            ⚡</div>
                     </div>
+                    <div class="visual-caption">Lightning</div>
                 </div>
-                <div class="stage-card">
-                    <div class="stage-number">4</div>
-                    <div class="stage-content">
-                        <h3>The Physical Pilgrimage</h3>
-                        <p>Travel to Jamaica and find the golden treasure marker using GPS coordinates.</p>
-                        <div class="stage-prize">Prize: $93</div>
-                    </div>
-                </div>
-                <div class="stage-card">
-                    <div class="stage-number">5</div>
-                    <div class="stage-content">
-                        <h3>The Caribbean Cipher</h3>
-                        <p>Interact with Flash merchants and decode cultural clues from across the island.</p>
-                        <div class="stage-prize">Prize: $130</div>
-                    </div>
-                </div>
-                <div class="stage-card">
-                    <div class="stage-number">6</div>
-                    <div class="stage-content">
-                        <h3>The Genesis Block</h3>
-                        <p>Solve complex cryptographic puzzles combining Bitcoin's origins and Satoshi's vision.</p>
-                        <div class="stage-prize">Prize: $186</div>
-                    </div>
-                </div>
-                <div class="stage-card stage-final">
-                    <div class="stage-number">7</div>
-                    <div class="stage-content">
-                        <h3>The Vault & The Choice</h3>
-                        <p>Face the ultimate decision: keep it all, or share and enter the Hall of Heroes?</p>
-                        <div class="stage-prize">Prize: $310 - $2,100</div>
-                    </div>
-                </div>
+            </div>
+
+            <div class="hunt-cta-section">
+                <p class="hunt-tagline">Solve puzzles. Explore Jamaica. Earn Bitcoin.</p>
+                <a href="register.html" class="btn btn-large btn-primary">Begin the Hunt</a>
             </div>
         </div>
     </section>
@@ -178,7 +182,8 @@
         <div class="container">
             <div class="section-header">
                 <h2>Hall of Heroes</h2>
-                <p class="section-subtitle">Track the progress of legendary hunters on their quest to unlock the vault.</p>
+                <p class="section-subtitle">Track the progress of legendary hunters on their quest to unlock the vault.
+                </p>
             </div>
             <div class="leaderboard-container">
                 <div class="leaderboard-header">
@@ -245,31 +250,51 @@
                 <div class="footer-links">
                     <div class="footer-column">
                         <h4>Hunt</h4>
+                        <a href="index.html">Home</a>
                         <a href="register.html">Register</a>
                         <a href="leaderboard.html">Leaderboard</a>
-                        <a href="rules.html">Official Rules</a>
                     </div>
                     <div class="footer-column">
                         <h4>Flash</h4>
                         <a href="../index.html">Home</a>
-                        <a href="../about.html">About</a>
-                        <a href="../merchants.html">Merchants</a>
+                        <a href="../team.html">Team</a>
+                        <a href="../faq.html">FAQ</a>
                     </div>
                     <div class="footer-column">
                         <h4>Community</h4>
                         <a href="https://twitter.com/LNFlash" target="_blank">Twitter</a>
                         <a href="https://t.me/flashapp" target="_blank">Telegram</a>
-                        <a href="../contact.html">Contact</a>
+                        <a href="../index.html#pg-contact">Contact</a>
                     </div>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2025 Flash. All rights reserved. | <a href="rules.html">Official Rules</a> | <a href="../privacy.html">Privacy</a></p>
+                <p>&copy; 2025 Keys of the Caribbean. Powered by <a href="../index.html">Flash</a></p>
             </div>
         </div>
     </footer>
 
     <!-- Scripts -->
     <script src="js/hunt.js"></script>
+
+    <!-- Welcome Message for Successful Hunters -->
+    <script>
+        const styles = {
+            success: 'background: linear-gradient(90deg, #41AD49, #F5A623); color: #000; font-size: 20px; font-weight: bold; padding: 10px 20px; border-radius: 4px;',
+            text: 'color: #41AD49; font-size: 16px; font-weight: bold;',
+            normal: 'color: #fff; font-size: 14px;'
+        };
+
+        console.clear();
+        console.log('%c 🎉 CONGRATULATIONS! 🎉 ', styles.success);
+        console.log('%c\n✅ You solved the puzzle and found the real treasure hunt!', styles.text);
+        console.log('%c\nYou\'ve proven you have what it takes:', styles.normal);
+        console.log('%c  ✓ Curiosity to explore', styles.normal);
+        console.log('%c  ✓ Knowledge of Bitcoin fundamentals', styles.normal);
+        console.log('%c  ✓ Persistence to find hidden paths', styles.normal);
+        console.log('%c\nWelcome to Keys of the Caribbean.', styles.text);
+        console.log('%cYour real adventure begins now... 🏴‍☠️⚡\n', styles.normal);
+    </script>
 </body>
+
 </html>

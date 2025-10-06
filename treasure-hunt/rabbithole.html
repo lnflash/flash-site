@@ -1,146 +1,349 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="The Awakening - Stage 1 of Keys of the Caribbean">
-    <title>The Rabbit Hole | Keys of the Caribbean</title>
-
-    <!-- Fonts -->
+    <title>The Rabbit Hole | Quays of the Karribean</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-
-    <!-- Styles -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="../css/main.css">
     <link rel="stylesheet" href="css/hunt.css">
-    <link rel="stylesheet" href="css/stage.css">
+    <style>
+        .rabbit-container {
+            max-width: 800px;
+            margin: 120px auto;
+            padding: 2rem;
+            text-align: center;
+        }
 
-    <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="../favicon.ico">
+        .mysterious-box {
+            background: linear-gradient(135deg, rgba(65, 173, 73, 0.1), rgba(245, 166, 35, 0.1));
+            border: 2px solid var(--flash-green);
+            border-radius: 20px;
+            padding: 3rem;
+            margin: 2rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mysterious-box::before {
+            content: '🐰';
+            position: absolute;
+            font-size: 10rem;
+            opacity: 0.05;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .cryptic-message {
+            font-family: 'Courier New', monospace;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 2rem;
+            border-radius: 12px;
+            margin: 2rem 0;
+            font-size: 1.1rem;
+            color: var(--flash-green);
+            line-height: 1.8;
+        }
+
+        .decode-btn {
+            background: var(--flash-green);
+            color: var(--flash-black);
+            padding: 1rem 2.5rem;
+            border: none;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 2rem 0;
+        }
+
+        .decode-btn:hover {
+            background: var(--flash-yellow);
+            transform: scale(1.05);
+        }
+
+        .fake-prize {
+            background: rgba(246, 196, 83, 0.2);
+            border: 2px dashed var(--flash-yellow);
+            border-radius: 16px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+
+        .spinning {
+            animation: spin 2s linear infinite;
+        }
+
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .rickroll-section {
+            margin: 3rem 0;
+            padding: 2rem;
+            background: rgba(209, 34, 41, 0.1);
+            border: 3px solid var(--flash-red);
+            border-radius: 20px;
+        }
+
+        .rickroll-image-container {
+            text-align: center;
+            margin: 2rem 0;
+        }
+
+        .trick-message {
+            background: linear-gradient(135deg, rgba(209, 34, 41, 0.2), rgba(245, 166, 35, 0.2));
+            border: 3px solid var(--flash-yellow);
+            border-radius: 16px;
+            padding: 3rem 2rem;
+            margin-top: 2rem;
+        }
+
+        .trick-message h2 {
+            font-size: 3rem;
+            color: var(--flash-red);
+            margin-bottom: 1.5rem;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.7;
+            }
+        }
+
+        .trick-message p {
+            font-size: 1.3rem;
+            line-height: 1.8;
+            margin: 1rem 0;
+        }
+
+        .hint-box {
+            background: rgba(65, 173, 73, 0.1);
+            border-left: 4px solid var(--flash-green);
+            padding: 1.5rem;
+            margin-top: 2rem;
+            border-radius: 8px;
+            text-align: left;
+        }
+    </style>
 </head>
-<body class="hunt-page stage-page">
-    <!-- Loading Screen -->
-    <div id="loading-screen" class="loading-screen">
-        <div class="loading-content">
-            <div class="loading-spinner-large">
-                <svg class="spinner" viewBox="0 0 50 50">
-                    <circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>
-                </svg>
-            </div>
-            <p class="loading-text">Verifying your key...</p>
-        </div>
-    </div>
 
-    <!-- Error Screen -->
-    <div id="error-screen" class="error-screen" style="display: none;">
-        <div class="error-content">
-            <div class="error-icon">❌</div>
-            <h1>Invalid Key</h1>
-            <p id="error-message">The key you provided is not valid or has expired.</p>
-            <a href="index.html" class="btn btn-primary">Return Home</a>
-        </div>
-    </div>
-
-    <!-- Stage 1 Content -->
-    <div id="stage1-content" class="stage-content" style="display: none;">
+<body class="hunt-page" style="background: var(--flash-black); color: var(--flash-white);">
+    <nav class="hunt-nav">
         <div class="container">
-            <!-- Stage Header -->
-            <div class="stage-header">
-                <div class="hunt-badge">Stage 1 — The Awakening</div>
-                <h1 class="stage-title">Welcome to the Rabbit Hole</h1>
-                <p class="stage-subtitle">You have discovered the first key. The journey begins here.</p>
+            <a href="index.html" class="logo">
+                <img src="../treasure-hunt-for-real-this-time-2140/assets/img/kotc_icon_primary.svg" alt="KOTC Logo"
+                    class="logo-icon">
+                <span class="logo-text">Quays of the Karribean</span>
+            </a>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="rabbithole.html">Rules</a>
+                <a href="dashboard.html">Leaderboard</a>
+                <a href="register.html" class="btn-primary">Register</a>
             </div>
+        </div>
+    </nav>
 
-            <!-- Stage Video/Animation -->
-            <div class="stage-video-container">
-                <div class="video-placeholder">
-                    <div class="video-icon">🔑</div>
-                    <p>The First Key</p>
+    <div class="rabbit-container">
+        <div class="mysterious-box">
+            <h1 style="font-size: 3rem; margin-bottom: 1rem;">🕳️ The Rabbit Hole 🕳️</h1>
+            <p style="font-size: 1.3rem; color: var(--flash-yellow); margin-bottom: 2rem;">
+                Welcome, brave hunter. You've found the entrance to Stage 1.
+            </p>
+            <p style="color: var(--sea-gray); font-size: 1.1rem;">
+                Satoshi's first message awaits below. Decode it to claim your prize and unlock the next stage.
+            </p>
+        </div>
+
+        <div class="cryptic-message">
+            <p>01010011 01100001 01110100 01101111 01110011 01101000 01101001</p>
+            <p>01101110 01100101 01110110 01100101 01110010</p>
+            <p>01101100 01100101 01100110 01110100</p>
+            <p style="margin-top: 1rem; color: var(--flash-yellow);">...01101111 01110010 00100000 01100100 01101001
+                01100100 00100000 01110100 01101000 01100101 01111001 00111111</p>
+        </div>
+
+        <p style="color: var(--sea-gray); margin: 1rem 0;">
+            This message contains the key to your first reward. Decode it using binary-to-text conversion.
+        </p>
+
+        <button class="decode-btn" onclick="attemptDecode()">
+            <span id="btn-text">Decode & Claim Prize</span>
+        </button>
+
+        <div class="fake-prize" style="display: none;" id="prize-box">
+            <h3 style="color: var(--flash-yellow); margin-bottom: 1rem;">🎁 Stage 1 Prize Unlocked!</h3>
+            <p style="font-size: 2rem; font-weight: 800; color: var(--flash-green); margin: 1rem 0;">
+                21,000,000 sats
+            </p>
+            <p style="color: var(--sea-gray); margin: 1rem 0;">
+                Scan the QR code below with your Lightning wallet to claim your reward:
+            </p>
+            <div
+                style="margin: 2rem auto; width: 200px; height: 200px; background: white; border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+                <p id="qr-code" style="font-size: 4rem;">🌀</p>
+            </div>
+            <button onclick="claimPrize()"
+                style="background: var(--flash-yellow); color: var(--flash-black); padding: 1rem 2rem; border: none; border-radius: 8px; font-weight: 700; cursor: pointer; margin-top: 1rem;">
+                Claim My Sats!
+            </button>
+        </div>
+
+        <!-- Rickroll Section (hidden initially) -->
+        <div class="rickroll-section" style="display: none;" id="rickroll-section">
+            <div class="rickroll-image-container">
+                <img src="https://media.giphy.com/media/Vuw9m5wXviFIQ/giphy.gif"
+                    alt="Rick Astley - Never Gonna Give You Up"
+                    style="width: 100%; max-width: 600px; border-radius: 12px; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);">
+                <div style="margin-top: 1rem;">
+                    <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank"
+                        style="color: var(--flash-yellow); text-decoration: underline; font-size: 0.9rem;">
+                        🎵 Click here to hear the full song on YouTube 🎵
+                    </a>
                 </div>
-                <!-- TODO: Replace with actual Stage 1 intro video -->
-                <!-- <video src="assets/videos/stage1-intro.mp4" controls></video> -->
             </div>
 
-            <!-- Stage Story -->
-            <div class="stage-story">
-                <h2>The Awakening</h2>
-                <p>In 2009, Satoshi Nakamoto vanished, leaving behind a revolutionary creation that would change the world. But before disappearing, they left clues—encrypted messages hidden in plain sight, waiting for those curious enough to seek them.</p>
-                <p>You have proven your worth by discovering the first key. The lightning has guided you here, and now your true journey begins.</p>
-                <p>Ahead lies a path through cryptography, culture, and courage. Each stage will test your knowledge, your skills, and your character. But remember: this hunt isn't just about the prize—it's about embodying the spirit of Satoshi.</p>
-            </div>
+            <div class="trick-message">
+                <h2>🎭 YOU'VE BEEN TRICKED! 🎭</h2>
+                <p style="color: var(--flash-yellow); font-weight: 700; font-size: 1.5rem;">
+                    This is NOT the real treasure hunt entrance.
+                </p>
+                <p style="color: var(--text-colour);">
+                    Did you really think it would be that easy? 21 million sats for solving a simple binary puzzle? Come
+                    on, hunter. You're smarter than that.
+                </p>
+                <p style="color: var(--text-colour); margin-top: 1.5rem;">
+                    The path you followed led to <code style="color: var(--flash-red);">/treasure-hunt/</code> — but
+                    that's just a decoy. A red herring. A test to see if you're paying attention.
+                </p>
 
-            <!-- Prize Info -->
-            <div class="prize-info">
-                <div class="prize-badge">
-                    <div class="prize-icon">⚡</div>
-                    <div class="prize-details">
-                        <div class="prize-label">Stage 1 Prize</div>
-                        <div class="prize-amount">$13 in Bitcoin</div>
-                    </div>
+                <div class="hint-box">
+                    <h3 style="color: var(--flash-green); margin-bottom: 1rem;">💡 Here's Your Hint:</h3>
+                    <p style="color: var(--text-colour);">
+                        The <strong>real</strong> treasure hunt isn't hidden at an obvious URL. You need to explore
+                        deeper. Check the source. Look for clues in unexpected places. The entrance exists, but it's not
+                        where everyone would look.
+                    </p>
+                    <p style="color: var(--flash-yellow); margin-top: 1rem; font-weight: 600;">
+                        Keep searching, hunter. The real adventure awaits those who refuse to give up. 🏴‍☠️⚡
+                    </p>
                 </div>
-                <p class="prize-note">Your prize has been reserved. Complete the stage to claim it.</p>
-            </div>
 
-            <!-- Next Stage Preview -->
-            <div class="next-stage-preview">
-                <h3>🔮 What Comes Next</h3>
-                <p><strong>Stage 2: The Ledger</strong></p>
-                <p>The blockchain holds secrets that only the worthy can decode. You will analyze Bitcoin's history and crack the cipher hidden in its transactions.</p>
-                <p>But first, you must claim your rightful prize for reaching this stage.</p>
+                <p style="margin-top: 2rem; font-size: 0.9rem; color: var(--sea-gray); font-style: italic;">
+                    P.S. — Hope you enjoyed the song. Never gonna give you up on this hunt! 😉
+                </p>
             </div>
-
-            <!-- Action Button -->
-            <div class="stage-action">
-                <button id="complete-stage1-btn" class="btn btn-large btn-primary">
-                    <span class="btn-text">Claim Prize & Continue</span>
-                    <span class="btn-loader" style="display: none;">
-                        <svg class="spinner" viewBox="0 0 50 50">
-                            <circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>
-                        </svg>
-                    </span>
-                </button>
-            </div>
-
-            <!-- Status Messages -->
-            <div id="stage-message" class="stage-message" style="display: none;"></div>
         </div>
     </div>
+
+    <script>
+        let decodeClicks = 0;
+
+        function attemptDecode() {
+            decodeClicks++;
+            const btn = document.querySelector('.decode-btn');
+            const btnText = document.getElementById('btn-text');
+            const prizeBox = document.getElementById('prize-box');
+
+            if (decodeClicks === 1) {
+                btnText.textContent = 'Decoding binary...';
+                setTimeout(() => {
+                    btnText.textContent = 'Processing cryptographic signature...';
+                }, 1000);
+                setTimeout(() => {
+                    btnText.textContent = 'Verifying with blockchain...';
+                }, 2000);
+                setTimeout(() => {
+                    btnText.textContent = 'Almost there...';
+                    prizeBox.style.display = 'block';
+                    prizeBox.scrollIntoView({ behavior: 'smooth' });
+                }, 3000);
+            }
+        }
+
+        function claimPrize() {
+            const qr = document.getElementById('qr-code');
+            const rickrollSection = document.getElementById('rickroll-section');
+
+            qr.classList.add('spinning');
+
+            setTimeout(() => {
+                // Show the rickroll section with animated GIF
+                rickrollSection.style.display = 'block';
+                // Scroll to the rickroll
+                rickrollSection.scrollIntoView({ behavior: 'smooth' });
+            }, 2000);
+        }
+
+        // Console Easter egg
+        const styles = {
+            fail: 'color: #D12229; font-size: 18px; font-weight: bold;',
+            hint: 'color: #41AD49; font-size: 14px;',
+            normal: 'color: #fff; font-size: 12px;'
+        };
+
+        console.log('%c❌ STAGE AUTHENTICATION FAILED', styles.fail);
+        console.log('%c\nThis is not the real rabbit hole.', styles.normal);
+        console.log('%cThe binary message decodes to: "Satoshi never left ...or did they?"', styles.hint);
+        console.log('%cBut the real Stage 1 isn\'t at /treasure-hunt/rabbithole.html', styles.hint);
+        console.log('%c\nKeep searching, hunter. The truth awaits in a different place. 🏴‍☠️', styles.hint);
+    </script>
 
     <!-- Footer -->
-    <footer class="hunt-footer" id="stage-footer" style="display: none;">
+    <footer class="hunt-footer">
         <div class="container">
             <div class="footer-content">
                 <div class="footer-brand">
-                    <h3>Keys of the Caribbean</h3>
+                    <h3>Quays of the Karribean</h3>
                     <p>Season 1 — The Vault</p>
                 </div>
                 <div class="footer-links">
                     <div class="footer-column">
                         <h4>Hunt</h4>
                         <a href="index.html">Home</a>
-                        <a href="leaderboard.html">Leaderboard</a>
-                        <a href="rules.html">Rules</a>
-                    </div>
-                    <div class="footer-column">
-                        <h4>Your Progress</h4>
+                        <a href="register.html">Register</a>
                         <a href="dashboard.html">Dashboard</a>
-                        <a href="profile.html">Profile</a>
                     </div>
                     <div class="footer-column">
-                        <h4>Support</h4>
+                        <h4>Flash</h4>
+                        <a href="../index.html">Home</a>
+                        <a href="../team.html">Team</a>
                         <a href="../faq.html">FAQ</a>
-                        <a href="../contact.html">Contact</a>
+                    </div>
+                    <div class="footer-column">
+                        <h4>Community</h4>
+                        <a href="https://twitter.com/LNFlash" target="_blank">Twitter</a>
+                        <a href="https://t.me/flashapp" target="_blank">Telegram</a>
+                        <a href="../index.html#pg-contact">Contact</a>
                     </div>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2025 Flash. All rights reserved.</p>
+                <p>&copy; 2025 Quays of the Karribean. Powered by <a href="../index.html">Flash</a></p>
             </div>
         </div>
     </footer>
-
-    <!-- Scripts -->
-    <script src="js/rabbithole.js"></script>
 </body>
+
 </html>

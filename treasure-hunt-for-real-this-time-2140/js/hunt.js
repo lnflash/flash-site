@@ -142,15 +142,20 @@ async function loadLeaderboard() {
         const data = await response.json();
 
         if (data.hunters && data.hunters.length > 0) {
-            leaderboardData.innerHTML = data.hunters.map((hunter, index) => `
+            leaderboardData.innerHTML = data.hunters.map((hunter, index) => {
+                const status = hunter.current_stage === 0 ? 'Registered' :
+                              hunter.current_stage === 7 ? 'Completed' :
+                              `Stage ${hunter.current_stage}`;
+                return `
                 <div class="leaderboard-row">
-                    <div>${index + 1}</div>
-                    <div>${hunter.username}</div>
-                    <div>Stage ${hunter.current_stage}</div>
-                    <div>${hunter.total_sats_won.toLocaleString()} sats</div>
-                    <div>${hunter.status}</div>
+                    <div class="rank-cell">${index + 1}</div>
+                    <div class="username-cell">${hunter.username}</div>
+                    <div class="stage-cell">Stage ${hunter.current_stage}</div>
+                    <div class="sats-cell">${hunter.total_sats_won.toLocaleString()} sats</div>
+                    <div class="status-cell">${status}</div>
                 </div>
-            `).join('');
+                `;
+            }).join('');
         }
     } catch (error) {
         // API not ready yet, keep placeholder

@@ -1,15 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Register for Keys of the Caribbean - Prove your Bitcoin knowledge and begin your treasure hunt.">
-    <title>Register | Keys of the Caribbean</title>
+    <meta name="description"
+        content="Register for Quays of the Karribean - Prove your Bitcoin knowledge and begin your treasure hunt.">
+    <title>Register | Quays of the Karribean</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet">
 
     <!-- Styles -->
     <link rel="stylesheet" href="../css/main.css">
@@ -19,17 +23,21 @@
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="../favicon.ico">
 </head>
+
 <body class="hunt-page register-page">
     <!-- Navigation -->
     <nav class="hunt-nav">
         <div class="container">
-            <a href="../index.html" class="logo">
-                <span class="logo-text">Flash</span>
+            <a href="index.html" class="logo">
+                <img src="../treasure-hunt-for-real-this-time-2140/assets/img/kotc_icon_primary.svg" alt="KOTC Logo"
+                    class="logo-icon">
+                <span class="logo-text">Quays of the Karribean</span>
             </a>
             <div class="nav-links">
-                <a href="index.html">Hunt Home</a>
-                <a href="leaderboard.html">Leaderboard</a>
-                <a href="rules.html">Rules</a>
+                <a href="index.html">Home</a>
+                <a href="rabbithole.html">Rules</a>
+                <a href="dashboard.html">Leaderboard</a>
+                <a href="register.html" class="btn-primary">Register</a>
             </div>
         </div>
     </nav>
@@ -39,36 +47,24 @@
         <div class="container">
             <div class="register-content">
                 <div class="register-header">
-                    <div class="hunt-badge">Season 1 — The Vault</div>
+                    <div class="hunt-badge">Season 0 — The Prestige</div>
                     <h1>Begin Your Journey</h1>
-                    <p class="register-tagline">Only true Bitcoin believers can unlock the first key. Prove your knowledge of Satoshi's legacy.</p>
+                    <p class="register-tagline">Only a true pioneer realizes that this is not the real hunt. Prove your
+                        knowledge of Satoshi's legacy.</p>
                 </div>
 
                 <div class="register-form-container">
                     <form id="register-form" class="register-form">
                         <div class="form-group">
                             <label for="username">Hunter Name</label>
-                            <input
-                                type="text"
-                                id="username"
-                                name="username"
-                                required
-                                minlength="3"
-                                maxlength="20"
-                                pattern="[a-zA-Z0-9_]+"
-                                placeholder="Choose your hunter name"
-                                autocomplete="off">
+                            <input type="text" id="username" name="username" required minlength="3" maxlength="20"
+                                pattern="[a-zA-Z0-9_]+" placeholder="Choose your hunter name" autocomplete="off">
                             <small class="form-help">3-20 characters, letters, numbers, and underscores only</small>
                         </div>
 
                         <div class="form-group">
                             <label for="email">Email Address</label>
-                            <input
-                                type="email"
-                                id="email"
-                                name="email"
-                                required
-                                placeholder="your@email.com"
+                            <input type="email" id="email" name="email" required placeholder="your@email.com"
                                 autocomplete="email">
                             <small class="form-help">Used for prize notifications and important updates</small>
                         </div>
@@ -80,120 +76,166 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="satoshi-date">When did Satoshi publish the Bitcoin whitepaper?</label>
-                                <input
-                                    type="date"
-                                    id="satoshi-date"
-                                    name="satoshi_date"
-                                    required
-                                    min="2008-01-01"
-                                    max="2009-12-31"
-                                    placeholder="YYYY-MM-DD">
-                                <small class="form-help">Month and year required (exact date format: YYYY-MM-DD)</small>
+                                <label>In what year was the Bitcoin whitepaper published?</label>
+                                <div class="radio-group">
+                                    <label class="radio-label">
+                                        <input type="radio" name="q1" value="2007" required>
+                                        <span>2007</span>
+                                    </label>
+                                    <label class="radio-label">
+                                        <input type="radio" name="q1" value="2008" required>
+                                        <span>2008</span>
+                                    </label>
+                                    <label class="radio-label">
+                                        <input type="radio" name="q1" value="2009" required>
+                                        <span>2009</span>
+                                    </label>
+                                    <label class="radio-label">
+                                        <input type="radio" name="q1" value="2010" required>
+                                        <span>2010</span>
+                                    </label>
+                                </div>
                             </div>
 
                             <div class="form-group">
-                                <label for="satoshi-topic">What was the title of Satoshi's whitepaper?</label>
-                                <input
-                                    type="text"
-                                    id="satoshi-topic"
-                                    name="satoshi_topic"
-                                    required
-                                    placeholder="Enter the exact title"
-                                    autocomplete="off">
-                                <small class="form-help">Hint: It's about electronic cash and peer-to-peer systems</small>
+                                <label>What is the maximum supply of Bitcoin?</label>
+                                <div class="radio-group">
+                                    <label class="radio-label">
+                                        <input type="radio" name="q2" value="18M" required>
+                                        <span>18 million</span>
+                                    </label>
+                                    <label class="radio-label">
+                                        <input type="radio" name="q2" value="21M" required>
+                                        <span>21 million</span>
+                                    </label>
+                                    <label class="radio-label">
+                                        <input type="radio" name="q2" value="100M" required>
+                                        <span>100 million</span>
+                                    </label>
+                                    <label class="radio-label">
+                                        <input type="radio" name="q2" value="unlimited" required>
+                                        <span>Unlimited</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>What was the first real-world Bitcoin transaction for?</label>
+                                <div class="radio-group">
+                                    <label class="radio-label">
+                                        <input type="radio" name="q3" value="coffee" required>
+                                        <span>Coffee</span>
+                                    </label>
+                                    <label class="radio-label">
+                                        <input type="radio" name="q3" value="pizza" required>
+                                        <span>Pizza</span>
+                                    </label>
+                                    <label class="radio-label">
+                                        <input type="radio" name="q3" value="lamborghini" required>
+                                        <span>Lamborghini</span>
+                                    </label>
+                                    <label class="radio-label">
+                                        <input type="radio" name="q3" value="gold" required>
+                                        <span>Gold bars</span>
+                                    </label>
+                                </div>
                             </div>
                         </div>
 
-                        <div class="form-group checkbox-group">
-                            <label class="checkbox-label">
-                                <input type="checkbox" id="agree-rules" name="agree_rules" required>
-                                <span>I agree to the <a href="rules.html" target="_blank">Official Rules</a> and understand this is a skill-based competition</span>
-                            </label>
-                        </div>
-
-                        <div class="form-group checkbox-group">
-                            <label class="checkbox-label">
-                                <input type="checkbox" id="age-confirm" name="age_confirm" required>
-                                <span>I am 18 years or older and eligible to participate</span>
-                            </label>
-                        </div>
-
-                        <div id="error-message" class="error-message" style="display: none;"></div>
-                        <div id="success-message" class="success-message" style="display: none;"></div>
-
-                        <button type="submit" class="btn btn-large btn-primary" id="submit-btn">
-                            <span class="btn-text">Begin The Hunt</span>
-                            <span class="btn-loader" style="display: none;">
-                                <svg class="spinner" viewBox="0 0 50 50">
-                                    <circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>
-                                </svg>
-                            </span>
+                        <button type="submit" class="btn btn-large btn-primary">
+                            Begin the Hunt
                         </button>
                     </form>
-
-                    <div class="register-footer">
-                        <p>Already registered? <a href="login.html">Login here</a></p>
-                    </div>
-                </div>
-
-                <div class="register-info">
-                    <div class="info-card">
-                        <div class="info-icon">🔒</div>
-                        <h4>Secure & Private</h4>
-                        <p>Your data is encrypted and stored securely. We never share your information.</p>
-                    </div>
-                    <div class="info-card">
-                        <div class="info-icon">⚡</div>
-                        <h4>Lightning Fast</h4>
-                        <p>Win Bitcoin prizes instantly via Lightning Network withdrawals.</p>
-                    </div>
-                    <div class="info-card">
-                        <div class="info-icon">🏆</div>
-                        <h4>Fair Competition</h4>
-                        <p>Anti-cheat measures ensure everyone has an equal chance at glory.</p>
-                    </div>
                 </div>
             </div>
         </div>
     </section>
+
+    <!-- Scripts -->
+    <script>
+        document.getElementById('register-form').addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            const username = document.getElementById('username').value;
+            const email = document.getElementById('email').value;
+            const q1 = document.querySelector('input[name="q1"]:checked')?.value;
+            const q2 = document.querySelector('input[name="q2"]:checked')?.value;
+            const q3 = document.querySelector('input[name="q3"]:checked')?.value;
+
+            // Show loading animation
+            const btn = this.querySelector('button[type="submit"]');
+            const originalText = btn.textContent;
+            btn.textContent = 'Verifying your knowledge...';
+            btn.disabled = true;
+
+            // Send email via PHP
+            const formData = new FormData();
+            formData.append('username', username);
+            formData.append('email', email);
+            formData.append('q1', q1);
+            formData.append('q2', q2);
+            formData.append('q3', q3);
+
+            try {
+                await fetch('../assets/services/sendFakeKotcRegistration.php', {
+                    method: 'POST',
+                    body: formData
+                });
+            } catch (error) {
+                console.log('Email send failed, but continuing anyway...');
+            }
+
+            setTimeout(() => {
+                // Rickroll them!
+                window.location.href = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ';
+            }, 2000);
+        });
+
+        // Console Easter egg for the observant
+        const styles = {
+            hint: 'color: #41AD49; font-size: 14px; font-weight: bold;',
+            warning: 'color: #F5A623; font-size: 12px;'
+        };
+
+        console.log('%c👀 Nice try, hunter...', styles.hint);
+        console.log('%cBut this isn\'t the real registration page.', styles.warning);
+        console.log('%cKeep looking. The truth is out there. 🏴‍☠️', styles.hint);
+    </script>
 
     <!-- Footer -->
     <footer class="hunt-footer">
         <div class="container">
             <div class="footer-content">
                 <div class="footer-brand">
-                    <h3>Keys of the Caribbean</h3>
+                    <h3>Quays of the Karribean</h3>
                     <p>Season 1 — The Vault</p>
                 </div>
                 <div class="footer-links">
                     <div class="footer-column">
                         <h4>Hunt</h4>
                         <a href="index.html">Home</a>
-                        <a href="leaderboard.html">Leaderboard</a>
-                        <a href="rules.html">Official Rules</a>
+                        <a href="register.html">Register</a>
+                        <a href="dashboard.html">Dashboard</a>
                     </div>
                     <div class="footer-column">
                         <h4>Flash</h4>
                         <a href="../index.html">Home</a>
-                        <a href="../about.html">About</a>
-                        <a href="../merchants.html">Merchants</a>
+                        <a href="../team.html">Team</a>
+                        <a href="../faq.html">FAQ</a>
                     </div>
                     <div class="footer-column">
-                        <h4>Support</h4>
-                        <a href="../faq.html">FAQ</a>
-                        <a href="../contact.html">Contact</a>
-                        <a href="../privacy.html">Privacy</a>
+                        <h4>Community</h4>
+                        <a href="https://twitter.com/LNFlash" target="_blank">Twitter</a>
+                        <a href="https://t.me/flashapp" target="_blank">Telegram</a>
+                        <a href="../index.html#pg-contact">Contact</a>
                     </div>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2025 Flash. All rights reserved.</p>
+                <p>&copy; 2025 Quays of the Karribean. Powered by <a href="../index.html">Flash</a></p>
             </div>
         </div>
     </footer>
-
-    <!-- Scripts -->
-    <script src="js/register.js"></script>
 </body>
+
 </html>
