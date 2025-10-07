@@ -208,9 +208,7 @@ h6 {
   border: none;
   cursor: pointer;
   padding: 0.5rem;
-  position: relative;
   z-index: 1001;
-  flex-shrink: 0;
 }
 
 .mobile-menu-toggle span {
@@ -1280,12 +1278,15 @@ section {
 
   .hunt-nav .logo {
     font-size: 1rem;
-    text-decoration: none !important;
-    max-width: calc(100% - 60px);
+    flex: 1;
   }
 
   .hunt-nav .logo-icon {
     height: 32px;
+  }
+
+  .hunt-nav .logo {
+    text-decoration: none !important;
   }
 
   .hunt-nav .logo::after,
@@ -1319,10 +1320,7 @@ section {
   }
 
   .mobile-menu-toggle {
-    display: block !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-    pointer-events: auto !important;
+    display: block;
   }
 
   .hunt-nav .nav-links {
