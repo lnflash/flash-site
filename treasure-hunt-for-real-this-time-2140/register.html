@@ -1,16 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <base href="/treasure-hunt-for-real-this-time-2140/">
-    <meta name="description" content="Register for Keys of the Caribbean - Prove your Bitcoin knowledge and begin your treasure hunt.">
+    <meta name="description"
+        content="Register for Keys of the Caribbean - Prove your Bitcoin knowledge and begin your treasure hunt.">
     <title>Register | Keys of the Caribbean</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet">
 
     <!-- Styles -->
     <link rel="stylesheet" href="../css/main.css">
@@ -22,6 +26,7 @@
     <link rel="icon" type="image/png" sizes="512x512" href="assets/img/kotc_icon_primary_512.png">
     <link rel="apple-touch-icon" sizes="1024x1024" href="assets/img/kotc_icon_primary_1024.png">
 </head>
+
 <body class="hunt-page register-page">
     <!-- Navigation -->
     <nav class="hunt-nav">
@@ -38,7 +43,7 @@
             </div>
         </div>
     </nav>
-
+    <!-- <div class="coming-soon-overlay" style="display: none;" id="comingSoonOverlay">
     <!-- Registration Section -->
     <section class="register-section">
         <div class="container">
@@ -46,34 +51,22 @@
                 <div class="register-header">
                     <div class="hunt-badge">Season 1 — The Vault</div>
                     <h1>Begin Your Journey</h1>
-                    <p class="register-tagline">Only true Bitcoin believers can unlock the first key. Prove your knowledge of Satoshi's legacy.</p>
+                    <p class="register-tagline">Only true Bitcoin believers can unlock the first key. Prove your
+                        knowledge of Satoshi's legacy.</p>
                 </div>
 
                 <div class="register-form-container">
                     <form id="register-form" class="register-form">
                         <div class="form-group">
                             <label for="username">Hunter Name</label>
-                            <input
-                                type="text"
-                                id="username"
-                                name="username"
-                                required
-                                minlength="3"
-                                maxlength="20"
-                                pattern="[a-zA-Z0-9_]+"
-                                placeholder="Choose your hunter name"
-                                autocomplete="off">
+                            <input type="text" id="username" name="username" required minlength="3" maxlength="20"
+                                pattern="[a-zA-Z0-9_]+" placeholder="Choose your hunter name" autocomplete="off">
                             <small class="form-help">3-20 characters, letters, numbers, and underscores only</small>
                         </div>
 
                         <div class="form-group">
                             <label for="email">Email Address</label>
-                            <input
-                                type="email"
-                                id="email"
-                                name="email"
-                                required
-                                placeholder="your@email.com"
+                            <input type="email" id="email" name="email" required placeholder="your@email.com"
                                 autocomplete="email">
                             <small class="form-help">Used for prize notifications and important updates</small>
                         </div>
@@ -86,34 +79,25 @@
 
                             <div class="form-group">
                                 <label for="satoshi-date">When did Satoshi publish the Bitcoin whitepaper?</label>
-                                <input
-                                    type="date"
-                                    id="satoshi-date"
-                                    name="satoshi_date"
-                                    required
-                                    min="2008-01-01"
-                                    max="2009-12-31"
-                                    placeholder="YYYY-MM-DD">
+                                <input type="date" id="satoshi-date" name="satoshi_date" required min="2008-01-01"
+                                    max="2009-12-31" placeholder="YYYY-MM-DD">
                                 <small class="form-help">Month and year required (exact date format: YYYY-MM-DD)</small>
                             </div>
 
                             <div class="form-group">
                                 <label for="satoshi-topic">What was the title of Satoshi's whitepaper?</label>
-                                <input
-                                    type="text"
-                                    id="satoshi-topic"
-                                    name="satoshi_topic"
-                                    required
-                                    placeholder="Enter the exact title"
-                                    autocomplete="off">
-                                <small class="form-help">Hint: It's about electronic cash and peer-to-peer systems</small>
+                                <input type="text" id="satoshi-topic" name="satoshi_topic" required
+                                    placeholder="Enter the exact title" autocomplete="off">
+                                <small class="form-help">Hint: It's about electronic cash and peer-to-peer
+                                    systems</small>
                             </div>
                         </div>
 
                         <div class="form-group checkbox-group">
                             <label class="checkbox-label">
                                 <input type="checkbox" id="agree-rules" name="agree_rules" required>
-                                <span>I agree to the <a href="rules.html" target="_blank">Official Rules</a> and understand this is a skill-based competition</span>
+                                <span>I agree to the <a href="rules.html" target="_blank">Official Rules</a> and
+                                    understand this is a skill-based competition</span>
                             </label>
                         </div>
 
@@ -201,4 +185,5 @@
     <!-- Scripts -->
     <script src="js/register.js"></script>
 </body>
+
 </html>
