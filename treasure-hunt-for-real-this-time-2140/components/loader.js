@@ -1,6 +1,6 @@
 /**
  * Component Loader for Keys of the Caribbean
- * Loads header and footer components into pages
+ * Loads header, footer, and coming soon components into pages
  */
 
 // Load header component
@@ -30,6 +30,42 @@ async function loadFooter() {
             footerPlaceholder.innerHTML = html;
         } catch (error) {
             console.error('Error loading footer:', error);
+        }
+    }
+}
+
+// Load coming soon overlay component
+async function loadComingSoon() {
+    const comingSoonPlaceholder = document.getElementById('coming-soon-placeholder');
+    if (comingSoonPlaceholder) {
+        try {
+            const response = await fetch('components/coming-soon.html');
+            const html = await response.text();
+            comingSoonPlaceholder.innerHTML = html;
+
+            // Initialize coming soon logic after component is loaded
+            initComingSoon();
+        } catch (error) {
+            console.error('Error loading coming soon overlay:', error);
+        }
+    }
+}
+
+// Initialize coming soon overlay logic
+function initComingSoon() {
+    const launchDate = new Date('2025-12-01T00:00:00');
+    const now = new Date();
+    const overlay = document.getElementById('comingSoonOverlay');
+
+    if (overlay) {
+        if (now < launchDate) {
+            // Before launch date - show overlay
+            overlay.style.display = 'flex';
+            document.body.style.overflow = 'hidden'; // Prevent scrolling
+        } else {
+            // After launch date - hide overlay
+            overlay.style.display = 'none';
+            document.body.style.overflow = 'auto';
         }
     }
 }
@@ -68,8 +104,10 @@ if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', function() {
         loadHeader();
         loadFooter();
+        loadComingSoon();
     });
 } else {
     loadHeader();
     loadFooter();
+    loadComingSoon();
 }
