@@ -30,27 +30,8 @@
 </head>
 
 <body class="hunt-page">
-    <!-- Navigation -->
-    <nav class="hunt-nav">
-        <div class="container">
-            <a href="index.html" class="logo">
-                <img src="assets/img/kotc_icon_primary.svg" alt="KOTC Logo" class="logo-icon">
-                <span class="logo-text">Keys of the Caribbean</span>
-            </a>
-            <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle menu">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
-            <div class="nav-links" id="navLinks">
-                <a href="index.html">Home</a>
-                <a href="rules.html">Rules</a>
-                <a href="leaderboard.html">Leaderboard</a>
-                <a href="#donate" class="btn-donate">Donate</a>
-                <a href="register.html" class="btn-primary">Register</a>
-            </div>
-        </div>
-    </nav>
+    <!-- Header Component -->
+    <div id="header-placeholder"></div>
 
     <!-- Coming Soon Overlay -->
     <!-- <div class="coming-soon-overlay" style="display: none;" id="comingSoonOverlay">
@@ -153,7 +134,6 @@
                 <h1 class="hero-title">
                     Keys of the <span class="highlight">Caribbean</span>
                 </h1>
-                <div class="hunt-badge">Season 1 — The Vault</div>
                 <p class="hero-tagline">Solve the code. Walk the island. Claim the sats.</p>
 
                 <!-- Prize Pool Highlight -->
@@ -201,9 +181,13 @@
     <section id="about" class="about-hunt">
         <div class="container">
             <div class="section-header">
+                <div class="hunt-badge">Season 1 — The Vault</div>
+
                 <h2>The Legend Begins</h2>
                 <p class="section-subtitle">Before Satoshi disappeared, they left encrypted clues across the
-                    Caribbean, a land known for its struggle for freedom.</p>
+                    Caribbean, a paradise known for its beauty and its people's struggle for freedom. If you choose to
+                    embark upon this journey, you will need more than just smarts. You'll need courage, curiosity,
+                    friends, and a spirit of adventure.</p>
             </div>
             <div class="about-grid">
                 <div class="about-card">
@@ -365,39 +349,11 @@
     </section>
 
     <!-- Footer -->
-    <footer class="hunt-footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-brand">
-                    <h3>Keys of the Caribbean</h3>
-                    <p>Season 1 — The Vault</p>
-                </div>
-                <div class="footer-links">
-                    <div class="footer-column">
-                        <h4>Hunt</h4>
-                        <a href="index.html">Home</a>
-                        <a href="register.html">Register</a>
-                        <a href="leaderboard.html">Leaderboard</a>
-                    </div>
-                    <div class="footer-column">
-                        <h4>Flash</h4>
-                        <a href="../index.html">Home</a>
-                        <a href="../team.html">Team</a>
-                        <a href="../faq.html">FAQ</a>
-                    </div>
-                    <div class="footer-column">
-                        <h4>Community</h4>
-                        <a href="https://twitter.com/LNFlash" target="_blank">Twitter</a>
-                        <a href="https://t.me/flashapp" target="_blank">Telegram</a>
-                        <a href="../index.html#pg-contact">Contact</a>
-                    </div>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2025 Keys of the Caribbean. Powered by <a href="../index.html">Flash</a></p>
-            </div>
-        </div>
-    </footer>
+    <!-- Footer Component -->
+    <div id="footer-placeholder"></div>
+
+    <!-- Component Loader -->
+    <script src="components/loader.js"></script>
 
     <!-- Scripts -->
     <script src="js/hunt.js"></script>
@@ -435,35 +391,7 @@
         }
     </script>
 
-    <!-- Mobile Menu Toggle -->
     <script>
-        // Mobile Menu Toggle
-        const mobileMenuToggle = document.getElementById('mobileMenuToggle');
-        const navLinks = document.getElementById('navLinks');
-
-        if (mobileMenuToggle && navLinks) {
-            mobileMenuToggle.addEventListener('click', function () {
-                this.classList.toggle('active');
-                navLinks.classList.toggle('active');
-            });
-
-            // Close menu when clicking a link
-            navLinks.querySelectorAll('a').forEach(link => {
-                link.addEventListener('click', function () {
-                    mobileMenuToggle.classList.remove('active');
-                    navLinks.classList.remove('active');
-                });
-            });
-
-            // Close menu when clicking outside
-            document.addEventListener('click', function (event) {
-                if (!event.target.closest('.hunt-nav')) {
-                    mobileMenuToggle.classList.remove('active');
-                    navLinks.classList.remove('active');
-                }
-            });
-        }
-
         // Copy Bitcoin Address
         function copyAddress() {
             const address = document.getElementById('btcAddress').textContent;
@@ -490,6 +418,8 @@
                         block: 'start'
                     });
                     // Close mobile menu if open
+                    const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+                    const navLinks = document.getElementById('navLinks');
                     if (mobileMenuToggle && navLinks) {
                         mobileMenuToggle.classList.remove('active');
                         navLinks.classList.remove('active');

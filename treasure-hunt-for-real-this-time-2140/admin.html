@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <base href="/treasure-hunt-for-real-this-time-2140/">
+    <meta name="description" content="Admin panel for Keys of the Caribbean treasure hunt">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Admin Panel | Keys of the Caribbean</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="css/hunt.css">
+    <link rel="stylesheet" href="css/admin.css">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="256x256" href="assets/img/kotc_icon_primary_256.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="assets/img/kotc_icon_primary_512.png">
+    <link rel="apple-touch-icon" sizes="1024x1024" href="assets/img/kotc_icon_primary_1024.png">
+</head>
+
+<body class="hunt-page admin-page">
+    <!-- Header Component -->
+    <div id="header-placeholder"></div>
+
+    <!-- Admin-specific navigation elements will be added by admin.js -->
+
+    <!-- Login Section -->
+    <section class="admin-login-section" id="login-section">
+        <div class="container">
+            <div class="login-content">
+                <div class="login-header">
+                    <div class="hunt-badge">Admin Access</div>
+                    <h1>🔐 Admin Panel</h1>
+                    <p class="login-tagline">Authenticate with your Nostr extension to access the admin panel</p>
+                </div>
+
+                <div class="login-container">
+                    <div class="nostr-extension-check" id="extension-check">
+                        <div class="checking">Checking for Nostr extension...</div>
+                    </div>
+
+                    <button id="login-btn" class="btn btn-primary" style="display: none;">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" style="margin-right: 8px;">
+                            <path d="M10 2a8 8 0 100 16 8 8 0 000-16zM8 10a2 2 0 114 0 2 2 0 01-4 0z"/>
+                        </svg>
+                        Login with Nostr
+                    </button>
+
+                    <div class="extension-help" style="display: none;" id="extension-help">
+                        <p><strong>No Nostr extension detected</strong></p>
+                        <p>Please install a NIP-07 compatible browser extension:</p>
+                        <ul>
+                            <li><a href="https://getalby.com" target="_blank">Alby</a></li>
+                            <li><a href="https://github.com/fiatjaf/nos2x" target="_blank">nos2x</a></li>
+                        </ul>
+                    </div>
+
+                    <div id="login-error" class="error-message" style="display: none;"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Admin Dashboard Section -->
+    <section class="admin-dashboard-section" id="dashboard-section" style="display: none;">
+        <div class="container">
+            <div class="admin-header-section">
+                <div class="hunt-badge">Admin Panel</div>
+                <h1>Keys of the Caribbean Dashboard</h1>
+                <p class="admin-tagline">Manage hunters and view treasure hunt statistics</p>
+            </div>
+
+            <!-- Stats Overview -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">👥</div>
+                    <div class="stat-value" id="stat-total-hunters">-</div>
+                    <div class="stat-label">Total Hunters</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">🏆</div>
+                    <div class="stat-value" id="stat-completed">-</div>
+                    <div class="stat-label">Completed</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">⚡</div>
+                    <div class="stat-value" id="stat-sats">-</div>
+                    <div class="stat-label">Sats Distributed</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">🎯</div>
+                    <div class="stat-value" id="stat-avg-stage">-</div>
+                    <div class="stat-label">Average Stage</div>
+                </div>
+            </div>
+
+            <!-- Hunters Management -->
+            <div class="hunters-management">
+                <h2>Hunters Management</h2>
+
+                <!-- Filters and Search -->
+                <div class="hunters-filters">
+                    <div class="search-box">
+                        <input type="text" id="search-input" placeholder="Search by username, email, or flash username...">
+                    </div>
+                    <div class="filter-group">
+                        <label for="stage-filter">Stage:</label>
+                        <select id="stage-filter">
+                            <option value="all">All Stages</option>
+                            <option value="0">Stage 0</option>
+                            <option value="1">Stage 1</option>
+                            <option value="2">Stage 2</option>
+                            <option value="3">Stage 3</option>
+                            <option value="4">Stage 4</option>
+                            <option value="5">Stage 5</option>
+                            <option value="6">Stage 6</option>
+                            <option value="7">Stage 7</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="sort-select">Sort:</label>
+                        <select id="sort-select">
+                            <option value="created_desc">Newest First</option>
+                            <option value="created_asc">Oldest First</option>
+                            <option value="stage_desc">Stage (High to Low)</option>
+                            <option value="stage_asc">Stage (Low to High)</option>
+                            <option value="sats_desc">Sats (High to Low)</option>
+                            <option value="username_asc">Username (A-Z)</option>
+                        </select>
+                    </div>
+                    <button id="refresh-hunters-btn" class="btn btn-secondary">Refresh</button>
+                </div>
+
+                <!-- Hunters Table -->
+                <div class="hunters-table-container">
+                    <table class="hunters-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Hunter Name</th>
+                                <th>Flash Username</th>
+                                <th>Email</th>
+                                <th>Stage</th>
+                                <th>Sats Won</th>
+                                <th>Registered</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="hunters-tbody">
+                            <tr class="loading-row">
+                                <td colspan="8">
+                                    <div class="loading-spinner">
+                                        <p>Loading hunters...</p>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="pagination" id="pagination" style="display: none;">
+                    <button id="prev-page-btn" class="btn btn-secondary">Previous</button>
+                    <span id="page-info">Page 1 of 1</span>
+                    <button id="next-page-btn" class="btn btn-secondary">Next</button>
+                </div>
+            </div>
+
+            <!-- Recent Activity -->
+            <div class="recent-activity">
+                <h2>Recent Activity</h2>
+                <div class="activity-list" id="activity-list">
+                    <div class="loading-spinner">Loading activity...</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Edit Hunter Modal -->
+    <div id="edit-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Edit Hunter</h3>
+                <button class="modal-close" onclick="closeEditModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="edit-hunter-form">
+                    <input type="hidden" id="edit-hunter-id">
+                    <div class="form-group">
+                        <label for="edit-username">Hunter Name:</label>
+                        <input type="text" id="edit-username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-flash-username">Flash Username:</label>
+                        <input type="text" id="edit-flash-username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-email">Email:</label>
+                        <input type="email" id="edit-email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-stage">Current Stage:</label>
+                        <input type="number" id="edit-stage" min="0" max="7" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-sats">Total Sats Won:</label>
+                        <input type="number" id="edit-sats" min="0" required>
+                    </div>
+                    <div class="modal-actions">
+                        <button type="button" class="btn btn-secondary" onclick="closeEditModal()">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Component Loader -->
+    <script src="components/loader.js"></script>
+
+    <!-- Scripts -->
+    <script type="module" src="js/admin.js"></script>
+</body>
+
+</html>

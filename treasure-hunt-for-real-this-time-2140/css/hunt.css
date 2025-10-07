@@ -66,10 +66,19 @@ h6 {
   align-items: center;
   gap: 0.75rem;
   text-decoration: none;
+  position: relative;
 }
 
-.hunt-nav .logo::after {
-  display: none;
+.hunt-nav .logo::after,
+.hunt-nav .logo::before {
+  content: none !important;
+  display: none !important;
+}
+
+.hunt-nav .logo-text::after,
+.hunt-nav .logo-text::before {
+  content: none !important;
+  display: none !important;
 }
 
 .hunt-nav .logo-icon {
@@ -92,6 +101,14 @@ h6 {
 
 .hunt-nav .logo:hover .logo-text {
   color: var(--gold-accent);
+}
+
+.hunt-nav .logo:hover::after,
+.hunt-nav .logo:focus::after,
+.hunt-nav .logo:visited::after {
+  content: none !important;
+  display: none !important;
+  width: 0 !important;
 }
 
 .hunt-nav .nav-links {
@@ -191,7 +208,9 @@ h6 {
   border: none;
   cursor: pointer;
   padding: 0.5rem;
+  position: relative;
   z-index: 1001;
+  flex-shrink: 0;
 }
 
 .mobile-menu-toggle span {
@@ -1261,19 +1280,49 @@ section {
 
   .hunt-nav .logo {
     font-size: 1rem;
-    flex: 1;
+    text-decoration: none !important;
+    max-width: calc(100% - 60px);
   }
 
   .hunt-nav .logo-icon {
     height: 32px;
   }
 
+  .hunt-nav .logo::after,
+  .hunt-nav .logo::before {
+    content: none !important;
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+  }
+
+  .hunt-nav .logo:hover::after,
+  .hunt-nav .logo:focus::after {
+    content: none !important;
+    display: none !important;
+    width: 0 !important;
+  }
+
   .hunt-nav .logo-text {
     font-size: 1.2rem;
+    text-decoration: none !important;
+    border-bottom: none !important;
+    box-shadow: none !important;
+  }
+
+  .hunt-nav .logo-text::after,
+  .hunt-nav .logo-text::before {
+    content: none !important;
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
   }
 
   .mobile-menu-toggle {
-    display: block;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
   }
 
   .hunt-nav .nav-links {
@@ -1435,8 +1484,38 @@ section {
     height: 28px;
   }
 
+  .hunt-nav .logo {
+    text-decoration: none !important;
+  }
+
+  .hunt-nav .logo::after,
+  .hunt-nav .logo::before {
+    content: none !important;
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+  }
+
+  .hunt-nav .logo:hover::after,
+  .hunt-nav .logo:focus::after {
+    content: none !important;
+    display: none !important;
+    width: 0 !important;
+  }
+
   .hunt-nav .logo-text {
     font-size: 1rem;
+    text-decoration: none !important;
+    border-bottom: none !important;
+    box-shadow: none !important;
+  }
+
+  .hunt-nav .logo-text::after,
+  .hunt-nav .logo-text::before {
+    content: none !important;
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
   }
 
   .mobile-menu-toggle span {

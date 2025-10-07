@@ -4,20 +4,22 @@
 const API_BASE = 'https://kotc.islandbitcoin.com/api';
 // For local development, use: const API_BASE = 'http://localhost:8000/api';
 
-// Smooth scroll for navigation links
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-            const offsetTop = target.offsetTop - 80; // Account for fixed nav
-            window.scrollTo({
-                top: offsetTop,
-                behavior: 'smooth'
-            });
-        }
+// Smooth scroll for navigation links - initialized after DOM loads
+function initSmoothScroll() {
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                const offsetTop = target.offsetTop - 80; // Account for fixed nav
+                window.scrollTo({
+                    top: offsetTop,
+                    behavior: 'smooth'
+                });
+            }
+        });
     });
-});
+}
 
 // Lightning background animation
 const canvas = document.getElementById('lightning-bg');
@@ -165,6 +167,10 @@ async function loadLeaderboard() {
 
 // Load leaderboard on page load
 document.addEventListener('DOMContentLoaded', () => {
+    // Initialize smooth scroll for navigation links
+    initSmoothScroll();
+
+    // Load leaderboard data
     loadLeaderboard();
 
     // Refresh leaderboard every 30 seconds
@@ -173,9 +179,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Navbar scroll effect
 let lastScroll = 0;
-const nav = document.querySelector('.hunt-nav');
 
 window.addEventListener('scroll', () => {
+    const nav = document.querySelector('.hunt-nav');
+    if (!nav) return; // Exit if nav hasn't loaded yet
+
     const currentScroll = window.pageYOffset;
 
     if (currentScroll > 100) {
