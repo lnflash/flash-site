@@ -22,6 +22,7 @@ registerForm.addEventListener('submit', async (e) => {
     const formData = new FormData(registerForm);
     const data = {
         username: formData.get('username').trim(),
+        flash_username: formData.get('flash_username').trim(),
         email: formData.get('email').trim(),
         satoshi_date: formData.get('satoshi_date'),
         satoshi_topic: formData.get('satoshi_topic').trim(),
@@ -78,14 +79,25 @@ registerForm.addEventListener('submit', async (e) => {
 
 // Client-side validation
 function validateForm(data) {
-    // Username validation
+    // Hunter name validation
     if (data.username.length < 3 || data.username.length > 20) {
-        showError('Username must be between 3 and 20 characters.');
+        showError('Hunter name must be between 3 and 20 characters.');
         return false;
     }
 
     if (!/^[a-zA-Z0-9_]+$/.test(data.username)) {
-        showError('Username can only contain letters, numbers, and underscores.');
+        showError('Hunter name can only contain letters, numbers, and underscores.');
+        return false;
+    }
+
+    // Flash username validation
+    if (data.flash_username.length < 3 || data.flash_username.length > 20) {
+        showError('Flash username must be between 3 and 20 characters.');
+        return false;
+    }
+
+    if (!/^[a-zA-Z0-9_]+$/.test(data.flash_username)) {
+        showError('Flash username can only contain letters, numbers, and underscores.');
         return false;
     }
 
@@ -161,6 +173,7 @@ function hideMessages() {
 
 // Real-time validation hints
 const usernameInput = document.getElementById('username');
+const flashUsernameInput = document.getElementById('flash-username');
 const emailInput = document.getElementById('email');
 
 usernameInput.addEventListener('input', (e) => {
@@ -173,6 +186,20 @@ usernameInput.addEventListener('input', (e) => {
             usernameInput.setCustomValidity('Minimum 3 characters required');
         } else {
             usernameInput.setCustomValidity('');
+        }
+    }
+});
+
+flashUsernameInput.addEventListener('input', (e) => {
+    const value = e.target.value;
+
+    if (value.length > 0) {
+        if (!/^[a-zA-Z0-9_]+$/.test(value)) {
+            flashUsernameInput.setCustomValidity('Only letters, numbers, and underscores allowed');
+        } else if (value.length < 3) {
+            flashUsernameInput.setCustomValidity('Minimum 3 characters required');
+        } else {
+            flashUsernameInput.setCustomValidity('');
         }
     }
 });
