@@ -656,7 +656,7 @@
         <div class="treasure-box">
             <div class="treasure-icon" id="treasureIcon" onclick="spinTreasure()">🏴‍☠️</div>
             <h1>Coming Soon!</h1>
-            <p class="subtitle">The Greatest Digital Gold Treasure Hunt Ever in the Caribbean</p>
+            <p class="subtitle">Where Ancient Legends Meet Modern Fortune</p>
 
             <div class="countdown" id="countdown">
                 <div class="countdown-item">
@@ -678,8 +678,18 @@
             </div>
 
             <p style="color: var(--flash-yellow); font-size: 1.1rem; margin-bottom: 1rem;">
-                🧭 Spin the compass to find your fortune...
+                🧭 Five thousand winds carry whispers of buried digital gold...
             </p>
+
+            <div
+                style="background: rgba(246, 196, 83, 0.1); border: 1px solid var(--flash-yellow); border-radius: 8px; padding: 1.5rem; margin: 2rem 0;">
+                <p
+                    style="color: var(--flash-yellow); font-size: 1rem; margin: 0; text-align: center; font-style: italic;">
+                    "Where pixels meet paradise, a treasure chest holds more than memories...<br>
+                    <span style="font-size: 0.9rem; color: var(--flash-green);">Legends speak of a vault worth more than
+                        five thousand pieces of eight</span>"
+                </p>
+            </div>
 
             <div class="compass-container">
                 <div class="compass" id="compass" onclick="spinCompass()">
@@ -694,7 +704,9 @@
             </form>
 
             <p class="hint-text">
-                "Not all treasure is silver and gold, mate..." - Captain Jack Sparrow
+                "The greatest treasures are not always silver and gold...<br>
+                <span style="color: var(--flash-green); font-size: 0.85rem;">Sometimes they're measured in thousands of
+                    modern doubloons ⚡</span>"
             </p>
         </div>
     </div>
@@ -704,21 +716,21 @@
         const mobileMenuToggle = document.getElementById('mobileMenuToggle');
         const navLinks = document.getElementById('navLinks');
 
-        mobileMenuToggle.addEventListener('click', function() {
+        mobileMenuToggle.addEventListener('click', function () {
             this.classList.toggle('active');
             navLinks.classList.toggle('active');
         });
 
         // Close menu when clicking a link
         navLinks.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', function() {
+            link.addEventListener('click', function () {
                 mobileMenuToggle.classList.remove('active');
                 navLinks.classList.remove('active');
             });
         });
 
         // Close menu when clicking outside
-        document.addEventListener('click', function(event) {
+        document.addEventListener('click', function (event) {
             if (!event.target.closest('.hunt-nav')) {
                 mobileMenuToggle.classList.remove('active');
                 navLinks.classList.remove('active');
@@ -763,8 +775,15 @@
             const icon = document.getElementById('treasureIcon');
             spinCount++;
 
-            if (spinCount === 7) {
-                // Easter egg after 7 clicks
+            if (spinCount === 5) {
+                // Easter egg after 5 clicks (reference to 5000)
+                icon.textContent = '💰';
+                console.log('%cFive spins unlocked! Five thousand awaits the worthy...', 'color: #F6C453; font-weight: bold;');
+                setTimeout(() => {
+                    icon.textContent = '🏴‍☠️';
+                }, 2000);
+            } else if (spinCount === 7) {
+                // Original easter egg after 7 clicks
                 icon.textContent = '💀';
                 setTimeout(() => {
                     icon.textContent = '🏴‍☠️';
@@ -829,8 +848,10 @@
         console.log('%c🏴‍☠️ Ahoy, Clever Hunter! 🏴‍☠️', styles.title);
         console.log('%cYou found the console, but this page is a decoy!', styles.message);
         console.log('%cThe countdown is going BACKWARDS because this hunt already happened... or did it?', styles.warning);
+        console.log('%cA treasure chest awaits with more than five thousand reasons to keep searching...', styles.message);
         console.log('%cKeep searching. X marks the spot... somewhere else. 🗺️', styles.message);
         console.log('%c\nHint: The URL path might give you a clue about what\'s real and what\'s not...', styles.warning);
+        console.log('%c💰 Fortune favors the persistent - the vault holds modern doubloons worth more than ancient gold', styles.message);
     </script>
 
     <!-- Footer -->
@@ -840,6 +861,9 @@
                 <div class="footer-brand">
                     <h3>Quays of the Karribean</h3>
                     <p>Coming Soon™</p>
+                    <p style="font-size: 0.8rem; color: var(--sea-gray); font-style: italic; margin-top: 0.5rem;">
+                        "Where digital fortunes exceed five millennia of buried gold"
+                    </p>
                 </div>
                 <div class="footer-links">
                     <div class="footer-column">
