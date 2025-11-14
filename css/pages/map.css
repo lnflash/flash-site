@@ -1367,6 +1367,121 @@ gmp-place-autocomplete input:focus,
   text-decoration: underline;
 }
 
+/* Lightning Deeplink Button Styles */
+.deeplink-btn {
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin: 0 auto 20px auto;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  position: relative;
+  overflow: hidden;
+}
+
+.deeplink-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s ease;
+}
+
+.deeplink-btn:hover::before {
+  left: 100%;
+}
+
+.deeplink-btn i {
+  font-size: 20px;
+}
+
+/* Mobile: Large, prominent button */
+.deeplink-btn-mobile {
+  background: linear-gradient(135deg, #f39c12 0%, #e74c3c 100%);
+  color: white;
+  padding: 18px 32px;
+  width: 100%;
+  max-width: 100%;
+  font-size: 18px;
+  animation: pulse 2s infinite;
+}
+
+.deeplink-btn-mobile:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(243, 156, 18, 0.4);
+}
+
+.deeplink-btn-mobile:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 16px rgba(243, 156, 18, 0.3);
+}
+
+/* Desktop: Less prominent, secondary style */
+.deeplink-btn-desktop {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 12px 24px;
+  width: auto;
+  max-width: 280px;
+  font-size: 14px;
+}
+
+.deeplink-btn-desktop:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.35);
+}
+
+.deeplink-btn-desktop:active {
+  transform: translateY(0);
+}
+
+/* Subtle pulse animation for mobile */
+@keyframes pulse {
+  0%,
+  100% {
+    box-shadow: 0 4px 16px rgba(243, 156, 18, 0.15);
+  }
+  50% {
+    box-shadow: 0 4px 24px rgba(243, 156, 18, 0.35);
+  }
+}
+
+/* Dark mode support */
+.dark-mode .deeplink-btn-mobile {
+  box-shadow: 0 4px 16px rgba(243, 156, 18, 0.5);
+}
+
+.dark-mode .deeplink-btn-desktop {
+  box-shadow: 0 4px 16px rgba(102, 126, 234, 0.4);
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  .deeplink-btn-mobile {
+    padding: 16px 24px;
+    font-size: 16px;
+  }
+
+  .deeplink-btn-mobile i {
+    font-size: 18px;
+  }
+}
+
+/* Feedback message styling */
+#deeplinkFeedback {
+  min-height: 20px;
+  margin-top: 8px;
+}
+
 /* Nostr Chat Widget Styles */
 .nostr-chat-container {
   position: fixed;
