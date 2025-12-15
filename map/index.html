@@ -70,99 +70,142 @@
 <body>
     <div id="header-placeholder"></div>
 
-    <!-- Map Container with Overlay Search -->
-    <!-- Map Container with Overlay Search -->
-    <section class="container" style="padding-top: 0; margin-top: 0;">
-        <div class="map-container">
-            <!-- Floating Back Button (Mobile Only) -->
-            <a href="/" class="floating-back-btn" aria-label="Back to home">
-                <i class="fas fa-arrow-left"></i>
-                <span>Home</span>
-            </a>
+    <!-- Map Page - Modern Toolbar Layout -->
+    <div class="map-page">
+        <!-- Top Toolbar -->
+        <div class="map-toolbar">
+            <div class="toolbar-row toolbar-main">
+                <!-- Back Button -->
+                <a href="/" class="toolbar-back-btn" aria-label="Back to home">
+                    <i class="fas fa-arrow-left"></i>
+                </a>
 
-            <!-- Search Overlay -->
-            <div class="search-overlay">
-                <div class="search-bar-container">
-                    <div class="search-input-wrapper">
-                        <i class="fas fa-search search-icon"></i>
-                        <input type="text" class="search-input" id="searchInput"
-                            placeholder="Search locations, services, or areas...">
-                    </div>
+                <!-- Search Input -->
+                <div class="toolbar-search">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" class="search-input" id="searchInput"
+                        placeholder="Search locations or address...">
                     <button class="clear-search-btn" id="clearSearchBtn" style="display: none;" title="Clear search">
                         <i class="fas fa-times"></i>
                     </button>
-                    <button class="filter-toggle-btn" id="filterBtn" title="Filter by services">
+                    <!-- Autocomplete Dropdown -->
+                    <div class="autocomplete-dropdown" id="autocompleteDropdown">
+                        <ul class="autocomplete-list" id="autocompleteList"></ul>
+                    </div>
+                </div>
+
+                <!-- Toolbar Actions -->
+                <div class="toolbar-actions">
+                    <button class="toolbar-btn" id="filterBtn" title="Filter by services">
                         <i class="fas fa-sliders-h"></i>
-                        <span class="filter-text">Filters</span>
+                        <span class="btn-text">Filters</span>
+                    </button>
+                    <div class="sort-container">
+                        <select id="sortSelect" class="sort-select">
+                            <option value="relevance">Sort</option>
+                            <option value="name-asc">Name (A-Z)</option>
+                            <option value="name-desc">Name (Z-A)</option>
+                            <option value="rating-desc">Top Rated</option>
+                            <option value="distance">Nearest</option>
+                        </select>
+                    </div>
+                    <button class="toolbar-btn" id="infoBtn" title="About this map">
+                        <i class="fas fa-info-circle"></i>
                     </button>
                 </div>
-                <button class="info-toggle-btn" id="infoBtn" title="About this map">
-                    <i class="fas fa-info-circle"></i>
-                    <span>About</span>
-                </button>
-                <div class="info-tooltip" id="infoTooltip" style="display: none;">
-                    <div class="info-tooltip-content">
 
-                        <h3><i class="fas fa-map-marked-alt"></i> Flash Location Finder</h3>
-                        <p>
-                            Discover businesses across Jamaica that provide Flash services, called FLASHPOINTS.
-                            Find nearby locations, view services, and connect directly with merchants.
-                        </p>
-                        <div class="info-highlight">
-                            <i class="fas fa-credit-card"></i>
-                            <div>
-                                <strong>Get Your Free Flash Rewards Card!</strong>
-                                <p>Request a free reloadable Flash Rewards Card from any of these locations. Use it to
-                                    earn
-                                    reward points instantly at participating merchants.</p>
-                            </div>
-                        </div>
-                        <div class="info-features">
-                            <div class="info-feature">
-                                <i class="fas fa-bolt"></i>
-                                <span>Instant Payments</span>
-                            </div>
-                            <div class="info-feature">
-                                <i class="fas fa-message"></i>
-                                <span>Direct Messaging</span>
-                            </div>
-                            <div class="info-feature">
-                                <i class="fas fa-gift"></i>
-                                <span>Rewards Programs</span>
-                            </div>
-                        </div>
-                    </div>
+                <!-- View Toggle -->
+                <div class="view-toggle-container">
+                    <button class="view-toggle-btn active" data-view="map" id="mapViewBtn">
+                        <i class="fas fa-map"></i>
+                        <span>Map</span>
+                    </button>
+                    <button class="view-toggle-btn" data-view="list" id="listViewBtn">
+                        <i class="fas fa-list"></i>
+                        <span>List</span>
+                    </button>
                 </div>
-                <div class="filter-panel" id="filterPanel" style="display: none;">
-                    <div class="filter-group">
-                        <label class="filter-option">
-                            <input type="checkbox" id="filterFlashPay" checked>
-                            <span class="filter-label">
-                                <i class="fas fa-bolt" style="color: #f39c12;"></i>
-                                Flash Pay
-                            </span>
-                        </label>
-                        <label class="filter-option">
-                            <input type="checkbox" id="filterCash" checked>
-                            <span class="filter-label">
-                                <i class="fas fa-money-bill-transfer" style="color: #3498db;"></i>
-                                Cash Services
-                            </span>
-                        </label>
-                        <label class="filter-option">
-                            <input type="checkbox" id="filterRewards" checked>
-                            <span class="filter-label">
-                                <i class="fas fa-gift" style="color: #e74c3c;"></i>
-                                Rewards
-                            </span>
-                        </label>
-                    </div>
+            </div>
+
+            <!-- Filter Row (Chips + Count) -->
+            <div class="toolbar-row toolbar-filters">
+                <div class="category-chips-container" id="categoryChips">
+                    <button class="category-chip" data-filter="open-now">
+                        <i class="fas fa-clock"></i><span>Open Now</span>
+                    </button>
+                    <button class="category-chip" data-filter="top-rated">
+                        <i class="fas fa-star"></i><span>Top Rated</span>
+                    </button>
+                    <button class="category-chip" data-filter="nearby">
+                        <i class="fas fa-location-crosshairs"></i><span>Nearby</span>
+                    </button>
+                    <button class="category-chip" data-filter="has-rewards">
+                        <i class="fas fa-gift"></i><span>Rewards</span>
+                    </button>
                 </div>
                 <div class="location-count">
                     <i class="fas fa-map-marker-alt"></i>
                     <span id="locationCount">0 locations</span>
                 </div>
             </div>
+        </div>
+
+        <!-- Filter Panel (Dropdown) -->
+        <div class="filter-panel" id="filterPanel" style="display: none;">
+            <div class="filter-panel-content">
+                <div class="filter-panel-header">
+                    <h3>Service Filters</h3>
+                    <button class="filter-panel-close" id="filterPanelClose"><i class="fas fa-times"></i></button>
+                </div>
+                <div class="filter-group">
+                    <label class="filter-option">
+                        <input type="checkbox" id="filterFlashPay" checked>
+                        <span class="filter-label">
+                            <i class="fas fa-bolt" style="color: #f39c12;"></i>
+                            Flash Pay
+                        </span>
+                    </label>
+                    <label class="filter-option">
+                        <input type="checkbox" id="filterCash" checked>
+                        <span class="filter-label">
+                            <i class="fas fa-money-bill-transfer" style="color: #3498db;"></i>
+                            Cash Services
+                        </span>
+                    </label>
+                    <label class="filter-option">
+                        <input type="checkbox" id="filterRewards" checked>
+                        <span class="filter-label">
+                            <i class="fas fa-gift" style="color: #e74c3c;"></i>
+                            Rewards
+                        </span>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Info Tooltip (Modal) -->
+        <div class="info-modal" id="infoTooltip" style="display: none;">
+            <div class="info-modal-content">
+                <button class="info-modal-close" id="infoModalClose"><i class="fas fa-times"></i></button>
+                <h3><i class="fas fa-map-marked-alt"></i> Flash Location Finder</h3>
+                <p>Discover businesses across Jamaica that provide Flash services, called FLASHPOINTS.</p>
+                <div class="info-highlight">
+                    <i class="fas fa-credit-card"></i>
+                    <div>
+                        <strong>Get Your Free Flash Rewards Card!</strong>
+                        <p>Request a free reloadable Flash Rewards Card from any of these locations.</p>
+                    </div>
+                </div>
+                <div class="info-features">
+                    <div class="info-feature"><i class="fas fa-bolt"></i><span>Instant Payments</span></div>
+                    <div class="info-feature"><i class="fas fa-message"></i><span>Direct Messaging</span></div>
+                    <div class="info-feature"><i class="fas fa-gift"></i><span>Rewards Programs</span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content Area -->
+        <div class="map-content">
 
             <!-- Coming Soon Overlay -->
             <!-- <div class="coming-soon-overlay">
@@ -188,6 +231,16 @@
                 <div class="spinner"></div>
             </div>
             <div id="map"></div>
+
+            <!-- List View Container -->
+            <div id="listView" class="list-view-container" style="display: none;">
+                <div class="list-view-header">
+                    <span id="listResultsCount">0 results</span>
+                </div>
+                <div class="list-view-content" id="listViewContent">
+                    <!-- Location cards will be rendered here -->
+                </div>
+            </div>
 
             <!-- Side Panel for Location Details -->
             <div id="sidePanel" class="side-panel">
@@ -252,8 +305,8 @@
                     </button>
                 </div>
             </div>
-        </div>
-    </section>
+        </div><!-- end map-content -->
+    </div><!-- end map-page -->
 
     <!-- Footer -->
     <div id="footer-placeholder"></div>
@@ -276,6 +329,14 @@
         let currentFlashpoint = null; // Track currently selected flashpoint
         let flashpointMap = new Map(); // Map marker to flashpoint data
 
+        // New state variables for list/map toggle
+        let currentView = 'map'; // 'map' or 'list'
+        let activeChips = new Set(); // Active category chips
+        let userLocation = null; // For distance sorting/filtering
+        let autocompleteHighlightIndex = -1; // For keyboard navigation
+        let placesAutocompleteService = null; // Google Places Autocomplete for address search
+        let placesService = null; // Google Places Service for getting place details
+
         // Initialize the map
         window.initMapCallback = function () {
             // Show loading spinner
@@ -296,6 +357,17 @@
             // Create info window
             infoWindow = new google.maps.InfoWindow();
 
+            // Initialize Places services for address search
+            placesAutocompleteService = new google.maps.places.AutocompleteService();
+            placesService = new google.maps.places.PlacesService(map);
+
+            // Close info window when clicking on the map (not on a marker)
+            map.addListener('click', () => {
+                infoWindow.close();
+                // Also close side panel if open
+                document.getElementById('sidePanel').classList.remove('open');
+            });
+
             // Load flashpoints from API
             loadFlashpoints().then(() => {
                 document.getElementById('loadingSpinner').style.display = 'none';
@@ -306,6 +378,13 @@
 
             // Setup search functionality
             setupSearch();
+
+            // Setup new features
+            setupViewToggle();
+            setupCategoryChips();
+            setupSorting();
+            setupAutocomplete();
+            requestUserLocation();
         };
 
         // Load flashpoints from GraphQL API
@@ -874,100 +953,9 @@
             console.log('Search initialized for flashpoints only');
         }
 
-        // Perform search
+        // Perform search - now uses unified filter pipeline
         async function performSearch() {
-            const query = document.getElementById('searchInput').value.toLowerCase();
-
-            if (!query) {
-                addMarkersToMap();
-                return;
-            }
-
-            // Filter and sort flashpoints by relevance
-            const filteredFlashpoints = flashpoints
-                .filter(flashpoint => {
-                    const title = flashpoint.mapInfo.title.toLowerCase();
-                    const username = flashpoint.username.toLowerCase();
-                    const address = flashpoint.googlePlaces?.address?.toLowerCase() || '';
-
-                    return title.includes(query) ||
-                        username.includes(query) ||
-                        address.includes(query);
-                })
-                .map(flashpoint => {
-                    // Calculate match score (higher is better)
-                    const title = flashpoint.mapInfo.title.toLowerCase();
-                    const username = flashpoint.username.toLowerCase();
-                    const address = flashpoint.googlePlaces?.address?.toLowerCase() || '';
-
-                    let score = 0;
-
-                    // Exact match gets highest priority
-                    if (title === query) score += 1000;
-                    if (username === query) score += 900;
-
-                    // Starts with query gets high priority
-                    if (title.startsWith(query)) score += 500;
-                    if (username.startsWith(query)) score += 400;
-
-                    // Contains query gets medium priority
-                    if (title.includes(query)) score += 100;
-                    if (username.includes(query)) score += 90;
-                    if (address.includes(query)) score += 50;
-
-                    // Shorter names rank higher for same match type
-                    score -= title.length * 0.1;
-
-                    return { flashpoint, score };
-                })
-                .sort((a, b) => b.score - a.score) // Sort by score descending
-                .map(item => item.flashpoint); // Extract flashpoints
-
-            // Clear current markers
-            clearMarkers();
-
-            // Import AdvancedMarkerElement
-            const { AdvancedMarkerElement, PinElement } = await google.maps.importLibrary("marker");
-
-            // Add filtered markers
-            filteredFlashpoints.forEach((flashpoint, index) => {
-                const position = {
-                    lat: parseFloat(flashpoint.mapInfo.coordinates.latitude),
-                    lng: parseFloat(flashpoint.mapInfo.coordinates.longitude)
-                };
-
-                // Create custom marker with Flash logo
-                const markerContent = document.createElement('div');
-                markerContent.className = 'custom-flash-marker';
-                markerContent.innerHTML = `
-                            <div class="marker-pin">
-                                <div class="marker-logo-container">
-                                    <img src="../../assets/img/flash-icon-logo-white.png" alt="Flash" class="marker-logo">
-                                </div>
-                            </div>
-                        `;
-
-                const marker = new AdvancedMarkerElement({
-                    map: map,
-                    position: position,
-                    content: markerContent,
-                    title: flashpoint.mapInfo.title
-                });
-
-                marker.addListener('click', () => {
-                    showLocationDetails(flashpoint, marker);
-                });
-
-                markers.push(marker);
-            });
-
-            // Update count
-            document.getElementById('locationCount').textContent = `${filteredFlashpoints.length} locations found`;
-
-            // Fit map to filtered results
-            if (markers.length > 0) {
-                fitMapToMarkers();
-            }
+            applyAllFilters();
         }
 
         // Debounce function (check if already exists in main.js)
@@ -986,6 +974,930 @@
         // Note: Map styles are now controlled via Google Cloud Console Map Styles
         // when using a mapId. Dark mode support should be configured there.
 
+        // ========================================
+        // VIEW TOGGLE FUNCTIONALITY
+        // ========================================
+        function setupViewToggle() {
+            const mapBtn = document.getElementById('mapViewBtn');
+            const listBtn = document.getElementById('listViewBtn');
+
+            mapBtn.addEventListener('click', () => toggleView('map'));
+            listBtn.addEventListener('click', () => toggleView('list'));
+        }
+
+        function toggleView(view) {
+            currentView = view;
+
+            // Update button states
+            document.querySelectorAll('.view-toggle-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.view === view);
+            });
+
+            // Toggle visibility
+            const mapEl = document.getElementById('map');
+            const listEl = document.getElementById('listView');
+
+            if (view === 'map') {
+                mapEl.style.display = 'block';
+                listEl.style.display = 'none';
+                // Trigger map resize for proper rendering
+                google.maps.event.trigger(map, 'resize');
+            } else {
+                mapEl.style.display = 'none';
+                listEl.style.display = 'block';
+                renderListView();
+            }
+        }
+
+        // ========================================
+        // LIST VIEW RENDERING
+        // ========================================
+        function renderListView() {
+            const container = document.getElementById('listViewContent');
+            const countEl = document.getElementById('listResultsCount');
+
+            // Get filtered and sorted results
+            const results = getFilteredAndSortedResults();
+
+            countEl.textContent = `${results.length} result${results.length !== 1 ? 's' : ''}`;
+
+            if (results.length === 0) {
+                container.innerHTML = '<div class="autocomplete-no-results">No locations found matching your criteria.</div>';
+                return;
+            }
+
+            container.innerHTML = results.map(fp => createLocationCard(fp)).join('');
+
+            // Add click handlers
+            container.querySelectorAll('.location-card').forEach(card => {
+                card.addEventListener('click', () => {
+                    const username = card.dataset.username;
+                    const flashpoint = flashpoints.find(fp => fp.username === username);
+                    if (flashpoint) {
+                        selectLocation(flashpoint);
+                    }
+                });
+            });
+        }
+
+        function createLocationCard(flashpoint) {
+            const firstLetter = flashpoint.mapInfo.title.charAt(0).toUpperCase();
+            const services = {
+                acceptsFlash: flashpoint.acceptsFlash !== false,
+                redeemTopup: flashpoint.redeemTopup === true,
+                hasRewards: flashpoint.hasRewards === true
+            };
+
+            const badgesHTML = [
+                services.acceptsFlash ? '<span class="card-badge flash-payment" title="Flash Pay"><i class="fas fa-bolt"></i></span>' : '',
+                services.redeemTopup ? '<span class="card-badge cash-service" title="Cash Services"><i class="fas fa-money-bill-transfer"></i></span>' : '',
+                services.hasRewards ? '<span class="card-badge loyalty-rewards" title="Rewards"><i class="fas fa-gift"></i></span>' : ''
+            ].filter(Boolean).join('');
+
+            const ratingHTML = flashpoint.googlePlaces?.rating
+                ? `<div class="location-card-rating">
+                       <i class="fas fa-star"></i>
+                       ${flashpoint.googlePlaces.rating.toFixed(1)}
+                       ${flashpoint.googlePlaces.userRatingsTotal ? `<span class="review-count">(${flashpoint.googlePlaces.userRatingsTotal})</span>` : ''}
+                   </div>`
+                : '';
+
+            const addressHTML = flashpoint.googlePlaces?.address
+                ? `<div class="location-card-address">
+                       <i class="fas fa-map-marker-alt"></i>${flashpoint.googlePlaces.address}
+                   </div>`
+                : '';
+
+            // Calculate distance if user location is available
+            let distanceHTML = '';
+            if (userLocation) {
+                const distance = calculateDistance(
+                    userLocation.lat, userLocation.lng,
+                    flashpoint.mapInfo.coordinates.latitude,
+                    flashpoint.mapInfo.coordinates.longitude
+                );
+                distanceHTML = `<div class="location-card-distance">
+                    <i class="fas fa-location-arrow"></i>
+                    ${distance < 1 ? `${Math.round(distance * 1000)}m away` : `${distance.toFixed(1)}km away`}
+                </div>`;
+            }
+
+            return `
+                <div class="location-card" data-username="${flashpoint.username}">
+                    <div class="location-card-content">
+                        <div class="location-card-header">
+                            <div class="location-card-avatar">${firstLetter}</div>
+                            <div class="location-card-info">
+                                <div class="location-card-title">${flashpoint.mapInfo.title}</div>
+                                <div class="location-card-username">@${flashpoint.username}</div>
+                            </div>
+                        </div>
+                        ${addressHTML}
+                        <div class="location-card-meta">
+                            ${ratingHTML}
+                            <div class="location-card-badges">${badgesHTML}</div>
+                        </div>
+                        ${distanceHTML}
+                    </div>
+                </div>
+            `;
+        }
+
+        function selectLocation(flashpoint) {
+            // Switch to map view and show details
+            toggleView('map');
+
+            // Clear search location marker if exists
+            if (searchLocationMarker) {
+                searchLocationMarker.map = null;
+                searchLocationMarker = null;
+            }
+
+            const markerIndex = flashpoints.findIndex(fp => fp.username === flashpoint.username);
+            if (markerIndex !== -1 && markers[markerIndex]) {
+                const position = {
+                    lat: parseFloat(flashpoint.mapInfo.coordinates.latitude),
+                    lng: parseFloat(flashpoint.mapInfo.coordinates.longitude)
+                };
+                map.panTo(position);
+                map.setZoom(15);
+
+                // Small delay to allow map to render
+                setTimeout(() => {
+                    showLocationDetails(flashpoint, markers[markerIndex]);
+                }, 100);
+            }
+        }
+
+        // Select a location by address (from Google Places autocomplete)
+        let searchLocationMarker = null; // Temporary marker for searched address
+
+        function selectAddressLocation(placeId) {
+            if (!placesService) {
+                console.error('Places service not available');
+                return;
+            }
+
+            placesService.getDetails({
+                placeId: placeId,
+                fields: ['geometry', 'formatted_address', 'name']
+            }, (place, status) => {
+                if (status !== google.maps.places.PlacesServiceStatus.OK || !place?.geometry?.location) {
+                    console.error('Failed to get place details:', status);
+                    return;
+                }
+
+                const location = {
+                    lat: place.geometry.location.lat(),
+                    lng: place.geometry.location.lng()
+                };
+
+                // Switch to map view
+                toggleView('map');
+
+                // Pan to the searched location
+                map.panTo(location);
+                map.setZoom(14);
+
+                // Remove previous search marker if exists
+                if (searchLocationMarker) {
+                    searchLocationMarker.map = null;
+                }
+
+                // Add a temporary marker at the searched location
+                searchLocationMarker = new google.maps.marker.AdvancedMarkerElement({
+                    map: map,
+                    position: location,
+                    title: place.name || 'Searched Location',
+                    content: createSearchMarkerContent()
+                });
+
+                // Show info window with nearby flashpoints info
+                const nearbyFlashpoints = getNearbyFlashpoints(location, 5); // 5km radius
+                const nearbyCount = nearbyFlashpoints.length;
+
+                // Store nearby flashpoints for the click handler
+                window.lastSearchLocation = location;
+                window.lastNearbyFlashpoints = nearbyFlashpoints;
+
+                infoWindow.setContent(`
+                    <div style="padding: 10px; max-width: 280px;">
+                        <div style="font-weight: 600; margin-bottom: 5px;">${place.name || 'Searched Location'}</div>
+                        <div style="color: #666; font-size: 13px; margin-bottom: 10px;">${place.formatted_address || ''}</div>
+                        ${nearbyCount > 0 ? `
+                            <button onclick="showNearbyFlashpoints()" style="
+                                display: flex;
+                                align-items: center;
+                                gap: 8px;
+                                background: linear-gradient(135deg, #f39c12, #e67e22);
+                                color: white;
+                                border: none;
+                                padding: 10px 16px;
+                                border-radius: 8px;
+                                cursor: pointer;
+                                font-weight: 600;
+                                font-size: 14px;
+                                width: 100%;
+                                justify-content: center;
+                                transition: transform 0.2s, box-shadow 0.2s;
+                            " onmouseover="this.style.transform='scale(1.02)'; this.style.boxShadow='0 4px 12px rgba(243,156,18,0.4)';"
+                               onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='none';">
+                                <i class="fas fa-bolt"></i>
+                                <span>Show ${nearbyCount} Flash location${nearbyCount !== 1 ? 's' : ''} nearby</span>
+                                <i class="fas fa-arrow-right" style="margin-left: auto;"></i>
+                            </button>
+                        ` : `
+                            <div style="color: #95a5a6; font-size: 13px; text-align: center; padding: 10px;">
+                                <i class="fas fa-map-marker-alt"></i> No Flash locations within 5km
+                            </div>
+                        `}
+                    </div>
+                `);
+                infoWindow.open(map, searchLocationMarker);
+
+                // Update user location for distance sorting
+                userLocation = location;
+                console.log('Search location set:', location);
+            });
+        }
+
+        function createSearchMarkerContent() {
+            const div = document.createElement('div');
+            div.innerHTML = `
+                <div style="
+                    background: #3498db;
+                    width: 32px;
+                    height: 32px;
+                    border-radius: 50%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+                    border: 3px solid white;
+                ">
+                    <i class="fas fa-search" style="color: white; font-size: 14px;"></i>
+                </div>
+            `;
+            return div;
+        }
+
+        function getNearbyFlashpoints(location, radiusKm) {
+            return flashpoints
+                .map(fp => ({
+                    flashpoint: fp,
+                    distance: calculateDistance(
+                        location.lat, location.lng,
+                        fp.mapInfo.coordinates.latitude,
+                        fp.mapInfo.coordinates.longitude
+                    )
+                }))
+                .filter(item => item.distance <= radiusKm)
+                .sort((a, b) => a.distance - b.distance)
+                .map(item => item.flashpoint);
+        }
+
+        // Show nearby flashpoints - called from info window button
+        function showNearbyFlashpoints() {
+            const nearbyFlashpoints = window.lastNearbyFlashpoints;
+            const searchLocation = window.lastSearchLocation;
+
+            if (!nearbyFlashpoints || nearbyFlashpoints.length === 0) return;
+
+            // Clear search bar and apply filters
+            const searchInput = document.getElementById('searchInput');
+            searchInput.value = '';
+            document.getElementById('clearSearchBtn').style.display = 'none';
+            applyAllFilters(); // Reset filters to show all locations
+
+            // Close the info window
+            infoWindow.close();
+
+            // Create bounds that include the search location and all nearby flashpoints
+            const bounds = new google.maps.LatLngBounds();
+
+            // Include search location
+            if (searchLocation) {
+                bounds.extend(new google.maps.LatLng(searchLocation.lat, searchLocation.lng));
+            }
+
+            // Include all nearby flashpoints
+            nearbyFlashpoints.forEach(fp => {
+                bounds.extend(new google.maps.LatLng(
+                    parseFloat(fp.mapInfo.coordinates.latitude),
+                    parseFloat(fp.mapInfo.coordinates.longitude)
+                ));
+            });
+
+            // Fit map to bounds with padding
+            map.fitBounds(bounds, { top: 50, right: 50, bottom: 50, left: 50 });
+
+            // Highlight nearby markers with animation after map settles
+            setTimeout(() => {
+                highlightNearbyMarkers(nearbyFlashpoints);
+            }, 500);
+        }
+
+        // Highlight markers for nearby flashpoints with JS-based animation
+        function highlightNearbyMarkers(nearbyFlashpoints) {
+            const nearbyUsernames = new Set(nearbyFlashpoints.map(fp => fp.username));
+            let highlightedCount = 0;
+
+            markers.forEach((marker, index) => {
+                const fp = flashpoints[index];
+                if (nearbyUsernames.has(fp.username)) {
+                    const content = marker.content;
+                    if (content) {
+                        const pin = content.querySelector('.marker-pin');
+                        const logoContainer = content.querySelector('.marker-logo-container');
+
+                        if (pin && logoContainer) {
+                            highlightedCount++;
+
+                            // Store original styles
+                            const originalPinTransform = pin.style.transform || '';
+                            const originalBoxShadow = logoContainer.style.boxShadow || '';
+
+                            // Bounce animation using JS
+                            let bounceCount = 0;
+                            const maxBounces = 4;
+
+                            function bounce() {
+                                if (bounceCount >= maxBounces) {
+                                    pin.style.transform = originalPinTransform;
+                                    logoContainer.style.boxShadow = originalBoxShadow;
+                                    return;
+                                }
+
+                                // Bounce up
+                                pin.style.transition = 'transform 0.15s ease-out';
+                                pin.style.transform = 'translateY(-15px) scale(1.2)';
+                                logoContainer.style.transition = 'box-shadow 0.15s ease-out';
+                                logoContainer.style.boxShadow = '0 0 30px rgba(243, 156, 18, 1), 0 0 60px rgba(243, 156, 18, 0.7)';
+
+                                setTimeout(() => {
+                                    // Bounce down
+                                    pin.style.transition = 'transform 0.15s ease-in';
+                                    pin.style.transform = originalPinTransform || 'translateY(0) scale(1)';
+                                    logoContainer.style.transition = 'box-shadow 0.15s ease-in';
+                                    logoContainer.style.boxShadow = originalBoxShadow || '0 2px 6px rgba(0, 0, 0, 0.2)';
+
+                                    bounceCount++;
+                                    setTimeout(bounce, 200);
+                                }, 150);
+                            }
+
+                            // Start bouncing
+                            bounce();
+
+                            // Add expanding rings
+                            content.style.position = 'relative';
+                            for (let i = 0; i < 3; i++) {
+                                setTimeout(() => {
+                                    createExpandingRing(content);
+                                }, i * 400);
+                            }
+
+                        } else {
+                            console.log('Pin or logoContainer not found for marker', index);
+                        }
+                    }
+                }
+            });
+
+            console.log('Highlighted', highlightedCount, 'nearby markers');
+        }
+
+        // Create an expanding ring animation
+        function createExpandingRing(container) {
+            const ring = document.createElement('div');
+            ring.style.cssText = `
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                width: 30px;
+                height: 30px;
+                margin-left: -15px;
+                margin-top: -15px;
+                border: 3px solid #f39c12;
+                border-radius: 50%;
+                pointer-events: none;
+                opacity: 1;
+            `;
+            container.appendChild(ring);
+
+            // Animate the ring expanding
+            let size = 30;
+            let opacity = 1;
+            const expandInterval = setInterval(() => {
+                size += 8;
+                opacity -= 0.1;
+
+                if (opacity <= 0) {
+                    clearInterval(expandInterval);
+                    if (ring.parentNode) {
+                        ring.parentNode.removeChild(ring);
+                    }
+                    return;
+                }
+
+                ring.style.width = size + 'px';
+                ring.style.height = size + 'px';
+                ring.style.marginLeft = (-size / 2) + 'px';
+                ring.style.marginTop = (-size / 2) + 'px';
+                ring.style.opacity = opacity;
+                ring.style.borderWidth = Math.max(1, 3 - (size - 30) / 30) + 'px';
+            }, 30);
+        }
+
+        // ========================================
+        // SORTING FUNCTIONALITY
+        // ========================================
+        function setupSorting() {
+            const sortSelect = document.getElementById('sortSelect');
+            sortSelect.addEventListener('change', () => {
+                applyAllFilters();
+            });
+        }
+
+        function sortFlashpoints(list) {
+            const sortValue = document.getElementById('sortSelect').value;
+
+            return [...list].sort((a, b) => {
+                switch (sortValue) {
+                    case 'name-asc':
+                        return a.mapInfo.title.localeCompare(b.mapInfo.title);
+                    case 'name-desc':
+                        return b.mapInfo.title.localeCompare(a.mapInfo.title);
+                    case 'rating-desc':
+                        const ratingA = a.googlePlaces?.rating || 0;
+                        const ratingB = b.googlePlaces?.rating || 0;
+                        // If both have ratings, sort by rating
+                        if (ratingA && ratingB) return ratingB - ratingA;
+                        // Items with ratings come first
+                        if (ratingA && !ratingB) return -1;
+                        if (!ratingA && ratingB) return 1;
+                        return 0;
+                    case 'distance':
+                        if (!userLocation) return 0;
+                        const distA = calculateDistance(userLocation.lat, userLocation.lng,
+                            a.mapInfo.coordinates.latitude, a.mapInfo.coordinates.longitude);
+                        const distB = calculateDistance(userLocation.lat, userLocation.lng,
+                            b.mapInfo.coordinates.latitude, b.mapInfo.coordinates.longitude);
+                        return distA - distB;
+                    case 'relevance':
+                    default:
+                        return 0; // Keep original order
+                }
+            });
+        }
+
+        function calculateDistance(lat1, lon1, lat2, lon2) {
+            const R = 6371; // Earth's radius in km
+            const dLat = (lat2 - lat1) * Math.PI / 180;
+            const dLon = (lon2 - lon1) * Math.PI / 180;
+            const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+                Math.sin(dLon / 2) * Math.sin(dLon / 2);
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+            return R * c;
+        }
+
+        // ========================================
+        // CATEGORY CHIPS FUNCTIONALITY
+        // ========================================
+        function setupCategoryChips() {
+            document.querySelectorAll('.category-chip').forEach(chip => {
+                chip.addEventListener('click', () => {
+                    const filter = chip.dataset.filter;
+
+                    // Check if this chip requires geolocation
+                    if (filter === 'nearby' && !userLocation) {
+                        alert('Location access is required for the "Nearby" filter. Please enable location services.');
+                        return;
+                    }
+
+                    chip.classList.toggle('active');
+
+                    if (chip.classList.contains('active')) {
+                        activeChips.add(filter);
+                    } else {
+                        activeChips.delete(filter);
+                    }
+
+                    applyAllFilters();
+                });
+            });
+        }
+
+        // Helper function to check if a business is currently open
+        function isCurrentlyOpen(openingHours) {
+            if (!openingHours) return false;
+
+            // If we have an explicit isOpen flag, use it
+            if (openingHours.isOpen === true) return true;
+            if (openingHours.isOpen === false) return false;
+
+            // Otherwise, try to parse weekday_text
+            if (!openingHours.weekday_text || !Array.isArray(openingHours.weekday_text)) {
+                return false;
+            }
+
+            const now = new Date();
+            const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+            const today = days[now.getDay()];
+
+            // Find today's hours
+            const todayHours = openingHours.weekday_text.find(text =>
+                text.toLowerCase().startsWith(today.toLowerCase())
+            );
+
+            if (!todayHours) return false;
+
+            // Check if closed today
+            if (todayHours.toLowerCase().includes('closed')) return false;
+
+            // Check if open 24 hours
+            if (todayHours.toLowerCase().includes('24 hours') || todayHours.toLowerCase().includes('open 24')) {
+                return true;
+            }
+
+            // Parse time ranges like "Monday: 9:00 AM – 5:00 PM" or "Monday: 9:00 AM – 5:00 PM, 6:00 PM – 9:00 PM"
+            const timeMatch = todayHours.match(/(\d{1,2}):(\d{2})\s*(AM|PM)\s*[–-]\s*(\d{1,2}):(\d{2})\s*(AM|PM)/gi);
+
+            if (!timeMatch) return false;
+
+            const currentMinutes = now.getHours() * 60 + now.getMinutes();
+
+            for (const range of timeMatch) {
+                const parts = range.match(/(\d{1,2}):(\d{2})\s*(AM|PM)\s*[–-]\s*(\d{1,2}):(\d{2})\s*(AM|PM)/i);
+                if (!parts) continue;
+
+                let openHour = parseInt(parts[1]);
+                const openMin = parseInt(parts[2]);
+                const openPeriod = parts[3].toUpperCase();
+
+                let closeHour = parseInt(parts[4]);
+                const closeMin = parseInt(parts[5]);
+                const closePeriod = parts[6].toUpperCase();
+
+                // Convert to 24-hour format
+                if (openPeriod === 'PM' && openHour !== 12) openHour += 12;
+                if (openPeriod === 'AM' && openHour === 12) openHour = 0;
+                if (closePeriod === 'PM' && closeHour !== 12) closeHour += 12;
+                if (closePeriod === 'AM' && closeHour === 12) closeHour = 0;
+
+                const openMinutes = openHour * 60 + openMin;
+                let closeMinutes = closeHour * 60 + closeMin;
+
+                // Handle overnight hours (e.g., 10 PM - 2 AM)
+                if (closeMinutes < openMinutes) {
+                    // If current time is after opening OR before closing (next day)
+                    if (currentMinutes >= openMinutes || currentMinutes < closeMinutes) {
+                        return true;
+                    }
+                } else {
+                    // Normal same-day hours
+                    if (currentMinutes >= openMinutes && currentMinutes < closeMinutes) {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        function applyChipFilters(list) {
+            if (activeChips.size === 0) return list;
+
+            return list.filter(fp => {
+                for (const chip of activeChips) {
+                    switch (chip) {
+                        case 'open-now':
+                            // Check if business is currently open
+                            if (!isCurrentlyOpen(fp.googlePlaces?.openingHours)) return false;
+                            break;
+                        case 'top-rated':
+                            // Filter for 4+ star ratings
+                            if (!fp.googlePlaces?.rating || fp.googlePlaces.rating < 4.0) return false;
+                            break;
+                        case 'nearby':
+                            if (!userLocation) return true; // Can't filter without location
+                            const distance = calculateDistance(
+                                userLocation.lat, userLocation.lng,
+                                fp.mapInfo.coordinates.latitude, fp.mapInfo.coordinates.longitude
+                            );
+                            if (distance > 5) return false; // 5km radius
+                            break;
+                        case 'has-rewards':
+                            if (!fp.hasRewards) return false;
+                            break;
+                    }
+                }
+                return true;
+            });
+        }
+
+        // ========================================
+        // AUTOCOMPLETE FUNCTIONALITY
+        // ========================================
+        function setupAutocomplete() {
+            const input = document.getElementById('searchInput');
+            const dropdown = document.getElementById('autocompleteDropdown');
+            const list = document.getElementById('autocompleteList');
+
+            // Show autocomplete on input
+            input.addEventListener('input', createDebounce(() => {
+                const query = input.value.trim().toLowerCase();
+
+                if (query.length < 2) {
+                    hideAutocomplete();
+                    return;
+                }
+
+                showAutocompleteResults(query);
+            }, 200));
+
+            // Keyboard navigation
+            input.addEventListener('keydown', (e) => {
+                if (!dropdown.classList.contains('show')) return;
+
+                const items = list.querySelectorAll('.autocomplete-item');
+                if (items.length === 0) return;
+
+                if (e.key === 'ArrowDown') {
+                    e.preventDefault();
+                    autocompleteHighlightIndex = Math.min(autocompleteHighlightIndex + 1, items.length - 1);
+                    updateAutocompleteHighlight(items);
+                } else if (e.key === 'ArrowUp') {
+                    e.preventDefault();
+                    autocompleteHighlightIndex = Math.max(autocompleteHighlightIndex - 1, 0);
+                    updateAutocompleteHighlight(items);
+                } else if (e.key === 'Enter') {
+                    e.preventDefault();
+                    if (autocompleteHighlightIndex >= 0 && autocompleteHighlightIndex < items.length) {
+                        items[autocompleteHighlightIndex].click();
+                    }
+                } else if (e.key === 'Escape') {
+                    hideAutocomplete();
+                }
+            });
+
+            // Close dropdown on outside click
+            document.addEventListener('click', (e) => {
+                if (!e.target.closest('.toolbar-search') && !e.target.closest('.autocomplete-dropdown')) {
+                    hideAutocomplete();
+                }
+            });
+
+            // Close on blur with delay (to allow click events)
+            input.addEventListener('blur', () => {
+                setTimeout(hideAutocomplete, 200);
+            });
+        }
+
+        function showAutocompleteResults(query) {
+            const dropdown = document.getElementById('autocompleteDropdown');
+            const list = document.getElementById('autocompleteList');
+
+            // Search flashpoints
+            const flashpointMatches = flashpoints
+                .filter(fp => {
+                    const title = fp.mapInfo.title.toLowerCase();
+                    const username = fp.username.toLowerCase();
+                    const address = fp.googlePlaces?.address?.toLowerCase() || '';
+                    return title.includes(query) || username.includes(query) || address.includes(query);
+                })
+                .slice(0, 4) // Limit to 4 flashpoint suggestions to leave room for addresses
+                .map(fp => ({
+                    flashpoint: fp,
+                    score: fp.mapInfo.title.toLowerCase().startsWith(query) ? 100 :
+                        fp.mapInfo.title.toLowerCase().includes(query) ? 50 : 10
+                }))
+                .sort((a, b) => b.score - a.score);
+
+            // Also search for addresses via Google Places
+            if (placesAutocompleteService) {
+                placesAutocompleteService.getPlacePredictions({
+                    input: query,
+                    types: ['geocode', 'establishment'],
+                    componentRestrictions: { country: 'jm' } // Bias to Jamaica
+                }, (predictions, status) => {
+                    renderAutocompleteDropdown(flashpointMatches, predictions || [], query);
+                });
+            } else {
+                // Fallback if Places service not available
+                renderAutocompleteDropdown(flashpointMatches, [], query);
+            }
+        }
+
+        function renderAutocompleteDropdown(flashpointMatches, addressPredictions, query) {
+            const dropdown = document.getElementById('autocompleteDropdown');
+            const list = document.getElementById('autocompleteList');
+            let html = '';
+            let itemIndex = 0;
+
+            // Flashpoint results section
+            if (flashpointMatches.length > 0) {
+                html += '<li class="autocomplete-section-header"><i class="fas fa-bolt"></i> Flash Locations</li>';
+                html += flashpointMatches.map(({ flashpoint }) => {
+                    const highlighted = itemIndex === autocompleteHighlightIndex ? ' highlighted' : '';
+                    const itemHtml = `
+                        <li class="autocomplete-item autocomplete-flashpoint${highlighted}" data-username="${flashpoint.username}" data-index="${itemIndex}">
+                            <div class="autocomplete-item-icon">${flashpoint.mapInfo.title.charAt(0).toUpperCase()}</div>
+                            <div class="autocomplete-item-info">
+                                <div class="autocomplete-item-name">${flashpoint.mapInfo.title}</div>
+                                <div class="autocomplete-item-address">${flashpoint.googlePlaces?.address || `@${flashpoint.username}`}</div>
+                            </div>
+                            ${flashpoint.googlePlaces?.rating ? `
+                                <div class="autocomplete-item-rating">
+                                    <i class="fas fa-star"></i> ${flashpoint.googlePlaces.rating.toFixed(1)}
+                                </div>
+                            ` : ''}
+                        </li>
+                    `;
+                    itemIndex++;
+                    return itemHtml;
+                }).join('');
+            }
+
+            // Address results section (limit to 3)
+            const limitedPredictions = addressPredictions.slice(0, 3);
+            if (limitedPredictions.length > 0) {
+                html += '<li class="autocomplete-section-header"><i class="fas fa-map-marker-alt"></i> Search by Address</li>';
+                html += limitedPredictions.map(prediction => {
+                    const highlighted = itemIndex === autocompleteHighlightIndex ? ' highlighted' : '';
+                    const itemHtml = `
+                        <li class="autocomplete-item autocomplete-address${highlighted}" data-place-id="${prediction.place_id}" data-index="${itemIndex}">
+                            <div class="autocomplete-item-icon address-icon"><i class="fas fa-location-dot"></i></div>
+                            <div class="autocomplete-item-info">
+                                <div class="autocomplete-item-name">${prediction.structured_formatting.main_text}</div>
+                                <div class="autocomplete-item-address">${prediction.structured_formatting.secondary_text || ''}</div>
+                            </div>
+                        </li>
+                    `;
+                    itemIndex++;
+                    return itemHtml;
+                }).join('');
+            }
+
+            // No results
+            if (flashpointMatches.length === 0 && limitedPredictions.length === 0) {
+                html = '<li class="autocomplete-no-results">No locations found</li>';
+            }
+
+            list.innerHTML = html;
+            dropdown.classList.add('show');
+            autocompleteHighlightIndex = -1;
+
+            // Store total items count for keyboard navigation
+            list.dataset.totalItems = itemIndex;
+
+            // Add click handlers for flashpoint items
+            list.querySelectorAll('.autocomplete-flashpoint').forEach(item => {
+                item.addEventListener('click', () => {
+                    const username = item.dataset.username;
+                    const flashpoint = flashpoints.find(fp => fp.username === username);
+                    if (flashpoint) {
+                        document.getElementById('searchInput').value = flashpoint.mapInfo.title;
+                        hideAutocomplete();
+                        selectLocation(flashpoint);
+                    }
+                });
+            });
+
+            // Add click handlers for address items
+            list.querySelectorAll('.autocomplete-address').forEach(item => {
+                item.addEventListener('click', () => {
+                    const placeId = item.dataset.placeId;
+                    const placeName = item.querySelector('.autocomplete-item-name').textContent;
+                    document.getElementById('searchInput').value = placeName;
+                    hideAutocomplete();
+                    selectAddressLocation(placeId);
+                });
+            });
+        }
+
+        function hideAutocomplete() {
+            document.getElementById('autocompleteDropdown').classList.remove('show');
+            autocompleteHighlightIndex = -1;
+        }
+
+        function updateAutocompleteHighlight(items) {
+            items.forEach((item, index) => {
+                item.classList.toggle('highlighted', index === autocompleteHighlightIndex);
+            });
+        }
+
+        // ========================================
+        // UNIFIED FILTER PIPELINE
+        // ========================================
+        function getFilteredAndSortedResults() {
+            let results = [...flashpoints];
+
+            // Apply checkbox filters (existing service filters)
+            const flashPayChecked = document.getElementById('filterFlashPay').checked;
+            const cashChecked = document.getElementById('filterCash').checked;
+            const rewardsChecked = document.getElementById('filterRewards').checked;
+
+            results = results.filter(fp => {
+                const services = {
+                    acceptsFlash: fp.acceptsFlash !== false,
+                    redeemTopup: fp.redeemTopup === true,
+                    hasRewards: fp.hasRewards === true
+                };
+
+                let shouldShow = false;
+                if (flashPayChecked && services.acceptsFlash) shouldShow = true;
+                if (cashChecked && services.redeemTopup) shouldShow = true;
+                if (rewardsChecked && services.hasRewards) shouldShow = true;
+                return shouldShow;
+            });
+
+            // Apply search filter
+            const query = document.getElementById('searchInput').value.trim().toLowerCase();
+            if (query) {
+                results = results.filter(fp => {
+                    const title = fp.mapInfo.title.toLowerCase();
+                    const username = fp.username.toLowerCase();
+                    const address = fp.googlePlaces?.address?.toLowerCase() || '';
+                    return title.includes(query) || username.includes(query) || address.includes(query);
+                });
+            }
+
+            // Apply chip filters
+            results = applyChipFilters(results);
+
+            // Apply sorting
+            results = sortFlashpoints(results);
+
+            return results;
+        }
+
+        function applyAllFilters() {
+            const results = getFilteredAndSortedResults();
+
+            // Update location count
+            document.getElementById('locationCount').textContent = `${results.length} locations found`;
+
+            if (currentView === 'list') {
+                renderListView();
+            } else {
+                updateMapMarkers(results);
+            }
+        }
+
+        async function updateMapMarkers(filteredResults) {
+            const filteredUsernames = new Set(filteredResults.map(fp => fp.username));
+
+            // Hide/show markers based on filter (preserve current zoom/pan)
+            markers.forEach((marker, index) => {
+                const flashpoint = flashpoints[index];
+                if (filteredUsernames.has(flashpoint.username)) {
+                    marker.map = map;
+                } else {
+                    marker.map = null;
+                }
+            });
+        }
+
+        // ========================================
+        // GEOLOCATION
+        // ========================================
+        function requestUserLocation() {
+            if ("geolocation" in navigator) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        userLocation = {
+                            lat: position.coords.latitude,
+                            lng: position.coords.longitude
+                        };
+                        console.log('User location obtained:', userLocation);
+                    },
+                    (error) => {
+                        console.warn('Geolocation error:', error);
+                        // Disable nearby chip
+                        const nearbyChip = document.querySelector('[data-filter="nearby"]');
+                        if (nearbyChip) {
+                            nearbyChip.classList.add('disabled');
+                            nearbyChip.title = 'Enable location services to use this filter';
+                        }
+                    },
+                    {
+                        enableHighAccuracy: false,
+                        timeout: 10000,
+                        maximumAge: 300000 // Cache for 5 minutes
+                    }
+                );
+            } else {
+                // Disable nearby chip
+                const nearbyChip = document.querySelector('[data-filter="nearby"]');
+                if (nearbyChip) {
+                    nearbyChip.classList.add('disabled');
+                    nearbyChip.title = 'Geolocation not supported';
+                }
+            }
+        }
+
         // Close side panel
         document.getElementById('closePanelBtn').addEventListener('click', () => {
             document.getElementById('sidePanel').classList.remove('open');
@@ -1002,8 +1914,10 @@
         // Get all UI elements first
         const filterBtn = document.getElementById('filterBtn');
         const filterPanel = document.getElementById('filterPanel');
+        const filterPanelClose = document.getElementById('filterPanelClose');
         const infoBtn = document.getElementById('infoBtn');
         const infoTooltip = document.getElementById('infoTooltip');
+        const infoModalClose = document.getElementById('infoModalClose');
         const closeInfoBtn = document.getElementById('closeInfoBtn');
 
         // Filter panel toggle functionality
@@ -1045,60 +1959,55 @@
             });
         }
 
+        // Filter panel close button
+        if (filterPanelClose) {
+            filterPanelClose.addEventListener('click', () => {
+                filterPanel.style.display = 'none';
+                filterBtn.classList.remove('active');
+            });
+        }
+
+        // Info modal close button
+        if (infoModalClose) {
+            infoModalClose.addEventListener('click', () => {
+                infoTooltip.style.display = 'none';
+                infoBtn.classList.remove('active');
+            });
+        }
+
+        // Click outside info modal to close
+        if (infoTooltip) {
+            infoTooltip.addEventListener('click', (e) => {
+                if (e.target === infoTooltip) {
+                    infoTooltip.style.display = 'none';
+                    infoBtn.classList.remove('active');
+                }
+            });
+        }
+
         // Clear search button functionality (called from setupSearch)
         document.getElementById('clearSearchBtn').addEventListener('click', () => {
             const searchInput = document.getElementById('searchInput');
             searchInput.value = '';
             document.getElementById('clearSearchBtn').style.display = 'none';
             searchInput.focus();
-            performSearch(); // Clear the search results
+            hideAutocomplete();
+            // Remove search location marker if exists
+            if (searchLocationMarker) {
+                searchLocationMarker.map = null;
+                searchLocationMarker = null;
+                infoWindow.close();
+            }
+            applyAllFilters(); // Use unified filter pipeline
         });
 
-        // Implement filter functionality
+        // Implement filter functionality - use unified filter pipeline
         const filterCheckboxes = document.querySelectorAll('#filterPanel input[type="checkbox"]');
         filterCheckboxes.forEach(checkbox => {
             checkbox.addEventListener('change', () => {
-                applyFilters();
+                applyAllFilters();
             });
         });
-
-        // Apply filters to show/hide markers
-        function applyFilters() {
-            const flashPayChecked = document.getElementById('filterFlashPay').checked;
-            const cashChecked = document.getElementById('filterCash').checked;
-            const rewardsChecked = document.getElementById('filterRewards').checked;
-
-            let visibleCount = 0;
-
-            markers.forEach((marker, index) => {
-                const flashpoint = flashpoints[index];
-
-                // Determine flashpoint services (same logic as in showLocationDetails)
-                const services = {
-                    acceptsFlash: flashpoint.acceptsFlash !== false, // All are Flash Pay by default
-                    redeemTopup: flashpoint.redeemTopup === true,
-                    hasRewards: flashpoint.hasRewards === true
-                };
-
-                // Check if flashpoint matches any selected filter
-                let shouldShow = false;
-
-                if (flashPayChecked && services.acceptsFlash) shouldShow = true;
-                if (cashChecked && services.redeemTopup) shouldShow = true;
-                if (rewardsChecked && services.hasRewards) shouldShow = true;
-
-                // Show/hide marker
-                if (shouldShow) {
-                    marker.map = map;
-                    visibleCount++;
-                } else {
-                    marker.map = null;
-                }
-            });
-
-            // Update location count
-            document.getElementById('locationCount').textContent = `${visibleCount} locations found`;
-        }
 
         // Error handling for map loading
         window.gm_authFailure = function () {
@@ -1496,28 +2405,75 @@
             return `${mins}:${secs.toString().padStart(2, '0')}`;
         }
 
-        // Handle Lightning deeplink opening
+        // Handle Lightning deeplink opening with Flash-first fallback
         function openLightningDeeplink(lightningUri) {
             try {
-                console.log('Opening Lightning deeplink:', lightningUri);
-                // Try to open the deeplink
-                window.location.href = lightningUri;
+                // Extract the invoice from the lightning URI
+                // Format: "lightning:lnbc..." -> "lnbc..."
+                const invoice = lightningUri.replace(/^lightning:/i, '');
 
-                // Fallback: If app doesn't open in 2 seconds, show message
-                setTimeout(() => {
-                    const feedback = document.getElementById('deeplinkFeedback');
-                    if (feedback) {
-                        feedback.innerHTML = `
-                            <div style="color: #7f8c8d; font-size: 12px; margin-top: 8px;">
-                                <i class="fas fa-info-circle"></i>
-                                If Flash app didn't open, scan the QR code below
-                            </div>
-                        `;
+                // Track if app opened successfully
+                let appOpened = false;
+                let fallbackTimeout = null;
+
+                // Detect if Flash app opened (page loses focus/visibility)
+                const detectAppOpen = () => {
+                    console.log('Flash app opened - canceling fallback');
+                    appOpened = true;
+                    if (fallbackTimeout) {
+                        clearTimeout(fallbackTimeout);
                     }
-                }, 2000);
+                    cleanup();
+                };
+
+                // Listen for page blur/hide events (indicates app opened)
+                const onBlur = () => detectAppOpen();
+                const onVisibilityChange = () => {
+                    if (document.hidden) {
+                        detectAppOpen();
+                    }
+                };
+
+                window.addEventListener('blur', onBlur);
+                document.addEventListener('visibilitychange', onVisibilityChange);
+                document.addEventListener('pagehide', onBlur);
+
+                // Cleanup listeners
+                const cleanup = () => {
+                    window.removeEventListener('blur', onBlur);
+                    document.removeEventListener('visibilitychange', onVisibilityChange);
+                    document.removeEventListener('pagehide', onBlur);
+                };
+
+                // Try Flash app first
+                const flashUri = `flash:${invoice}`;
+                console.log('Trying Flash app first:', flashUri);
+                window.location.href = flashUri;
+
+                // Fallback to generic Lightning wallet after 3 seconds (only if app didn't open)
+                fallbackTimeout = setTimeout(() => {
+                    if (!appOpened) {
+                        console.log('Flash app did not open, trying generic Lightning wallet:', lightningUri);
+                        window.location.href = lightningUri;
+
+                        // Show feedback message after another 2 seconds
+                        setTimeout(() => {
+                            const feedback = document.getElementById('deeplinkFeedback');
+                            if (feedback) {
+                                feedback.innerHTML = `
+                                    <div style="color: #7f8c8d; font-size: 12px; margin-top: 8px;">
+                                        <i class="fas fa-info-circle"></i>
+                                        If no wallet opened, scan the QR code below
+                                    </div>
+                                `;
+                            }
+                        }, 2000);
+                    }
+                    cleanup();
+                }, 3000);
             } catch (error) {
                 console.error('Deeplink error:', error);
-                alert('Unable to open Flash app. Please scan the QR code instead.');
+                alert('Unable to open wallet. Please scan the QR code instead.');
             }
         }
 
