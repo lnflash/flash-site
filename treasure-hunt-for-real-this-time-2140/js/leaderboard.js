@@ -6,15 +6,16 @@ const API_BASE = 'https://kotc.islandbitcoin.com/api';
 
 let hunters = [];
 let heroes = [];
+let stageChampions = [];
 let currentFilter = 'all';
 let currentSort = 'stage_desc';
 
-// DOM Elements
 const tbody = document.getElementById('leaderboard-tbody');
 const filterStage = document.getElementById('filter-stage');
 const sortBy = document.getElementById('sort-by');
 const refreshBtn = document.getElementById('refresh-btn');
 const heroesGrid = document.getElementById('heroes-grid');
+const championsGrid = document.getElementById('champions-grid');
 
 // Stats elements
 const totalHuntersEl = document.getElementById('total-hunters');
@@ -134,6 +135,110 @@ function renderLeaderboard() {
     }).join('');
 }
 
+// Load Stage Champions
+async function loadStageChampions() {
+    try {
+        const response = await fetch(`${API_BASE}/terminal/prizes.php`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ session_token: 'anonymous', action: 'global' })
+        });
+        const data = await response.json();
+
+        if (data.success) {
+            stageChampions = data.stages || [];
+            renderStageChampions();
+        } else {
+            championsGrid.innerHTML = `
+                <div class="champions-empty">
+                    <p>Unable to load stage champions.</p>
+                </div>
+            `;
+        }
+    } catch (error) {
+        console.error('Error loading stage champions:', error);
+        championsGrid.innerHTML = `
+            <div class="champions-empty">
+                <p>Network error loading champions.</p>
+            </div>
+        `;
+    }
+}
+
+// Render Stage Champions
+function renderStageChampions() {
+    if (stageChampions.length === 0) {
+        championsGrid.innerHTML = `
+            <div class="champions-empty">
+                <div class="empty-icon">🏆</div>
+                <p>No stage champions yet...</p>
+                <p class="empty-subtitle">Be the first to claim a prize!</p>
+            </div>
+        `;
+        return;
+    }
+
+    championsGrid.innerHTML = stageChampions.map(stage => {
+        const hasPodium = stage.gold || stage.silver || stage.bronze;
+        
+        if (!hasPodium) {
+            return `
+                <div class="champion-card champion-card-empty">
+                    <div class="champion-card-header">
+                        <span class="stage-number">Stage ${stage.stage}</span>
+                        <span class="stage-name">${escapeHtml(stage.name)}</span>
+                    </div>
+                    <div class="podium-empty">
+                        <p>🎯 No winners yet</p>
+                        <p class="empty-hint">Be the first!</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        return `
+            <div class="champion-card">
+                <div class="champion-card-header">
+                    <span class="stage-number">Stage ${stage.stage}</span>
+                    <span class="stage-name">${escapeHtml(stage.name)}</span>
+                </div>
+                <div class="podium">
+                    ${renderPodiumEntry(stage.gold, 'gold', '🥇')}
+                    ${renderPodiumEntry(stage.silver, 'silver', '🥈')}
+                    ${renderPodiumEntry(stage.bronze, 'bronze', '🥉')}
+                </div>
+            </div>
+        `;
+    }).join('');
+}
+
+// Render individual podium entry
+function renderPodiumEntry(entry, tier, emoji) {
+    if (!entry || !entry.winner) {
+        return `
+            <div class="podium-entry podium-${tier} podium-unclaimed">
+                <span class="podium-emoji">${emoji}</span>
+                <span class="podium-winner">Available</span>
+                <span class="podium-sats">${formatPrizeSats(entry?.sats)} sats</span>
+            </div>
+        `;
+    }
+
+    return `
+        <div class="podium-entry podium-${tier}">
+            <span class="podium-emoji">${emoji}</span>
+            <span class="podium-winner">${escapeHtml(entry.winner)}</span>
+            <span class="podium-sats">${(entry.sats || 0).toLocaleString()} sats</span>
+        </div>
+    `;
+}
+
+// Format prize sats for unclaimed slots
+function formatPrizeSats(sats) {
+    if (!sats) return '???';
+    return sats.toLocaleString();
+}
+
 // Render Hall of Heroes
 function renderHeroes() {
     if (heroes.length === 0) {
@@ -228,6 +333,7 @@ let autoRefreshInterval;
 function startAutoRefresh() {
     autoRefreshInterval = setInterval(() => {
         loadLeaderboard();
+        loadStageChampions();
     }, 30000); // 30 seconds
 }
 
@@ -249,6 +355,7 @@ document.addEventListener('visibilitychange', () => {
 // Initial load
 document.addEventListener('DOMContentLoaded', () => {
     loadLeaderboard();
+    loadStageChampions();
     startAutoRefresh();
 });
 
