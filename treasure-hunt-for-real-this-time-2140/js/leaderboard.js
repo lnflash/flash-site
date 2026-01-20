@@ -26,17 +26,11 @@ const avgStageEl = document.getElementById('avg-stage');
 
 async function fetchBtcPrice() {
     try {
-        const response = await fetch('https://api.flashapp.me/graphql', {
-            method: 'POST',
-            headers: { 'content-type': 'application/json' },
-            body: JSON.stringify({
-                query: `query RealtimePrice($currency: DisplayCurrency) {realtimePrice(currency: $currency) {btcSatPrice {base}}}`,
-                variables: { currency: 'USD' }
-            })
-        });
+        // Use CoinGecko API (CORS-friendly public API)
+        const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd');
         const data = await response.json();
-        if (data?.data?.realtimePrice?.btcSatPrice?.base) {
-            btcPriceUsd = data.data.realtimePrice.btcSatPrice.base / 1000000;
+        if (data?.bitcoin?.usd) {
+            btcPriceUsd = data.bitcoin.usd;
         }
     } catch (error) {
         console.error('Error fetching BTC price:', error);
