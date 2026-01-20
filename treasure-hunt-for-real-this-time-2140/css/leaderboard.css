@@ -641,3 +641,28 @@
     height: 2px;
     background: var(--flash-green);
 }
+
+.usd-value {
+    color: var(--sea-gray);
+    font-size: 0.85em;
+    opacity: 0.8;
+    margin-left: 0.25em;
+}
+
+.stat-card .usd-value {
+    display: block;
+    font-size: 0.75em;
+    margin-top: 0.25rem;
+}
+
+.hero-stat-value .usd-value {
+    display: block;
+    font-size: 0.7em;
+    margin-top: 0.15rem;
+}
+
+.podium-sats .usd-value {
+    display: block;
+    font-size: 0.8em;
+    margin-top: 0.1rem;
+}

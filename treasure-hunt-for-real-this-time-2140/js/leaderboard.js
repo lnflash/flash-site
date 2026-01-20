@@ -9,6 +9,7 @@ let heroes = [];
 let stageChampions = [];
 let currentFilter = 'all';
 let currentSort = 'stage_desc';
+let btcPriceUsd = null;
 
 const tbody = document.getElementById('leaderboard-tbody');
 const filterStage = document.getElementById('filter-stage');
@@ -23,9 +24,29 @@ const totalCompletedEl = document.getElementById('total-completed');
 const totalSatsEl = document.getElementById('total-sats');
 const avgStageEl = document.getElementById('avg-stage');
 
-// Load leaderboard data
+async function fetchBtcPrice() {
+    try {
+        const response = await fetch('https://api.flashapp.me/graphql', {
+            method: 'POST',
+            headers: { 'content-type': 'application/json' },
+            body: JSON.stringify({
+                query: `query RealtimePrice($currency: DisplayCurrency) {realtimePrice(currency: $currency) {btcSatPrice {base}}}`,
+                variables: { currency: 'USD' }
+            })
+        });
+        const data = await response.json();
+        if (data?.data?.realtimePrice?.btcSatPrice?.base) {
+            btcPriceUsd = data.data.realtimePrice.btcSatPrice.base / 1000000;
+        }
+    } catch (error) {
+        console.error('Error fetching BTC price:', error);
+    }
+}
+
 async function loadLeaderboard() {
     try {
+        await fetchBtcPrice();
+        
         const response = await fetch(`${API_BASE}/leaderboard.php`, {
             credentials: 'include'
         });
@@ -51,7 +72,7 @@ async function loadLeaderboard() {
 function updateStats(stats) {
     totalHuntersEl.textContent = stats.total_hunters || 0;
     totalCompletedEl.textContent = stats.total_completed || 0;
-    totalSatsEl.textContent = (stats.total_sats_distributed || 0).toLocaleString();
+    totalSatsEl.innerHTML = formatSatsWithUsd(stats.total_sats_distributed || 0);
     avgStageEl.textContent = stats.avg_stage ? stats.avg_stage.toFixed(1) : '0.0';
 }
 
@@ -127,7 +148,7 @@ function renderLeaderboard() {
                     </div>
                 </td>
                 <td>${stageBadge}</td>
-                <td><span class="sats-value">${hunter.total_sats_won.toLocaleString()} sats</span></td>
+                <td><span class="sats-value">${formatSatsWithUsd(hunter.total_sats_won)}</span></td>
                 <td>${statusBadge}</td>
                 <td><span class="date-value">${formatDate(hunter.created_at)}</span></td>
             </tr>
@@ -228,7 +249,7 @@ function renderPodiumEntry(entry, tier, emoji) {
         <div class="podium-entry podium-${tier}">
             <span class="podium-emoji">${emoji}</span>
             <span class="podium-winner">${escapeHtml(entry.winner)}</span>
-            <span class="podium-sats">${(entry.sats || 0).toLocaleString()} sats</span>
+            <span class="podium-sats">${formatSatsWithUsd(entry.sats || 0)}</span>
         </div>
     `;
 }
@@ -262,11 +283,11 @@ function renderHeroes() {
                     <div class="hero-stat-label">Time</div>
                 </div>
                 <div class="hero-stat">
-                    <div class="hero-stat-value">${hero.total_sats_earned.toLocaleString()}</div>
-                    <div class="hero-stat-label">Sats</div>
+                    <div class="hero-stat-value">${formatSatsWithUsd(hero.total_sats_earned)}</div>
+                    <div class="hero-stat-label">Earned</div>
                 </div>
                 <div class="hero-stat">
-                    <div class="hero-stat-value">${hero.shared_amount.toLocaleString()}</div>
+                    <div class="hero-stat-value">${formatSatsWithUsd(hero.shared_amount)}</div>
                     <div class="hero-stat-label">Shared</div>
                 </div>
             </div>
@@ -306,7 +327,7 @@ function formatDate(dateString) {
     const diffMs = now - date;
     const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
 
-    if (diffDays === 0) {
+    if (diffDays <= 0) {
         return 'Today';
     } else if (diffDays === 1) {
         return 'Yesterday';
@@ -315,6 +336,18 @@ function formatDate(dateString) {
     } else {
         return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
     }
+}
+
+function formatSatsWithUsd(sats) {
+    const satsFormatted = sats.toLocaleString();
+    if (btcPriceUsd && sats > 0) {
+        const usdValue = (sats / 100000000) * btcPriceUsd;
+        const usdFormatted = usdValue < 1 
+            ? `$${usdValue.toFixed(2)}` 
+            : `$${usdValue.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`;
+        return `${satsFormatted} sats <span class="usd-value">(${usdFormatted})</span>`;
+    }
+    return `${satsFormatted} sats`;
 }
 
 function showError(message) {
