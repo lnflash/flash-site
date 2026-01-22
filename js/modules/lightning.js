@@ -293,8 +293,8 @@ async function revealRabbitHole() {
       console.log('%c║  ⚡ KEYS OF THE CARIBBEAN - SIGNAL ACQUIRED ⚡                 ║', 'font-size: 16px; color: #F6C453; font-weight: bold;');
       console.log('%c╚═══════════════════════════════════════════════════════════════╝', 'color: #F6C453;');
       console.log('%c');
-      console.log('%c  December 12, 2010. The last message.', 'font-size: 14px; color: #7C8A92;');
-      console.log('%c  Then silence. But not forever...', 'font-size: 14px; color: #7C8A92;');
+      console.log('%c  He posted one final message. Then silence.', 'font-size: 14px; color: #7C8A92;');
+      console.log('%c  But not forever...', 'font-size: 14px; color: #7C8A92;');
       console.log('%c');
       console.log('%c  ┌─────────────────────────────────────────────────────────┐', 'color: #41AD49;');
       console.log('%c  │  YOUR ACCESS TOKEN:                                     │', 'color: #41AD49;');
@@ -306,7 +306,7 @@ async function revealRabbitHole() {
       console.log('%c');
       console.log('%c  STEP 2: Find the Key Terminal...', 'font-size: 14px; color: #F6C453; font-weight: bold;');
       console.log('%c           His email was satoshin@gmx.com', 'font-size: 12px; color: #7C8A92; font-style: italic;');
-      console.log('%c           What if he had a nostr identity?', 'font-size: 12px; color: #7C8A92; font-style: italic;');
+      console.log('%c           What if he had a flash identity?', 'font-size: 12px; color: #7C8A92; font-style: italic;');
       console.log('%c');
       console.log('%c  "We are all Satoshi."', 'font-size: 14px; color: #41AD49; font-style: italic;');
       console.log('%c');
