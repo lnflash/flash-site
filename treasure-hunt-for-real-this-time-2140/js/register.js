@@ -61,7 +61,7 @@ registerForm.addEventListener('submit', async (e) => {
 
             // Redirect to dashboard after 2 seconds
             setTimeout(() => {
-                window.location.href = 'dashboard.html';
+                window.location.href = 'dashboard.html?t=' + Date.now();
             }, 2000);
 
         } else {
@@ -233,7 +233,7 @@ document.addEventListener('DOMContentLoaded', () => {
         .then(result => {
             if (result.valid) {
                 // Already logged in, redirect to dashboard
-                window.location.href = 'dashboard.html';
+                window.location.href = 'dashboard.html?t=' + Date.now();
             }
         })
         .catch(() => {

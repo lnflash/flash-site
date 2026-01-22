@@ -59,7 +59,7 @@ function showStageContent(data) {
     if (hunterData.current_stage > 0) {
         showMessage('You have already completed Stage 1. Redirecting...', 'info');
         setTimeout(() => {
-            window.location.href = 'dashboard.html';
+            window.location.href = 'dashboard.html?t=' + Date.now();
         }, 2000);
     }
 }
@@ -99,7 +99,7 @@ async function completeStage1() {
                 } else {
                     showMessage('Stage 1 complete! Advancing to Stage 2...', 'success');
                     setTimeout(() => {
-                        window.location.href = 'stage2.html';
+                        window.location.href = 'stage2.html?t=' + Date.now();
                     }, 2000);
                 }
             }, 2000);

@@ -77,7 +77,7 @@ async function loadHunterData() {
     const token = localStorage.getItem('hunt_token');
 
     if (!token) {
-        window.location.href = 'login.html';
+        window.location.href = 'login.html?t=' + Date.now();
         return;
     }
 
@@ -93,7 +93,7 @@ async function loadHunterData() {
 
         if (!data.valid) {
             localStorage.removeItem('hunt_token');
-            window.location.href = 'login.html';
+            window.location.href = 'login.html?t=' + Date.now();
             return;
         }
 
@@ -228,7 +228,7 @@ function formatDate(dateString) {
 // Logout
 function logout() {
     localStorage.removeItem('hunt_token');
-    window.location.href = 'index.html';
+    window.location.href = 'index.html?t=' + Date.now();
 }
 
 // Event Listeners
