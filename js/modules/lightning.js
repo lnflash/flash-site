@@ -260,13 +260,13 @@ async function revealRabbitHole() {
     // Not logged in - generic hint to register
     console.log('%c🐰 The rabbit hole awaits...', 'font-size: 18px; color: #F6C453; font-weight: bold;');
     console.log('%cBut only registered hunters can enter.', 'font-size: 14px; color: #7C8A92;');
-    console.log('%cRegister at: /treasure-hunt/register.html', 'font-size: 14px; color: #41AD49;');
+    console.log('%cRegister at: /treasure-hunt-for-real-this-time-2140/register.html', 'font-size: 14px; color: #41AD49;');
     return;
   }
 
   // Fetch hunter-specific Stage 1 token
   try {
-    const response = await fetch('/treasure-hunt/api/get-stage1-token.php', {
+    const response = await fetch('https://kotc.islandbitcoin.com/api/get-stage1-token.php', {
       headers: {
         'Authorization': `Bearer ${token}`
       }
@@ -281,7 +281,7 @@ async function revealRabbitHole() {
       console.log('%c🐰 The rabbit hole has been revealed!', 'font-size: 18px; color: #F6C453; font-weight: bold;');
       console.log('%cYou have found the first key...', 'font-size: 14px; color: #7C8A92;');
       console.log('%c⚡ Navigate to:', 'font-size: 14px; color: #41AD49; font-weight: bold;');
-      console.log(`%c/treasure-hunt/rabbithole?token=${hunterToken}`, 'font-size: 16px; color: #41AD49; font-weight: bold; text-decoration: underline;');
+      console.log(`%c/treasure-hunt-for-real-this-time-2140/rabbithole.html?token=${hunterToken}`, 'font-size: 16px; color: #41AD49; font-weight: bold; text-decoration: underline;');
       console.log('%c', 'font-size: 0;'); // Spacer
       console.log('%cThe awakening begins...', 'font-size: 12px; color: #7C8A92; font-style: italic;');
     } else {
