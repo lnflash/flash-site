@@ -1,4 +1,4 @@
-// Keys of the Caribbean - Hunter Dashboard
+const API_BASE = 'https://kotc.islandbitcoin.com/api';
 
 let hunterData = null;
 
@@ -77,22 +77,23 @@ async function loadHunterData() {
     const token = localStorage.getItem('hunt_token');
 
     if (!token) {
-        window.location.href = 'register.html';
+        window.location.href = 'login.html';
         return;
     }
 
     try {
-        const response = await fetch('/treasure-hunt/api/verify-session.php', {
+        const response = await fetch(`${API_BASE}/verify-session.php`, {
             headers: {
                 'Authorization': `Bearer ${token}`
-            }
+            },
+            credentials: 'include'
         });
 
         const data = await response.json();
 
         if (!data.valid) {
             localStorage.removeItem('hunt_token');
-            window.location.href = 'register.html';
+            window.location.href = 'login.html';
             return;
         }
 
@@ -176,10 +177,11 @@ async function loadPrizes() {
     const token = localStorage.getItem('hunt_token');
 
     try {
-        const response = await fetch('/treasure-hunt/api/get-prizes.php', {
+        const response = await fetch(`${API_BASE}/get-prizes.php`, {
             headers: {
                 'Authorization': `Bearer ${token}`
-            }
+            },
+            credentials: 'include'
         });
 
         const data = await response.json();

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <base href="/treasure-hunt-for-real-this-time-2140/">
+    <meta name="description" content="Login to Keys of the Caribbean - Continue your treasure hunt journey.">
+    <title>Login | Keys of the Caribbean</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="css/hunt.css">
+    <link rel="stylesheet" href="css/register.css">
+
+    <link rel="icon" type="image/png" sizes="256x256" href="assets/img/kotc_icon_primary_256.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="assets/img/kotc_icon_primary_512.png">
+    <link rel="apple-touch-icon" sizes="1024x1024" href="assets/img/kotc_icon_primary_1024.png">
+</head>
+
+<body class="hunt-page register-page">
+    <div id="header-placeholder"></div>
+
+    <section class="register-section">
+        <div class="container">
+            <div class="register-content">
+                <div class="register-header">
+                    <div class="hunt-badge">Season 1 - The Vault</div>
+                    <h1>Welcome Back, Hunter</h1>
+                    <p class="register-tagline">Continue your journey through the seven stages of enlightenment.</p>
+                </div>
+
+                <div class="register-form-container">
+                    <form id="login-form" class="register-form">
+                        <div class="form-group">
+                            <label for="identifier">Username, Email, or Flash Username</label>
+                            <input type="text" id="identifier" name="identifier" required minlength="3"
+                                placeholder="Enter your username, email, or Flash username" autocomplete="username">
+                            <small class="form-help">Use the same identifier you registered with</small>
+                        </div>
+
+                        <div id="error-message" class="error-message" style="display: none;"></div>
+                        <div id="success-message" class="success-message" style="display: none;"></div>
+
+                        <button type="submit" class="btn btn-large btn-primary" id="submit-btn">
+                            <span class="btn-text">Continue The Hunt</span>
+                            <span class="btn-loader" style="display: none;">
+                                <svg class="spinner" viewBox="0 0 50 50">
+                                    <circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>
+                                </svg>
+                            </span>
+                        </button>
+                    </form>
+
+                    <div class="register-footer">
+                        <p>New hunter? <a href="register.html">Register here</a></p>
+                    </div>
+                </div>
+
+                <div class="register-info">
+                    <div class="info-card">
+                        <div class="info-icon">🔑</div>
+                        <h4>No Password Needed</h4>
+                        <p>Your identity is verified through your unique hunter credentials.</p>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-icon">📊</div>
+                        <h4>Track Progress</h4>
+                        <p>View your stage progress, collected keys, and earned prizes.</p>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-icon">⚡</div>
+                        <h4>Claim Rewards</h4>
+                        <p>Withdraw your Bitcoin prizes via Lightning Network.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div id="footer-placeholder"></div>
+
+    <script src="components/loader.js"></script>
+    <script src="js/login.js"></script>
+</body>
+
+</html>

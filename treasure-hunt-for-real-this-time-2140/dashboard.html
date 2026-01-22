@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <base href="/treasure-hunt-for-real-this-time-2140/">
+    <meta name="description" content="Your Keys of the Caribbean Dashboard - Track your progress through the seven stages.">
+    <title>Dashboard | Keys of the Caribbean</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="css/hunt.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+
+    <link rel="icon" type="image/png" sizes="256x256" href="assets/img/kotc_icon_primary_256.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="assets/img/kotc_icon_primary_512.png">
+    <link rel="apple-touch-icon" sizes="1024x1024" href="assets/img/kotc_icon_primary_1024.png">
+</head>
+
+<body class="hunt-page dashboard-page">
+    <div id="header-placeholder"></div>
+
+    <section class="dashboard-section">
+        <div class="container">
+            <div class="dashboard-header">
+                <div class="welcome-message">
+                    <h1>Welcome, <span id="hunter-username">Hunter</span></h1>
+                    <p class="tagline">Your journey through the seven stages awaits.</p>
+                </div>
+                <div class="hunter-stats">
+                    <div class="stat-box">
+                        <div class="stat-label">Current Stage</div>
+                        <div class="stat-value" id="current-stage">0</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-label">Sats Won</div>
+                        <div class="stat-value" id="total-sats">0</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="progress-tracker">
+                <h2>Your Progress</h2>
+                <div class="stages-progress">
+                    <div class="stage-item" data-stage="1">
+                        <div class="stage-circle">1</div>
+                        <div class="stage-info">
+                            <h3>The Awakening</h3>
+                            <span class="stage-status">Locked</span>
+                        </div>
+                    </div>
+                    <div class="stage-connector"></div>
+                    <div class="stage-item" data-stage="2">
+                        <div class="stage-circle">2</div>
+                        <div class="stage-info">
+                            <h3>The Ledger</h3>
+                            <span class="stage-status">Locked</span>
+                        </div>
+                    </div>
+                    <div class="stage-connector"></div>
+                    <div class="stage-item" data-stage="3">
+                        <div class="stage-circle">3</div>
+                        <div class="stage-info">
+                            <h3>The Gallery</h3>
+                            <span class="stage-status">Locked</span>
+                        </div>
+                    </div>
+                    <div class="stage-connector"></div>
+                    <div class="stage-item" data-stage="4">
+                        <div class="stage-circle">4</div>
+                        <div class="stage-info">
+                            <h3>Pilgrimage</h3>
+                            <span class="stage-status">Locked</span>
+                        </div>
+                    </div>
+                    <div class="stage-connector"></div>
+                    <div class="stage-item" data-stage="5">
+                        <div class="stage-circle">5</div>
+                        <div class="stage-info">
+                            <h3>Caribbean</h3>
+                            <span class="stage-status">Locked</span>
+                        </div>
+                    </div>
+                    <div class="stage-connector"></div>
+                    <div class="stage-item" data-stage="6">
+                        <div class="stage-circle">6</div>
+                        <div class="stage-info">
+                            <h3>Genesis</h3>
+                            <span class="stage-status">Locked</span>
+                        </div>
+                    </div>
+                    <div class="stage-connector"></div>
+                    <div class="stage-item" data-stage="7">
+                        <div class="stage-circle">7</div>
+                        <div class="stage-info">
+                            <h3>The Vault</h3>
+                            <span class="stage-status">Locked</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="current-task">
+                <h2>Your Next Task</h2>
+                <div class="task-card">
+                    <div class="task-icon" id="task-icon">⚡</div>
+                    <div class="task-details">
+                        <h3 id="task-title">Loading...</h3>
+                        <p id="task-description">Please wait while we load your progress.</p>
+                    </div>
+                    <a href="#" class="btn btn-primary" id="task-action" style="display: none;">Start</a>
+                </div>
+            </div>
+
+            <div class="prizes-section">
+                <h2>Your Prizes</h2>
+                <div class="prizes-grid" id="prizes-list">
+                    <div class="prizes-empty">
+                        <p>No prizes claimed yet. Complete stages to earn Bitcoin!</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="quick-links">
+                <a href="https://kotc.islandbitcoin.com/terminal/" class="quick-link-card" target="_blank">
+                    <div class="quick-link-icon">🖥️</div>
+                    <h3>Key Terminal</h3>
+                    <p>Access the hacker terminal to solve puzzles</p>
+                </a>
+                <a href="leaderboard.html" class="quick-link-card">
+                    <div class="quick-link-icon">🏆</div>
+                    <h3>Leaderboard</h3>
+                    <p>See how you rank against other hunters</p>
+                </a>
+                <a href="rules.html" class="quick-link-card">
+                    <div class="quick-link-icon">📜</div>
+                    <h3>Rules</h3>
+                    <p>Review the official hunt rules</p>
+                </a>
+                <a href="#" class="quick-link-card" id="logout-btn">
+                    <div class="quick-link-icon">🚪</div>
+                    <h3>Logout</h3>
+                    <p>End your current session</p>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <div id="footer-placeholder"></div>
+
+    <script src="components/loader.js"></script>
+    <script src="js/dashboard.js"></script>
+</body>
+
+</html>
