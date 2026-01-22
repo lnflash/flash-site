@@ -38,7 +38,7 @@ loginForm.addEventListener('submit', async (e) => {
             }
 
             setTimeout(() => {
-                window.location.href = 'dashboard.html?t=' + Date.now();
+                window.location.href = 'hunter-dashboard.html';
             }, 1500);
 
         } else {
@@ -89,7 +89,7 @@ document.addEventListener('DOMContentLoaded', () => {
         .then(response => response.json())
         .then(result => {
             if (result.valid) {
-                window.location.href = 'dashboard.html?t=' + Date.now();
+                window.location.href = 'hunter-dashboard.html';
             }
         })
         .catch(() => {
