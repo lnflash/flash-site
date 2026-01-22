@@ -107,10 +107,9 @@ function validateForm(data) {
         return false;
     }
 
-    // Satoshi date validation
-    const date = new Date(data.satoshi_date);
-    if (isNaN(date.getTime())) {
-        showError('Please enter a valid date for the Satoshi question.');
+    // Satoshi date validation (expects YYYY-MM-DD format)
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(data.satoshi_date)) {
+        showError('Please select a valid date for the whitepaper question.');
         return false;
     }
 
