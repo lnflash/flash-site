@@ -3,153 +3,559 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <base href="/treasure-hunt-for-real-this-time-2140/">
-    <meta name="description"
-        content="Register for Keys of the Caribbean - Prove your Bitcoin knowledge and begin your treasure hunt.">
+    <meta name="description" content="Register for Keys of the Caribbean - Prove your Bitcoin knowledge and begin your treasure hunt.">
+    <meta name="theme-color" content="#000000">
+
     <title>Register | Keys of the Caribbean</title>
 
-    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap"
-        rel="stylesheet">
 
-    <!-- Styles -->
-    <link rel="stylesheet" href="/css/main.css">
-    <link rel="stylesheet" href="css/hunt.css">
-    <link rel="stylesheet" href="css/register.css">
-
-    <!-- Favicon -->
     <link rel="icon" type="image/png" sizes="256x256" href="assets/img/kotc_icon_primary_256.png">
     <link rel="icon" type="image/png" sizes="512x512" href="assets/img/kotc_icon_primary_512.png">
     <link rel="apple-touch-icon" sizes="1024x1024" href="assets/img/kotc_icon_primary_1024.png">
+
+    <link rel="stylesheet" href="css/cinematic.css">
+
+    <style>
+        html, body {
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+        .register-screen {
+            min-height: 100vh;
+            background: var(--deep-black);
+            position: relative;
+            padding: 40px 20px;
+            padding-top: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .video-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 0;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .video-background video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            transform: translate(-50%, -50%);
+            -webkit-transform: translate(-50%, -50%);
+            object-fit: cover;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+        }
+
+        .video-background .video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(
+                to bottom,
+                rgba(0, 0, 0, 0.9) 0%,
+                rgba(0, 0, 0, 0.8) 30%,
+                rgba(0, 0, 0, 0.8) 70%,
+                rgba(0, 0, 0, 0.95) 100%
+            );
+        }
+
+        .register-content {
+            position: relative;
+            z-index: 1;
+            max-width: 600px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        .back-link {
+            position: fixed;
+            top: 30px;
+            left: 30px;
+            color: var(--matrix-green-dim);
+            text-decoration: none;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: color 0.3s ease;
+            z-index: 100;
+        }
+
+        .back-link:hover {
+            color: var(--matrix-green);
+        }
+
+        .register-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .season-badge {
+            display: inline-block;
+            padding: 8px 20px;
+            background: rgba(40, 254, 20, 0.1);
+            border: 1px solid var(--matrix-green);
+            color: var(--matrix-green);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+
+        .register-title {
+            font-family: 'Orbitron', monospace;
+            font-size: clamp(1.8rem, 5vw, 2.5rem);
+            font-weight: 900;
+            color: var(--gold-accent);
+            text-shadow: 
+                0 0 20px rgba(246, 196, 83, 0.5),
+                0 0 40px rgba(246, 196, 83, 0.3);
+            margin-bottom: 15px;
+            letter-spacing: 2px;
+        }
+
+        .register-subtitle {
+            font-size: clamp(0.9rem, 2vw, 1rem);
+            color: var(--matrix-green-dim);
+            max-width: 500px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .register-form-container {
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid var(--matrix-green-dim);
+            padding: 40px;
+            margin-bottom: 30px;
+        }
+
+        .register-form-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--matrix-green), var(--gold-accent));
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            font-family: 'Orbitron', monospace;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--matrix-green);
+            margin-bottom: 8px;
+            letter-spacing: 1px;
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="email"],
+        .form-group input[type="date"] {
+            width: 100%;
+            padding: 14px 16px;
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid var(--matrix-green-dim);
+            color: var(--matrix-green);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--matrix-green);
+            box-shadow: 0 0 15px var(--matrix-green-glow);
+        }
+
+        .form-group input::placeholder {
+            color: var(--matrix-green-dim);
+            opacity: 0.5;
+        }
+
+        .form-help {
+            display: block;
+            margin-top: 6px;
+            font-size: 0.75rem;
+            color: var(--matrix-green-dim);
+            opacity: 0.7;
+        }
+
+        .satoshi-challenge {
+            background: rgba(246, 196, 83, 0.05);
+            border: 1px solid var(--gold-accent);
+            padding: 25px;
+            margin: 30px 0;
+        }
+
+        .challenge-header {
+            text-align: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(246, 196, 83, 0.3);
+        }
+
+        .challenge-header h3 {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.2rem;
+            color: var(--gold-accent);
+            margin-bottom: 8px;
+        }
+
+        .challenge-header p {
+            font-size: 0.85rem;
+            color: var(--matrix-green-dim);
+        }
+
+        .satoshi-challenge .form-group label {
+            color: var(--gold-accent);
+        }
+
+        .satoshi-challenge .form-group input {
+            border-color: rgba(246, 196, 83, 0.3);
+        }
+
+        .satoshi-challenge .form-group input:focus {
+            border-color: var(--gold-accent);
+            box-shadow: 0 0 15px rgba(246, 196, 83, 0.3);
+        }
+
+        .checkbox-group {
+            margin-bottom: 15px;
+        }
+
+        .checkbox-label {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            color: var(--matrix-green-dim);
+            line-height: 1.5;
+        }
+
+        .checkbox-label input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            margin-top: 2px;
+            accent-color: var(--matrix-green);
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .checkbox-label a {
+            color: var(--matrix-green);
+            text-decoration: underline;
+        }
+
+        .checkbox-label a:hover {
+            color: var(--gold-accent);
+        }
+
+        .error-message {
+            background: rgba(255, 50, 50, 0.1);
+            border: 1px solid #ff3232;
+            color: #ff6b6b;
+            padding: 15px;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+        }
+
+        .success-message {
+            background: rgba(40, 254, 20, 0.1);
+            border: 1px solid var(--matrix-green);
+            color: var(--matrix-green);
+            padding: 15px;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 18px 30px;
+            background: transparent;
+            border: 2px solid var(--gold-accent);
+            color: var(--gold-accent);
+            font-family: 'Orbitron', monospace;
+            font-size: 1.1rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .submit-btn:hover:not(:disabled) {
+            background: var(--gold-accent);
+            color: var(--deep-black);
+            box-shadow: 0 0 30px rgba(246, 196, 83, 0.5);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .btn-loader {
+            display: none;
+        }
+
+        .btn-loader .spinner {
+            width: 24px;
+            height: 24px;
+            animation: rotate 1s linear infinite;
+        }
+
+        .btn-loader .spinner .path {
+            stroke: currentColor;
+            stroke-linecap: round;
+            animation: dash 1.5s ease-in-out infinite;
+        }
+
+        @keyframes rotate {
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes dash {
+            0% { stroke-dasharray: 1, 150; stroke-dashoffset: 0; }
+            50% { stroke-dasharray: 90, 150; stroke-dashoffset: -35; }
+            100% { stroke-dasharray: 90, 150; stroke-dashoffset: -124; }
+        }
+
+        .register-footer {
+            text-align: center;
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(40, 254, 20, 0.2);
+        }
+
+        .register-footer p {
+            color: var(--matrix-green-dim);
+            font-size: 0.9rem;
+        }
+
+        .register-footer a {
+            color: var(--matrix-green);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .register-footer a:hover {
+            color: var(--gold-accent);
+            text-decoration: underline;
+        }
+
+        .info-cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .info-card {
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--matrix-green-dim);
+            padding: 25px 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .info-card:hover {
+            border-color: var(--matrix-green);
+            box-shadow: 0 0 20px var(--matrix-green-glow);
+        }
+
+        .info-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        .info-card h4 {
+            font-family: 'Orbitron', monospace;
+            font-size: 0.9rem;
+            color: var(--matrix-green);
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+
+        .info-card p {
+            font-size: 0.8rem;
+            color: var(--matrix-green-dim);
+            line-height: 1.5;
+        }
+
+        @media (max-width: 768px) {
+            .register-screen {
+                padding: 60px 15px 40px;
+            }
+
+            .back-link {
+                top: 15px;
+                left: 15px;
+                font-size: 0.75rem;
+            }
+
+            .register-form-container {
+                padding: 25px 20px;
+            }
+
+            .satoshi-challenge {
+                padding: 20px 15px;
+            }
+
+            .info-cards {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 
-<body class="hunt-page register-page">
-    <!-- Header Component -->
-    <div id="header-placeholder"></div>
+<body>
+    <div class="scanlines"></div>
 
-    <!-- Registration Section -->
-    <section class="register-section">
-        <div class="container">
-            <div class="register-content">
-                <div class="register-header">
-                    <div class="hunt-badge">Season 1 — The Vault</div>
-                    <h1>Begin Your Journey</h1>
-                    <p class="register-tagline">Only true Bitcoin believers can unlock the first key. Prove your
-                        knowledge of Satoshi's legacy.</p>
+    <div class="video-background">
+        <video autoplay muted loop playsinline>
+            <source src="assets/video/KOTC_background.mp4" type="video/mp4">
+        </video>
+        <div class="video-overlay"></div>
+    </div>
+
+    <a href="index.html" class="back-link">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="19" y1="12" x2="5" y2="12"></line>
+            <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
+        Back to Home
+    </a>
+
+    <div class="register-screen">
+        <div class="register-content">
+            <div class="register-header">
+                <div class="season-badge">Season 1 — The Vault</div>
+                <h1 class="register-title">BEGIN YOUR JOURNEY</h1>
+                <p class="register-subtitle">Only true Bitcoin believers can unlock the first key. Prove your knowledge of Satoshi's legacy.</p>
+            </div>
+
+            <div class="register-form-container">
+                <form id="register-form" class="register-form">
+                    <div class="form-group">
+                        <label for="username">Hunter Name</label>
+                        <input type="text" id="username" name="username" required minlength="3" maxlength="20"
+                            pattern="[a-zA-Z0-9_]+" placeholder="Choose your hunter name" autocomplete="off">
+                        <small class="form-help">3-20 characters, letters, numbers, and underscores only</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="flash-username">Flash Username ⚡</label>
+                        <input type="text" id="flash-username" name="flash_username" required minlength="3"
+                            maxlength="20" pattern="[a-zA-Z0-9_]+" placeholder="Your Flash username" autocomplete="off">
+                        <small class="form-help">Your Flash account for receiving Lightning prizes (username@flashapp.me)</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" name="email" required placeholder="your@email.com" autocomplete="email">
+                        <small class="form-help">Used for prize notifications and important updates</small>
+                    </div>
+
+                    <div class="satoshi-challenge">
+                        <div class="challenge-header">
+                            <h3>⚡ The Satoshi Challenge</h3>
+                            <p>Answer these questions to prove you're worthy of the hunt</p>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="satoshi-date">When was the Bitcoin whitepaper published?</label>
+                            <input type="date" id="satoshi-date" name="satoshi_date" required autocomplete="off">
+                            <small class="form-help">Hint: Satoshi published it in October 2008</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="satoshi-topic">What was the title of Satoshi's whitepaper?</label>
+                            <input type="text" id="satoshi-topic" name="satoshi_topic" required
+                                placeholder="Enter the exact title" autocomplete="off">
+                            <small class="form-help">Hint: It's about electronic cash and peer-to-peer systems</small>
+                        </div>
+                    </div>
+
+                    <div class="form-group checkbox-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="agree-rules" name="agree_rules" required>
+                            <span>I agree to the <a href="rules.html" target="_blank">Official Rules</a> and understand this is a skill-based competition</span>
+                        </label>
+                    </div>
+
+                    <div class="form-group checkbox-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="age-confirm" name="age_confirm" required>
+                            <span>I am 18 years or older and eligible to participate</span>
+                        </label>
+                    </div>
+
+                    <div id="error-message" class="error-message" style="display: none;"></div>
+                    <div id="success-message" class="success-message" style="display: none;"></div>
+
+                    <button type="submit" class="submit-btn" id="submit-btn">
+                        <span class="btn-text">BEGIN THE HUNT</span>
+                        <span class="btn-loader" style="display: none;">
+                            <svg class="spinner" viewBox="0 0 50 50">
+                                <circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>
+                            </svg>
+                        </span>
+                    </button>
+                </form>
+
+                <div class="register-footer">
+                    <p>Already registered? <a href="login.html">Login here</a></p>
                 </div>
+            </div>
 
-                <div class="register-form-container">
-                    <form id="register-form" class="register-form">
-                        <div class="form-group">
-                            <label for="username">Hunter Name</label>
-                            <input type="text" id="username" name="username" required minlength="3" maxlength="20"
-                                pattern="[a-zA-Z0-9_]+" placeholder="Choose your hunter name" autocomplete="off">
-                            <small class="form-help">3-20 characters, letters, numbers, and underscores only (display
-                                name)</small>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="flash-username">Flash Username ⚡</label>
-                            <input type="text" id="flash-username" name="flash_username" required minlength="3"
-                                maxlength="20" pattern="[a-zA-Z0-9_]+" placeholder="Your Flash username"
-                                autocomplete="off">
-                            <small class="form-help">Your Flash account username for receiving Lightning prizes
-                                (username@flashapp.me)</small>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="email">Email Address</label>
-                            <input type="email" id="email" name="email" required placeholder="your@email.com"
-                                autocomplete="email">
-                            <small class="form-help">Used for prize notifications and important updates</small>
-                        </div>
-
-                        <div class="satoshi-challenge">
-                            <div class="challenge-header">
-                                <h3>⚡ The Satoshi Challenge</h3>
-                                <p>Answer these questions to prove you're worthy of the hunt</p>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="satoshi-date">When was the Bitcoin whitepaper published?</label>
-                                <input type="date" id="satoshi-date" name="satoshi_date" required autocomplete="off">
-                                <small class="form-help">Hint: Satoshi published it in October 2008</small>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="satoshi-topic">What was the title of Satoshi's whitepaper?</label>
-                                <input type="text" id="satoshi-topic" name="satoshi_topic" required
-                                    placeholder="Enter the exact title" autocomplete="off">
-                                <small class="form-help">Hint: It's about electronic cash and peer-to-peer
-                                    systems</small>
-                            </div>
-                        </div>
-
-                        <div class="form-group checkbox-group">
-                            <label class="checkbox-label">
-                                <input type="checkbox" id="agree-rules" name="agree_rules" required>
-                                <span>I agree to the <a href="rules.html" target="_blank">Official Rules</a> and
-                                    understand this is a skill-based competition</span>
-                            </label>
-                        </div>
-
-                        <div class="form-group checkbox-group">
-                            <label class="checkbox-label">
-                                <input type="checkbox" id="age-confirm" name="age_confirm" required>
-                                <span>I am 18 years or older and eligible to participate</span>
-                            </label>
-                        </div>
-
-                        <div id="error-message" class="error-message" style="display: none;"></div>
-                        <div id="success-message" class="success-message" style="display: none;"></div>
-
-                        <button type="submit" class="btn btn-large btn-primary" id="submit-btn">
-                            <span class="btn-text">Begin The Hunt</span>
-                            <span class="btn-loader" style="display: none;">
-                                <svg class="spinner" viewBox="0 0 50 50">
-                                    <circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>
-                                </svg>
-                            </span>
-                        </button>
-                    </form>
-
-                    <div class="register-footer">
-                        <p>Already registered? <a href="login.html">Login here</a></p>
-                    </div>
+            <div class="info-cards">
+                <div class="info-card">
+                    <div class="info-icon">🔒</div>
+                    <h4>Secure & Private</h4>
+                    <p>Your data is encrypted and stored securely. We never share your information.</p>
                 </div>
-
-                <div class="register-info">
-                    <div class="info-card">
-                        <div class="info-icon">🔒</div>
-                        <h4>Secure & Private</h4>
-                        <p>Your data is encrypted and stored securely. We never share your information.</p>
-                    </div>
-                    <div class="info-card">
-                        <div class="info-icon">⚡</div>
-                        <h4>Lightning Fast</h4>
-                        <p>Win Bitcoin prizes instantly via Lightning Network withdrawals.</p>
-                    </div>
-                    <div class="info-card">
-                        <div class="info-icon">🏆</div>
-                        <h4>Fair Competition</h4>
-                        <p>Anti-cheat measures ensure everyone has an equal chance at glory.</p>
-                    </div>
+                <div class="info-card">
+                    <div class="info-icon">⚡</div>
+                    <h4>Lightning Fast</h4>
+                    <p>Win Bitcoin prizes instantly via Lightning Network withdrawals.</p>
+                </div>
+                <div class="info-card">
+                    <div class="info-icon">🏆</div>
+                    <h4>Fair Competition</h4>
+                    <p>Anti-cheat measures ensure everyone has an equal chance at glory.</p>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
 
-    <!-- Footer Component -->
-    <div id="footer-placeholder"></div>
-
-    <!-- Component Loader -->
-    <script src="components/loader.js"></script>
-
-    <!-- Scripts -->
     <script src="js/register.js"></script>
 </body>
 
