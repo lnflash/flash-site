@@ -569,37 +569,41 @@ html, body {
   box-shadow: 0 0 20px var(--matrix-green-glow);
 }
 
-/* Unmute indicator */
-.unmute-indicator {
+/* Mute toggle button */
+.mute-btn {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  padding: 20px 40px;
-  background: rgba(0, 0, 0, 0.8);
+  top: 20px;
+  right: 20px;
+  width: 44px;
+  height: 44px;
+  background: rgba(0, 0, 0, 0.6);
   border: 1px solid var(--matrix-green-dim);
+  border-radius: 50%;
   color: var(--matrix-green);
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 1rem;
   cursor: pointer;
   z-index: 100;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
 }
 
-.unmute-indicator.visible {
-  opacity: 1;
-}
-
-.unmute-indicator:hover {
+.mute-btn:hover {
   background: var(--matrix-green);
   color: var(--deep-black);
+  box-shadow: 0 0 15px var(--matrix-green-glow);
 }
 
-.unmute-indicator svg {
+.mute-btn .sound-off {
+  display: none;
+}
+
+.mute-btn.muted .sound-on {
+  display: none;
+}
+
+.mute-btn.muted .sound-off {
   display: block;
-  margin: 0 auto 10px;
 }
 
 /* ===== MAIN CONTENT SCREEN ===== */
@@ -627,28 +631,6 @@ html, body {
 .main-content {
   text-align: center;
   max-width: 900px;
-}
-
-/* Logo Animation */
-.logo-reveal {
-  margin-bottom: 30px;
-  opacity: 0;
-  transform: scale(0.8);
-  animation: logo-reveal 1s ease-out forwards;
-  animation-delay: 0.3s;
-}
-
-@keyframes logo-reveal {
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-.logo-reveal img {
-  max-width: 300px;
-  height: auto;
-  filter: drop-shadow(0 0 30px var(--matrix-green-glow));
 }
 
 /* Title */
@@ -886,10 +868,6 @@ html, body {
   .video-screen.cinematic .letterbox-bottom {
     height: 5vh;
   }
-  
-  .logo-reveal img {
-    max-width: 250px;
-  }
 }
 
 /* ===== RESPONSIVE - MOBILE ===== */
@@ -969,14 +947,11 @@ html, body {
     font-size: 0.85rem;
   }
   
-  .unmute-indicator {
-    padding: 15px 25px;
-    font-size: 0.85rem;
-  }
-  
-  .unmute-indicator svg {
-    width: 32px;
-    height: 32px;
+  .mute-btn {
+    top: 15px;
+    right: 15px;
+    width: 40px;
+    height: 40px;
   }
   
   /* Main Screen */
@@ -995,15 +970,6 @@ html, body {
     top: 15px;
     left: 15px;
     font-size: 0.75rem;
-  }
-  
-  .logo-reveal {
-    margin-bottom: 20px;
-  }
-  
-  .logo-reveal img {
-    max-width: 200px;
-    width: 70%;
   }
   
   .main-title {

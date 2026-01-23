@@ -30,7 +30,7 @@
   // ===== DOM ELEMENTS =====
   let bootScreen, videoScreen, mainScreen;
   let bootMessages, progressFill, progressText;
-  let video, skipBtn, unmuteIndicator;
+  let video, skipBtn, muteBtn;
 
   // ===== STATE =====
   let currentLine = 0;
@@ -65,23 +65,20 @@
     progressText = document.getElementById('progress-text');
     video = document.getElementById('trailer-video');
     skipBtn = document.getElementById('skip-btn');
-    unmuteIndicator = document.getElementById('unmute-indicator');
+    muteBtn = document.getElementById('mute-btn');
 
-    // Start boot sequence
     startBootSequence();
     
-    // Event listeners
     if (skipBtn) {
       skipBtn.addEventListener('click', skipToMain);
     }
     
     if (video) {
       video.addEventListener('ended', onVideoEnd);
-      video.addEventListener('click', toggleMute);
     }
     
-    if (unmuteIndicator) {
-      unmuteIndicator.addEventListener('click', unmute);
+    if (muteBtn) {
+      muteBtn.addEventListener('click', toggleMute);
     }
     
     document.addEventListener('click', () => { 
@@ -264,33 +261,26 @@
 
   function playVideo() {
     if (!video) {
-      // No video element, go straight to main
       setTimeout(skipToMain, 1000);
       return;
     }
     
-    // Try to play with sound first
     video.muted = false;
+    updateMuteButton();
     
     const playPromise = video.play();
     
     if (playPromise !== undefined) {
       playPromise.then(() => {
-        // Video is playing with sound
         isVideoPlaying = true;
       }).catch(error => {
-        // Autoplay with sound failed, try muted
         console.log('Autoplay with sound failed, trying muted...');
         video.muted = true;
+        updateMuteButton();
         video.play().then(() => {
           isVideoPlaying = true;
-          // Show unmute indicator
-          if (unmuteIndicator) {
-            unmuteIndicator.classList.add('visible');
-          }
         }).catch(err => {
           console.log('Video autoplay failed completely:', err);
-          // Show play button or skip to main
           skipToMain();
         });
       });
@@ -300,17 +290,16 @@
   function toggleMute() {
     if (video) {
       video.muted = !video.muted;
-      if (!video.muted && unmuteIndicator) {
-        unmuteIndicator.classList.remove('visible');
-      }
+      updateMuteButton();
     }
   }
 
-  function unmute() {
-    if (video) {
-      video.muted = false;
-      if (unmuteIndicator) {
-        unmuteIndicator.classList.remove('visible');
+  function updateMuteButton() {
+    if (muteBtn) {
+      if (video && video.muted) {
+        muteBtn.classList.add('muted');
+      } else {
+        muteBtn.classList.remove('muted');
       }
     }
   }
