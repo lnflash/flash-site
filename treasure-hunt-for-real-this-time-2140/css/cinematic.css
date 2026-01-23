@@ -689,6 +689,32 @@ html, body {
   display: block;
 }
 
+.tap-for-sound {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0, 0, 0, 0.8);
+  border: 2px solid var(--matrix-green);
+  padding: 30px 50px;
+  text-align: center;
+  color: var(--matrix-green);
+  font-family: 'JetBrains Mono', monospace;
+  cursor: pointer;
+  z-index: 200;
+  animation: pulse-glow 1.5s ease-in-out infinite;
+}
+
+.tap-for-sound:hover {
+  background: var(--matrix-green);
+  color: var(--deep-black);
+}
+
+.tap-for-sound .tap-icon {
+  font-size: 3rem;
+  margin-bottom: 10px;
+}
+
 /* ===== MAIN CONTENT SCREEN ===== */
 .main-screen {
   position: fixed;
