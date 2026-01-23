@@ -3,41 +3,789 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <base href="/treasure-hunt-for-real-this-time-2140/">
-    <meta name="description"
-        content="Track the progress of legendary hunters in Keys of the Caribbean Bitcoin treasure hunt.">
+    <meta name="description" content="Track the progress of legendary hunters in Keys of the Caribbean Bitcoin treasure hunt.">
+    <meta name="theme-color" content="#000000">
+
     <title>Leaderboard | Keys of the Caribbean</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap"
-        rel="stylesheet">
-
-    <!-- Styles -->
-    <link rel="stylesheet" href="/css/main.css">
-    <link rel="stylesheet" href="css/hunt.css">
-    <link rel="stylesheet" href="css/leaderboard.css">
 
     <!-- Favicon -->
     <link rel="icon" type="image/png" sizes="256x256" href="assets/img/kotc_icon_primary_256.png">
     <link rel="icon" type="image/png" sizes="512x512" href="assets/img/kotc_icon_primary_512.png">
     <link rel="apple-touch-icon" sizes="1024x1024" href="assets/img/kotc_icon_primary_1024.png">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/cinematic.css">
+
+    <style>
+        html, body {
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+        .leaderboard-screen {
+            min-height: 100vh;
+            background: var(--deep-black);
+            position: relative;
+            padding: 40px 20px;
+            padding-top: 80px;
+        }
+
+        .video-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 0;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .video-background video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            transform: translate(-50%, -50%);
+            -webkit-transform: translate(-50%, -50%);
+            object-fit: cover;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+        }
+
+        .video-background .video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(
+                to bottom,
+                rgba(0, 0, 0, 0.85) 0%,
+                rgba(0, 0, 0, 0.75) 30%,
+                rgba(0, 0, 0, 0.75) 70%,
+                rgba(0, 0, 0, 0.9) 100%
+            );
+        }
+
+        .leaderboard-content {
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .back-link {
+            position: fixed;
+            top: 30px;
+            left: 30px;
+            color: var(--matrix-green-dim);
+            text-decoration: none;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: color 0.3s ease;
+            z-index: 100;
+        }
+
+        .back-link:hover {
+            color: var(--matrix-green);
+        }
+
+        .leaderboard-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .season-badge {
+            display: inline-block;
+            padding: 8px 20px;
+            background: rgba(40, 254, 20, 0.1);
+            border: 1px solid var(--matrix-green);
+            color: var(--matrix-green);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+
+        .leaderboard-title {
+            font-family: 'Orbitron', monospace;
+            font-size: clamp(1.8rem, 5vw, 3rem);
+            font-weight: 900;
+            color: var(--gold-accent);
+            text-shadow: 
+                0 0 20px rgba(246, 196, 83, 0.5),
+                0 0 40px rgba(246, 196, 83, 0.3);
+            margin-bottom: 15px;
+            letter-spacing: 2px;
+        }
+
+        .leaderboard-subtitle {
+            font-size: clamp(0.9rem, 2vw, 1.1rem);
+            color: var(--matrix-green-dim);
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid var(--matrix-green-dim);
+            padding: 25px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            border-color: var(--matrix-green);
+            box-shadow: 0 0 20px var(--matrix-green-glow);
+        }
+
+        .stat-icon {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .stat-card .stat-value {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--matrix-green);
+            margin-bottom: 5px;
+        }
+
+        .stat-card .stat-label {
+            color: var(--matrix-green-dim);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Filters */
+        .leaderboard-filters {
+            display: flex;
+            gap: 20px;
+            align-items: flex-end;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .filter-group label {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--matrix-green-dim);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .filter-group select {
+            padding: 12px 16px;
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid var(--matrix-green-dim);
+            color: var(--matrix-green);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 200px;
+        }
+
+        .filter-group select:focus {
+            outline: none;
+            border-color: var(--matrix-green);
+            box-shadow: 0 0 10px var(--matrix-green-glow);
+        }
+
+        .filter-group select option {
+            background: var(--deep-black);
+            color: var(--matrix-green);
+        }
+
+        #refresh-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            background: transparent;
+            border: 2px solid var(--matrix-green);
+            color: var(--matrix-green);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-left: auto;
+        }
+
+        #refresh-btn:hover {
+            background: var(--matrix-green);
+            color: var(--deep-black);
+            box-shadow: 0 0 20px var(--matrix-green-glow);
+        }
+
+        #refresh-btn svg {
+            transition: transform 0.3s ease;
+        }
+
+        #refresh-btn:hover svg {
+            transform: rotate(180deg);
+        }
+
+        /* Table */
+        .leaderboard-table-container {
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid var(--matrix-green-dim);
+            overflow: hidden;
+            margin-bottom: 60px;
+        }
+
+        .leaderboard-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .leaderboard-table thead {
+            background: rgba(40, 254, 20, 0.1);
+        }
+
+        .leaderboard-table th {
+            padding: 16px;
+            text-align: left;
+            font-family: 'Orbitron', monospace;
+            font-weight: 600;
+            color: var(--matrix-green);
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+            border-bottom: 2px solid var(--matrix-green-dim);
+        }
+
+        .leaderboard-table th:first-child {
+            text-align: center;
+            width: 80px;
+        }
+
+        .leaderboard-table tbody tr {
+            border-bottom: 1px solid rgba(40, 254, 20, 0.1);
+            transition: all 0.2s ease;
+        }
+
+        .leaderboard-table tbody tr:hover {
+            background: rgba(40, 254, 20, 0.05);
+        }
+
+        .leaderboard-table td {
+            padding: 16px;
+            color: var(--matrix-green-dim);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+        }
+
+        .leaderboard-table td:first-child {
+            text-align: center;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .leaderboard-table tbody tr.rank-1 td:first-child {
+            color: var(--gold-accent);
+            font-size: 1.3rem;
+            text-shadow: 0 0 10px rgba(246, 196, 83, 0.5);
+        }
+
+        .leaderboard-table tbody tr.rank-2 td:first-child {
+            color: #C0C0C0;
+            font-size: 1.2rem;
+        }
+
+        .leaderboard-table tbody tr.rank-3 td:first-child {
+            color: #CD7F32;
+            font-size: 1.15rem;
+        }
+
+        .hunter-name {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            color: var(--matrix-green);
+        }
+
+        .hunter-badge {
+            font-size: 1.2rem;
+        }
+
+        .hero-hunter .hunter-name {
+            color: var(--gold-accent);
+        }
+
+        .stage-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 12px;
+            background: rgba(40, 254, 20, 0.2);
+            border: 1px solid var(--matrix-green-dim);
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: var(--matrix-green);
+        }
+
+        .stage-badge.stage-completed {
+            background: rgba(246, 196, 83, 0.2);
+            border-color: var(--gold-accent);
+            color: var(--gold-accent);
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .status-active {
+            background: rgba(40, 254, 20, 0.2);
+            border: 1px solid var(--matrix-green-dim);
+            color: var(--matrix-green);
+        }
+
+        .status-completed {
+            background: rgba(246, 196, 83, 0.2);
+            border: 1px solid var(--gold-accent);
+            color: var(--gold-accent);
+        }
+
+        .status-hero {
+            background: linear-gradient(135deg, var(--gold-accent) 0%, var(--matrix-green) 100%);
+            color: var(--deep-black);
+        }
+
+        .sats-value {
+            font-weight: 600;
+            color: var(--matrix-green);
+        }
+
+        .date-value {
+            color: var(--matrix-green-dim);
+            font-size: 0.85rem;
+        }
+
+        .usd-value {
+            color: var(--matrix-green-dim);
+            font-size: 0.8em;
+            opacity: 0.7;
+            margin-left: 4px;
+        }
+
+        /* Loading State */
+        .loading-row td {
+            padding: 60px 16px;
+        }
+
+        .loading-spinner {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .loading-spinner p {
+            color: var(--matrix-green-dim);
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            animation: rotate 2s linear infinite;
+        }
+
+        .spinner .path {
+            stroke: var(--matrix-green);
+            stroke-linecap: round;
+            animation: dash 1.5s ease-in-out infinite;
+        }
+
+        @keyframes rotate {
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes dash {
+            0% { stroke-dasharray: 1, 150; stroke-dashoffset: 0; }
+            50% { stroke-dasharray: 90, 150; stroke-dashoffset: -35; }
+            100% { stroke-dasharray: 90, 150; stroke-dashoffset: -124; }
+        }
+
+        /* Section Styles */
+        .section-divider {
+            margin: 60px 0;
+            padding-top: 60px;
+            border-top: 1px solid var(--matrix-green-dim);
+        }
+
+        .section-title {
+            text-align: center;
+            font-family: 'Orbitron', monospace;
+            font-size: clamp(1.5rem, 4vw, 2.5rem);
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .section-title.gold {
+            color: var(--gold-accent);
+            text-shadow: 0 0 20px rgba(246, 196, 83, 0.5);
+        }
+
+        .section-title.green {
+            color: var(--matrix-green);
+            text-shadow: 0 0 20px var(--matrix-green-glow);
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: var(--matrix-green-dim);
+            margin-bottom: 40px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Champions Grid */
+        .champions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 20px;
+        }
+
+        .champion-card {
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid var(--matrix-green-dim);
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .champion-card:hover {
+            border-color: var(--matrix-green);
+            box-shadow: 0 0 20px var(--matrix-green-glow);
+        }
+
+        .champion-card-empty {
+            opacity: 0.6;
+            border-style: dashed;
+        }
+
+        .champion-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(40, 254, 20, 0.2);
+        }
+
+        .stage-number {
+            font-family: 'Orbitron', monospace;
+            font-weight: 700;
+            font-size: 0.85rem;
+            color: var(--matrix-green);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .stage-name {
+            font-size: 0.8rem;
+            color: var(--matrix-green-dim);
+        }
+
+        .podium {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .podium-entry {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 12px;
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .podium-gold {
+            background: rgba(255, 215, 0, 0.1);
+            border-left: 3px solid #FFD700;
+        }
+
+        .podium-silver {
+            background: rgba(192, 192, 192, 0.1);
+            border-left: 3px solid #C0C0C0;
+        }
+
+        .podium-bronze {
+            background: rgba(205, 127, 50, 0.1);
+            border-left: 3px solid #CD7F32;
+        }
+
+        .podium-unclaimed {
+            opacity: 0.5;
+            border-left-style: dashed;
+        }
+
+        .podium-emoji {
+            font-size: 1.2rem;
+        }
+
+        .podium-winner {
+            flex: 1;
+            font-weight: 600;
+            color: var(--matrix-green);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .podium-unclaimed .podium-winner {
+            color: var(--matrix-green-dim);
+            font-style: italic;
+        }
+
+        .podium-sats {
+            font-size: 0.85rem;
+            color: var(--gold-accent);
+            font-weight: 500;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .podium-empty {
+            text-align: center;
+            padding: 30px 15px;
+            color: var(--matrix-green-dim);
+        }
+
+        .podium-empty .empty-hint {
+            font-size: 0.8rem;
+            opacity: 0.7;
+            margin-top: 8px;
+        }
+
+        .champions-empty, .champions-loading {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .empty-icon {
+            font-size: 4rem;
+            margin-bottom: 15px;
+        }
+
+        .empty-subtitle {
+            font-size: 0.9rem;
+            opacity: 0.7;
+            margin-top: 8px;
+        }
+
+        /* Heroes Grid */
+        .heroes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .hero-card {
+            background: rgba(246, 196, 83, 0.1);
+            border: 2px solid var(--gold-accent);
+            padding: 30px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .hero-card:hover {
+            box-shadow: 0 0 30px rgba(246, 196, 83, 0.3);
+            transform: translateY(-3px);
+        }
+
+        .hero-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+
+        .hero-card h3 {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.3rem;
+            color: var(--gold-accent);
+            margin-bottom: 8px;
+        }
+
+        .hero-stats {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(246, 196, 83, 0.3);
+        }
+
+        .hero-stat {
+            text-align: center;
+        }
+
+        .hero-stat-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--matrix-green);
+        }
+
+        .hero-stat-label {
+            font-size: 0.75rem;
+            color: var(--matrix-green-dim);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .hero-profile {
+            margin-top: 12px;
+            font-size: 0.85rem;
+            color: var(--matrix-green-dim);
+            font-style: italic;
+        }
+
+        .heroes-empty {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        /* Footer */
+        .leaderboard-footer {
+            text-align: center;
+            margin-top: 60px;
+            padding-top: 40px;
+            border-top: 1px solid var(--matrix-green-dim);
+        }
+
+        .footer-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--matrix-green);
+            text-decoration: none;
+            font-size: 1rem;
+            padding: 15px 30px;
+            border: 2px solid var(--matrix-green);
+            transition: all 0.3s ease;
+        }
+
+        .footer-link:hover {
+            background: var(--matrix-green);
+            color: var(--deep-black);
+            box-shadow: 0 0 30px var(--matrix-green-glow);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .leaderboard-screen {
+                padding: 60px 15px 40px;
+            }
+
+            .back-link {
+                top: 15px;
+                left: 15px;
+                font-size: 0.75rem;
+            }
+
+            .leaderboard-filters {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .filter-group select {
+                width: 100%;
+            }
+
+            #refresh-btn {
+                margin-left: 0;
+                width: 100%;
+                justify-content: center;
+            }
+
+            .leaderboard-table th:nth-child(5),
+            .leaderboard-table td:nth-child(5),
+            .leaderboard-table th:nth-child(6),
+            .leaderboard-table td:nth-child(6) {
+                display: none;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .champions-grid, .heroes-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .leaderboard-table th:nth-child(4),
+            .leaderboard-table td:nth-child(4) {
+                display: none;
+            }
+        }
+    </style>
 </head>
 
-<body class="hunt-page leaderboard-page">
-    <!-- Header Component -->
-    <div id="header-placeholder"></div>
+<body>
+    <!-- CRT Scanlines Overlay -->
+    <div class="scanlines"></div>
 
-    <!-- Leaderboard Section -->
-    <section class="leaderboard-section">
-        <div class="container">
-            <div class="leaderboard-header-section">
-                <div class="hunt-badge">Season 1 — The Vault</div>
-                <h1>Live Leaderboard</h1>
-                <p class="leaderboard-tagline">Track the legendary hunters on their quest to unlock the vault</p>
+    <!-- Video Background -->
+    <div class="video-background">
+        <video autoplay muted loop playsinline>
+            <source src="assets/video/KOTC_background.mp4" type="video/mp4">
+        </video>
+        <div class="video-overlay"></div>
+    </div>
+
+    <!-- Back Link -->
+    <a href="index.html" class="back-link">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="19" y1="12" x2="5" y2="12"></line>
+            <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
+        Back to Home
+    </a>
+
+    <!-- Main Content -->
+    <div class="leaderboard-screen">
+        <div class="leaderboard-content">
+            <!-- Header -->
+            <div class="leaderboard-header">
+                <div class="season-badge">Season 1 — The Vault</div>
+                <h1 class="leaderboard-title">LIVE LEADERBOARD</h1>
+                <p class="leaderboard-subtitle">Track the legendary hunters on their quest to unlock the vault</p>
             </div>
 
             <!-- Stats Overview -->
@@ -64,7 +812,7 @@
                 </div>
             </div>
 
-            <!-- Leaderboard Filters -->
+            <!-- Filters -->
             <div class="leaderboard-filters">
                 <div class="filter-group">
                     <label for="filter-stage">Filter by Stage:</label>
@@ -90,11 +838,10 @@
                         <option value="recent">Most Recent</option>
                     </select>
                 </div>
-                <button id="refresh-btn" class="btn btn-secondary">
+                <button id="refresh-btn">
                     <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
                         <path d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z" />
-                        <path
-                            d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z" />
+                        <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z" />
                     </svg>
                     Refresh
                 </button>
@@ -114,13 +861,11 @@
                         </tr>
                     </thead>
                     <tbody id="leaderboard-tbody">
-                        <!-- Loading state -->
                         <tr class="loading-row">
                             <td colspan="6">
                                 <div class="loading-spinner">
                                     <svg class="spinner" viewBox="0 0 50 50">
-                                        <circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5">
-                                        </circle>
+                                        <circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>
                                     </svg>
                                     <p>Loading leaderboard...</p>
                                 </div>
@@ -131,8 +876,8 @@
             </div>
 
             <!-- Stage Champions Section -->
-            <div class="stage-champions-section" id="stage-champions">
-                <h2>🏆 Stage Champions</h2>
+            <div class="section-divider" id="stage-champions">
+                <h2 class="section-title gold">🏆 STAGE CHAMPIONS</h2>
                 <p class="section-subtitle">First-come-first-serve prizes for each stage. Gold, Silver, and Bronze await the fastest hunters.</p>
 
                 <div id="champions-grid" class="champions-grid">
@@ -148,10 +893,9 @@
             </div>
 
             <!-- Hall of Heroes Section -->
-            <div class="hall-of-heroes-section" id="hall-of-heroes">
-                <h2>⭐ Hall of Heroes</h2>
-                <p class="section-subtitle">Hunters who chose The Satoshi Way and shared their prize with the community
-                </p>
+            <div class="section-divider" id="hall-of-heroes">
+                <h2 class="section-title green">⭐ HALL OF HEROES</h2>
+                <p class="section-subtitle">Hunters who chose The Satoshi Way and shared their prize with the community</p>
 
                 <div id="heroes-grid" class="heroes-grid">
                     <div class="heroes-empty">
@@ -161,14 +905,19 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Footer -->
+            <div class="leaderboard-footer">
+                <a href="index.html" class="footer-link">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="19" y1="12" x2="5" y2="12"></line>
+                        <polyline points="12 19 5 12 12 5"></polyline>
+                    </svg>
+                    Return to the Hunt
+                </a>
+            </div>
         </div>
-    </section>
-
-    <!-- Footer Component -->
-    <div id="footer-placeholder"></div>
-
-    <!-- Component Loader -->
-    <script src="components/loader.js"></script>
+    </div>
 
     <!-- Scripts -->
     <script src="js/leaderboard.js"></script>
