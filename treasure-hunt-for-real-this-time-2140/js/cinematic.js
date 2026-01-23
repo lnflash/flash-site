@@ -99,6 +99,16 @@
       enterScreen.classList.add('hidden');
     }
     
+    // Hide boot screen
+    if (bootScreen) {
+      bootScreen.classList.add('fade-out');
+    }
+    
+    // Hide video screen (in case it's visible)
+    if (videoScreen) {
+      videoScreen.classList.add('fade-out');
+    }
+    
     // Skip directly to main content
     mainScreen.classList.add('visible');
   }
