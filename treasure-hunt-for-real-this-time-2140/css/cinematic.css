@@ -85,6 +85,89 @@ html, body {
   animation: flicker 4s infinite;
 }
 
+/* ===== ENTER SCREEN ===== */
+.enter-screen {
+  position: fixed;
+  inset: 0;
+  background: var(--deep-black);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+  transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
+}
+
+.enter-screen.hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.enter-content {
+  text-align: center;
+}
+
+.enter-logo {
+  font-family: 'Orbitron', monospace;
+  font-size: clamp(4rem, 15vw, 10rem);
+  font-weight: 900;
+  color: var(--matrix-green);
+  text-shadow: 
+    0 0 20px var(--matrix-green),
+    0 0 40px var(--matrix-green),
+    0 0 80px var(--matrix-green-glow);
+  letter-spacing: 0.2em;
+  margin-bottom: 40px;
+  animation: text-glow 2s ease-in-out infinite alternate;
+}
+
+.enter-btn {
+  background: transparent;
+  border: 2px solid var(--matrix-green);
+  color: var(--matrix-green);
+  padding: 20px 50px;
+  font-family: 'JetBrains Mono', monospace;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.enter-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--matrix-green);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease;
+  z-index: -1;
+}
+
+.enter-btn:hover {
+  color: var(--deep-black);
+  box-shadow: 0 0 30px var(--matrix-green-glow);
+}
+
+.enter-btn:hover::before {
+  transform: scaleX(1);
+}
+
+.enter-text {
+  display: block;
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 3px;
+}
+
+.enter-hint {
+  display: block;
+  font-size: 0.7rem;
+  margin-top: 8px;
+  opacity: 0.6;
+  letter-spacing: 1px;
+}
+
 /* ===== BOOT SCREEN ===== */
 .boot-screen {
   position: fixed;

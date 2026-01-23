@@ -28,6 +28,7 @@
   ];
 
   // ===== DOM ELEMENTS =====
+  let enterScreen, enterBtn;
   let bootScreen, videoScreen, mainScreen;
   let bootMessages, progressFill, progressText;
   let video, skipBtn, muteBtn;
@@ -40,7 +41,7 @@
 
   // Use AudioEngine from KOTC Terminal (audio-engine.js)
   function playKeystroke() {
-    if (typeof AudioEngine !== 'undefined' && hasInteracted) {
+    if (typeof AudioEngine !== 'undefined' && AudioEngine.initialized) {
       AudioEngine.playKeyClick();
     }
   }
@@ -56,7 +57,8 @@
 
   // ===== INITIALIZATION =====
   function init() {
-    // Get DOM elements
+    enterScreen = document.getElementById('enter-screen');
+    enterBtn = document.getElementById('enter-btn');
     bootScreen = document.getElementById('boot-screen');
     videoScreen = document.getElementById('video-screen');
     mainScreen = document.getElementById('main-screen');
@@ -67,7 +69,9 @@
     skipBtn = document.getElementById('skip-btn');
     muteBtn = document.getElementById('mute-btn');
 
-    startBootSequence();
+    if (enterBtn) {
+      enterBtn.addEventListener('click', startExperience);
+    }
     
     if (skipBtn) {
       skipBtn.addEventListener('click', skipToMain);
@@ -80,17 +84,21 @@
     if (muteBtn) {
       muteBtn.addEventListener('click', toggleMute);
     }
+  }
+  
+  function startExperience() {
+    hasInteracted = true;
     
-    document.addEventListener('click', () => { 
-      hasInteracted = true; 
-      if (typeof AudioEngine !== 'undefined') AudioEngine.init();
-    }, { once: true });
-    document.addEventListener('touchstart', () => { 
-      hasInteracted = true;
-      if (typeof AudioEngine !== 'undefined') AudioEngine.init();
-    }, { once: true });
+    if (typeof AudioEngine !== 'undefined') {
+      AudioEngine.init();
+      AudioEngine.resume();
+    }
     
-    if (typeof AudioEngine !== 'undefined') AudioEngine.init();
+    if (enterScreen) {
+      enterScreen.classList.add('hidden');
+    }
+    
+    startBootSequence();
   }
 
   // ===== BOOT SEQUENCE =====
