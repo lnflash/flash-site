@@ -26,7 +26,7 @@
 </g>
     <g transform="translate(240, 60)">
       <text x="0" y="0" font-family="Inter, Montserrat, Arial, sans-serif" font-size="56" font-weight="800" fill="#FFFFFF">KEYS OF THE CARIBBEAN</text>
-      <text x="0" y="56" font-family="Inter, Montserrat, Arial, sans-serif" font-size="22" font-weight="500" fill="#9BB3FF" opacity="0.95">Flash Treasure Hunt</text>
+      <text x="0" y="56" font-family="Inter, Montserrat, Arial, sans-serif" font-size="22" font-weight="500" fill="#9BB3FF" opacity="0.95">A Bitcoin Treasure Hunt</text>
       <g transform="translate(0, 90)">
         <rect x="0" y="-14" width="740" height="1.5" fill="#9BB3FF" opacity="0.3"/>
       </g>
