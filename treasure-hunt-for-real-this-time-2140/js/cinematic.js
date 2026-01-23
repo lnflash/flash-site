@@ -60,7 +60,7 @@
   function startBackgroundMusic() {
     if (bgMusicStarted || !bgMusic) return;
     
-    bgMusic.volume = 0.4;
+    bgMusic.volume = 0.2;
     bgMusic.loop = true;
     
     const playPromise = bgMusic.play();
@@ -331,7 +331,7 @@
     }
     
     if (bgMusic && bgMusicStarted) {
-      bgMusic.volume = 0.15;
+      bgMusic.volume = 0;
     }
     
     video.muted = false;
@@ -389,7 +389,7 @@
     videoScreen.classList.add('fade-out');
     
     if (bgMusic && bgMusicStarted) {
-      bgMusic.volume = 0.4;
+      bgMusic.volume = 0.2;
     }
     
     setTimeout(() => {
