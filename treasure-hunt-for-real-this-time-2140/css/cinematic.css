@@ -719,30 +719,34 @@ html, body {
   color: var(--matrix-green);
 }
 
-/* ===== RESPONSIVE ===== */
+/* ===== RESPONSIVE - TABLET ===== */
 @media (max-width: 768px) {
   .boot-container {
     padding: 25px;
+    margin: 0 15px;
   }
   
   .boot-title {
     letter-spacing: 2px;
+    font-size: clamp(1.2rem, 5vw, 2rem);
   }
   
   .boot-subtitle {
-    letter-spacing: 4px;
+    letter-spacing: 3px;
+    font-size: 0.65rem;
   }
   
   .boot-line {
     white-space: normal;
     word-break: break-word;
+    font-size: 0.85rem;
   }
   
   .skip-btn {
-    bottom: 20px;
+    bottom: 30px;
     right: 20px;
-    padding: 10px 20px;
-    font-size: 0.75rem;
+    padding: 12px 24px;
+    font-size: 0.8rem;
   }
   
   .stats-row {
@@ -750,7 +754,7 @@ html, body {
   }
   
   .cta-btn {
-    padding: 15px 30px;
+    padding: 16px 32px;
     font-size: 0.9rem;
   }
   
@@ -761,6 +765,256 @@ html, body {
   .video-screen.cinematic .letterbox-top,
   .video-screen.cinematic .letterbox-bottom {
     height: 5vh;
+  }
+  
+  .logo-reveal img {
+    max-width: 250px;
+  }
+}
+
+/* ===== RESPONSIVE - MOBILE ===== */
+@media (max-width: 480px) {
+  /* Boot Screen */
+  .boot-screen {
+    padding: 15px;
+  }
+  
+  .boot-container {
+    padding: 20px 15px;
+    margin: 0 10px;
+    max-width: 100%;
+  }
+  
+  .boot-container::before {
+    filter: blur(3px);
+  }
+  
+  .boot-header {
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+  }
+  
+  .boot-title {
+    font-size: clamp(1rem, 6vw, 1.5rem);
+    letter-spacing: 1px;
+  }
+  
+  .boot-subtitle {
+    font-size: 0.55rem;
+    letter-spacing: 2px;
+    margin-top: 8px;
+  }
+  
+  .boot-messages {
+    min-height: 150px;
+    font-size: 0.75rem;
+    line-height: 1.6;
+  }
+  
+  .boot-line {
+    font-size: 0.7rem;
+    margin-bottom: 4px;
+  }
+  
+  .boot-progress {
+    margin-top: 20px;
+    padding-top: 15px;
+  }
+  
+  .progress-label {
+    font-size: 0.65rem;
+  }
+  
+  .progress-bar {
+    height: 16px;
+  }
+  
+  .progress-text {
+    font-size: 0.6rem;
+  }
+  
+  /* Video Screen */
+  .video-screen.cinematic .letterbox-top,
+  .video-screen.cinematic .letterbox-bottom {
+    height: 3vh;
+  }
+  
+  .skip-btn {
+    bottom: 20px;
+    right: 15px;
+    left: 15px;
+    width: calc(100% - 30px);
+    text-align: center;
+    padding: 14px 20px;
+    font-size: 0.85rem;
+  }
+  
+  .unmute-indicator {
+    padding: 15px 25px;
+    font-size: 0.85rem;
+  }
+  
+  .unmute-indicator svg {
+    width: 32px;
+    height: 32px;
+  }
+  
+  /* Main Screen */
+  .main-screen {
+    padding: 20px 15px;
+    padding-top: 60px;
+    padding-bottom: 40px;
+  }
+  
+  .main-content {
+    padding: 0;
+    width: 100%;
+  }
+  
+  .back-link {
+    top: 15px;
+    left: 15px;
+    font-size: 0.75rem;
+  }
+  
+  .logo-reveal {
+    margin-bottom: 20px;
+  }
+  
+  .logo-reveal img {
+    max-width: 200px;
+    width: 70%;
+  }
+  
+  .main-title {
+    font-size: clamp(1.5rem, 8vw, 2.5rem);
+    margin-bottom: 10px;
+    letter-spacing: 1px;
+  }
+  
+  .main-subtitle {
+    font-size: clamp(0.7rem, 3vw, 1rem);
+    margin-bottom: 25px;
+    letter-spacing: 2px;
+  }
+  
+  /* CTA Buttons - Stack on Mobile */
+  .cta-container {
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 35px;
+    width: 100%;
+    padding: 0 10px;
+  }
+  
+  .cta-btn {
+    width: 100%;
+    padding: 16px 20px;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+    text-align: center;
+    min-height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .cta-btn.primary::before {
+    display: none;
+  }
+  
+  /* Stats Row */
+  .stats-row {
+    gap: 15px;
+    margin-bottom: 35px;
+    justify-content: space-around;
+    width: 100%;
+  }
+  
+  .stat-item {
+    flex: 1;
+    min-width: 80px;
+  }
+  
+  .stat-value {
+    font-size: clamp(1.5rem, 6vw, 2rem);
+  }
+  
+  .stat-label {
+    font-size: 0.65rem;
+    letter-spacing: 1px;
+  }
+  
+  /* Social Links */
+  .social-links {
+    gap: 15px;
+  }
+  
+  .social-link {
+    width: 44px;
+    height: 44px;
+  }
+  
+  .social-link svg {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+/* ===== RESPONSIVE - SMALL MOBILE ===== */
+@media (max-width: 360px) {
+  .boot-title {
+    font-size: 1rem;
+  }
+  
+  .boot-subtitle {
+    font-size: 0.5rem;
+    letter-spacing: 1px;
+  }
+  
+  .boot-line {
+    font-size: 0.65rem;
+  }
+  
+  .main-title {
+    font-size: 1.4rem;
+  }
+  
+  .main-subtitle {
+    font-size: 0.65rem;
+    letter-spacing: 1px;
+  }
+  
+  .stat-value {
+    font-size: 1.3rem;
+  }
+  
+  .stat-label {
+    font-size: 0.6rem;
+  }
+  
+  .cta-btn {
+    font-size: 0.8rem;
+    padding: 14px 16px;
+  }
+}
+
+/* ===== SAFE AREAS (notch/home indicator) ===== */
+@supports (padding-top: env(safe-area-inset-top)) {
+  .main-screen {
+    padding-top: calc(60px + env(safe-area-inset-top));
+    padding-bottom: calc(40px + env(safe-area-inset-bottom));
+    padding-left: calc(15px + env(safe-area-inset-left));
+    padding-right: calc(15px + env(safe-area-inset-right));
+  }
+  
+  .back-link {
+    top: calc(15px + env(safe-area-inset-top));
+    left: calc(15px + env(safe-area-inset-left));
+  }
+  
+  .skip-btn {
+    bottom: calc(20px + env(safe-area-inset-bottom));
   }
 }
 
