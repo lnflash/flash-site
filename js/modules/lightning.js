@@ -249,7 +249,7 @@ function chooseCanvas() {
   }
 }
 
-// Stage 1: Reveal Rabbit Hole with per-hunter HMAC token
+// Stage 1: Reveal the rabbit hole - Keys of the Caribbean discovery
 async function revealRabbitHole() {
   rabbitHoleRevealed = true;
 
@@ -257,16 +257,26 @@ async function revealRabbitHole() {
   const token = localStorage.getItem('hunt_token');
 
   if (!token) {
-    // Not logged in - generic hint to register
-    console.log('%c🐰 The rabbit hole awaits...', 'font-size: 18px; color: #F6C453; font-weight: bold;');
-    console.log('%cBut only registered hunters can enter.', 'font-size: 14px; color: #7C8A92;');
-    console.log('%cRegister at: /treasure-hunt/register.html', 'font-size: 14px; color: #41AD49;');
+    // Not logged in - cryptic hint to register first
+    console.log('%c');
+    console.log('%c═══════════════════════════════════════════════════════════════', 'color: #F6C453;');
+    console.log('%c  ⚡ SIGNAL DETECTED ⚡', 'font-size: 20px; color: #F6C453; font-weight: bold;');
+    console.log('%c═══════════════════════════════════════════════════════════════', 'color: #F6C453;');
+    console.log('%c');
+    console.log('%c  "I\'ve been working on a new electronic cash system', 'font-size: 14px; color: #7C8A92; font-style: italic;');
+    console.log('%c   that\'s fully peer-to-peer, with no trusted third party."', 'font-size: 14px; color: #7C8A92; font-style: italic;');
+    console.log('%c                                        — Satoshi, 2008', 'font-size: 12px; color: #41AD49;');
+    console.log('%c');
+    console.log('%c  The hunt awaits, but first you must register...', 'font-size: 14px; color: #7C8A92;');
+    console.log('%c  → /treasure-hunt-for-real-this-time-2140/register.html', 'font-size: 14px; color: #41AD49;');
+    console.log('%c');
+    console.log('%c═══════════════════════════════════════════════════════════════', 'color: #F6C453;');
     return;
   }
 
   // Fetch hunter-specific Stage 1 token
   try {
-    const response = await fetch('/treasure-hunt/api/get-stage1-token.php', {
+    const response = await fetch('https://kotc.islandbitcoin.com/api/get-stage1-token.php', {
       headers: {
         'Authorization': `Bearer ${token}`
       }
@@ -277,20 +287,39 @@ async function revealRabbitHole() {
     if (data.success && data.stage1_token) {
       hunterToken = data.stage1_token;
 
-      // Reveal the rabbit hole with personalized token
-      console.log('%c🐰 The rabbit hole has been revealed!', 'font-size: 18px; color: #F6C453; font-weight: bold;');
-      console.log('%cYou have found the first key...', 'font-size: 14px; color: #7C8A92;');
-      console.log('%c⚡ Navigate to:', 'font-size: 14px; color: #41AD49; font-weight: bold;');
-      console.log(`%c/treasure-hunt/rabbithole?token=${hunterToken}`, 'font-size: 16px; color: #41AD49; font-weight: bold; text-decoration: underline;');
-      console.log('%c', 'font-size: 0;'); // Spacer
-      console.log('%cThe awakening begins...', 'font-size: 12px; color: #7C8A92; font-style: italic;');
+      // Reveal the Keys of the Caribbean discovery sequence
+      console.log('%c');
+      console.log('%c╔═══════════════════════════════════════════════════════════════╗', 'color: #F6C453;');
+      console.log('%c║  ⚡ KEYS OF THE CARIBBEAN - SIGNAL ACQUIRED ⚡                 ║', 'font-size: 16px; color: #F6C453; font-weight: bold;');
+      console.log('%c╚═══════════════════════════════════════════════════════════════╝', 'color: #F6C453;');
+      console.log('%c');
+      console.log('%c  He posted one final message. Then silence.', 'font-size: 14px; color: #7C8A92;');
+      console.log('%c  But not forever...', 'font-size: 14px; color: #7C8A92;');
+      console.log('%c');
+      console.log('%c  ┌─────────────────────────────────────────────────────────┐', 'color: #41AD49;');
+      console.log('%c  │  YOUR ACCESS TOKEN:                                     │', 'color: #41AD49;');
+      console.log(`%c  │  ${hunterToken.padEnd(50)}│`, 'font-size: 16px; color: #00FFFF; font-weight: bold;');
+      console.log('%c  └─────────────────────────────────────────────────────────┘', 'color: #41AD49;');
+      console.log('%c');
+      console.log('%c  STEP 1: Save this token in your Hunter Dashboard', 'font-size: 14px; color: #F6C453; font-weight: bold;');
+      console.log('%c           → /treasure-hunt-for-real-this-time-2140/hunter-dashboard.html', 'font-size: 12px; color: #41AD49;');
+      console.log('%c');
+      console.log('%c  STEP 2: Find the Key Terminal...', 'font-size: 14px; color: #F6C453; font-weight: bold;');
+      console.log('%c           His email was satoshin@gmx.com', 'font-size: 12px; color: #7C8A92; font-style: italic;');
+      console.log('%c           What if he had a flash identity?', 'font-size: 12px; color: #7C8A92; font-style: italic;');
+      console.log('%c');
+      console.log('%c  "We are all Satoshi."', 'font-size: 14px; color: #41AD49; font-style: italic;');
+      console.log('%c');
+      console.log('%c╔═══════════════════════════════════════════════════════════════╗', 'color: #F6C453;');
+      console.log('%c║  The vault awaits those who prove themselves worthy...        ║', 'color: #7C8A92;');
+      console.log('%c╚═══════════════════════════════════════════════════════════════╝', 'color: #F6C453;');
     } else {
       // Token generation failed
-      console.log('%c🐰 Something went wrong...', 'font-size: 16px; color: #FCA5A5;');
-      console.log('%cPlease try refreshing the page or contact support.', 'font-size: 14px; color: #7C8A92;');
+      console.log('%c⚠️ Signal interference detected...', 'font-size: 16px; color: #FCA5A5;');
+      console.log('%cPlease refresh and try again.', 'font-size: 14px; color: #7C8A92;');
     }
   } catch (error) {
-    console.error('Failed to fetch Stage 1 token:', error);
+    console.error('Signal acquisition failed:', error);
   }
 }
 

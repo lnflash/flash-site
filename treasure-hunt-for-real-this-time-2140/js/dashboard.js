@@ -1,4 +1,4 @@
-// Keys of the Caribbean - Hunter Dashboard
+const API_BASE = 'https://kotc.islandbitcoin.com/api';
 
 let hunterData = null;
 
@@ -77,22 +77,23 @@ async function loadHunterData() {
     const token = localStorage.getItem('hunt_token');
 
     if (!token) {
-        window.location.href = 'register.html';
+        window.location.href = 'login.html';
         return;
     }
 
     try {
-        const response = await fetch('/treasure-hunt/api/verify-session.php', {
+        const response = await fetch(`${API_BASE}/verify-session.php`, {
             headers: {
                 'Authorization': `Bearer ${token}`
-            }
+            },
+            credentials: 'include'
         });
 
         const data = await response.json();
 
         if (!data.valid) {
             localStorage.removeItem('hunt_token');
-            window.location.href = 'register.html';
+            window.location.href = 'login.html';
             return;
         }
 
@@ -176,10 +177,11 @@ async function loadPrizes() {
     const token = localStorage.getItem('hunt_token');
 
     try {
-        const response = await fetch('/treasure-hunt/api/get-prizes.php', {
+        const response = await fetch(`${API_BASE}/get-prizes.php`, {
             headers: {
                 'Authorization': `Bearer ${token}`
-            }
+            },
+            credentials: 'include'
         });
 
         const data = await response.json();
@@ -235,4 +237,75 @@ logoutBtn.addEventListener('click', logout);
 // Initialize
 document.addEventListener('DOMContentLoaded', () => {
     loadHunterData();
+    initTerminalAccess();
 });
+
+// Terminal Access Token functionality
+function initTerminalAccess() {
+    const tokenInput = document.getElementById('stage1-token');
+    const saveTokenBtn = document.getElementById('save-token-btn');
+    const tokenStatus = document.getElementById('token-status');
+
+    if (!saveTokenBtn || !tokenInput) {
+        console.log('Terminal access elements not found');
+        return;
+    }
+
+    // Save Stage 1 Token
+    async function saveStage1Token() {
+        const token = localStorage.getItem('hunt_token');
+        const stage1Token = tokenInput.value.trim();
+
+        if (!stage1Token) {
+            showTokenStatus('Please enter a token', 'error');
+            return;
+        }
+
+        showTokenStatus('Verifying token...', 'loading');
+
+        try {
+            const response = await fetch(`${API_BASE}/save-stage1-token.php`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                credentials: 'include',
+                body: JSON.stringify({ stage1_token: stage1Token })
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+                showTokenStatus('✓ Token verified and saved! You can now access the terminal with your username.', 'success');
+                tokenInput.value = '';
+                // Refresh hunter data to reflect changes
+                loadHunterData();
+            } else {
+                showTokenStatus(data.message || 'Invalid token. Please check and try again.', 'error');
+            }
+        } catch (error) {
+            console.error('Error saving token:', error);
+            showTokenStatus('Network error. Please try again.', 'error');
+        }
+    }
+
+    // Show token status message
+    function showTokenStatus(message, type) {
+        if (tokenStatus) {
+            tokenStatus.textContent = message;
+            tokenStatus.className = 'token-status ' + type;
+        }
+    }
+
+    // Add event listeners
+    saveTokenBtn.addEventListener('click', saveStage1Token);
+    
+    tokenInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            saveStage1Token();
+        }
+    });
+
+    console.log('Terminal access initialized');
+}

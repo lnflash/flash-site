@@ -59,7 +59,7 @@ function showStageContent(data) {
     if (hunterData.current_stage > 0) {
         showMessage('You have already completed Stage 1. Redirecting...', 'info');
         setTimeout(() => {
-            window.location.href = 'dashboard.html';
+            window.location.href = 'hunter-dashboard.html';
         }, 2000);
     }
 }

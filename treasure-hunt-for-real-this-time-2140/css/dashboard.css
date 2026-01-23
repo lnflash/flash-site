@@ -429,3 +429,89 @@
     height: 2px;
     background: var(--flash-green);
 }
+
+/* Terminal Access Section */
+.terminal-access-section {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(65, 173, 73, 0.2);
+    border-radius: 16px;
+    padding: 2.5rem;
+    margin-bottom: 3rem;
+}
+
+.terminal-access-section h2 {
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+    color: var(--white);
+}
+
+.token-description {
+    color: var(--sea-gray);
+    margin-bottom: 1.5rem;
+    font-size: 1rem;
+}
+
+.token-input-wrapper {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.token-input {
+    flex: 1;
+    padding: 1rem 1.25rem;
+    border-radius: 8px;
+    border: 2px solid rgba(124, 138, 146, 0.3);
+    background: rgba(0, 0, 0, 0.3);
+    color: var(--white);
+    font-family: 'Courier New', monospace;
+    font-size: 0.9rem;
+    transition: border-color 0.3s ease;
+}
+
+.token-input:focus {
+    outline: none;
+    border-color: var(--flash-green);
+}
+
+.token-input::placeholder {
+    color: var(--sea-gray);
+}
+
+.token-status {
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    display: none;
+}
+
+.token-status.success {
+    display: block;
+    background: rgba(65, 173, 73, 0.2);
+    border: 1px solid var(--flash-green);
+    color: var(--flash-green);
+}
+
+.token-status.error {
+    display: block;
+    background: rgba(239, 68, 68, 0.2);
+    border: 1px solid #ef4444;
+    color: #ef4444;
+}
+
+.token-status.loading {
+    display: block;
+    background: rgba(246, 196, 83, 0.2);
+    border: 1px solid var(--gold-accent);
+    color: var(--gold-accent);
+}
+
+@media (max-width: 768px) {
+    .token-input-wrapper {
+        flex-direction: column;
+    }
+    
+    .terminal-access-section {
+        padding: 1.5rem;
+    }
+}
