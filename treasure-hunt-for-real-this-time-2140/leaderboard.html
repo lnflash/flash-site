@@ -610,12 +610,29 @@
 
         /* Heroes Grid */
         .heroes-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            display: flex;
+            flex-wrap: nowrap;
             gap: 20px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+            scrollbar-width: thin;
+            scrollbar-color: var(--gold-accent) rgba(0, 0, 0, 0.3);
+        }
+
+        .heroes-grid::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .heroes-grid::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .heroes-grid::-webkit-scrollbar-thumb {
+            background: var(--gold-accent);
         }
 
         .hero-card {
+            flex: 0 0 280px;
             background: rgba(246, 196, 83, 0.1);
             border: 2px solid var(--gold-accent);
             padding: 30px;
@@ -674,7 +691,7 @@
         }
 
         .heroes-empty {
-            grid-column: 1 / -1;
+            flex: 1 1 100%;
             text-align: center;
             padding: 60px 20px;
         }
@@ -743,8 +760,12 @@
                 grid-template-columns: repeat(2, 1fr);
             }
 
-            .champions-grid, .heroes-grid {
+            .champions-grid {
                 grid-template-columns: 1fr;
+            }
+
+            .hero-card {
+                flex: 0 0 240px;
             }
         }
 
