@@ -38,100 +38,19 @@
   let isVideoPlaying = false;
   let hasInteracted = false;
 
-  // ===== AUDIO CONTEXT FOR MATRIX SOUNDS =====
-  let audioContext = null;
-  
-  function initAudio() {
-    if (audioContext) return;
-    try {
-      audioContext = new (window.AudioContext || window.webkitAudioContext)();
-    } catch (e) {
-      console.log('Web Audio API not supported');
-    }
-  }
-  
-  // Matrix-style keystroke sound
+  // Use AudioEngine from KOTC Terminal (audio-engine.js)
   function playKeystroke() {
-    if (!audioContext) return;
-    
-    try {
-      const oscillator = audioContext.createOscillator();
-      const gainNode = audioContext.createGain();
-      const filter = audioContext.createBiquadFilter();
-      
-      // Random frequency for variety (like different keys)
-      const baseFreq = 800 + Math.random() * 400;
-      oscillator.frequency.setValueAtTime(baseFreq, audioContext.currentTime);
-      oscillator.frequency.exponentialRampToValueAtTime(200, audioContext.currentTime + 0.05);
-      
-      // Square wave for that digital click
-      oscillator.type = 'square';
-      
-      // High-pass filter for crisp sound
-      filter.type = 'highpass';
-      filter.frequency.setValueAtTime(500, audioContext.currentTime);
-      
-      // Quick attack and decay
-      gainNode.gain.setValueAtTime(0.08, audioContext.currentTime);
-      gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.05);
-      
-      oscillator.connect(filter);
-      filter.connect(gainNode);
-      gainNode.connect(audioContext.destination);
-      
-      oscillator.start(audioContext.currentTime);
-      oscillator.stop(audioContext.currentTime + 0.05);
-    } catch (e) {
-      // Silently fail if audio doesn't work
+    if (typeof AudioEngine !== 'undefined' && hasInteracted) {
+      AudioEngine.playKeyClick();
     }
   }
   
-  // Dramatic transition sound (whoosh + digital burst)
-  function playTransitionSound() {
-    if (!audioContext) return;
-    
-    try {
-      // Create white noise for static burst
-      const bufferSize = audioContext.sampleRate * 0.3;
-      const noiseBuffer = audioContext.createBuffer(1, bufferSize, audioContext.sampleRate);
-      const output = noiseBuffer.getChannelData(0);
-      for (let i = 0; i < bufferSize; i++) {
-        output[i] = Math.random() * 2 - 1;
-      }
-      
-      const noise = audioContext.createBufferSource();
-      noise.buffer = noiseBuffer;
-      
-      const noiseGain = audioContext.createGain();
-      const noiseFilter = audioContext.createBiquadFilter();
-      noiseFilter.type = 'bandpass';
-      noiseFilter.frequency.setValueAtTime(1000, audioContext.currentTime);
-      noiseFilter.frequency.exponentialRampToValueAtTime(100, audioContext.currentTime + 0.3);
-      
-      noiseGain.gain.setValueAtTime(0.15, audioContext.currentTime);
-      noiseGain.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.3);
-      
-      noise.connect(noiseFilter);
-      noiseFilter.connect(noiseGain);
-      noiseGain.connect(audioContext.destination);
-      
-      // Low rumble sweep
-      const sweep = audioContext.createOscillator();
-      const sweepGain = audioContext.createGain();
-      sweep.type = 'sine';
-      sweep.frequency.setValueAtTime(150, audioContext.currentTime);
-      sweep.frequency.exponentialRampToValueAtTime(40, audioContext.currentTime + 0.5);
-      sweepGain.gain.setValueAtTime(0.2, audioContext.currentTime);
-      sweepGain.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.5);
-      
-      sweep.connect(sweepGain);
-      sweepGain.connect(audioContext.destination);
-      
-      noise.start(audioContext.currentTime);
-      sweep.start(audioContext.currentTime);
-      sweep.stop(audioContext.currentTime + 0.5);
-    } catch (e) {
-      // Silently fail
+  async function playTransitionSound() {
+    if (typeof AudioEngine !== 'undefined' && AudioEngine.initialized) {
+      await AudioEngine.resume();
+      const now = AudioEngine.context.currentTime;
+      AudioEngine.playCinematicHit(now);
+      AudioEngine.createNoise(0.3, now, 0.2);
     }
   }
 
@@ -165,18 +84,16 @@
       unmuteIndicator.addEventListener('click', unmute);
     }
     
-    // Track user interaction for autoplay and init audio
     document.addEventListener('click', () => { 
       hasInteracted = true; 
-      initAudio();
+      if (typeof AudioEngine !== 'undefined') AudioEngine.init();
     }, { once: true });
     document.addEventListener('touchstart', () => { 
       hasInteracted = true;
-      initAudio();
+      if (typeof AudioEngine !== 'undefined') AudioEngine.init();
     }, { once: true });
     
-    // Try to init audio immediately (may be blocked until interaction)
-    initAudio();
+    if (typeof AudioEngine !== 'undefined') AudioEngine.init();
   }
 
   // ===== BOOT SEQUENCE =====
