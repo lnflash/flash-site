@@ -285,7 +285,6 @@
         console.log('Autoplay with sound failed, trying muted...');
         video.muted = true;
         updateMuteButton();
-        showTapForSound();
         video.play().then(() => {
           isVideoPlaying = true;
         }).catch(err => {
@@ -294,18 +293,6 @@
         });
       });
     }
-  }
-  
-  function showTapForSound() {
-    const overlay = document.createElement('div');
-    overlay.className = 'tap-for-sound';
-    overlay.innerHTML = '<div class="tap-icon">🔊</div><div>TAP FOR SOUND</div>';
-    overlay.addEventListener('click', () => {
-      video.muted = false;
-      updateMuteButton();
-      overlay.remove();
-    });
-    videoScreen.appendChild(overlay);
   }
 
   function toggleMute() {
