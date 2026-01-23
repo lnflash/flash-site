@@ -168,6 +168,25 @@ html, body {
   letter-spacing: 1px;
 }
 
+.skip-intro-btn {
+  background: transparent;
+  border: 1px solid rgba(40, 254, 20, 0.3);
+  color: rgba(40, 254, 20, 0.6);
+  padding: 12px 30px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.8rem;
+  letter-spacing: 2px;
+  cursor: pointer;
+  margin-top: 20px;
+  transition: all 0.3s ease;
+}
+
+.skip-intro-btn:hover {
+  border-color: var(--matrix-green);
+  color: var(--matrix-green);
+  box-shadow: 0 0 15px var(--matrix-green-glow);
+}
+
 /* ===== BOOT SCREEN ===== */
 .boot-screen {
   position: fixed;

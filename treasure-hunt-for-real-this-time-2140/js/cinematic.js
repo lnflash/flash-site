@@ -28,7 +28,7 @@
   ];
 
   // ===== DOM ELEMENTS =====
-  let enterScreen, enterBtn;
+  let enterScreen, enterBtn, skipIntroBtn;
   let bootScreen, videoScreen, mainScreen;
   let bootMessages, progressFill, progressText;
   let video, skipBtn, muteBtn;
@@ -73,6 +73,11 @@
       enterBtn.addEventListener('click', startExperience);
     }
     
+    skipIntroBtn = document.getElementById('skip-intro-btn');
+    if (skipIntroBtn) {
+      skipIntroBtn.addEventListener('click', skipIntro);
+    }
+    
     if (skipBtn) {
       skipBtn.addEventListener('click', skipToMain);
     }
@@ -86,6 +91,18 @@
     }
   }
   
+  function skipIntro() {
+    hasInteracted = true;
+    
+    // Hide enter screen
+    if (enterScreen) {
+      enterScreen.classList.add('hidden');
+    }
+    
+    // Skip directly to main content
+    mainScreen.classList.add('visible');
+  }
+
   function startExperience() {
     hasInteracted = true;
     
