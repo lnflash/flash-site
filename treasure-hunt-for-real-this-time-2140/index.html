@@ -43,8 +43,14 @@
 
     <!-- ===== PHASE 0: ENTER SCREEN ===== -->
     <div id="enter-screen" class="enter-screen">
+        <!-- Video Background (same as main content) -->
+        <div class="video-background enter-video-bg">
+            <video id="enter-bg-video" autoplay muted loop playsinline>
+                <source src="assets/video/KOTC_background.mp4" type="video/mp4">
+            </video>
+            <div class="video-overlay"></div>
+        </div>
         <div class="enter-content">
-            <div class="enter-logo">KOTC</div>
             <button id="enter-btn" class="enter-btn">
                 <span class="enter-text">INITIALIZE VAULT PROTOCOL</span>
                 <span class="enter-hint">Click to enable audio</span>
