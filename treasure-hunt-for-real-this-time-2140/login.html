@@ -3,88 +3,469 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <base href="/treasure-hunt-for-real-this-time-2140/">
     <meta name="description" content="Login to Keys of the Caribbean - Continue your treasure hunt journey.">
+    <meta name="theme-color" content="#000000">
+
     <title>Login | Keys of the Caribbean</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-
-    <link rel="stylesheet" href="/css/main.css">
-    <link rel="stylesheet" href="css/hunt.css">
-    <link rel="stylesheet" href="css/register.css">
 
     <link rel="icon" type="image/png" sizes="256x256" href="assets/img/kotc_icon_primary_256.png">
     <link rel="icon" type="image/png" sizes="512x512" href="assets/img/kotc_icon_primary_512.png">
     <link rel="apple-touch-icon" sizes="1024x1024" href="assets/img/kotc_icon_primary_1024.png">
+
+    <link rel="stylesheet" href="css/cinematic.css">
+
+    <style>
+        html, body {
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+        .login-screen {
+            min-height: 100vh;
+            background: var(--deep-black);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 80px 20px 60px;
+        }
+
+        .video-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 0;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .video-background video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            transform: translate(-50%, -50%);
+            -webkit-transform: translate(-50%, -50%);
+            object-fit: cover;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+        }
+
+        .video-background .video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(
+                to bottom,
+                rgba(0, 0, 0, 0.85) 0%,
+                rgba(0, 0, 0, 0.8) 50%,
+                rgba(0, 0, 0, 0.9) 100%
+            );
+        }
+
+        .login-content {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            max-width: 480px;
+        }
+
+        .back-link {
+            position: fixed;
+            top: 30px;
+            left: 30px;
+            color: var(--matrix-green-dim);
+            text-decoration: none;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: color 0.3s ease;
+            z-index: 100;
+        }
+
+        .back-link:hover {
+            color: var(--matrix-green);
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .hunt-badge {
+            display: inline-block;
+            padding: 8px 20px;
+            background: rgba(40, 254, 20, 0.1);
+            border: 1px solid var(--matrix-green-dim);
+            color: var(--matrix-green);
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+
+        .login-title {
+            font-family: 'Orbitron', monospace;
+            font-size: clamp(1.8rem, 5vw, 2.5rem);
+            font-weight: 900;
+            color: var(--gold-accent);
+            text-shadow: 
+                0 0 20px rgba(246, 196, 83, 0.5),
+                0 0 40px rgba(246, 196, 83, 0.3);
+            margin-bottom: 15px;
+            letter-spacing: 2px;
+        }
+
+        .login-subtitle {
+            font-size: 1rem;
+            color: var(--matrix-green-dim);
+            line-height: 1.6;
+        }
+
+        .login-form-container {
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid var(--matrix-green-dim);
+            padding: 40px 35px;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            font-family: 'Orbitron', monospace;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--matrix-green);
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 16px 20px;
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid var(--matrix-green-dim);
+            color: var(--matrix-green);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+        }
+
+        .form-group input::placeholder {
+            color: rgba(40, 254, 20, 0.4);
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--matrix-green);
+            box-shadow: 0 0 20px var(--matrix-green-glow);
+        }
+
+        .form-help {
+            display: block;
+            font-size: 0.8rem;
+            color: var(--matrix-green-dim);
+            margin-top: 8px;
+            opacity: 0.8;
+        }
+
+        .error-message {
+            background: rgba(255, 50, 50, 0.1);
+            border: 1px solid #ff3232;
+            color: #ff6b6b;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+            display: none;
+        }
+
+        .success-message {
+            background: rgba(40, 254, 20, 0.1);
+            border: 1px solid var(--matrix-green);
+            color: var(--matrix-green);
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+            display: none;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 18px 30px;
+            background: transparent;
+            border: 2px solid var(--gold-accent);
+            color: var(--gold-accent);
+            font-family: 'Orbitron', monospace;
+            font-weight: 700;
+            font-size: 1rem;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .submit-btn:hover {
+            background: var(--gold-accent);
+            color: var(--deep-black);
+            box-shadow: 0 0 30px rgba(246, 196, 83, 0.5);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .btn-loader {
+            display: none;
+        }
+
+        .btn-loader .spinner {
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+        }
+
+        .btn-loader .spinner .path {
+            stroke: currentColor;
+            stroke-linecap: round;
+        }
+
+        @keyframes spin {
+            100% { transform: rotate(360deg); }
+        }
+
+        .login-footer {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid var(--matrix-green-dim);
+        }
+
+        .login-footer p {
+            color: var(--matrix-green-dim);
+            font-size: 0.9rem;
+        }
+
+        .login-footer a {
+            color: var(--gold-accent);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .login-footer a:hover {
+            color: var(--matrix-green);
+            text-shadow: 0 0 10px var(--matrix-green-glow);
+        }
+
+        .info-cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+
+        .info-card {
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--matrix-green-dim);
+            padding: 20px 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .info-card:hover {
+            border-color: var(--matrix-green);
+            background: rgba(40, 254, 20, 0.05);
+        }
+
+        .info-icon {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+
+        .info-card h4 {
+            font-family: 'Orbitron', monospace;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--gold-accent);
+            margin-bottom: 8px;
+            letter-spacing: 1px;
+        }
+
+        .info-card p {
+            font-size: 0.75rem;
+            color: var(--matrix-green-dim);
+            line-height: 1.5;
+        }
+
+        @media (max-width: 768px) {
+            .login-screen {
+                padding: 70px 15px 40px;
+            }
+
+            .back-link {
+                top: 15px;
+                left: 15px;
+                font-size: 0.8rem;
+            }
+
+            .login-form-container {
+                padding: 30px 25px;
+            }
+
+            .info-cards {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+
+            .info-card {
+                display: flex;
+                align-items: center;
+                gap: 15px;
+                text-align: left;
+                padding: 15px 20px;
+            }
+
+            .info-icon {
+                font-size: 1.5rem;
+                margin-bottom: 0;
+                flex-shrink: 0;
+            }
+
+            .info-card-content {
+                flex: 1;
+            }
+
+            .info-card h4 {
+                margin-bottom: 4px;
+            }
+        }
+
+        @media (max-width: 375px) {
+            .login-screen {
+                padding: 65px 12px 30px;
+            }
+
+            .login-title {
+                font-size: 1.6rem;
+            }
+
+            .login-form-container {
+                padding: 25px 20px;
+            }
+
+            .form-group input {
+                padding: 14px 16px;
+                font-size: 0.95rem;
+            }
+
+            .submit-btn {
+                padding: 16px 25px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
 </head>
 
-<body class="hunt-page register-page">
-    <div id="header-placeholder"></div>
+<body>
+    <div class="scanlines"></div>
 
-    <section class="register-section">
-        <div class="container">
-            <div class="register-content">
-                <div class="register-header">
-                    <div class="hunt-badge">Season 1 - The Vault</div>
-                    <h1>Welcome Back, Hunter</h1>
-                    <p class="register-tagline">Continue your journey through the seven stages of enlightenment.</p>
+    <div class="video-background">
+        <video autoplay muted loop playsinline>
+            <source src="assets/video/KOTC_background.mp4" type="video/mp4">
+        </video>
+        <div class="video-overlay"></div>
+    </div>
+
+    <a href="index.html" class="back-link">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="19" y1="12" x2="5" y2="12"></line>
+            <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
+        Back to Home
+    </a>
+
+    <div class="login-screen">
+        <div class="login-content">
+            <div class="login-header">
+                <div class="hunt-badge">Season 1 - The Vault</div>
+                <h1 class="login-title">WELCOME BACK</h1>
+                <p class="login-subtitle">Continue your journey through the seven stages of enlightenment.</p>
+            </div>
+
+            <div class="login-form-container">
+                <form id="login-form">
+                    <div class="form-group">
+                        <label for="identifier">HUNTER IDENTITY</label>
+                        <input type="text" id="identifier" name="identifier" required minlength="3"
+                            placeholder="Username, email, or Flash username" autocomplete="username">
+                        <small class="form-help">Use the same identifier you registered with</small>
+                    </div>
+
+                    <div id="error-message" class="error-message"></div>
+                    <div id="success-message" class="success-message"></div>
+
+                    <button type="submit" class="submit-btn" id="submit-btn">
+                        <span class="btn-text">CONTINUE THE HUNT</span>
+                        <span class="btn-loader">
+                            <svg class="spinner" viewBox="0 0 50 50">
+                                <circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>
+                            </svg>
+                        </span>
+                    </button>
+                </form>
+
+                <div class="login-footer">
+                    <p>New hunter? <a href="register.html">Register here</a></p>
                 </div>
+            </div>
 
-                <div class="register-form-container">
-                    <form id="login-form" class="register-form">
-                        <div class="form-group">
-                            <label for="identifier">Username, Email, or Flash Username</label>
-                            <input type="text" id="identifier" name="identifier" required minlength="3"
-                                placeholder="Enter your username, email, or Flash username" autocomplete="username">
-                            <small class="form-help">Use the same identifier you registered with</small>
-                        </div>
-
-                        <div id="error-message" class="error-message" style="display: none;"></div>
-                        <div id="success-message" class="success-message" style="display: none;"></div>
-
-                        <button type="submit" class="btn btn-large btn-primary" id="submit-btn">
-                            <span class="btn-text">Continue The Hunt</span>
-                            <span class="btn-loader" style="display: none;">
-                                <svg class="spinner" viewBox="0 0 50 50">
-                                    <circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>
-                                </svg>
-                            </span>
-                        </button>
-                    </form>
-
-                    <div class="register-footer">
-                        <p>New hunter? <a href="register.html">Register here</a></p>
+            <div class="info-cards">
+                <div class="info-card">
+                    <div class="info-icon">🔑</div>
+                    <div class="info-card-content">
+                        <h4>NO PASSWORD</h4>
+                        <p>Your identity is verified through unique hunter credentials.</p>
                     </div>
                 </div>
-
-                <div class="register-info">
-                    <div class="info-card">
-                        <div class="info-icon">🔑</div>
-                        <h4>No Password Needed</h4>
-                        <p>Your identity is verified through your unique hunter credentials.</p>
+                <div class="info-card">
+                    <div class="info-icon">📊</div>
+                    <div class="info-card-content">
+                        <h4>TRACK PROGRESS</h4>
+                        <p>View your stages, collected keys, and earned prizes.</p>
                     </div>
-                    <div class="info-card">
-                        <div class="info-icon">📊</div>
-                        <h4>Track Progress</h4>
-                        <p>View your stage progress, collected keys, and earned prizes.</p>
-                    </div>
-                    <div class="info-card">
-                        <div class="info-icon">⚡</div>
-                        <h4>Claim Rewards</h4>
-                        <p>Withdraw your Bitcoin prizes via Lightning Network.</p>
+                </div>
+                <div class="info-card">
+                    <div class="info-icon">⚡</div>
+                    <div class="info-card-content">
+                        <h4>CLAIM REWARDS</h4>
+                        <p>Withdraw Bitcoin prizes via Lightning Network.</p>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
 
-    <div id="footer-placeholder"></div>
-
-    <script src="components/loader.js?v=2"></script>
-    <script src="js/login.js?v=2"></script>
+    <script src="js/login.js?v=3"></script>
 </body>
 
 </html>
