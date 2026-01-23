@@ -628,9 +628,37 @@ html, body {
   visibility: visible;
 }
 
+/* Video Background */
+.video-background {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.video-background video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.video-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.7) 0%,
+    rgba(0, 0, 0, 0.5) 30%,
+    rgba(0, 0, 0, 0.5) 70%,
+    rgba(0, 0, 0, 0.8) 100%
+  );
+}
+
 .main-content {
   text-align: center;
   max-width: 900px;
+  position: relative;
+  z-index: 1;
 }
 
 /* Title */
@@ -815,6 +843,7 @@ html, body {
   opacity: 0;
   animation: fade-up 0.8s ease-out forwards;
   animation-delay: 1.5s;
+  z-index: 2;
 }
 
 .back-link:hover {
