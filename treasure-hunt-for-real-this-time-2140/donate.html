@@ -639,7 +639,7 @@
             const usdElement = document.getElementById('lightningUSD');
 
             try {
-                const response = await fetch('https://kotc.islandbitcoin.com/api/lightning-donations.php');
+                const response = await fetch('https://status.islandbitcoin.com/api/donations');
                 const data = await response.json();
 
                 if (data.success) {
@@ -710,7 +710,7 @@
 
                         let lightningDonations = 0;
                         try {
-                            const lightningResponse = await fetch('https://kotc.islandbitcoin.com/api/lightning-donations.php');
+                            const lightningResponse = await fetch('https://status.islandbitcoin.com/api/donations');
                             const lightningData = await lightningResponse.json();
                             if (lightningData.success) {
                                 lightningDonations = lightningData.totalBTC;
