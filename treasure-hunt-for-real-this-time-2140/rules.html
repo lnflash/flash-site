@@ -3,275 +3,431 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <base href="/treasure-hunt-for-real-this-time-2140/">
     <meta name="description" content="The rules of Keys of the Caribbean. Read them. Follow them. Or don't.">
+    <meta name="theme-color" content="#000000">
+
     <title>Rules | Keys of the Caribbean</title>
 
-    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap"
-        rel="stylesheet">
 
-    <!-- Styles -->
-    <link rel="stylesheet" href="/css/main.css">
-    <link rel="stylesheet" href="css/hunt.css">
+    <link rel="icon" type="image/png" sizes="256x256" href="assets/img/kotc_icon_primary_256.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="assets/img/kotc_icon_primary_512.png">
+    <link rel="apple-touch-icon" sizes="1024x1024" href="assets/img/kotc_icon_primary_1024.png">
+
+    <link rel="stylesheet" href="css/cinematic.css">
 
     <style>
-        .rules-page {
-            background: var(--bg-body);
-            min-height: 100vh;
-            padding: 120px 20px 80px;
+        html, body {
+            overflow-y: auto;
+            overflow-x: hidden;
         }
 
-        .rules-container {
+        .rules-screen {
+            min-height: 100vh;
+            background: var(--deep-black);
+            position: relative;
+            padding: 80px 20px 60px;
+        }
+
+        .video-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 0;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .video-background video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            transform: translate(-50%, -50%);
+            -webkit-transform: translate(-50%, -50%);
+            object-fit: cover;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+        }
+
+        .video-background .video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(
+                to bottom,
+                rgba(0, 0, 0, 0.9) 0%,
+                rgba(0, 0, 0, 0.85) 50%,
+                rgba(0, 0, 0, 0.95) 100%
+            );
+        }
+
+        .rules-content {
+            position: relative;
+            z-index: 1;
             max-width: 800px;
             margin: 0 auto;
         }
 
-        .rules-intro {
+        .back-link {
+            position: fixed;
+            top: 30px;
+            left: 30px;
+            color: var(--matrix-green-dim);
+            text-decoration: none;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: color 0.3s ease;
+            z-index: 100;
+        }
+
+        .back-link:hover {
+            color: var(--matrix-green);
+        }
+
+        .rules-header {
             text-align: center;
-            margin-bottom: 60px;
+            margin-bottom: 50px;
         }
 
-        .rules-intro h1 {
-            font-size: 3.5rem;
-            font-weight: 800;
-            margin-bottom: 20px;
-            background: linear-gradient(135deg, var(--flash-green), var(--flash-yellow));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+        .rules-title {
+            font-family: 'Orbitron', monospace;
+            font-size: clamp(2rem, 6vw, 3.5rem);
+            font-weight: 900;
+            color: var(--gold-accent);
+            text-shadow: 
+                0 0 20px rgba(246, 196, 83, 0.5),
+                0 0 40px rgba(246, 196, 83, 0.3);
+            margin-bottom: 15px;
+            letter-spacing: 3px;
         }
 
-        .rules-intro .subtitle {
-            font-size: 1.2rem;
-            color: var(--text-colour);
-            opacity: 0.7;
+        .rules-subtitle {
+            font-size: 1.1rem;
+            color: var(--matrix-green-dim);
             font-style: italic;
         }
 
         .rule-item {
-            background: rgba(65, 173, 73, 0.05);
-            border-left: 4px solid var(--flash-green);
-            padding: 30px;
-            margin-bottom: 30px;
+            background: rgba(0, 0, 0, 0.6);
+            border-left: 4px solid var(--matrix-green);
+            padding: 25px 30px;
+            margin-bottom: 20px;
             transition: all 0.3s ease;
         }
 
         .rule-item:hover {
-            background: rgba(65, 173, 73, 0.1);
-            transform: translateX(10px);
-            border-left-color: var(--flash-yellow);
+            background: rgba(40, 254, 20, 0.05);
+            border-left-color: var(--gold-accent);
+            transform: translateX(5px);
         }
 
         .rule-number {
-            font-size: 2.5rem;
-            font-weight: 800;
-            color: var(--flash-green);
-            margin-bottom: 10px;
+            font-family: 'Orbitron', monospace;
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: var(--matrix-green);
+            margin-bottom: 8px;
             line-height: 1;
         }
 
         .rule-text {
-            font-size: 1.3rem;
+            font-family: 'Orbitron', monospace;
+            font-size: 1.1rem;
             font-weight: 600;
-            color: var(--text-colour);
+            color: var(--gold-accent);
             margin-bottom: 10px;
             line-height: 1.4;
         }
 
         .rule-subtext {
-            font-size: 0.95rem;
-            color: var(--text-colour);
-            opacity: 0.7;
-            font-style: italic;
-            line-height: 1.6;
+            font-size: 0.9rem;
+            color: var(--matrix-green-dim);
+            line-height: 1.7;
         }
 
         .rules-footer-note {
             text-align: center;
-            margin-top: 60px;
-            padding: 40px;
-            background: rgba(245, 166, 35, 0.1);
-            border-radius: 8px;
+            margin-top: 50px;
+            padding: 40px 30px;
+            background: rgba(246, 196, 83, 0.05);
+            border: 1px solid var(--gold-accent);
         }
 
         .rules-footer-note h3 {
-            color: var(--flash-yellow);
+            font-family: 'Orbitron', monospace;
+            color: var(--gold-accent);
             font-size: 1.5rem;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
+            letter-spacing: 2px;
         }
 
         .rules-footer-note p {
-            color: var(--text-colour);
-            opacity: 0.8;
-            line-height: 1.6;
+            color: var(--matrix-green-dim);
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        .rules-footer-note .highlight {
+            color: var(--matrix-green);
+            font-weight: 600;
         }
 
         .cta-button {
             display: inline-block;
-            margin-top: 30px;
-            padding: 16px 40px;
-            background: var(--flash-green);
-            color: var(--flash-black);
+            margin-top: 25px;
+            padding: 18px 50px;
+            background: transparent;
+            border: 2px solid var(--gold-accent);
+            color: var(--gold-accent);
+            font-family: 'Orbitron', monospace;
             font-weight: 700;
-            font-size: 1.1rem;
-            border-radius: 8px;
+            font-size: 1rem;
+            letter-spacing: 2px;
             text-decoration: none;
             transition: all 0.3s ease;
         }
 
         .cta-button:hover {
-            background: var(--flash-yellow);
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(65, 173, 73, 0.3);
+            background: var(--gold-accent);
+            color: var(--deep-black);
+            box-shadow: 0 0 30px rgba(246, 196, 83, 0.5);
+        }
+
+        .page-footer {
+            text-align: center;
+            margin-top: 60px;
+            padding-top: 30px;
+            border-top: 1px solid var(--matrix-green-dim);
+        }
+
+        .footer-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--matrix-green);
+            text-decoration: none;
+            font-size: 0.95rem;
+            padding: 12px 25px;
+            border: 1px solid var(--matrix-green-dim);
+            transition: all 0.3s ease;
+        }
+
+        .footer-link:hover {
+            border-color: var(--matrix-green);
+            box-shadow: 0 0 20px var(--matrix-green-glow);
         }
 
         @media (max-width: 768px) {
-            .rules-intro h1 {
-                font-size: 2.5rem;
+            .rules-screen {
+                padding: 70px 15px 40px;
             }
 
-            .rule-number {
-                font-size: 2rem;
+            .back-link {
+                top: 15px;
+                left: 15px;
+                font-size: 0.8rem;
             }
 
-            .rule-text {
-                font-size: 1.1rem;
+            .rules-header {
+                margin-bottom: 35px;
             }
 
             .rule-item {
                 padding: 20px;
+                margin-bottom: 15px;
+            }
+
+            .rule-number {
+                font-size: 1.5rem;
+            }
+
+            .rule-text {
+                font-size: 1rem;
+            }
+
+            .rule-subtext {
+                font-size: 0.85rem;
+            }
+
+            .rules-footer-note {
+                padding: 30px 20px;
+            }
+
+            .rules-footer-note h3 {
+                font-size: 1.2rem;
+            }
+
+            .cta-button {
+                padding: 15px 35px;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 375px) {
+            .rules-screen {
+                padding: 65px 12px 30px;
+            }
+
+            .rules-title {
+                font-size: 1.8rem;
+            }
+
+            .rules-subtitle {
+                font-size: 0.95rem;
+            }
+
+            .rule-item {
+                padding: 15px;
+            }
+
+            .rule-number {
+                font-size: 1.3rem;
+            }
+
+            .rule-text {
+                font-size: 0.95rem;
+            }
+
+            .rule-subtext {
+                font-size: 0.8rem;
             }
         }
     </style>
-
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" sizes="256x256" href="assets/img/kotc_icon_primary_256.png">
-    <link rel="icon" type="image/png" sizes="512x512" href="assets/img/kotc_icon_primary_512.png">
-    <link rel="apple-touch-icon" sizes="1024x1024" href="assets/img/kotc_icon_primary_1024.png">
 </head>
 
-<body class="hunt-page rules-page">
-    <!-- Header Component -->
-    <div id="header-placeholder"></div>
+<body>
+    <div class="scanlines"></div>
 
-    <!-- Rules Content -->
-    <div class="rules-container">
-        <div class="rules-intro">
-            <h1>The Rules</h1>
-            <p class="subtitle">Welcome to Keys of the Caribbean. These are not suggestions.</p>
-        </div>
+    <div class="video-background">
+        <video autoplay muted loop playsinline>
+            <source src="assets/video/KOTC_background.mp4" type="video/mp4">
+        </video>
+        <div class="video-overlay"></div>
+    </div>
 
-        <div class="rule-item">
-            <div class="rule-number">01</div>
-            <div class="rule-text">You DO talk about Keys of the Caribbean.</div>
-            <div class="rule-subtext">In fact, you're encouraged to. Brag about your progress. Share your victories.
-                Form alliances. The hunt is better when everyone knows about it.</div>
-        </div>
+    <a href="index.html" class="back-link">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="19" y1="12" x2="5" y2="12"></line>
+            <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
+        Back to Home
+    </a>
 
-        <div class="rule-item">
-            <div class="rule-number">02</div>
-            <div class="rule-text">You DO talk about Keys of the Caribbean.</div>
-            <div class="rule-subtext">Seriously. Tell your friends. Tweet about it. Make TikToks. The more hunters, the
-                more legendary the hunt becomes.</div>
-        </div>
+    <div class="rules-screen">
+        <div class="rules-content">
+            <div class="rules-header">
+                <h1 class="rules-title">THE RULES</h1>
+                <p class="rules-subtitle">Welcome to Keys of the Caribbean. These are not suggestions.</p>
+            </div>
 
-        <div class="rule-item">
-            <div class="rule-number">03</div>
-            <div class="rule-text">One hunter, one account. No exceptions.</div>
-            <div class="rule-subtext">Create multiple accounts and you're out. Forever. We're watching. We have logs. We
-                have patterns. Don't test us.</div>
-        </div>
+            <div class="rule-item">
+                <div class="rule-number">01</div>
+                <div class="rule-text">You DO talk about Keys of the Caribbean.</div>
+                <div class="rule-subtext">In fact, you're encouraged to. Brag about your progress. Share your victories. Form alliances. The hunt is better when everyone knows about it.</div>
+            </div>
 
-        <div class="rule-item">
-            <div class="rule-number">04</div>
-            <div class="rule-text">The hunt only ends when you give up.</div>
-            <div class="rule-subtext">There's no time limit. Stages remain open until you complete them or until you
-                walk away. Some hunts take hours. Some take weeks. Persistence is rewarded.</div>
-        </div>
+            <div class="rule-item">
+                <div class="rule-number">02</div>
+                <div class="rule-text">You DO talk about Keys of the Caribbean.</div>
+                <div class="rule-subtext">Seriously. Tell your friends. Tweet about it. Make TikToks. The more hunters, the more legendary the hunt becomes.</div>
+            </div>
 
-        <div class="rule-item">
-            <div class="rule-number">05</div>
-            <div class="rule-text">One stage at a time. No skipping.</div>
-            <div class="rule-subtext">You must complete each stage in order. Stage 1 unlocks Stage 2. Stage 2 unlocks
-                Stage 3. There are no shortcuts in the hunt. Progression is earned.</div>
-        </div>
+            <div class="rule-item">
+                <div class="rule-number">03</div>
+                <div class="rule-text">One hunter, one account. No exceptions.</div>
+                <div class="rule-subtext">Create multiple accounts and you're out. Forever. We're watching. We have logs. We have patterns. Don't test us.</div>
+            </div>
 
-        <div class="rule-item">
-            <div class="rule-number">06</div>
-            <div class="rule-text">No shirts, no shoes, no problem. Just bring your brain.</div>
-            <div class="rule-subtext">Physical stages require you to show up in person. But we don't care what you wear.
-                Bring water. Bring sunscreen. Bring your thinking cap. Comfort is your responsibility.</div>
-        </div>
+            <div class="rule-item">
+                <div class="rule-number">04</div>
+                <div class="rule-text">The hunt only ends when you give up.</div>
+                <div class="rule-subtext">There's no time limit. Stages remain open until you complete them or until you walk away. Some hunts take hours. Some take weeks. Persistence is rewarded.</div>
+            </div>
 
-        <div class="rule-item">
-            <div class="rule-number">07</div>
-            <div class="rule-text">The hunt goes on as long as it has to.</div>
-            <div class="rule-subtext">No hunter left behind. Whether it takes you three days or three months, your
-                journey matters. The Hall of Heroes has room for everyone who finishes.</div>
-        </div>
+            <div class="rule-item">
+                <div class="rule-number">05</div>
+                <div class="rule-text">One stage at a time. No skipping.</div>
+                <div class="rule-subtext">You must complete each stage in order. Stage 1 unlocks Stage 2. Stage 2 unlocks Stage 3. There are no shortcuts in the hunt. Progression is earned.</div>
+            </div>
 
-        <div class="rule-item">
-            <div class="rule-number">08</div>
-            <div class="rule-text">If this is your first hunt, you HAVE to register.</div>
-            <div class="rule-subtext">Choose a username. Provide an email or phone number. That's it. You can be
-                pseudonymous. We don't need your government name. We just need a way to reach you. Prove you know
-                Satoshi. Then the real adventure begins.</div>
-        </div>
+            <div class="rule-item">
+                <div class="rule-number">06</div>
+                <div class="rule-text">No shirts, no shoes, no problem. Just bring your brain.</div>
+                <div class="rule-subtext">Physical stages require you to show up in person. But we don't care what you wear. Bring water. Bring sunscreen. Bring your thinking cap.</div>
+            </div>
 
-        <div class="rule-item">
-            <div class="rule-number">09</div>
-            <div class="rule-text">Cheating is detected. Cheaters are eliminated. Permanently.</div>
-            <div class="rule-subtext">We have systems. We have logs. We have patterns. Try to game it and you lose
-                everything—your progress, your prizes, your reputation. Don't be that person.</div>
-        </div>
+            <div class="rule-item">
+                <div class="rule-number">07</div>
+                <div class="rule-text">The hunt goes on as long as it has to.</div>
+                <div class="rule-subtext">No hunter left behind. Whether it takes you three days or three months, your journey matters. The Hall of Heroes has room for everyone who finishes.</div>
+            </div>
 
-        <div class="rule-item">
-            <div class="rule-number">10</div>
-            <div class="rule-text">Help others, but don't do it for them.</div>
-            <div class="rule-subtext">Share hints. Form teams. Collaborate. But completing stages for someone else?
-                That's against the spirit. Every hunter must solve their own puzzles.</div>
-        </div>
+            <div class="rule-item">
+                <div class="rule-number">08</div>
+                <div class="rule-text">If this is your first hunt, you HAVE to register.</div>
+                <div class="rule-subtext">Choose a username. Provide an email. You can be pseudonymous. We just need a way to reach you. Prove you know Satoshi. Then the real adventure begins.</div>
+            </div>
 
-        <div class="rule-item">
-            <div class="rule-number">11</div>
-            <div class="rule-text">Bitcoin prizes go directly to YOUR wallet. Not your keys, not your sats.</div>
-            <div class="rule-subtext">We use LNURL-withdraw. When you complete a stage, you get a QR code. Scan it with
-                your Lightning wallet. The sats are yours immediately. No middleman. No custody. Pure sovereignty.</div>
-        </div>
+            <div class="rule-item">
+                <div class="rule-number">09</div>
+                <div class="rule-text">Cheating is detected. Cheaters are eliminated. Permanently.</div>
+                <div class="rule-subtext">We have systems. We have logs. We have patterns. Try to game it and you lose everything—your progress, your prizes, your reputation.</div>
+            </div>
 
-        <div class="rule-item">
-            <div class="rule-number">12</div>
-            <div class="rule-text">Respect the island. Respect the merchants. Respect the hunt.</div>
-            <div class="rule-subtext">Physical stages take you to real locations and real businesses. Don't be
-                disruptive. Don't damage property. Don't harass staff. Represent the Bitcoin community well.</div>
-        </div>
+            <div class="rule-item">
+                <div class="rule-number">10</div>
+                <div class="rule-text">Help others, but don't do it for them.</div>
+                <div class="rule-subtext">Share hints. Form teams. Collaborate. But completing stages for someone else? That's against the spirit. Every hunter must solve their own puzzles.</div>
+            </div>
 
-        <div class="rules-footer-note">
-            <h3>⚡ The Real Rule ⚡</h3>
-            <p>Keys of the Caribbean isn't just a treasure hunt. It's a test of character, knowledge, and persistence.
-                It's a journey through Bitcoin's philosophy, Jamaica's culture, and your own limits.</p>
-            <p style="margin-top: 15px;">The sats are real. The stages are real. The adventure is real.</p>
-            <p style="margin-top: 15px; font-weight: 600; color: var(--flash-green);">Are you ready?</p>
+            <div class="rule-item">
+                <div class="rule-number">11</div>
+                <div class="rule-text">Bitcoin prizes go directly to YOUR wallet.</div>
+                <div class="rule-subtext">We use Lightning. When you complete a stage, sats go straight to your Flash wallet. No middleman. No custody. Pure sovereignty.</div>
+            </div>
 
-            <a href="register.html" class="cta-button">Begin Your Journey</a>
+            <div class="rule-item">
+                <div class="rule-number">12</div>
+                <div class="rule-text">Respect the island. Respect the merchants. Respect the hunt.</div>
+                <div class="rule-subtext">Physical stages take you to real locations and real businesses. Don't be disruptive. Don't damage property. Represent the Bitcoin community well.</div>
+            </div>
+
+            <div class="rules-footer-note">
+                <h3>⚡ THE REAL RULE ⚡</h3>
+                <p>Keys of the Caribbean isn't just a treasure hunt. It's a test of character, knowledge, and persistence. It's a journey through Bitcoin's philosophy, Jamaica's culture, and your own limits.</p>
+                <p>The sats are real. The stages are real. The adventure is real.</p>
+                <p class="highlight">Are you ready?</p>
+                <a href="register.html" class="cta-button">BEGIN YOUR JOURNEY</a>
+            </div>
+
+            <div class="page-footer">
+                <a href="index.html" class="footer-link">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="19" y1="12" x2="5" y2="12"></line>
+                        <polyline points="12 19 5 12 12 5"></polyline>
+                    </svg>
+                    Return to the Hunt
+                </a>
+            </div>
         </div>
     </div>
 
-    <!-- Footer Component -->
-    <div id="footer-placeholder"></div>
-
-    <!-- Component Loader -->
-    <script src="components/loader.js"></script>
-
-    <!-- Easter Egg Console Message -->
     <script>
-        console.log('%c🏴‍☠️ Rule 13: There is no Rule 13 🏴‍☠️', 'color: #41AD49; font-size: 16px; font-weight: bold;');
-        console.log('%cJust kidding. Rule 13: Check the console for Easter eggs. You just found one. ⚡', 'color: #F5A623; font-size: 14px;');
+        console.log('%c🏴‍☠️ Rule 13: There is no Rule 13 🏴‍☠️', 'color: #28fe14; font-size: 16px; font-weight: bold;');
+        console.log('%cJust kidding. Rule 13: Check the console for Easter eggs. You just found one. ⚡', 'color: #f6c453; font-size: 14px;');
     </script>
 </body>
 
