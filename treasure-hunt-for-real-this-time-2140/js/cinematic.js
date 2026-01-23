@@ -40,6 +40,8 @@
   let isVideoPlaying = false;
   let hasInteracted = false;
   let bgMusicStarted = false;
+  let musicFadingIn = false;
+  const TARGET_VOLUME = 0.1;
 
   // Use AudioEngine from KOTC Terminal (audio-engine.js)
   function playKeystroke() {
@@ -60,7 +62,7 @@
   function startBackgroundMusic() {
     if (bgMusicStarted || !bgMusic) return;
     
-    bgMusic.volume = 0.2;
+    bgMusic.volume = TARGET_VOLUME;
     bgMusic.loop = true;
     
     const playPromise = bgMusic.play();
@@ -82,6 +84,38 @@
       bgMusicStarted = true;
       console.log('[KOTC] Background music started on retry');
     }).catch(() => {});
+  }
+
+  function fadeInMusic(duration) {
+    if (!bgMusic || !bgMusicStarted || musicFadingIn) return;
+    musicFadingIn = true;
+    
+    const startVolume = bgMusic.volume;
+    const startTime = Date.now();
+    
+    function fade() {
+      const elapsed = Date.now() - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      bgMusic.volume = startVolume + (TARGET_VOLUME - startVolume) * progress;
+      
+      if (progress < 1) {
+        requestAnimationFrame(fade);
+      } else {
+        musicFadingIn = false;
+      }
+    }
+    
+    requestAnimationFrame(fade);
+  }
+
+  function onVideoTimeUpdate() {
+    if (!video || !bgMusic || !bgMusicStarted || musicFadingIn) return;
+    
+    const timeRemaining = video.duration - video.currentTime;
+    if (timeRemaining <= 10 && timeRemaining > 0) {
+      fadeInMusic(timeRemaining * 1000);
+      video.removeEventListener('timeupdate', onVideoTimeUpdate);
+    }
   }
 
   // ===== INITIALIZATION =====
@@ -139,6 +173,7 @@
     }
     
     mainScreen.classList.add('visible');
+    setTimeout(initVolumeControls, 100);
   }
 
   function startExperience() {
@@ -342,12 +377,14 @@
     if (playPromise !== undefined) {
       playPromise.then(() => {
         isVideoPlaying = true;
+        video.addEventListener('timeupdate', onVideoTimeUpdate);
       }).catch(error => {
         console.log('Autoplay with sound failed, trying muted...');
         video.muted = true;
         updateMuteButton();
         video.play().then(() => {
           isVideoPlaying = true;
+          video.addEventListener('timeupdate', onVideoTimeUpdate);
         }).catch(err => {
           console.log('Video autoplay failed completely:', err);
           skipToMain();
@@ -388,13 +425,51 @@
   function transitionToMain() {
     videoScreen.classList.add('fade-out');
     
-    if (bgMusic && bgMusicStarted) {
-      bgMusic.volume = 0.2;
+    if (bgMusic && bgMusicStarted && bgMusic.volume < TARGET_VOLUME) {
+      fadeInMusic(2000);
     }
     
     setTimeout(() => {
       mainScreen.classList.add('visible');
+      initVolumeControls();
     }, 500);
+  }
+
+  // ===== VOLUME CONTROLS =====
+  function initVolumeControls() {
+    const musicMuteBtn = document.getElementById('music-mute-btn');
+    const volumeSlider = document.getElementById('volume-slider');
+    
+    if (musicMuteBtn) {
+      musicMuteBtn.addEventListener('click', toggleBgMusicMute);
+      updateMusicMuteButton();
+    }
+    
+    if (volumeSlider && bgMusic) {
+      volumeSlider.value = bgMusic.volume * 100;
+      volumeSlider.addEventListener('input', onVolumeChange);
+    }
+  }
+
+  function toggleBgMusicMute() {
+    if (!bgMusic) return;
+    bgMusic.muted = !bgMusic.muted;
+    updateMusicMuteButton();
+  }
+
+  function updateMusicMuteButton() {
+    const musicMuteBtn = document.getElementById('music-mute-btn');
+    if (musicMuteBtn && bgMusic) {
+      musicMuteBtn.classList.toggle('muted', bgMusic.muted);
+    }
+  }
+
+  function onVolumeChange(e) {
+    if (!bgMusic) return;
+    const volume = e.target.value / 100;
+    bgMusic.volume = volume;
+    bgMusic.muted = volume === 0;
+    updateMusicMuteButton();
   }
 
   // ===== UTILITY FUNCTIONS =====
