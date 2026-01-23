@@ -104,6 +104,126 @@ html, body {
   visibility: hidden;
 }
 
+/* ===== DRAMATIC TRANSITION EFFECTS ===== */
+
+/* Phase 1: Terminal explodes outward */
+.terminal-explode {
+  animation: terminal-explode 0.8s ease-out forwards !important;
+}
+
+@keyframes terminal-explode {
+  0% {
+    transform: scale(1);
+    filter: brightness(1);
+  }
+  30% {
+    transform: scale(1.1);
+    filter: brightness(2) saturate(1.5);
+    box-shadow: 0 0 100px var(--matrix-green), 0 0 200px var(--cyber-cyan);
+  }
+  60% {
+    transform: scale(1.3) rotate(2deg);
+    filter: brightness(3);
+  }
+  100% {
+    transform: scale(2) rotate(-1deg);
+    opacity: 0;
+    filter: brightness(5) blur(10px);
+  }
+}
+
+/* Transmission burst - screen shake and distortion */
+.transmission-burst {
+  animation: transmission-burst 0.8s ease-out;
+}
+
+@keyframes transmission-burst {
+  0%, 100% { transform: translate(0); filter: none; }
+  10% { transform: translate(-5px, 3px) skewX(2deg); }
+  20% { transform: translate(5px, -3px) skewX(-2deg); filter: hue-rotate(90deg); }
+  30% { transform: translate(-3px, 5px) skewY(1deg); }
+  40% { transform: translate(3px, -5px) skewY(-1deg); filter: hue-rotate(180deg); }
+  50% { transform: translate(-5px, -3px); filter: saturate(2); }
+  60% { transform: translate(5px, 3px); filter: hue-rotate(270deg); }
+  70% { transform: translate(-3px, -5px) scale(1.02); }
+  80% { transform: translate(3px, 5px) scale(0.98); }
+  90% { transform: translate(-2px, 2px); filter: none; }
+}
+
+/* White flash overlay */
+.boot-screen.white-flash::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: white;
+  animation: white-flash 0.5s ease-out forwards;
+  z-index: 9999;
+  pointer-events: none;
+}
+
+@keyframes white-flash {
+  0% { opacity: 0; }
+  20% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+/* Static burst - TV static effect */
+.boot-screen.static-burst::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  animation: static-burst 0.3s steps(10) forwards;
+  z-index: 9998;
+  pointer-events: none;
+  mix-blend-mode: overlay;
+}
+
+@keyframes static-burst {
+  0% { opacity: 0.8; }
+  50% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+/* Digital particles */
+.digital-particles {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9997;
+  overflow: hidden;
+}
+
+.particle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: var(--matrix-green);
+  box-shadow: 0 0 10px var(--matrix-green), 0 0 20px var(--cyber-cyan);
+  animation: particle-explode 0.8s ease-out forwards;
+}
+
+.particle:nth-child(odd) {
+  background: var(--cyber-cyan);
+  box-shadow: 0 0 10px var(--cyber-cyan), 0 0 20px var(--matrix-green);
+}
+
+.particle:nth-child(3n) {
+  width: 2px;
+  height: 8px;
+}
+
+@keyframes particle-explode {
+  0% {
+    opacity: 1;
+    transform: translate(0, 0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(var(--tx, 100px), var(--ty, -100px)) scale(0);
+  }
+}
+
 .boot-container {
   width: 100%;
   max-width: 800px;

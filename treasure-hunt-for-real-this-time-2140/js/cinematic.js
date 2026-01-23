@@ -13,7 +13,8 @@
     lineDelay: 600,          // ms between lines
     videoFadeIn: 800,        // ms for video fade in
     skipButtonDelay: 3000,   // ms before skip button appears
-    glitchDuration: 150      // ms for glitch effect
+    glitchDuration: 150,     // ms for glitch effect
+    transitionDuration: 1500 // ms for dramatic boot→video transition
   };
 
   // Boot sequence messages
@@ -36,6 +37,103 @@
   let progress = 0;
   let isVideoPlaying = false;
   let hasInteracted = false;
+
+  // ===== AUDIO CONTEXT FOR MATRIX SOUNDS =====
+  let audioContext = null;
+  
+  function initAudio() {
+    if (audioContext) return;
+    try {
+      audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    } catch (e) {
+      console.log('Web Audio API not supported');
+    }
+  }
+  
+  // Matrix-style keystroke sound
+  function playKeystroke() {
+    if (!audioContext) return;
+    
+    try {
+      const oscillator = audioContext.createOscillator();
+      const gainNode = audioContext.createGain();
+      const filter = audioContext.createBiquadFilter();
+      
+      // Random frequency for variety (like different keys)
+      const baseFreq = 800 + Math.random() * 400;
+      oscillator.frequency.setValueAtTime(baseFreq, audioContext.currentTime);
+      oscillator.frequency.exponentialRampToValueAtTime(200, audioContext.currentTime + 0.05);
+      
+      // Square wave for that digital click
+      oscillator.type = 'square';
+      
+      // High-pass filter for crisp sound
+      filter.type = 'highpass';
+      filter.frequency.setValueAtTime(500, audioContext.currentTime);
+      
+      // Quick attack and decay
+      gainNode.gain.setValueAtTime(0.08, audioContext.currentTime);
+      gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.05);
+      
+      oscillator.connect(filter);
+      filter.connect(gainNode);
+      gainNode.connect(audioContext.destination);
+      
+      oscillator.start(audioContext.currentTime);
+      oscillator.stop(audioContext.currentTime + 0.05);
+    } catch (e) {
+      // Silently fail if audio doesn't work
+    }
+  }
+  
+  // Dramatic transition sound (whoosh + digital burst)
+  function playTransitionSound() {
+    if (!audioContext) return;
+    
+    try {
+      // Create white noise for static burst
+      const bufferSize = audioContext.sampleRate * 0.3;
+      const noiseBuffer = audioContext.createBuffer(1, bufferSize, audioContext.sampleRate);
+      const output = noiseBuffer.getChannelData(0);
+      for (let i = 0; i < bufferSize; i++) {
+        output[i] = Math.random() * 2 - 1;
+      }
+      
+      const noise = audioContext.createBufferSource();
+      noise.buffer = noiseBuffer;
+      
+      const noiseGain = audioContext.createGain();
+      const noiseFilter = audioContext.createBiquadFilter();
+      noiseFilter.type = 'bandpass';
+      noiseFilter.frequency.setValueAtTime(1000, audioContext.currentTime);
+      noiseFilter.frequency.exponentialRampToValueAtTime(100, audioContext.currentTime + 0.3);
+      
+      noiseGain.gain.setValueAtTime(0.15, audioContext.currentTime);
+      noiseGain.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.3);
+      
+      noise.connect(noiseFilter);
+      noiseFilter.connect(noiseGain);
+      noiseGain.connect(audioContext.destination);
+      
+      // Low rumble sweep
+      const sweep = audioContext.createOscillator();
+      const sweepGain = audioContext.createGain();
+      sweep.type = 'sine';
+      sweep.frequency.setValueAtTime(150, audioContext.currentTime);
+      sweep.frequency.exponentialRampToValueAtTime(40, audioContext.currentTime + 0.5);
+      sweepGain.gain.setValueAtTime(0.2, audioContext.currentTime);
+      sweepGain.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.5);
+      
+      sweep.connect(sweepGain);
+      sweepGain.connect(audioContext.destination);
+      
+      noise.start(audioContext.currentTime);
+      sweep.start(audioContext.currentTime);
+      sweep.stop(audioContext.currentTime + 0.5);
+    } catch (e) {
+      // Silently fail
+    }
+  }
 
   // ===== INITIALIZATION =====
   function init() {
@@ -67,9 +165,18 @@
       unmuteIndicator.addEventListener('click', unmute);
     }
     
-    // Track user interaction for autoplay
-    document.addEventListener('click', () => { hasInteracted = true; }, { once: true });
-    document.addEventListener('touchstart', () => { hasInteracted = true; }, { once: true });
+    // Track user interaction for autoplay and init audio
+    document.addEventListener('click', () => { 
+      hasInteracted = true; 
+      initAudio();
+    }, { once: true });
+    document.addEventListener('touchstart', () => { 
+      hasInteracted = true;
+      initAudio();
+    }, { once: true });
+    
+    // Try to init audio immediately (may be blocked until interaction)
+    initAudio();
   }
 
   // ===== BOOT SEQUENCE =====
@@ -118,6 +225,7 @@
     function type() {
       if (i < text.length) {
         element.textContent = text.substring(0, i + 1);
+        playKeystroke();
         i++;
         setTimeout(type, CONFIG.typingSpeed);
       } else {
@@ -175,29 +283,66 @@
     }
   }
 
-  // ===== VIDEO TRANSITION =====
+  // ===== DRAMATIC VIDEO TRANSITION =====
   function transitionToVideo() {
-    // Fade out boot screen
-    bootScreen.classList.add('fade-out');
+    const container = document.querySelector('.boot-container');
+    
+    // Phase 1: Intense glitch and screen corruption
+    bootScreen.classList.add('transmission-burst');
+    if (container) {
+      container.classList.add('terminal-explode');
+    }
+    
+    // Play transition sound
+    playTransitionSound();
+    
+    // Phase 2: Flash white and add digital particles
+    setTimeout(() => {
+      createDigitalParticles();
+      bootScreen.classList.add('white-flash');
+    }, 300);
+    
+    // Phase 3: Static burst
+    setTimeout(() => {
+      bootScreen.classList.add('static-burst');
+    }, 500);
+    
+    // Phase 4: Fade to black then reveal video
+    setTimeout(() => {
+      bootScreen.classList.add('fade-out');
+    }, 800);
     
     setTimeout(() => {
-      // Show video screen
       videoScreen.classList.add('visible');
       
-      // Add cinematic letterbox after a moment
       setTimeout(() => {
         videoScreen.classList.add('cinematic');
       }, 300);
       
-      // Try to play video
       playVideo();
       
-      // Show skip button after delay
       setTimeout(() => {
         if (skipBtn) skipBtn.classList.add('visible');
       }, CONFIG.skipButtonDelay);
       
-    }, 800);
+    }, CONFIG.transitionDuration);
+  }
+  
+  function createDigitalParticles() {
+    const particleContainer = document.createElement('div');
+    particleContainer.className = 'digital-particles';
+    bootScreen.appendChild(particleContainer);
+    
+    for (let i = 0; i < 50; i++) {
+      const particle = document.createElement('div');
+      particle.className = 'particle';
+      particle.style.left = Math.random() * 100 + '%';
+      particle.style.top = Math.random() * 100 + '%';
+      particle.style.animationDelay = Math.random() * 0.3 + 's';
+      particle.style.setProperty('--tx', (Math.random() - 0.5) * 200 + 'px');
+      particle.style.setProperty('--ty', (Math.random() - 0.5) * 200 + 'px');
+      particleContainer.appendChild(particle);
+    }
   }
 
   function playVideo() {
