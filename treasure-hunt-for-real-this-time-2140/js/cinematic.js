@@ -273,24 +273,20 @@
       return;
     }
     
-    video.muted = false;
-    updateMuteButton();
+    video.muted = true;
     
     const playPromise = video.play();
     
     if (playPromise !== undefined) {
       playPromise.then(() => {
         isVideoPlaying = true;
-      }).catch(error => {
-        console.log('Autoplay with sound failed, trying muted...');
-        video.muted = true;
-        updateMuteButton();
-        video.play().then(() => {
-          isVideoPlaying = true;
-        }).catch(err => {
-          console.log('Video autoplay failed completely:', err);
-          skipToMain();
-        });
+        setTimeout(() => {
+          video.muted = false;
+          updateMuteButton();
+        }, 100);
+      }).catch(err => {
+        console.log('Video autoplay failed:', err);
+        skipToMain();
       });
     }
   }
