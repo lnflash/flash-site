@@ -179,11 +179,19 @@
             padding: 14px 16px;
             background: rgba(0, 0, 0, 0.8);
             border: 1px solid var(--matrix-green-dim);
+            border-radius: 0;
             color: var(--matrix-green);
             font-family: 'JetBrains Mono', monospace;
-            font-size: 1rem;
+            font-size: 16px;
             transition: all 0.3s ease;
             box-sizing: border-box;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+
+        .form-group input[type="date"]::-webkit-calendar-picker-indicator {
+            filter: invert(1) sepia(1) saturate(5) hue-rotate(85deg);
+            cursor: pointer;
         }
 
         .form-group input:focus {
@@ -412,25 +420,150 @@
 
         @media (max-width: 768px) {
             .register-screen {
-                padding: 60px 15px 40px;
+                padding: 70px 15px 40px;
+                align-items: flex-start;
             }
 
             .back-link {
                 top: 15px;
                 left: 15px;
-                font-size: 0.75rem;
+                font-size: 0.8rem;
+            }
+
+            .register-header {
+                margin-bottom: 30px;
+            }
+
+            .register-title {
+                font-size: 1.6rem;
             }
 
             .register-form-container {
                 padding: 25px 20px;
             }
 
+            .form-group {
+                margin-bottom: 20px;
+            }
+
             .satoshi-challenge {
                 padding: 20px 15px;
+                margin: 25px 0;
+            }
+
+            .challenge-header h3 {
+                font-size: 1rem;
             }
 
             .info-cards {
                 grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .info-card {
+                padding: 20px 15px;
+                display: flex;
+                align-items: center;
+                gap: 15px;
+                text-align: left;
+            }
+
+            .info-icon {
+                font-size: 2rem;
+                margin-bottom: 0;
+            }
+
+            .info-card-content {
+                flex: 1;
+            }
+
+            .info-card h4 {
+                margin-bottom: 5px;
+            }
+        }
+
+        @media (max-width: 375px) {
+            .register-screen {
+                padding: 65px 12px 30px;
+            }
+
+            .register-title {
+                font-size: 1.4rem;
+                letter-spacing: 1px;
+            }
+
+            .register-subtitle {
+                font-size: 0.85rem;
+            }
+
+            .season-badge {
+                font-size: 0.7rem;
+                padding: 6px 14px;
+            }
+
+            .register-form-container {
+                padding: 20px 15px;
+            }
+
+            .form-group label {
+                font-size: 0.8rem;
+            }
+
+            .form-group input {
+                padding: 12px 14px;
+                font-size: 16px;
+            }
+
+            .form-help {
+                font-size: 0.7rem;
+            }
+
+            .satoshi-challenge {
+                padding: 15px 12px;
+            }
+
+            .challenge-header {
+                margin-bottom: 20px;
+                padding-bottom: 12px;
+            }
+
+            .challenge-header h3 {
+                font-size: 0.95rem;
+            }
+
+            .challenge-header p {
+                font-size: 0.8rem;
+            }
+
+            .checkbox-label {
+                font-size: 0.85rem;
+                gap: 10px;
+            }
+
+            .checkbox-label input[type="checkbox"] {
+                width: 18px;
+                height: 18px;
+            }
+
+            .submit-btn {
+                padding: 16px 20px;
+                font-size: 1rem;
+            }
+
+            .info-card {
+                padding: 15px 12px;
+            }
+
+            .info-icon {
+                font-size: 1.8rem;
+            }
+
+            .info-card h4 {
+                font-size: 0.85rem;
+            }
+
+            .info-card p {
+                font-size: 0.75rem;
             }
         }
     </style>
@@ -539,18 +672,24 @@
             <div class="info-cards">
                 <div class="info-card">
                     <div class="info-icon">🔒</div>
-                    <h4>Secure & Private</h4>
-                    <p>Your data is encrypted and stored securely. We never share your information.</p>
+                    <div class="info-card-content">
+                        <h4>Secure & Private</h4>
+                        <p>Your data is encrypted and stored securely. We never share your information.</p>
+                    </div>
                 </div>
                 <div class="info-card">
                     <div class="info-icon">⚡</div>
-                    <h4>Lightning Fast</h4>
-                    <p>Win Bitcoin prizes instantly via Lightning Network withdrawals.</p>
+                    <div class="info-card-content">
+                        <h4>Lightning Fast</h4>
+                        <p>Win Bitcoin prizes instantly via Lightning Network withdrawals.</p>
+                    </div>
                 </div>
                 <div class="info-card">
                     <div class="info-icon">🏆</div>
-                    <h4>Fair Competition</h4>
-                    <p>Anti-cheat measures ensure everyone has an equal chance at glory.</p>
+                    <div class="info-card-content">
+                        <h4>Fair Competition</h4>
+                        <p>Anti-cheat measures ensure everyone has an equal chance at glory.</p>
+                    </div>
                 </div>
             </div>
         </div>
