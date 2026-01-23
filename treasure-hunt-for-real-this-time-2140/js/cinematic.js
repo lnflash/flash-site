@@ -32,12 +32,14 @@
   let bootScreen, videoScreen, mainScreen;
   let bootMessages, progressFill, progressText;
   let video, skipBtn, muteBtn;
+  let bgMusic;
 
   // ===== STATE =====
   let currentLine = 0;
   let progress = 0;
   let isVideoPlaying = false;
   let hasInteracted = false;
+  let bgMusicStarted = false;
 
   // Use AudioEngine from KOTC Terminal (audio-engine.js)
   function playKeystroke() {
@@ -55,6 +57,33 @@
     }
   }
 
+  function startBackgroundMusic() {
+    if (bgMusicStarted || !bgMusic) return;
+    
+    bgMusic.volume = 0.4;
+    bgMusic.loop = true;
+    
+    const playPromise = bgMusic.play();
+    if (playPromise !== undefined) {
+      playPromise.then(() => {
+        bgMusicStarted = true;
+        console.log('[KOTC] Background music started');
+      }).catch(err => {
+        console.log('[KOTC] Background music autoplay blocked, retrying on next interaction');
+        document.addEventListener('click', retryBackgroundMusic, { once: true });
+        document.addEventListener('touchstart', retryBackgroundMusic, { once: true });
+      });
+    }
+  }
+
+  function retryBackgroundMusic() {
+    if (bgMusicStarted || !bgMusic) return;
+    bgMusic.play().then(() => {
+      bgMusicStarted = true;
+      console.log('[KOTC] Background music started on retry');
+    }).catch(() => {});
+  }
+
   // ===== INITIALIZATION =====
   function init() {
     enterScreen = document.getElementById('enter-screen');
@@ -68,6 +97,7 @@
     video = document.getElementById('trailer-video');
     skipBtn = document.getElementById('skip-btn');
     muteBtn = document.getElementById('mute-btn');
+    bgMusic = document.getElementById('bg-music');
 
     if (enterBtn) {
       enterBtn.addEventListener('click', startExperience);
@@ -94,22 +124,20 @@
   function skipIntro() {
     hasInteracted = true;
     
-    // Hide enter screen
+    startBackgroundMusic();
+    
     if (enterScreen) {
       enterScreen.classList.add('hidden');
     }
     
-    // Hide boot screen
     if (bootScreen) {
       bootScreen.classList.add('fade-out');
     }
     
-    // Hide video screen (in case it's visible)
     if (videoScreen) {
       videoScreen.classList.add('fade-out');
     }
     
-    // Skip directly to main content
     mainScreen.classList.add('visible');
   }
 
@@ -120,6 +148,8 @@
       AudioEngine.init();
       AudioEngine.resume();
     }
+    
+    startBackgroundMusic();
     
     if (enterScreen) {
       enterScreen.classList.add('hidden');
@@ -300,6 +330,10 @@
       return;
     }
     
+    if (bgMusic && bgMusicStarted) {
+      bgMusic.volume = 0.15;
+    }
+    
     video.muted = false;
     updateMuteButton();
     
@@ -352,11 +386,13 @@
   }
 
   function transitionToMain() {
-    // Fade out video screen
     videoScreen.classList.add('fade-out');
     
+    if (bgMusic && bgMusicStarted) {
+      bgMusic.volume = 0.4;
+    }
+    
     setTimeout(() => {
-      // Show main screen
       mainScreen.classList.add('visible');
     }, 500);
   }
