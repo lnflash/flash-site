@@ -53,9 +53,15 @@
         }
 
         .video-background video {
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
             object-fit: cover;
+            /* Safari fix */
+            -webkit-transform: translateZ(0);
+            transform: translateZ(0);
         }
 
         .video-background .video-overlay {
@@ -301,15 +307,7 @@
             border: 1px solid var(--matrix-green-dim);
         }
 
-        /* Dark theme for Alby Lightning Messageboard */
-        lightning-messageboard {
-            --lm-background: #0a0a0a;
-            --lm-card-background: #111111;
-            --lm-text-color: #28fe14;
-            --lm-text-secondary: #1a8a0e;
-            --lm-border-color: #1a8a0e;
-            --lm-accent-color: #f6c453;
-        }
+
 
         .bitcoin-address {
             background: rgba(0, 0, 0, 0.5);
@@ -531,7 +529,8 @@
 
                     <div class="lightning-board-container">
                         <lightning-messageboard
-                            nwc-url="nostr+walletconnect://ba6aa6d6f6859c8e5a969bf36df6d6702664107995a4fdc4e6cae97f0766f25f?relay=wss://relay.getalby.com/v1&secret=1fc7325f6c10eefb94e9ea197e6c981a45a2097b1a9c202be321727f5f5f5785">
+                            nwc-url="nostr+walletconnect://ba6aa6d6f6859c8e5a969bf36df6d6702664107995a4fdc4e6cae97f0766f25f?relay=wss://relay.getalby.com/v1&secret=1fc7325f6c10eefb94e9ea197e6c981a45a2097b1a9c202be321727f5f5f5785"
+                            theme='{"primary-color":"#f6c453","background-color":"#0a0a0a","border-color":"#1a8a0e","text-color":"#28fe14","text-muted-color":"#1a8a0e","button-text-color":"#000000","border-radius":"4px"}'>
                         </lightning-messageboard>
                     </div>
                 </div>
