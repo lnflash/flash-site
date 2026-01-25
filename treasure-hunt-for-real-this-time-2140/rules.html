@@ -305,6 +305,123 @@
                 font-size: 0.8rem;
             }
         }
+
+        /* Legal Section Styles */
+        .legal-section {
+            margin-top: 80px;
+            padding-top: 40px;
+            border-top: 1px solid var(--matrix-green-dim);
+        }
+
+        .legal-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .legal-header h2 {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.2rem;
+            color: var(--matrix-green-dim);
+            letter-spacing: 3px;
+            margin-bottom: 10px;
+        }
+
+        .legal-header p {
+            font-size: 0.75rem;
+            color: var(--matrix-green-dim);
+            opacity: 0.7;
+        }
+
+        .legal-nav {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .legal-nav a {
+            font-size: 0.75rem;
+            color: var(--matrix-green);
+            text-decoration: none;
+            padding: 8px 16px;
+            border: 1px solid var(--matrix-green-dim);
+            transition: all 0.3s ease;
+        }
+
+        .legal-nav a:hover {
+            border-color: var(--matrix-green);
+            background: rgba(40, 254, 20, 0.1);
+        }
+
+        .legal-block {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid var(--matrix-green-dim);
+            padding: 25px;
+            margin-bottom: 25px;
+        }
+
+        .legal-block h3 {
+            font-family: 'Orbitron', monospace;
+            font-size: 0.9rem;
+            color: var(--gold-accent);
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+        }
+
+        .legal-block h4 {
+            font-size: 0.8rem;
+            color: var(--matrix-green);
+            margin: 20px 0 10px 0;
+            font-weight: 600;
+        }
+
+        .legal-block p, .legal-block li {
+            font-size: 0.7rem;
+            color: var(--matrix-green-dim);
+            line-height: 1.8;
+            margin-bottom: 10px;
+        }
+
+        .legal-block ul {
+            margin: 10px 0 15px 20px;
+            padding: 0;
+        }
+
+        .legal-block li {
+            margin-bottom: 5px;
+        }
+
+        .legal-block strong {
+            color: var(--matrix-green);
+        }
+
+        .legal-effective-date {
+            font-size: 0.65rem;
+            color: var(--matrix-green-dim);
+            opacity: 0.6;
+            margin-top: 15px;
+            font-style: italic;
+        }
+
+        @media (max-width: 768px) {
+            .legal-section {
+                margin-top: 50px;
+            }
+
+            .legal-block {
+                padding: 20px 15px;
+            }
+
+            .legal-nav {
+                gap: 10px;
+            }
+
+            .legal-nav a {
+                font-size: 0.7rem;
+                padding: 6px 12px;
+            }
+        }
     </style>
 </head>
 
@@ -421,6 +538,204 @@
                     </svg>
                     Return to the Hunt
                 </a>
+            </div>
+
+            <!-- Legal Section -->
+            <div class="legal-section">
+                <div class="legal-header">
+                    <h2>LEGAL TERMS</h2>
+                    <p>By participating in Keys of the Caribbean, you agree to the following terms.</p>
+                </div>
+
+                <nav class="legal-nav">
+                    <a href="rules.html#terms">Terms & Conditions</a>
+                    <a href="rules.html#privacy">Privacy Policy</a>
+                    <a href="rules.html#disclaimers">Disclaimers</a>
+                </nav>
+
+                <!-- Terms and Conditions -->
+                <div class="legal-block" id="terms">
+                    <h3>TERMS AND CONDITIONS</h3>
+                    
+                    <h4>1. Nature of Competition</h4>
+                    <p>Keys of the Caribbean ("the Hunt") is a <strong>skill-based competition</strong>, not a game of chance or gambling. Success depends entirely on participants' knowledge, problem-solving abilities, physical effort, and persistence. No element of chance determines prize outcomes. This is not a lottery, sweepstakes, or gambling activity.</p>
+
+                    <h4>2. Eligibility</h4>
+                    <ul>
+                        <li>Participants must be <strong>18 years of age or older</strong> to register and participate.</li>
+                        <li>Participants must provide a valid email address and create a unique username.</li>
+                        <li>One account per person. Multiple accounts will result in permanent disqualification.</li>
+                        <li>Employees, contractors, and immediate family members of Flash, Island Bitcoin, and affiliated organizations are not eligible for prizes.</li>
+                        <li>Participation may be restricted in certain jurisdictions where skill-based competitions are prohibited.</li>
+                    </ul>
+
+                    <h4>3. Registration and Account</h4>
+                    <ul>
+                        <li>You must register to participate. Registration is free.</li>
+                        <li>You are responsible for maintaining the confidentiality of your account credentials.</li>
+                        <li>You agree to provide accurate information during registration.</li>
+                        <li>We reserve the right to terminate accounts that violate these terms.</li>
+                    </ul>
+
+                    <h4>4. Competition Rules</h4>
+                    <ul>
+                        <li>Stages must be completed in sequential order.</li>
+                        <li>Each stage requires demonstration of skill, knowledge, or physical presence.</li>
+                        <li>Sharing solutions publicly that would allow others to bypass skill requirements is prohibited.</li>
+                        <li>Use of automated tools, bots, or scripts to complete stages is prohibited.</li>
+                        <li>Impersonating other participants or using false identities is prohibited.</li>
+                    </ul>
+
+                    <h4>5. Prizes and Payments</h4>
+                    <ul>
+                        <li>Prizes are awarded in Bitcoin via the Lightning Network.</li>
+                        <li>Prize amounts are denominated in satoshis (sats) and their USD value fluctuates with Bitcoin's market price.</li>
+                        <li>Prizes are sent directly to participants' Flash wallet addresses.</li>
+                        <li>We are not responsible for prizes sent to incorrect wallet addresses provided by participants.</li>
+                        <li>Prize values are final at the time of award. We are not responsible for subsequent value changes.</li>
+                        <li>Participants are solely responsible for any tax obligations arising from prizes received.</li>
+                    </ul>
+
+                    <h4>6. Anti-Cheating and Fair Play</h4>
+                    <ul>
+                        <li>We employ monitoring systems to detect fraudulent activity.</li>
+                        <li>Cheating, exploitation of bugs, or any form of unfair advantage will result in immediate disqualification.</li>
+                        <li>Disqualified participants forfeit all prizes and progress.</li>
+                        <li>Our determination of cheating is final and not subject to appeal.</li>
+                        <li>We reserve the right to modify stages if exploitation is detected.</li>
+                    </ul>
+
+                    <h4>7. Physical Stages</h4>
+                    <ul>
+                        <li>Some stages require physical presence at specific locations in Jamaica.</li>
+                        <li>Participants are responsible for their own transportation, safety, and conduct.</li>
+                        <li>Participants must respect private property, local laws, and merchant businesses.</li>
+                        <li>We are not responsible for injuries, accidents, or incidents occurring during physical stages.</li>
+                        <li>Participants assume all risks associated with travel and physical activity.</li>
+                    </ul>
+
+                    <h4>8. Intellectual Property</h4>
+                    <ul>
+                        <li>All content, puzzles, graphics, and materials are owned by Flash and Island Bitcoin.</li>
+                        <li>Participants may not reproduce, distribute, or commercially exploit Hunt content.</li>
+                        <li>Participants grant us license to use their usernames and completion status for promotional purposes.</li>
+                    </ul>
+
+                    <h4>9. Modifications and Termination</h4>
+                    <ul>
+                        <li>We reserve the right to modify these terms, rules, or prize structures at any time.</li>
+                        <li>We reserve the right to suspend or terminate the Hunt at any time for any reason.</li>
+                        <li>In the event of termination, remaining prizes will be distributed at our discretion.</li>
+                    </ul>
+
+                    <h4>10. Limitation of Liability</h4>
+                    <p>TO THE MAXIMUM EXTENT PERMITTED BY LAW, FLASH, ISLAND BITCOIN, AND THEIR AFFILIATES SHALL NOT BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES ARISING FROM PARTICIPATION IN THE HUNT, INCLUDING BUT NOT LIMITED TO: LOSS OF PRIZES, TECHNICAL FAILURES, PERSONAL INJURY, PROPERTY DAMAGE, OR ANY OTHER LOSSES.</p>
+
+                    <h4>11. Indemnification</h4>
+                    <p>Participants agree to indemnify and hold harmless Flash, Island Bitcoin, their officers, employees, and affiliates from any claims, damages, or expenses arising from participation in the Hunt or violation of these terms.</p>
+
+                    <h4>12. Governing Law</h4>
+                    <p>These terms are governed by the laws of Jamaica. Any disputes shall be resolved through binding arbitration in Kingston, Jamaica.</p>
+
+                    <p class="legal-effective-date">Effective Date: January 2025</p>
+                </div>
+
+                <!-- Privacy Policy -->
+                <div class="legal-block" id="privacy">
+                    <h3>PRIVACY POLICY</h3>
+
+                    <h4>1. Information We Collect</h4>
+                    <ul>
+                        <li><strong>Account Information:</strong> Username, email address, and Flash wallet address.</li>
+                        <li><strong>Progress Data:</strong> Stage completion times, attempts, and scores.</li>
+                        <li><strong>Technical Data:</strong> IP addresses, browser type, device information, and access logs.</li>
+                        <li><strong>Location Data:</strong> For physical stages, verification of presence at required locations.</li>
+                    </ul>
+
+                    <h4>2. How We Use Your Information</h4>
+                    <ul>
+                        <li>To administer the Hunt and verify stage completions.</li>
+                        <li>To distribute prizes to your Lightning wallet.</li>
+                        <li>To detect and prevent cheating or fraudulent activity.</li>
+                        <li>To communicate important updates about the Hunt.</li>
+                        <li>To display leaderboards and Hall of Heroes (username only).</li>
+                        <li>To improve the Hunt experience and develop future competitions.</li>
+                    </ul>
+
+                    <h4>3. Information Sharing</h4>
+                    <ul>
+                        <li>We do not sell your personal information to third parties.</li>
+                        <li>We may share data with service providers who assist in operating the Hunt.</li>
+                        <li>We may disclose information if required by law or to protect our rights.</li>
+                        <li>Usernames and completion status may be displayed publicly on leaderboards.</li>
+                    </ul>
+
+                    <h4>4. Data Security</h4>
+                    <p>We implement reasonable security measures to protect your information. However, no system is completely secure, and we cannot guarantee absolute security of your data.</p>
+
+                    <h4>5. Data Retention</h4>
+                    <p>We retain your information for as long as necessary to operate the Hunt and fulfill legal obligations. You may request deletion of your account by contacting us.</p>
+
+                    <h4>6. Cookies and Tracking</h4>
+                    <p>We use cookies and similar technologies to maintain sessions, prevent fraud, and analyze usage patterns. By participating, you consent to our use of these technologies.</p>
+
+                    <h4>7. Your Rights</h4>
+                    <p>You may request access to, correction of, or deletion of your personal data by contacting support@getflash.io. Note that deletion may result in forfeiture of Hunt progress and prizes.</p>
+
+                    <h4>8. Children's Privacy</h4>
+                    <p>The Hunt is not intended for persons under 18 years of age. We do not knowingly collect information from minors.</p>
+
+                    <h4>9. Changes to Privacy Policy</h4>
+                    <p>We may update this policy at any time. Continued participation constitutes acceptance of any changes.</p>
+
+                    <p class="legal-effective-date">Effective Date: January 2025</p>
+                </div>
+
+                <!-- Disclaimers -->
+                <div class="legal-block" id="disclaimers">
+                    <h3>DISCLAIMERS AND ACKNOWLEDGMENTS</h3>
+
+                    <h4>Skill-Based Competition</h4>
+                    <p>Keys of the Caribbean is a <strong>skill-based competition</strong>. It is NOT gambling, a lottery, or a game of chance. All outcomes are determined solely by participants' skills, knowledge, effort, and persistence. There is no element of chance in prize distribution.</p>
+
+                    <h4>Bitcoin Volatility</h4>
+                    <p>Prizes are awarded in Bitcoin (satoshis). <strong>The value of Bitcoin is highly volatile</strong> and can fluctuate significantly. The USD value displayed is for reference only and is not guaranteed. We are not responsible for any loss in value after prizes are awarded.</p>
+
+                    <h4>No Financial Advice</h4>
+                    <p>Nothing in this competition constitutes financial, investment, tax, or legal advice. Participants should consult qualified professionals regarding their specific situations.</p>
+
+                    <h4>Physical Activity Risks</h4>
+                    <p>Physical stages may involve walking, outdoor activity, and travel. <strong>Participants assume all risks</strong> associated with these activities, including but not limited to: heat exposure, physical injury, traffic accidents, and natural hazards. Participants should assess their own physical capabilities before attempting physical stages.</p>
+
+                    <h4>Technical Disclaimer</h4>
+                    <p>We strive for 100% uptime but cannot guarantee uninterrupted access. We are not liable for technical failures, network issues, or third-party service outages that may affect participation.</p>
+
+                    <h4>Third-Party Services</h4>
+                    <p>The Hunt may utilize third-party services (Lightning Network, blockchain explorers, etc.). We are not responsible for the availability, accuracy, or security of third-party services.</p>
+
+                    <h4>No Warranty</h4>
+                    <p>THE HUNT IS PROVIDED "AS IS" WITHOUT WARRANTIES OF ANY KIND, EXPRESS OR IMPLIED. WE DISCLAIM ALL WARRANTIES INCLUDING MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT.</p>
+
+                    <h4>Assumption of Risk</h4>
+                    <p>By participating, you acknowledge that you:</p>
+                    <ul>
+                        <li>Understand and accept all risks associated with the Hunt.</li>
+                        <li>Are participating voluntarily and of your own free will.</li>
+                        <li>Release Flash, Island Bitcoin, and affiliates from all liability.</li>
+                        <li>Have read and agree to these Terms, Privacy Policy, and Disclaimers.</li>
+                    </ul>
+
+                    <h4>Dispute Resolution</h4>
+                    <p>All disputes arising from the Hunt shall be resolved through binding arbitration. By participating, you waive your right to participate in class action lawsuits or class-wide arbitration.</p>
+
+                    <h4>Severability</h4>
+                    <p>If any provision of these terms is found unenforceable, the remaining provisions remain in full effect.</p>
+
+                    <h4>Contact</h4>
+                    <p>For questions about these terms, contact: <strong>support@getflash.io</strong></p>
+
+                    <p class="legal-effective-date">Last Updated: January 2025</p>
+                </div>
             </div>
         </div>
     </div>
