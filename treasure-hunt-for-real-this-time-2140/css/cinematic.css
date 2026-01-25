@@ -908,8 +908,8 @@ html, body {
   margin-top: 5px;
 }
 
-/* Social Links */
-.social-links {
+/* Action Links (Leaderboard, Donate) */
+.action-links {
   display: flex;
   gap: 20px;
   justify-content: center;
@@ -939,6 +939,42 @@ html, body {
 .social-link svg {
   width: 24px;
   height: 24px;
+  fill: currentColor;
+}
+
+/* Corner Social Icons */
+.corner-socials {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  display: flex;
+  gap: 8px;
+  z-index: 10;
+  opacity: 0;
+  animation: fade-up 0.8s ease-out forwards;
+  animation-delay: 1.5s;
+}
+
+.corner-socials a {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--matrix-green-dim);
+  opacity: 0.5;
+  transition: all 0.3s ease;
+}
+
+.corner-socials a:hover {
+  color: var(--matrix-green);
+  opacity: 1;
+  transform: translateY(-2px);
+}
+
+.corner-socials svg {
+  width: 16px;
+  height: 16px;
   fill: currentColor;
 }
 
