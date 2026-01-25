@@ -44,7 +44,7 @@ const stageInfo = {
     },
     4: {
         title: 'Continue to Stage 5',
-        description: 'You\'ve reached Jamaica! Now interact with Flash merchants and decode The Caribbean Cipher.',
+        description: 'You\'ve made it to the Caribbean! Now interact with Flash merchants across the islands and decode The Caribbean Cipher.',
         action: 'Start Stage 5',
         actionUrl: 'stage5.html',
         icon: '🔐'
