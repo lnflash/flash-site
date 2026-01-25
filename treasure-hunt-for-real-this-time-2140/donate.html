@@ -317,6 +317,130 @@
             border: 1px solid var(--matrix-green-dim);
         }
 
+        .onchain-tx-container {
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(10, 10, 10, 1);
+            border: 1px solid var(--matrix-green-dim);
+            border-radius: 4px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .onchain-tx-header {
+            font-family: 'Orbitron', monospace;
+            font-size: 0.9rem;
+            color: var(--gold-accent);
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--matrix-green-dim);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .onchain-tx-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .onchain-tx-item {
+            background: rgba(40, 254, 20, 0.03);
+            border: 1px solid var(--matrix-green-dim);
+            border-radius: 4px;
+            padding: 12px 15px;
+            transition: all 0.3s ease;
+        }
+
+        .onchain-tx-item:hover {
+            border-color: var(--matrix-green);
+            background: rgba(40, 254, 20, 0.08);
+        }
+
+        .onchain-tx-item a {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .onchain-tx-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .onchain-tx-amount {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1rem;
+            color: var(--gold-accent);
+            font-weight: 600;
+        }
+
+        .onchain-tx-date {
+            font-size: 0.75rem;
+            color: var(--matrix-green-dim);
+        }
+
+        .onchain-tx-hash {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.65rem;
+            color: var(--matrix-green);
+            opacity: 0.7;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .onchain-tx-status {
+            display: inline-block;
+            font-size: 0.65rem;
+            padding: 2px 6px;
+            border-radius: 3px;
+            margin-left: 8px;
+        }
+
+        .onchain-tx-status.confirmed {
+            background: rgba(40, 254, 20, 0.2);
+            color: var(--matrix-green);
+        }
+
+        .onchain-tx-status.pending {
+            background: rgba(246, 196, 83, 0.2);
+            color: var(--gold-accent);
+        }
+
+        .onchain-tx-empty {
+            text-align: center;
+            padding: 30px 20px;
+            color: var(--matrix-green-dim);
+            font-size: 0.9rem;
+        }
+
+        .onchain-tx-empty-icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            opacity: 0.5;
+        }
+
+        .onchain-tx-container::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .onchain-tx-container::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .onchain-tx-container::-webkit-scrollbar-thumb {
+            background: var(--matrix-green-dim);
+            border-radius: 3px;
+        }
+
+        .onchain-tx-container::-webkit-scrollbar-thumb:hover {
+            background: var(--matrix-green);
+        }
+
 
 
         .bitcoin-address {
@@ -571,6 +695,19 @@
                         </button>
                     </div>
 
+                    <div class="onchain-tx-container">
+                        <div class="onchain-tx-header">
+                            <span>Recent Transactions</span>
+                            <span id="txCount">...</span>
+                        </div>
+                        <div class="onchain-tx-list" id="txList">
+                            <div class="onchain-tx-empty">
+                                <div class="onchain-tx-empty-icon">⏳</div>
+                                Loading transactions...
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="donate-note">
                         <strong>Note:</strong> On-chain donations may take longer to confirm but are perfect for larger contributions.
                     </div>
@@ -787,12 +924,85 @@
             }
         }
 
+        async function fetchOnChainTransactions() {
+            const txList = document.getElementById('txList');
+            const txCount = document.getElementById('txCount');
+
+            try {
+                const response = await fetch(`https://blockstream.info/api/address/${DONATION_ADDRESS}/txs`);
+                if (!response.ok) throw new Error('Failed to fetch transactions');
+                const transactions = await response.json();
+
+                if (transactions.length === 0) {
+                    txList.innerHTML = `
+                        <div class="onchain-tx-empty">
+                            <div class="onchain-tx-empty-icon">📭</div>
+                            No transactions yet. Be the first to donate!
+                        </div>
+                    `;
+                    txCount.textContent = '0 txs';
+                    return;
+                }
+
+                txCount.textContent = `${transactions.length} tx${transactions.length !== 1 ? 's' : ''}`;
+
+                const btcPrice = await getBitcoinPrice();
+                
+                txList.innerHTML = transactions.map(tx => {
+                    const received = tx.vout
+                        .filter(out => out.scriptpubkey_address === DONATION_ADDRESS)
+                        .reduce((sum, out) => sum + out.value, 0);
+                    
+                    const btcAmount = received / 100000000;
+                    const usdAmount = (btcAmount * btcPrice).toFixed(2);
+                    const isConfirmed = tx.status.confirmed;
+                    const date = isConfirmed 
+                        ? new Date(tx.status.block_time * 1000).toLocaleDateString('en-US', { 
+                            month: 'short', 
+                            day: 'numeric',
+                            year: 'numeric'
+                          })
+                        : 'Pending';
+                    const shortHash = tx.txid.substring(0, 8) + '...' + tx.txid.substring(tx.txid.length - 8);
+
+                    return `
+                        <div class="onchain-tx-item">
+                            <a href="https://mempool.space/tx/${tx.txid}" target="_blank" rel="noopener">
+                                <div class="onchain-tx-top">
+                                    <span class="onchain-tx-amount">+${btcAmount.toFixed(8)} BTC (~$${usdAmount})</span>
+                                    <span class="onchain-tx-date">${date}</span>
+                                </div>
+                                <div class="onchain-tx-hash">
+                                    ${shortHash}
+                                    <span class="onchain-tx-status ${isConfirmed ? 'confirmed' : 'pending'}">
+                                        ${isConfirmed ? '✓ Confirmed' : '⏳ Pending'}
+                                    </span>
+                                </div>
+                            </a>
+                        </div>
+                    `;
+                }).join('');
+
+            } catch (error) {
+                console.error('Error fetching transactions:', error);
+                txList.innerHTML = `
+                    <div class="onchain-tx-empty">
+                        <div class="onchain-tx-empty-icon">⚠️</div>
+                        Unable to load transactions
+                    </div>
+                `;
+                txCount.textContent = '--';
+            }
+        }
+
         fetchOnChainDonations();
         fetchLightningDonations();
+        fetchOnChainTransactions();
         fetchPrizePoolValue(0);
 
         setInterval(fetchOnChainDonations, 60000);
         setInterval(fetchLightningDonations, 60000);
+        setInterval(fetchOnChainTransactions, 120000);
     </script>
 </body>
 
