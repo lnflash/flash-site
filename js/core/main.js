@@ -457,7 +457,8 @@ function changeTheme(value) {
 if (localStorage.getItem("theme")) {
   changeTheme(localStorage.getItem("theme"));
 } else {
-  changeTheme("dark");
+  // Default to light mode on first visit
+  changeTheme("light");
 }
 
 // Globe
