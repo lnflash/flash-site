@@ -73,44 +73,33 @@ body.rewards-page h4 {
   padding: var(--section-gap) 0;
 }
 
-.section-eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-family: var(--font-display);
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--green);
-  margin-bottom: 16px;
-}
-
-.section-eyebrow::before {
-  content: '';
-  display: block;
-  width: 20px;
-  height: 2px;
-  background: var(--green);
-  border-radius: 2px;
-}
-
-/* Legacy badge — kept for HTML compatibility, re-styled */
+/* ── Section eyebrow — warm amber, Jamaican gradient underline ── */
+.section-eyebrow,
 .section-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
+  display: inline-block;
   font-family: var(--font-display);
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.12em;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: var(--green);
-  margin-bottom: 16px;
-  background: var(--green-dim);
-  border: 1px solid rgba(65, 173, 73, 0.25);
-  padding: 6px 14px;
-  border-radius: 100px;
+  color: #C47A00;
+  margin-bottom: 20px;
+  position: relative;
+  padding-bottom: 9px;
+  background: none;
+  border: none;
+}
+
+.section-eyebrow::after,
+.section-badge::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 28px;
+  height: 3px;
+  background: linear-gradient(90deg, #41AD49 0%, #F5A623 100%);
+  border-radius: 2px;
 }
 
 .section-header-centered {

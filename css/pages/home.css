@@ -3,26 +3,32 @@
    Lori / Flash Design System / 2026-03-03
    ============================================================ */
 
-/* ── Design Tokens — scoped to home-page so global theme doesn't override ── */
+/* ── Design Tokens — LIGHT MODE by default, hero stays dark via section override ── */
 body.home-page {
-  --bg:             #09090E;
-  --surface-1:      #111218;
-  --surface-2:      #181921;
-  --surface-3:      #1F2030;
-  --border:         #1E2030;
-  --border-subtle:  #161724;
+  --bg:             #FFFFFF;
+  --surface-1:      #F5F6FA;
+  --surface-2:      #ECEEF5;
+  --surface-3:      #E2E4EE;
+  --border:         #DDE0EE;
+  --border-subtle:  #ECEEF5;
 
-  --text-1:         #F0F0F6;
-  --text-2:         #9497B4;
-  --text-3:         #5C5F7A;
+  --text-1:         #111218;
+  --text-2:         #5C5F7A;
+  --text-3:         #9497B4;
 
   --green:          #3AB54A;
-  --green-dim:      rgba(58, 181, 74, 0.12);
-  --green-glow:     rgba(58, 181, 74, 0.25);
-  --orange:         #F59E0B;
-  --orange-dim:     rgba(245, 158, 11, 0.12);
-  --red-dim:        rgba(220, 60, 60, 0.12);
+  --green-dim:      rgba(58, 181, 74, 0.10);
+  --green-glow:     rgba(58, 181, 74, 0.20);
+  --orange:         #D97706;
+  --orange-dim:     rgba(217, 119, 6, 0.10);
+  --red-dim:        rgba(220, 60, 60, 0.10);
   --red:            #DC3C3C;
+
+  /* Hero-specific dark tokens — applied via #pg-hero override below */
+  --hero-bg:        #09090E;
+  --hero-surface:   #111218;
+  --hero-text-1:    #F0F0F6;
+  --hero-text-2:    #9497B4;
 
   --font-display:   "Sora", sans-serif;
   --font-body:      "Inter", sans-serif;
@@ -75,25 +81,29 @@ body.home-page {
   padding: 72px 0;
 }
 
+/* ── Section eyebrow — no pill, no chip, no AI template ── */
 .section-eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
+  display: inline-block;
   font-family: var(--font-display);
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.12em;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: var(--green);
-  margin-bottom: 16px;
+  color: #C47A00;
+  margin-bottom: 20px;
+  position: relative;
+  padding-bottom: 9px;
 }
 
-.section-eyebrow::before {
+/* Jamaican flag gradient underline: green → gold */
+.section-eyebrow::after {
   content: '';
-  display: block;
-  width: 20px;
-  height: 2px;
-  background: var(--green);
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 28px;
+  height: 3px;
+  background: linear-gradient(90deg, #41AD49 0%, #F5A623 100%);
   border-radius: 2px;
 }
 
@@ -180,8 +190,17 @@ body.home-page {
   background: rgba(58, 181, 74, 0.2);
 }
 
-/* ── ① HERO ─────────────────────────────────────────────────── */
+/* ── ① HERO — forced dark regardless of page theme ──────────── */
 #pg-hero {
+  --bg:        #09090E;
+  --surface-1: #111218;
+  --surface-2: #181921;
+  --border:    #1E2030;
+  --text-1:    #F0F0F6;
+  --text-2:    #9497B4;
+  --text-3:    #5C5F7A;
+  --green-dim: rgba(58, 181, 74, 0.12);
+  background: var(--bg);
   position: relative;
   min-height: 100svh;
   display: flex;
@@ -244,28 +263,39 @@ body.home-page {
   gap: 0;
 }
 
+/* ── Hero badge — no pill, just a warm statement ── */
 .hero-badge {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  background: var(--green-dim);
-  border: 1px solid rgba(58,181,74,0.25);
-  border-radius: 100px;
-  padding: 6px 14px 6px 10px;
-  font-family: var(--font-display);
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--green);
-  letter-spacing: 0.04em;
-  margin-bottom: 28px;
+  gap: 10px;
+  margin-bottom: 32px;
   width: fit-content;
 }
 
-.hero-badge svg {
-  width: 14px;
-  height: 14px;
-  fill: var(--green);
+.hero-badge-flag {
+  font-size: 22px;
+  line-height: 1;
   flex-shrink: 0;
+}
+
+.hero-badge-text {
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 600;
+  color: rgba(240, 240, 246, 0.7);
+  letter-spacing: 0.03em;
+  position: relative;
+  padding-bottom: 5px;
+}
+
+.hero-badge-text::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, #41AD49, #F5A623, transparent);
 }
 
 .hero-h1 {
@@ -378,11 +408,13 @@ body.home-page {
 }
 
 .ways-header .section-eyebrow {
-  justify-content: center;
+  display: block;
+  text-align: center;
 }
 
-.ways-header .section-eyebrow::before {
-  display: none;
+.ways-header .section-eyebrow::after {
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .ways-header .section-subtitle {
