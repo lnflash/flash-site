@@ -863,14 +863,35 @@ body.home-page {
   margin-top: 4px;
 }
 
+/* Legacy pills — kept for fallback, hidden in favour of .merchant-features */
 .merchant-tag {
-  background: var(--surface-2);
-  border: 1px solid var(--border);
-  border-radius: 100px;
-  padding: 4px 12px;
-  font-size: 12px;
+  display: none;
+}
+
+/* Icon + text feature list — replaces pills */
+.merchant-features {
+  list-style: none;
+  margin: 12px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.merchant-feature {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 13px;
   font-weight: 500;
   color: var(--text-2);
+  line-height: 1.4;
+}
+
+.merchant-feature svg {
+  flex-shrink: 0;
+  color: var(--green);
+  opacity: 0.9;
 }
 
 .merchants-cta-row {
