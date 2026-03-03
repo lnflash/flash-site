@@ -541,6 +541,44 @@ body.home-page {
   margin-top: 8px;
 }
 
+/* ── Send Money Home card — featured treatment ── */
+.way-card.way-send {
+  border-top: 3px solid #3AB54A;
+  background: linear-gradient(160deg, #ffffff 0%, #F0FAF2 100%);
+}
+.way-icon--send {
+  background: linear-gradient(135deg, rgba(58,181,74,0.15), rgba(58,181,74,0.05));
+  border-color: rgba(58,181,74,0.3);
+}
+.way-icon--send svg {
+  stroke: #3AB54A;
+}
+
+/* Big "$0 fee" stat inside the send card */
+.way-stat-highlight {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin: 12px 0;
+  padding: 12px 16px;
+  background: rgba(58,181,74,0.08);
+  border-left: 3px solid #3AB54A;
+  border-radius: 0 6px 6px 0;
+}
+.way-stat-num {
+  font-family: var(--font-display);
+  font-size: 36px;
+  font-weight: 800;
+  color: #3AB54A;
+  line-height: 1;
+}
+.way-stat-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-2);
+  line-height: 1.3;
+}
+
 /* ── ③ REMITTANCE ───────────────────────────────────────────── */
 #pg-remittance {
   background: var(--surface-1);

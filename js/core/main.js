@@ -518,6 +518,12 @@ function changeEmailIcon(value) {
 document.addEventListener('componentsLoaded', () => {
   initNavigationElements();
   attachMobileMenuListeners();
+
+  // Re-sync dark mode label now that footer component is in DOM
+  const dmText = document.getElementById("darkmode-text");
+  if (dmText) {
+    dmText.textContent = (theme === darkTheme) ? "On" : "Off";
+  }
 });
 
 // Attach mobile menu listeners - called after components load

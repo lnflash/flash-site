@@ -343,12 +343,12 @@ body.home-page .nav-link:hover {
   color: #3AB54A;
 }
 
-/* ── Nav CTA button ── */
+/* ── Nav CTA button — sparkly ── */
 .nav-cta {
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  background: var(--flash-green);
+  background: linear-gradient(135deg, #2EA040 0%, #3AB54A 55%, #5ECF6A 100%);
   color: #fff !important;
   font-family: inherit;
   font-size: 0.9rem;
@@ -357,14 +357,32 @@ body.home-page .nav-link:hover {
   border-radius: 6px;
   text-decoration: none !important;
   letter-spacing: 0.01em;
-  transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+  transition: transform 0.15s, box-shadow 0.25s;
   white-space: nowrap;
   flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(58, 181, 74, 0.3), 0 0 0 1px rgba(58,181,74,0.25) inset;
+}
+/* Shimmer sweep */
+.nav-cta::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+  transform: skewX(-20deg);
+  transition: left 0.5s ease;
+  pointer-events: none;
+}
+.nav-cta:hover::before {
+  left: 160%;
 }
 .nav-cta:hover {
-  background: #2ea040;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(58, 181, 74, 0.35);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(58, 181, 74, 0.5), 0 0 0 1px rgba(58,181,74,0.3) inset;
 }
 .nav-cta::after { display: none !important; }
 
@@ -422,7 +440,7 @@ body.home-page .nav-link:hover {
 
 .dropdown-menu {
   position: absolute;
-  top: calc(100% + 12px);
+  top: calc(100% + 2px); /* reduced from 12px — minimises hover dead zone */
   left: 50%;
   transform: translateX(-50%) translateY(-8px);
   background: var(--bg-body);
@@ -430,7 +448,7 @@ body.home-page .nav-link:hover {
   border-radius: 10px;
   box-shadow: 0 8px 28px rgba(0, 0, 0, 0.12);
   min-width: 220px;
-  padding: 6px;
+  padding: 10px 6px 6px; /* extra top padding for visual breathing room */
   list-style: none;
   opacity: 0;
   visibility: hidden;
@@ -507,7 +525,8 @@ body.dark-mode .dropdown-link:hover {
 .section-badge,
 .app-eyebrow,
 .app-badge,
-.page-eyebrow {
+.page-eyebrow,
+.timeline-year {
   display: inline-block !important;
   font-size: 11px !important;
   font-weight: 800 !important;
@@ -526,7 +545,8 @@ body.dark-mode .dropdown-link:hover {
 .section-eyebrow::before,
 .section-badge::before,
 .app-eyebrow::before,
-.app-badge::before {
+.app-badge::before,
+.timeline-year::before {
   display: none !important;
 }
 
@@ -534,7 +554,8 @@ body.dark-mode .dropdown-link:hover {
 .section-eyebrow::after,
 .section-badge::after,
 .app-eyebrow::after,
-.app-badge::after {
+.app-badge::after,
+.timeline-year::after {
   content: '' !important;
   display: block !important;
   position: absolute;
@@ -548,6 +569,19 @@ body.dark-mode .dropdown-link:hover {
 }
 
 /* ════ End global eyebrow kill ════ */
+
+/* ── Dark CTA boxes: always light text ── */
+/* Covers .cta-box on rewards, mission, app and any future dark section */
+.cta-box h2,
+.cta-section h2,
+.dark-section h2 {
+  color: #F0F0F6 !important;
+}
+.cta-box p,
+.cta-section p,
+.dark-section p {
+  color: #9497B4 !important;
+}
 
 /* BTC Widget — lives in dark footer, always light text */
 .btc-widget {
