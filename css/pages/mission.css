@@ -374,9 +374,15 @@ body.mission-page h3 {
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   padding: 36px 32px;
-  box-shadow: var(--shadow-card);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06), 0 8px 24px rgba(0,0,0,0.06);
   position: relative;
   overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.pillar-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08), 0 16px 40px rgba(0,0,0,0.08);
 }
 
 .pillar-card::before {
@@ -385,9 +391,23 @@ body.mission-page h3 {
   top: 0;
   left: 0;
   right: 0;
-  height: 3px;
-  background: var(--green);
+  height: 4px;
+  background: linear-gradient(90deg, #2EA040, #3AB54A 60%, rgba(58,181,74,0.4));
   border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+}
+
+/* Icon container inside each pillar card */
+.pillar-icon {
+  width: 48px;
+  height: 48px;
+  background: rgba(58, 181, 74, 0.08);
+  border: 1px solid rgba(58, 181, 74, 0.2);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  color: #3AB54A;
 }
 
 .pillar-card h3 {
@@ -395,7 +415,7 @@ body.mission-page h3 {
   font-size: 22px;
   font-weight: 700;
   color: var(--text-1);
-  margin-bottom: 16px;
+  margin-bottom: 12px;
 }
 
 .pillar-card p {
