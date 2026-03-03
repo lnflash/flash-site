@@ -528,9 +528,9 @@ body.dark-mode .dropdown-link:hover {
 .page-eyebrow,
 .timeline-year {
   display: inline-block !important;
-  font-size: 11px !important;
+  font-size: 12px !important;
   font-weight: 800 !important;
-  letter-spacing: 0.2em !important;
+  letter-spacing: 0.18em !important;
   text-transform: uppercase !important;
   color: #C47A00 !important;
   background: none !important;

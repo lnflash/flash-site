@@ -85,9 +85,9 @@ body.home-page {
 .section-eyebrow {
   display: inline-block;
   font-family: var(--font-display);
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 800;
-  letter-spacing: 0.22em;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
   color: #C47A00;
   margin-bottom: 20px;
