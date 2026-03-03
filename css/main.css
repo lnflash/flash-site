@@ -498,6 +498,57 @@ body.dark-mode .dropdown-link:hover {
   background: rgba(58, 181, 74, 0.12);
 }
 
+/* ════════════════════════════════════════════════════════
+   GLOBAL: Kill all pill eyebrows / section badges
+   Every page CSS that adds green background + border-radius:100px
+   to section labels is overridden here in one place.
+   ════════════════════════════════════════════════════════ */
+.section-eyebrow,
+.section-badge,
+.app-eyebrow,
+.app-badge,
+.page-eyebrow {
+  display: inline-block !important;
+  font-size: 11px !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.2em !important;
+  text-transform: uppercase !important;
+  color: #C47A00 !important;
+  background: none !important;
+  border: none !important;
+  border-radius: 0 !important;
+  padding: 0 0 6px 0 !important;
+  margin-bottom: 16px;
+  position: relative;
+}
+
+/* Kill any existing ::before dash decoration */
+.section-eyebrow::before,
+.section-badge::before,
+.app-eyebrow::before,
+.app-badge::before {
+  display: none !important;
+}
+
+/* Warm Jamaica gradient underline — replaces pill border */
+.section-eyebrow::after,
+.section-badge::after,
+.app-eyebrow::after,
+.app-badge::after {
+  content: '' !important;
+  display: block !important;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, #005C2E, #3AB54A 35%, #FFD700 75%, transparent) !important;
+  border-radius: 2px;
+  opacity: 0.8;
+}
+
+/* ════ End global eyebrow kill ════ */
+
 /* BTC Widget — lives in dark footer, always light text */
 .btc-widget {
   min-width: 176px;
