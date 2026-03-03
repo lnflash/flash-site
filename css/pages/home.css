@@ -1177,4 +1177,65 @@ body.home-page {
   .hero-h1 {
     font-size: 36px;
   }
+
+  /* Contact strip: wrap buttons on small screens */
+  .contact-strip-actions {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  /* Testimonial layout: single column */
+  .testimonial-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* Section title size cap */
+  .section-title {
+    font-size: clamp(24px, 6vw, 36px);
+  }
+}
+
+/* ── MOBILE (≤ 480px) ───────────────────────────────────────── */
+@media (max-width: 480px) {
+  /* Contact strip: stack + wrap buttons */
+  .contact-strip-actions {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    width: 100%;
+  }
+
+  .contact-strip-actions .btn-primary,
+  .contact-strip-actions .btn-secondary,
+  .contact-strip-actions .btn-soft {
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+  }
+
+  /* Numbers: slightly smaller value text */
+  .number-value {
+    font-size: clamp(28px, 8vw, 40px);
+  }
+
+  /* Remittance heading */
+  .remittance-title {
+    font-size: 28px;
+  }
+
+  /* Way cards: reduce padding */
+  .way-card {
+    padding: 28px 20px;
+  }
+
+  /* Merchant CTA row: full-width buttons */
+  .merchants-cta-row > div {
+    width: 100%;
+  }
+
+  .merchants-cta-row .btn-primary,
+  .merchants-cta-row .btn-secondary {
+    flex: 1;
+    justify-content: center;
+  }
 }

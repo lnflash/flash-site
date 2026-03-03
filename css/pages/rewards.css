@@ -596,3 +596,42 @@ body.rewards-page h4 {
     justify-content: center;
   }
 }
+
+/* ── MOBILE (≤ 640px) ───────────────────────────────────────── */
+@media (max-width: 640px) {
+  body.rewards-page {
+    --section-gap: 64px;
+  }
+
+  .rewards-hero .container {
+    padding-top: 80px;
+  }
+
+  .hero-title {
+    font-size: 28px;
+  }
+
+  .hero-subtitle {
+    font-size: 15px;
+  }
+
+  /* Features: force single column on very small screens */
+  .features-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* Step cards: tighten padding */
+  .step-card {
+    padding: 28px 20px;
+  }
+
+  /* Testimonial cards: full width */
+  .testimonial-card {
+    padding: 24px 20px;
+  }
+
+  /* CTA box */
+  .cta-box {
+    padding: 40px 20px;
+  }
+}

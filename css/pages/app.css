@@ -483,3 +483,37 @@ body.app-page h1, body.app-page h2, body.app-page h3 {
     align-items: stretch;
   }
 }
+
+/* ── MOBILE (≤ 640px) ───────────────────────────────────────── */
+@media (max-width: 640px) {
+  .app-hero-grid {
+    padding-top: 80px;
+  }
+
+  .app-hero-title {
+    font-size: clamp(28px, 8vw, 40px);
+  }
+
+  .app-hero-subtitle {
+    font-size: 15px;
+  }
+
+  /* Features: single column */
+  .features-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* Alternative download items: tighter */
+  .alt-download-item {
+    padding: 16px 18px;
+  }
+
+  /* CTA box */
+  .app-cta-box {
+    padding: 40px 20px;
+  }
+
+  .app-cta-title {
+    font-size: clamp(22px, 6vw, 32px);
+  }
+}

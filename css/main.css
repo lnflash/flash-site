@@ -410,12 +410,6 @@ body.home-page .nav-link:hover {
 .darkmode-switch {
   cursor: pointer;
 }
-.darkmode-switch.desktop-only {
-  display: flex;
-  gap: 3px;
-  font-size: var(--fSize-small);
-  align-items: center;
-}
 .lightbulb { width: 24px; height: 24px; }
 .darkmode-switch p { white-space: nowrap; margin-top: 3px; }
 
@@ -1617,18 +1611,10 @@ footer {
 .footer-utils > .container {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
 }
 .footer-utils .btc-widget {
   margin: 0;
-}
-.footer-utils .darkmode-switch {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  cursor: pointer;
-  font-size: var(--fSize-small);
-  color: #C8CADC;
 }
 
 .footer-mid,
@@ -1760,9 +1746,6 @@ footer {
 }
 
 @media screen and (max-width: 899px) {
-  .darkmode-switch.desktop-only {
-    right: var(--padding-gen);
-  }
   .pg-download .col-2-even,
   .about-banner .col-2-even {
     display: block;
@@ -1801,9 +1784,6 @@ footer {
 
 @media screen and (max-width: 799px) {
   .desktop-only {
-    display: none;
-  }
-  .darkmode-switch.desktop-only {
     display: none;
   }
   .col-2-even {

@@ -508,3 +508,49 @@ body.mission-page h3 {
     align-items: flex-start;
   }
 }
+
+/* ── MOBILE (≤ 640px) ───────────────────────────────────────── */
+@media (max-width: 640px) {
+  /* Hero heading */
+  .mission-hero {
+    padding: 100px 0 72px;
+  }
+
+  .mission-hero .hero-title {
+    font-size: clamp(28px, 8vw, 44px) !important;
+  }
+
+  .mission-hero .section-subtitle {
+    font-size: 15px !important;
+  }
+
+  /* Pillar cards: tighter padding */
+  .pillar-card {
+    padding: 28px 20px;
+  }
+
+  /* Pillars grid: already auto stacks, but reduce gap */
+  .pillars-grid {
+    gap: 16px;
+  }
+
+  /* Timeline: ensure cards don't overflow */
+  .timeline-card {
+    padding: 24px 20px;
+  }
+
+  /* CTA buttons: stack */
+  .mission-cta-buttons {
+    align-items: stretch;
+  }
+
+  .mission-cta-buttons a {
+    text-align: center;
+    justify-content: center;
+  }
+
+  /* Impact section: tighter */
+  .mission-impact-section .col-2-even {
+    gap: 32px;
+  }
+}
