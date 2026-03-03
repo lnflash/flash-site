@@ -393,7 +393,7 @@ if (globe !== null) {
 // Dark Mode Declarations
 const darkTheme = "dark";
 const lightTheme = "light";
-let theme = darkTheme;
+let theme = lightTheme;
 const yellow = "#fff200";
 const purple = "#5C42AD";
 const green = "#41ad49";

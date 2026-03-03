@@ -1,89 +1,157 @@
-/* Team Page Specific Styles */
+/* ============================================================
+   getflash.io — Team Page Styles
+   Lori / Flash Design System / 2026-03-03
+   ============================================================ */
 
-/* Team Hero Section */
-.team-hero {
-  padding: 80px 0 40px;
-  background: var(--bg-body);
+/* ── Design Tokens ──────────────────────────────────────────── */
+body.team-page {
+  --bg:             #FFFFFF;
+  --surface-1:      #F7F8FA;
+  --surface-2:      #F0F2F5;
+  --border:         #E5E7EB;
+  --text-1:         #111218;
+  --text-2:         #4B5563;
+  --text-3:         #9CA3AF;
+  --green:          #41AD49;
+  --green-dim:      rgba(65, 173, 73, 0.10);
+  --font-display:   "Sora", sans-serif;
+  --font-body:      "Inter", sans-serif;
+  --radius-md:      16px;
+  --radius-lg:      24px;
+  --shadow-card:    0 1px 3px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.04);
+  --max-w:          1140px;
+  --section-gap:    96px;
 }
 
-.team-hero .section-header-centered {
+/* ── Base ───────────────────────────────────────────────────── */
+body.team-page {
+  background: var(--bg);
+  color: var(--text-1);
+  font-family: var(--font-body);
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+body.team-page * { box-sizing: border-box; }
+body.team-page a { text-decoration: none; color: inherit; }
+
+body.team-page h1, body.team-page h2, body.team-page h3 {
+  font-family: var(--font-display);
+  line-height: 1.2;
+}
+
+/* ── Layout ─────────────────────────────────────────────────── */
+.container {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.page {
+  padding: var(--section-gap) 0;
+}
+
+/* ── Shared Components ──────────────────────────────────────── */
+.section-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--green);
+  background: var(--green-dim);
+  border: 1px solid rgba(65, 173, 73, 0.25);
+  padding: 6px 14px;
+  border-radius: 100px;
+  margin-bottom: 16px;
+}
+
+.section-header-centered {
   text-align: center;
-  max-width: 800px;
+  max-width: 720px;
   margin: 0 auto;
 }
 
-.team-hero .section-badge {
-  display: inline-block;
-  padding: 8px 16px;
-  background: linear-gradient(135deg, var(--flash-green), var(--flash-yellow));
-  color: var(--flash-black);
-  border-radius: 20px;
-  font-size: 0.85rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  margin-bottom: 20px;
-}
-
-body.dark-mode .team-hero .section-badge {
-  background: linear-gradient(135deg, #7ed957, #fff44d);
-}
-
-.team-hero .hero-title {
-  font-size: 3rem;
-  font-weight: 700;
+.section-header-centered h1.hero-title {
+  font-size: clamp(36px, 5vw, 60px);
+  font-weight: 800;
   line-height: 1.1;
   margin-bottom: 16px;
-  color: var(--text-colour);
 }
 
-.team-hero .highlight-text {
-  color: var(--flash-green);
+.section-header-centered p.section-subtitle {
+  font-size: 17px;
+  color: var(--text-2);
+  line-height: 1.65;
+  margin: 0;
 }
 
-.team-hero .section-subtitle {
-  font-size: 1.15rem;
-  color: var(--text-colour);
-  opacity: 0.75;
-  line-height: 1.6;
-  max-width: 700px;
-  margin: 0 auto;
+.highlight-text {
+  color: var(--green);
 }
 
-/* Modern Egalitarian Team Grid Styles */
+/* ── Team Hero ──────────────────────────────────────────────── */
+.team-hero {
+  padding: 120px 0 72px;
+  background: var(--bg);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
 
-/* Main team grid - responsive and egalitarian */
+.team-hero::before {
+  content: '';
+  position: absolute;
+  top: -80px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 600px;
+  height: 400px;
+  background: radial-gradient(ellipse, rgba(65, 173, 73, 0.06) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+/* ── Team Grid Section ──────────────────────────────────────── */
+#team-grid-section {
+  padding: 0 0 96px;
+  background: var(--surface-1);
+}
+
 .team-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
   gap: 24px;
-  margin-top: 50px;
-  padding: 0 20px;
+  padding-top: 0;
 }
 
-/* Unified team member cards */
+/* ── Team Member Card ───────────────────────────────────────── */
 .team-member {
-  text-align: center;
-  background-color: var(--bg-body);
-  border-radius: 16px;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
   overflow: hidden;
-  transition: all 0.3s ease;
-  position: relative;
+  box-shadow: var(--shadow-card);
+  transition: box-shadow 0.25s ease, transform 0.25s ease;
   cursor: pointer;
-}
-
-.team-member:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.15);
-}
-
-/* Uniform image containers */
-.team-image-container {
-  height: 240px;
-  overflow: hidden;
   position: relative;
-  background: linear-gradient(135deg, var(--flash-green), #45a049);
+}
+
+.team-member:hover,
+.team-member:focus {
+  box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+  transform: translateY(-5px);
+  outline: none;
+}
+
+/* Image */
+.team-image-container {
+  height: 220px;
+  overflow: hidden;
+  background: var(--surface-1);
+  position: relative;
 }
 
 .team-image {
@@ -91,1207 +159,320 @@ body.dark-mode .team-hero .section-badge {
   height: 100%;
   object-fit: cover;
   object-position: center top;
-  transition: transform 0.3s ease;
   display: block;
-  border-radius: 0;
-  /* Force rectangular display and remove any circular masks */
-  -webkit-mask: none;
-  mask: none;
-  clip-path: none;
-  border: none;
+  transition: transform 0.3s ease;
 }
 
 .team-member:hover .team-image {
-  transform: scale(1.05);
+  transform: scale(1.04);
 }
 
-/* Team member info section */
+/* Info */
 .team-info {
-  padding: 20px 16px;
-  border-bottom: 4px solid var(--flash-green);
+  padding: 20px 18px 18px;
+  border-top: 3px solid var(--green);
   position: relative;
 }
 
 .team-name {
-  font-size: 1.15rem;
-  font-weight: var(--fWeight-bold);
+  font-family: var(--font-display);
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text-1);
   margin-bottom: 8px;
-  color: var(--text-color);
 }
 
-/* Skill badges instead of hierarchical titles */
+/* Skill badges */
 .team-skills {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
   gap: 6px;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
 }
 
 .skill-badge {
-  background: transparent;
-  color: var(--flash-green);
-  border: 2px solid var(--flash-green);
-  padding: 4px 10px;
-  border-radius: 16px;
-  font-size: 0.55rem;
-  font-weight: 600;
+  font-family: var(--font-display);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
-  transition: all 0.3s ease;
+  padding: 3px 10px;
+  border-radius: 100px;
+  border: 1.5px solid;
 }
 
-.skill-badge:hover {
-  background: var(--flash-green);
-  color: var(--flash-black);
-}
-
-/* Different skill categories with subtle color variations */
 .skill-badge.leadership {
-  color: #ff6b6b;
-  border-color: #ff6b6b;
-}
-
-.skill-badge.leadership:hover {
-  background: #ff6b6b;
-  color: white;
+  color: #E55353;
+  border-color: #E55353;
+  background: rgba(229, 83, 83, 0.08);
 }
 
 .skill-badge.engineering {
-  color: #4dabf7;
-  border-color: #4dabf7;
-}
-
-.skill-badge.engineering:hover {
-  background: #4dabf7;
-  color: white;
+  color: #3B82F6;
+  border-color: #3B82F6;
+  background: rgba(59, 130, 246, 0.08);
 }
 
 .skill-badge.design {
-  color: #9c88ff;
-  border-color: #9c88ff;
+  color: #8B5CF6;
+  border-color: #8B5CF6;
+  background: rgba(139, 92, 246, 0.08);
 }
 
-.skill-badge.design:hover {
-  background: #9c88ff;
-  color: white;
+.skill-badge.operations,
+.skill-badge.sales,
+.skill-badge.marketing {
+  color: #41AD49;
+  border-color: #41AD49;
+  background: var(--green-dim);
 }
 
-.skill-badge.operations {
-  color: #ffa726;
-  border-color: #ffa726;
+.skill-badge.finance,
+.skill-badge.legal {
+  color: #F59E0B;
+  border-color: #F59E0B;
+  background: rgba(245, 158, 11, 0.08);
 }
 
-.skill-badge.operations:hover {
-  background: #ffa726;
-  color: white;
-}
-
-.skill-badge.field {
-  color: #26c6da;
-  border-color: #26c6da;
-}
-
-.skill-badge.field:hover {
-  background: #26c6da;
-  color: white;
-}
-
-/* Hidden bio section for expand effect */
+/* Bio (shown on expand) */
 .team-bio {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.3s ease, padding 0.3s ease;
-  line-height: 1.6;
-  color: var(--text-color);
-  opacity: 0.8;
+  font-size: 14px;
+  color: var(--text-2);
+  line-height: 1.65;
+  margin-bottom: 12px;
+  display: none;
 }
 
-.team-member.expanded .team-bio {
-  max-height: 200px;
-  padding-top: 15px;
+.team-member.is-expanded .team-bio {
+  display: block;
 }
 
 /* Social links */
 .team-social {
   display: flex;
-  justify-content: center;
-  gap: 15px;
-  margin-top: 15px;
-  opacity: 0;
-  transform: translateY(10px);
-  transition: all 0.3s ease;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+  display: none;
 }
 
-.team-member:hover .team-social,
-.team-member.expanded .team-social {
-  opacity: 1;
-  transform: translateY(0);
+.team-member.is-expanded .team-social {
+  display: flex;
 }
 
 .social-icon {
-  width: 24px;
-  height: 24px;
-  transition: transform 0.2s ease;
+  width: 20px;
+  height: 20px;
+  opacity: 0.6;
+  transition: opacity 0.2s ease;
 }
 
-.social-icon:hover {
-  transform: scale(1.3);
+.no-style:hover .social-icon {
+  opacity: 1;
+}
+
+/* Show correct icon for light mode */
+.no-style.dark {
+  display: none;
+}
+.no-style.light {
+  display: inline-flex;
 }
 
 /* Expand indicator */
 .expand-indicator {
   position: absolute;
-  bottom: 10px;
-  right: 15px;
-  width: 30px;
-  height: 30px;
-  background: var(--flash-green);
+  top: 18px;
+  right: 18px;
+  width: 24px;
+  height: 24px;
   border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
+  background: var(--green-dim);
+  color: var(--green);
   font-size: 16px;
-  transition: transform 0.3s ease;
-  cursor: pointer;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  transition: transform 0.2s ease, background 0.2s ease;
 }
 
-.team-member.expanded .expand-indicator {
+.team-member.is-expanded .expand-indicator {
   transform: rotate(45deg);
+  background: var(--green);
+  color: #fff;
 }
 
-/* Join Team Card Styles */
-.join-team-card {
-  border: 2px dashed rgba(65, 173, 73, 0.5);
-  background: linear-gradient(135deg, rgba(65, 173, 73, 0.05), rgba(255, 242, 0, 0.05));
-  cursor: pointer;
-}
-
-.join-team-card:hover {
-  border-color: var(--flash-green);
-  background: linear-gradient(135deg, rgba(65, 173, 73, 0.1), rgba(255, 242, 0, 0.1));
-}
-
-.join-team-image {
-  background: linear-gradient(135deg, rgba(65, 173, 73, 0.2), rgba(255, 242, 0, 0.2));
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.join-team-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  animation: pulse 2s ease-in-out infinite;
-  transition: transform 0.3s ease;
-}
-
-.join-team-card:hover .join-team-icon {
-  transform: scale(1.15);
-  animation-play-state: paused;
-}
-
-.join-team-icon svg {
-  color: var(--flash-green);
-}
-
-@keyframes pulse {
-  0%,
-  100% {
-    transform: scale(1);
-    opacity: 1;
-  }
-  50% {
-    transform: scale(1.1);
-    opacity: 0.8;
-  }
-}
-
-.join-team-card .team-info {
-  border-bottom-color: var(--flash-yellow);
-}
-
-.join-team-text {
-  padding: 0 10px;
-}
-
-.join-team-card.expanded .join-team-text {
-  margin: 15px 0;
-}
-
-.join-team-text p {
-  font-size: 0.9rem;
-  line-height: 1.5;
-  color: var(--text-color);
-  opacity: 0.85;
-  margin: 0 0 15px 0;
-}
-
-.join-team-cta-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 12px 24px;
-  background: var(--flash-green);
-  color: var(--flash-black);
-  border-radius: 24px;
-  font-weight: 600;
-  font-size: 0.9rem;
-  text-decoration: none;
-  transition: all 0.3s ease;
-}
-
-.join-team-cta-btn:hover {
-  background: var(--flash-yellow);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(65, 173, 73, 0.3);
-}
-
-.join-team-cta-btn svg {
-  transition: transform 0.3s ease;
-}
-
-.join-team-cta-btn:hover svg {
-  transform: translateX(4px);
-}
-
-.join-team-card .skill-badge {
-  background: transparent;
-  color: var(--flash-yellow);
-  border: 2px solid var(--flash-yellow);
-}
-
-.join-team-card .skill-badge:hover {
-  background: var(--flash-yellow);
-  color: var(--flash-black);
-}
-
-.join-team-card.expanded .team-bio {
-  max-height: 250px;
-}
-
-.join-team-card .expand-indicator {
-  background: var(--flash-yellow);
-}
-
-.join-team-card:hover .expand-indicator {
-  background: var(--flash-green);
-}
-
-/* Responsive design */
-@media screen and (max-width: 1024px) {
-  .team-grid {
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 20px;
-  }
-}
-
-@media screen and (max-width: 768px) {
-  .team-grid {
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 20px;
-    padding: 0 10px;
-  }
-
-  .team-image-container {
-    height: 260px;
-  }
-
-  .team-info {
-    padding: 20px 15px;
-  }
-
-  .team-name {
-    font-size: 1.2rem;
-  }
-
-  .skill-badge {
-    font-size: 0.8rem;
-    padding: 5px 11px;
-  }
-}
-
-@media screen and (max-width: 480px) {
-  .team-grid {
-    grid-template-columns: 1fr;
-    gap: 20px;
-  }
-
-  .skill-badge {
-    font-size: 0.75rem;
-    padding: 5px 10px;
-  }
-
-  .filter-btn {
-    font-size: 0.68rem !important;
-    padding: 5px 10px !important;
-    min-width: auto;
-    white-space: nowrap;
-  }
-
-  .filter-buttons {
-    gap: 4px;
-  }
-
-  .job-card {
-    padding: 16px 14px;
-  }
-
-  .job-title {
-    font-size: 1.05rem;
-  }
-
-  .job-badge {
-    padding: 3px 8px;
-    font-size: 0.6rem;
-  }
-
-  .job-expand-indicator {
-    width: 24px;
-    height: 24px;
-    font-size: 1.1rem;
-  }
-
-  .open-positions-section .section-title {
-    font-size: 1.65rem;
-  }
-
-  .open-positions-section .section-badge {
-    font-size: 0.7rem;
-    padding: 5px 12px;
-  }
-}
-
-/* Accessibility improvements */
-@media (prefers-reduced-motion: reduce) {
-  .team-member,
-  .team-image,
-  .team-social,
-  .expand-indicator {
-    transition: none;
-  }
-}
-
-/* Focus states for accessibility */
-.team-member:focus {
-  outline: 3px solid var(--flash-green);
-  outline-offset: 2px;
-}
-
-/* Open Positions Section */
-.open-positions-section {
-  padding: 60px 0;
-  background: var(--bg-body);
-}
-
-.open-positions-section .section-header-centered {
-  text-align: center;
-  max-width: 800px;
-  margin: 0 auto 40px;
-}
-
-/* Job Filters */
-.job-filters {
-  max-width: 900px;
-  margin: 0 auto 40px;
-  display: flex;
-  gap: 16px;
-  flex-wrap: wrap;
-  align-items: center;
-}
-
-.search-box {
-  position: relative;
-  flex: 1;
-  min-width: 250px;
-}
-
-.search-box svg {
-  position: absolute;
-  left: 14px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: var(--text-colour);
-  opacity: 0.4;
-  pointer-events: none;
-  width: 18px;
-  height: 18px;
-}
-
-.search-box input {
-  width: 100%;
-  padding: 10px 14px 10px 42px;
-  border: 1px solid rgba(65, 173, 73, 0.2);
-  border-radius: 8px;
-  background: var(--bg-body);
-  color: var(--text-colour);
-  font-size: 0.9rem;
-  font-weight: 400;
-  transition: all 0.2s ease;
-}
-
-.search-box input:focus {
-  outline: none;
-  border-color: var(--flash-green);
-  box-shadow: 0 0 0 3px rgba(65, 173, 73, 0.08);
-}
-
-.search-box input::placeholder {
-  color: var(--text-colour);
-  opacity: 0.4;
-}
-
-.filter-buttons {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-
-.filter-btn {
-  padding: 6px 14px !important;
-  height: auto !important;
-  border: 1px solid rgba(65, 173, 73, 0.15);
-  border-radius: 16px !important;
-  background: transparent;
-  color: var(--text-colour);
-  font-size: 0.8rem !important;
-  font-weight: 400 !important;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  white-space: nowrap;
-}
-
-.filter-btn:hover {
-  border-color: var(--flash-green);
-  background: rgba(65, 173, 73, 0.04) !important;
-  color: var(--text-colour) !important;
-}
-
-.filter-btn.active {
-  background: var(--flash-green) !important;
-  color: var(--flash-black) !important;
-  border-color: var(--flash-green);
-  font-weight: 500 !important;
-}
-
-.open-positions-section .section-badge {
-  display: inline-block;
-  padding: 6px 14px;
-  background: linear-gradient(135deg, var(--flash-green), var(--flash-yellow));
-  color: var(--flash-black);
-  border-radius: 16px;
-  font-size: 0.75rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.8px;
-  margin-bottom: 16px;
-}
-
-body.dark-mode .open-positions-section .section-badge {
-  background: linear-gradient(135deg, #7ed957, #fff44d);
-}
-
-.open-positions-section .section-title {
-  font-size: 2.25rem;
-  font-weight: 600;
-  line-height: 1.2;
-  margin-bottom: 12px;
-  color: var(--text-colour);
-}
-
-.open-positions-section .section-subtitle {
-  font-size: 1rem;
-  font-weight: 400;
-  color: var(--text-colour);
-  opacity: 0.7;
-  line-height: 1.6;
-}
-
-.job-listings {
-  max-width: 900px;
-  margin: 0 auto;
-}
-
-.job-card {
-  background: var(--bg-body);
-  border: 1px solid rgba(65, 173, 73, 0.15);
-  border-radius: 12px;
-  padding: 28px 32px;
-  margin-bottom: 16px;
-  transition: all 0.2s ease;
-  cursor: pointer;
-}
-
-.job-card:hover {
-  border-color: var(--flash-green);
-  box-shadow: 0 4px 16px rgba(65, 173, 73, 0.1);
-  transform: translateY(-2px);
-}
-
-.job-card.collapsed .job-description,
-.job-card.collapsed .job-footer {
-  display: none;
-}
-
-.job-card.hidden {
-  display: none;
-}
-
-.job-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 16px;
-}
-
-.job-card.collapsed .job-header {
-  margin-bottom: 0;
-}
-
-.job-card:not(.collapsed) .job-header {
-  margin-bottom: 20px;
-  padding-bottom: 20px;
-  border-bottom: 1px solid rgba(65, 173, 73, 0.1);
-}
-
-.job-actions {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  flex-shrink: 0;
-}
-
-.job-title-area {
-  flex: 1;
-  min-width: 0;
-}
-
-.job-title {
-  font-size: 1.35rem;
-  font-weight: 500;
-  color: var(--text-colour);
-  margin-bottom: 10px;
-  line-height: 1.3;
-}
-
-.job-meta {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  flex-wrap: wrap;
-}
-
-.job-location {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  color: var(--text-colour);
-  opacity: 0.7;
-  font-size: 0.85rem;
-  font-weight: 400;
-}
-
-.job-location svg {
-  color: var(--flash-green);
-  width: 14px;
-  height: 14px;
-  flex-shrink: 0;
-}
-
-.job-type {
-  display: inline-block;
-  padding: 4px 12px;
-  background: rgba(65, 173, 73, 0.1);
-  color: var(--flash-green);
-  border-radius: 12px;
-  font-size: 0.75rem;
-  font-weight: 500;
-}
-
-.job-badge {
-  padding: 5px 12px;
-  background: var(--flash-green);
-  color: var(--flash-black);
-  border-radius: 12px;
-  font-size: 0.7rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  flex-shrink: 0;
-}
-
-.job-expand-indicator {
-  width: 28px;
-  height: 28px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(65, 173, 73, 0.1);
-  color: var(--flash-green);
-  border-radius: 50%;
-  font-size: 1.3rem;
-  font-weight: 400;
-  transition: all 0.2s ease;
-  flex-shrink: 0;
-}
-
-.job-card:not(.collapsed) .job-expand-indicator {
-  transform: rotate(45deg);
-  background: var(--flash-green);
-  color: var(--flash-black);
-}
-
-.job-description {
-  color: var(--text-colour);
-  line-height: 1.7;
-  margin-bottom: 24px;
-  animation: fadeIn 0.3s ease-out;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.job-description p {
-  margin-bottom: 16px;
-  opacity: 0.85;
-  font-size: 0.95rem;
-  font-weight: 400;
-  line-height: 1.6;
-}
-
-.job-description h4 {
-  font-size: 1rem;
-  font-weight: 600;
-  color: var(--text-colour);
-  margin-top: 20px;
-  margin-bottom: 10px;
-}
-
-.job-description ul {
-  list-style: none;
-  padding-left: 0;
-  margin-bottom: 16px;
-}
-
-.job-description ul li {
-  position: relative;
-  padding-left: 24px;
-  margin-bottom: 8px;
-  opacity: 0.8;
-  font-size: 0.9rem;
-  font-weight: 400;
-  line-height: 1.5;
-}
-
-.job-description ul li:before {
-  content: "→";
-  position: absolute;
-  left: 0;
-  color: var(--flash-green);
-  font-weight: 500;
-}
-
-.job-footer {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  animation: fadeIn 0.3s ease-out;
-  padding-top: 20px;
-  border-top: 1px solid rgba(65, 173, 73, 0.1);
-}
-
-.job-footer .cta-button {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  position: relative;
-  z-index: 10;
-  border: none;
-  cursor: pointer;
-  font-size: 0.95rem;
-  font-weight: 500;
-}
-
-/* Job Application Modal */
-.application-modal {
+/* Modal overlay (used by team JS) */
+.team-modal-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
   z-index: 9999;
-  display: none;
+  display: flex;
   align-items: center;
   justify-content: center;
-  padding: 20px;
+  padding: 24px;
 }
 
-.application-modal.active {
-  display: flex;
-}
-
-.modal-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
+.team-modal {
+  background: var(--bg);
+  border-radius: var(--radius-lg);
+  max-width: 600px;
   width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.8);
-  backdrop-filter: blur(4px);
-}
-
-.modal-content {
-  position: relative;
-  background: var(--bg-body);
-  border: 2px solid rgba(65, 173, 73, 0.3);
-  border-radius: 16px;
-  max-width: 700px;
-  width: 100%;
-  max-height: 90vh;
+  max-height: 80vh;
   overflow-y: auto;
-  padding: 40px;
-  z-index: 10000;
-  animation: modalSlideIn 0.3s ease-out;
+  box-shadow: 0 24px 80px rgba(0,0,0,0.20);
 }
 
-@keyframes modalSlideIn {
-  from {
-    opacity: 0;
-    transform: translateY(-30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.team-modal-header {
+  display: flex;
+  gap: 20px;
+  padding: 28px 28px 0;
+  align-items: center;
 }
 
-.modal-close {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  background: transparent;
-  border: none;
-  color: var(--text-colour);
-  cursor: pointer;
-  padding: 8px;
+.team-modal img {
+  width: 80px;
+  height: 80px;
   border-radius: 50%;
-  transition: all 0.3s ease;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.team-modal-body {
+  padding: 20px 28px 28px;
+}
+
+.team-modal-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: var(--surface-1);
+  border: none;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
+  font-size: 18px;
+  color: var(--text-2);
 }
 
-.modal-close:hover {
-  background: rgba(65, 173, 73, 0.15);
-  color: var(--flash-green);
+/* ── CTA Section ────────────────────────────────────────────── */
+.team-cta-section {
+  padding: var(--section-gap) 0;
+  background: var(--bg);
 }
 
-.modal-header {
-  margin-bottom: 32px;
-  padding-right: 40px;
-}
-
-.modal-header h2 {
-  font-size: 2rem;
-  font-weight: 700;
-  color: var(--text-colour);
-  margin-bottom: 8px;
-}
-
-.applying-for {
-  color: var(--text-colour);
-  opacity: 0.7;
-  font-size: 1rem;
-}
-
-.applying-for span {
-  color: var(--flash-green);
-  font-weight: 600;
-}
-
-.job-application-form .form-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
-  margin-bottom: 20px;
-}
-
-.job-application-form .form-group {
-  margin-bottom: 20px;
-}
-
-.job-application-form label {
-  display: block;
-  color: var(--text-colour);
-  font-weight: 600;
-  margin-bottom: 8px;
-  font-size: 0.95rem;
-}
-
-.job-application-form input,
-.job-application-form textarea {
-  width: 100%;
-  padding: 14px 16px;
-  border: 2px solid rgba(65, 173, 73, 0.3);
-  border-radius: 8px;
-  background: var(--bg-body);
-  color: var(--text-colour);
-  font-size: 1rem;
-  transition: all 0.3s ease;
-  font-family: inherit;
-}
-
-.job-application-form input:focus,
-.job-application-form textarea:focus {
-  outline: none;
-  border-color: var(--flash-green);
-  box-shadow: 0 0 0 3px rgba(65, 173, 73, 0.1);
-}
-
-.file-upload-wrapper {
-  position: relative;
-}
-
-.file-upload-wrapper input[type="file"] {
-  position: absolute;
-  opacity: 0;
-  width: 100%;
-  height: 100%;
-  cursor: pointer;
-}
-
-.file-upload-display {
-  border: 2px dashed rgba(65, 173, 73, 0.3);
-  border-radius: 8px;
-  padding: 32px 20px;
-  text-align: center;
-  transition: all 0.3s ease;
-  cursor: pointer;
-}
-
-.file-upload-display:hover {
-  border-color: var(--flash-green);
-  background: rgba(65, 173, 73, 0.05);
-}
-
-.file-upload-display svg {
-  color: var(--flash-green);
-  margin-bottom: 12px;
-}
-
-.file-upload-display .file-name {
-  display: block;
-  color: var(--text-colour);
-  font-weight: 600;
-  margin-bottom: 4px;
-}
-
-.file-upload-display .file-hint {
-  display: block;
-  color: var(--text-colour);
-  opacity: 0.6;
-  font-size: 0.85rem;
-}
-
-.file-upload-wrapper.has-file .file-upload-display {
-  border-color: var(--flash-green);
-  background: rgba(65, 173, 73, 0.1);
-}
-
-.form-actions {
-  display: flex;
-  gap: 16px;
-  justify-content: flex-end;
-  margin-top: 32px;
-}
-
-.btn-primary,
-.btn-secondary {
-  padding: 14px 28px;
-  border-radius: 8px;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  border: none;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.btn-primary {
-  background: var(--flash-green);
-  color: var(--flash-black);
-}
-
-.btn-primary:hover {
-  background: var(--flash-yellow);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(65, 173, 73, 0.3);
-}
-
-.btn-secondary {
-  background: transparent;
-  color: var(--text-colour);
-  border: 2px solid rgba(65, 173, 73, 0.3);
-}
-
-.btn-secondary:hover {
-  border-color: var(--flash-green);
-  background: rgba(65, 173, 73, 0.1);
-}
-
-.submission-success {
-  text-align: center;
-  padding: 40px 20px;
-}
-
-.success-icon {
-  margin-bottom: 24px;
-}
-
-.success-icon svg {
-  color: var(--flash-green);
-}
-
-.submission-success h3 {
-  font-size: 1.75rem;
-  font-weight: 700;
-  color: var(--text-colour);
-  margin-bottom: 12px;
-}
-
-.submission-success p {
-  color: var(--text-colour);
-  opacity: 0.8;
-  line-height: 1.6;
-  margin-bottom: 32px;
-}
-
-/* Join Team CTA Section */
-.join-team-cta {
-  padding: 60px 0 80px;
-  background: var(--bg-body);
-}
-
-.join-team-cta .cta-box {
-  background: linear-gradient(135deg, rgba(65, 173, 73, 0.1), rgba(255, 242, 0, 0.05));
-  border: 2px solid rgba(65, 173, 73, 0.3);
-  border-radius: 24px;
-  padding: 60px 50px;
+.team-cta-box {
+  background: linear-gradient(135deg, #09090E 0%, #111218 100%);
+  border-radius: var(--radius-lg);
+  padding: 72px 48px;
   text-align: center;
   position: relative;
   overflow: hidden;
 }
 
-.join-team-cta .cta-content h2 {
-  font-size: 2.5rem;
+.team-cta-box::before {
+  content: '';
+  position: absolute;
+  top: -60px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 400px;
+  height: 300px;
+  background: radial-gradient(ellipse, rgba(65, 173, 73, 0.15) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.team-cta-box h2 {
+  font-family: var(--font-display);
+  font-size: clamp(24px, 3.5vw, 36px);
   font-weight: 700;
+  color: #F0F0F6;
   margin-bottom: 16px;
-  color: var(--text-colour);
+  position: relative;
+  z-index: 1;
 }
 
-.join-team-cta .cta-content p {
-  font-size: 1.15rem;
-  line-height: 1.6;
-  color: var(--text-colour);
-  opacity: 0.8;
-  max-width: 700px;
-  margin: 0 auto 32px;
+.team-cta-box p {
+  font-size: 17px;
+  color: #9497B4;
+  margin-bottom: 32px;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+  z-index: 1;
 }
 
-/* Responsive adjustments for team page */
-@media (max-width: 768px) {
-  .team-hero {
-    padding: 60px 0 30px;
+.team-cta-actions {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+  position: relative;
+  z-index: 1;
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--green) !important;
+  color: #fff !important;
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 700;
+  padding: 13px 28px;
+  border-radius: 100px;
+  border: none;
+  transition: background 0.2s ease, transform 0.2s ease;
+  text-decoration: none !important;
+}
+
+.btn-primary:hover {
+  background: #37A344 !important;
+  transform: translateY(-2px);
+}
+
+.btn-outline-white {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: transparent;
+  color: #F0F0F6 !important;
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 600;
+  padding: 12px 28px;
+  border-radius: 100px;
+  border: 1.5px solid rgba(255,255,255,0.3);
+  transition: border-color 0.2s ease, background 0.2s ease;
+  text-decoration: none !important;
+}
+
+.btn-outline-white:hover {
+  border-color: rgba(255,255,255,0.6);
+  background: rgba(255,255,255,0.08);
+}
+
+/* ── Responsive ─────────────────────────────────────────────── */
+@media (max-width: 640px) {
+  .team-grid {
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
   }
 
-  .team-hero .hero-title {
-    font-size: 2.25rem;
+  .team-cta-box {
+    padding: 48px 24px;
   }
 
-  .team-hero .section-subtitle {
-    font-size: 1rem;
-  }
-
-  .join-team-cta .cta-box {
-    padding: 40px 32px;
-  }
-
-  .join-team-cta .cta-content h2 {
-    font-size: 2rem;
-  }
-
-  .open-positions-section .section-title {
-    font-size: 2rem;
-  }
-
-  .open-positions-section .section-subtitle {
-    font-size: 1rem;
-  }
-
-  .job-card {
-    padding: 20px 18px;
-  }
-
-  .job-header {
-    gap: 12px;
-  }
-
-  .job-title {
-    font-size: 1.15rem;
-    font-weight: 500;
-    margin-bottom: 8px;
-  }
-
-  .job-meta {
-    gap: 10px;
-  }
-
-  .job-location {
-    font-size: 0.8rem;
-  }
-
-  .job-type {
-    font-size: 0.7rem;
-    padding: 3px 10px;
-  }
-
-  .job-actions {
-    flex-direction: row;
-    align-items: center;
-    gap: 8px;
-    flex-wrap: nowrap;
-  }
-
-  .job-badge {
-    padding: 4px 10px;
-    font-size: 0.65rem;
-  }
-
-  .job-expand-indicator {
-    width: 26px;
-    height: 26px;
-    font-size: 1.2rem;
-  }
-
-  .job-description p {
-    font-size: 0.9rem;
-  }
-
-  .job-description h4 {
-    font-size: 0.95rem;
-    margin-top: 16px;
-  }
-
-  .job-description ul li {
-    font-size: 0.85rem;
-    padding-left: 20px;
-    margin-bottom: 6px;
-  }
-
-  .job-footer {
+  .team-cta-actions {
     flex-direction: column;
     align-items: stretch;
-    padding-top: 16px;
-  }
-
-  .job-footer .cta-button {
-    justify-content: center;
-    width: 100%;
-    font-size: 0.9rem;
-  }
-
-  .job-filters {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 12px;
-  }
-
-  .search-box {
-    min-width: 100%;
-  }
-
-  .search-box input {
-    font-size: 0.85rem;
-    padding: 9px 12px 9px 38px;
-  }
-
-  .search-box svg {
-    left: 12px;
-    width: 16px;
-    height: 16px;
-  }
-
-  .filter-buttons {
-    justify-content: center;
-    gap: 6px;
-  }
-
-  .filter-btn {
-    flex: 1;
-    min-width: auto;
-    font-size: 0.72rem !important;
-    padding: 5px 11px !important;
-    white-space: nowrap;
-  }
-
-  .open-positions-section .section-title {
-    font-size: 1.85rem;
-  }
-
-  .open-positions-section .section-subtitle {
-    font-size: 0.95rem;
-  }
-
-  .modal-content {
-    padding: 20px;
-    max-height: 95vh;
-  }
-
-  .modal-header h2 {
-    font-size: 1.3rem;
-  }
-
-  .job-application-form .form-row {
-    grid-template-columns: 1fr;
-    gap: 0;
-    margin-bottom: 0;
-  }
-
-  .job-application-form .form-group {
-    margin-bottom: 16px;
-  }
-
-  .job-application-form label {
-    font-size: 0.9rem;
-    margin-bottom: 6px;
-  }
-
-  .job-application-form input,
-  .job-application-form textarea {
-    padding: 12px 14px;
-    font-size: 0.95rem;
-  }
-
-  .form-actions {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .btn-primary,
-  .btn-secondary {
-    width: 100%;
-    justify-content: center;
   }
 }

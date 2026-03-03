@@ -1,3 +1,24 @@
+/* ============================================================
+   Flash Design System Override — Map Page Typography
+   Lori / Flash Design System / 2026-03-03
+   ============================================================ */
+.map-page,
+.map-page * {
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.map-page h1,
+.map-page h2,
+.map-page h3,
+.map-page h4,
+.location-name,
+.panel-title,
+.info-title,
+.chat-header h3,
+.filter-panel h3 {
+  font-family: "Sora", -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
 /* ========================================
    MODERN TOOLBAR LAYOUT
    ======================================== */

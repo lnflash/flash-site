@@ -2,289 +2,278 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Get Flash App</title>
-    <style>
-        :root {
-            --bg-color: #0a0f0d;
-            --primary: #00ff99;
-            --secondary: #ffe600;
-            --text-light: #fff;
-            --btn-bg: #111;
-            --btn-hover: #222;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-        html,
-        body {
-            margin: 0;
-            padding: 0;
-            background: var(--bg-color);
-            color: var(--text-light);
-            font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, sans-serif;
-            overflow-x: hidden;
-            overflow-y: auto;
-            min-height: 100vh;
-        }
+  <!-- Primary Meta Tags -->
+  <title>Get Flash — Download Jamaica's Bitcoin Wallet | Flash</title>
+  <meta name="title" content="Get Flash — Download Jamaica's Bitcoin Wallet">
+  <meta name="description" content="Download Flash for iOS or Android. Jamaica's first Bitcoin wallet — send money home for free, earn rewards, and spend at Flash merchants across the Caribbean." />
 
-        canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: 0;
-            pointer-events: none;
-        }
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://getflash.io/app/">
+  <meta property="og:title" content="Get Flash — Download Jamaica's Bitcoin Wallet">
+  <meta property="og:description" content="Download Flash for iOS or Android. Send money home for free, earn rewards, and spend at Flash merchants.">
+  <meta property="og:image" content="https://getflash.io/assets/img/download-og-image-small.png">
 
-        .container {
-            position: relative;
-            z-index: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            text-align: center;
-            padding: 120px 20px 80px;
-            box-sizing: border-box;
-        }
+  <!-- Canonical -->
+  <link rel="canonical" href="https://getflash.io/app/">
 
-        h1 {
-            font-size: clamp(1.2rem, 4vw, 1.6rem);
-            margin-bottom: 1.5rem;
-            color: var(--primary);
-        }
+  <!-- Favicons -->
+  <link rel="shortcut icon" type="image/png" href="../assets/img/favicon-32x32.png" sizes="32x32" />
+  <link rel="icon" type="image/png" href="../assets/img/favicon-16x16.png" sizes="16x16" />
 
-        .button {
-            display: flex;
-            align-items: center;
-            justify-content: flex-start;
-            gap: 12px;
-            margin: 8px 0;
-            padding: 16px 20px;
-            width: 100%;
-            max-width: 320px;
-            background: var(--btn-bg);
-            border: 1px solid var(--primary);
-            border-radius: 12px;
-            color: var(--text-light);
-            font-size: clamp(0.9rem, 3.5vw, 1rem);
-            text-decoration: none;
-            transition: all 0.2s ease;
-            box-sizing: border-box;
-            text-align: left;
-        }
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
-        .button h3 {
-            margin: 0;
-            font-size: 1rem;
-            color: var(--text-light);
-        }
+  <!-- CSS -->
+  <link rel="stylesheet" href="../css/main.css" />
+  <link rel="stylesheet" href="../css/pages/app.css" />
 
-        .button svg {
-            width: 20px;
-            height: 20px;
-            fill: var(--primary);
-            flex-shrink: 0;
-        }
-
-        .button:hover {
-            background: var(--btn-hover);
-        }
-
-        .help {
-            margin-top: 20px;
-            font-size: clamp(0.8rem, 3vw, 0.85rem);
-            line-height: 1.4;
-            max-width: 320px;
-        }
-
-        .help a {
-            color: var(--secondary);
-            text-decoration: none;
-        }
-
-        .help a:hover {
-            text-decoration: underline;
-        }
-
-        .small {
-            font-size: clamp(0.75rem, 2.5vw, 0.8rem);
-            margin-top: 20px;
-            opacity: 0.7;
-        }
-
-        .demo-fab {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: #00ff99;
-            color: #0a0f0d;
-            font-weight: 600;
-            font-size: clamp(0.85rem, 2.5vw, 0.95rem);
-            padding: 12px 16px;
-            border-radius: 30px;
-            text-decoration: none;
-            box-shadow: 0 0 12px rgba(0, 255, 153, 0.4);
-            transition: background 0.3s ease, transform 0.2s ease;
-            z-index: 999;
-            max-width: calc(100vw - 40px);
-            text-align: center;
-        }
-
-        .demo-fab:hover {
-            background: #00e68a;
-            transform: scale(1.05);
-        }
-
-        .flash-logo {
-            width: clamp(100px, 25vw, 140px);
-            margin-bottom: 20px;
-            filter: brightness(1000%) contrast(1000%);
-            position: absolute;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-
-        h2 {
-            font-size: clamp(1rem, 3.5vw, 1.2rem);
-            margin: 20px 0 10px;
-            color: var(--text-light);
-        }
-
-        hr {
-            width: 100%;
-            max-width: 320px;
-            border: 1px solid var(--primary);
-            margin: 15px 0;
-        }
-
-        /* Mobile-specific optimizations */
-        @media (max-width: 480px) {
-            .container {
-                padding: 100px 16px 60px;
-            }
-
-            .button {
-                font-size: 0.9rem;
-                padding: 14px 16px;
-                margin: 6px 0;
-            }
-
-            .demo-fab {
-                bottom: 16px;
-                right: 16px;
-                padding: 10px 14px;
-                font-size: 0.85rem;
-            }
-
-            .flash-logo {
-                top: 16px;
-                width: clamp(80px, 20vw, 120px);
-            }
-        }
-    </style>
+  <script src="../js/core/dark-mode-init.js"></script>
 </head>
 
-<body>
+<body class="app-page">
+  <div id="header-placeholder"></div>
 
-    <canvas id="bg"></canvas>
+  <main>
 
-    <div class="container">
-        <img src="../assets/img/logo-white.png" alt="Flash Logo" class="flash-logo" />
-        <h1>Get the Flash App</h1>
-        <a class="button" href="https://play.google.com/store/apps/details?id=com.lnflash">
-            <svg viewBox="0 0 512 512">
-                <path
-                    d="M325.3 234.3 104.3 102c-13.3-8-28.3-1.4-28.3 14v280c0 15.5 15 22 28.3 14l221-132.3c12.3-7.4 12.4-20.5 0-27.4z" />
-            </svg>
-            Download for Android
-        </a>
+    <!-- ── HERO ─────────────────────────────────────────────── -->
+    <section class="app-hero">
+      <div class="app-wrap">
+        <div class="app-hero-grid">
 
-        <a class="button" href="https://apps.apple.com/jm/app/flash-send-spend-and-save/id6451129095">
-            <svg viewBox="0 0 384 512">
-                <path
-                    d="M318.7 268.3c-1.1-64.1 52.4-94.9 54.7-96.3-29.9-43.7-76.3-49.6-92.7-50.2-39.5-4-77.1 23.2-97.2 23.2-20.1 0-51.3-22.6-84.3-22-43.3.6-83.3 25.2-105.6 64.1-45.2 78.3-11.6 194.3 32.5 257.8 21.5 31 47 65.8 80.6 64.5 32.2-1.3 44.5-20.8 83.5-20.8 39 0 50.1 20.8 84.3 20.1 34.8-.7 56.8-31.6 78.2-62.8 24.6-35.9 34.7-70.6 35.3-72.5-.8-.4-68.1-26.2-69.1-103.1zm-64.7-196.1c17.8-21.6 29.8-51.7 26.5-81.8-25.6 1-56.7 17.1-74.8 38.7-16.4 19.1-30.8 49.6-26.9 78.7 28.4 2.2 57.5-14.5 75.2-35.6z" />
-            </svg>
-            Download for iOS
-        </a>
-        <hr>
-        <h2>Alternative Download Options</h2>
-        <hr>
+          <!-- Left: Copy -->
+          <div class="app-hero-copy">
+            <div class="app-eyebrow">
+              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" width="14" height="14" fill="currentColor">
+                <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+              </svg>
+              Jamaica's first Bitcoin wallet
+            </div>
 
-        <a class="button" href="https://freedomstore.io">
-            <svg viewBox="0 0 384 512">
-                <path
-                    d="M318.7 268.3c-1.1-64.1 52.4-94.9 54.7-96.3-29.9-43.7-76.3-49.6-92.7-50.2-39.5-4-77.1 23.2-97.2 23.2-20.1 0-51.3-22.6-84.3-22-43.3.6-83.3 25.2-105.6 64.1-45.2 78.3-11.6 194.3 32.5 257.8 21.5 31 47 65.8 80.6 64.5 32.2-1.3 44.5-20.8 83.5-20.8 39 0 50.1 20.8 84.3 20.1 34.8-.7 56.8-31.6 78.2-62.8 24.6-35.9 34.7-70.6 35.3-72.5-.8-.4-68.1-26.2-69.1-103.1zm-64.7-196.1c17.8-21.6 29.8-51.7 26.5-81.8-25.6 1-56.7 17.1-74.8 38.7-16.4 19.1-30.8 49.6-26.9 78.7 28.4 2.2 57.5-14.5 75.2-35.6z" />
-            </svg>
-            Download via Freedomstore <br />(iOS EU/UK & Brasil)
+            <h1 class="app-h1">
+              Get Flash.<br>
+              Send money<br>
+              <em class="app-em">for free.</em>
+            </h1>
 
-        </a>
+            <p class="app-sub">
+              Download Flash and start sending money home in seconds. No wire fees. No waiting. Just scan and send — powered by Bitcoin Lightning.
+            </p>
 
-        <a class="button" href="https://testflight.apple.com/join/H8HdnCd1">
-            <svg viewBox="0 0 384 512">
-                <path
-                    d="M318.7 268.3c-1.1-64.1 52.4-94.9 54.7-96.3-29.9-43.7-76.3-49.6-92.7-50.2-39.5-4-77.1 23.2-97.2 23.2-20.1 0-51.3-22.6-84.3-22-43.3.6-83.3 25.2-105.6 64.1-45.2 78.3-11.6 194.3 32.5 257.8 21.5 31 47 65.8 80.6 64.5 32.2-1.3 44.5-20.8 83.5-20.8 39 0 50.1 20.8 84.3 20.1 34.8-.7 56.8-31.6 78.2-62.8 24.6-35.9 34.7-70.6 35.3-72.5-.8-.4-68.1-26.2-69.1-103.1zm-64.7-196.1c17.8-21.6 29.8-51.7 26.5-81.8-25.6 1-56.7 17.1-74.8 38.7-16.4 19.1-30.8 49.6-26.9 78.7 28.4 2.2 57.5-14.5 75.2-35.6z" />
-            </svg>
-            Download via TestFlight <br />(iOS international)
-        </a>
+            <!-- Trust signals -->
+            <div class="app-trust">
+              <span>⚡ 10,000+ downloads</span>
+              <span>🌴 Jamaica & Cayman Islands</span>
+              <span>✓ Free to send</span>
+            </div>
 
-        <a class="button"
-            href="https://github.com/lnflash/flash-mobile/releases/download/v0.4.1-beta/app-arm64-v8a-release.apk">
-            <svg viewBox="0 0 512 512">
-                <path
-                    d="M325.3 234.3 104.3 102c-13.3-8-28.3-1.4-28.3 14v280c0 15.5 15 22 28.3 14l221-132.3c12.3-7.4 12.4-20.5 0-27.4z" />
-            </svg>
-            Download via Direct Download APK <br />(Android international)
-        </a>
+            <!-- Primary download buttons -->
+            <div class="app-downloads">
+              <a href="https://play.google.com/store/apps/details?id=com.lnflash" class="download-btn download-android">
+                <svg class="store-icon" viewBox="0 0 512 512" aria-hidden="true">
+                  <path d="M325.3 234.3 104.3 102c-13.3-8-28.3-1.4-28.3 14v280c0 15.5 15 22 28.3 14l221-132.3c12.3-7.4 12.4-20.5 0-27.4z"/>
+                </svg>
+                <div class="download-text">
+                  <span class="download-label">Get it on</span>
+                  <span class="download-name">Google Play</span>
+                </div>
+              </a>
 
-        <div class="help">
-            App not showing up? Try <a href="https://testflight.apple.com/join/qU1YAgA2">TestFlight</a>, or contact us
-            via
-            <a href="https://wa.me/18762909250" target="_blank">WhatsApp</a>,
-            <a href="https://discord.gg/AkPpxJzC2R" target="_blank">Discord</a>, or
-            <a href="mailto:support@getflash.io">Email</a>.
+              <a href="https://apps.apple.com/jm/app/flash-send-spend-and-save/id6451129095" class="download-btn download-ios">
+                <svg class="store-icon" viewBox="0 0 384 512" aria-hidden="true">
+                  <path d="M318.7 268.3c-1.1-64.1 52.4-94.9 54.7-96.3-29.9-43.7-76.3-49.6-92.7-50.2-39.5-4-77.1 23.2-97.2 23.2-20.1 0-51.3-22.6-84.3-22-43.3.6-83.3 25.2-105.6 64.1-45.2 78.3-11.6 194.3 32.5 257.8 21.5 31 47 65.8 80.6 64.5 32.2-1.3 44.5-20.8 83.5-20.8 39 0 50.1 20.8 84.3 20.1 34.8-.7 56.8-31.6 78.2-62.8 24.6-35.9 34.7-70.6 35.3-72.5-.8-.4-68.1-26.2-69.1-103.1zm-64.7-196.1c17.8-21.6 29.8-51.7 26.5-81.8-25.6 1-56.7 17.1-74.8 38.7-16.4 19.1-30.8 49.6-26.9 78.7 28.4 2.2 57.5-14.5 75.2-35.6z"/>
+                </svg>
+                <div class="download-text">
+                  <span class="download-label">Download on the</span>
+                  <span class="download-name">App Store</span>
+                </div>
+              </a>
+            </div>
+          </div>
+
+          <!-- Right: Phone mockup -->
+          <div class="app-hero-visual">
+            <div class="app-phone-glow"></div>
+            <img src="../assets/img/phone.png" alt="Flash app on iPhone" class="app-phone" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── FEATURES ──────────────────────────────────────────── -->
+    <section class="app-features">
+      <div class="app-wrap">
+        <div class="app-section-header">
+          <span class="app-badge">Why Flash?</span>
+          <h2>Banking built for the Caribbean</h2>
+          <p>Flash handles the Bitcoin so you don't have to. It's just fast, cheap money.</p>
         </div>
 
-        <div class="small">
-            <a href="https://getflash.io">← Back to getflash.io</a>
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+                <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+              </svg>
+            </div>
+            <h3>Send to Mom — Free</h3>
+            <p>Flash transfers cost you nothing. Send to any Flash user instantly, anywhere in the world. Western Union charges 5–7%. We charge zero.</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+                <circle cx="12" cy="12" r="9"/>
+                <path d="M14.5 9a2.5 2.5 0 0 0-5 0v6a2.5 2.5 0 0 0 5 0"/>
+              </svg>
+            </div>
+            <h3>Buy Bitcoin Easily</h3>
+            <p>Top up with your Jamaican bank account. No crypto experience needed — just buy Bitcoin in JMD and Flash handles the rest.</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+                <rect x="1" y="4" width="22" height="16" rx="2"/>
+                <path d="M1 10h22"/>
+              </svg>
+            </div>
+            <h3>Earn & Spend Rewards</h3>
+            <p>Every purchase at Flash merchants earns you cashback. Spend rewards at 2,500+ businesses across Jamaica and the Cayman Islands.</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+              </svg>
+            </div>
+            <h3>Your Keys, Your Sats</h3>
+            <p>Flash is non-custodial. You control your money — no bank can freeze it, no one can lock you out. Real financial sovereignty.</p>
+          </div>
         </div>
-    </div>
-    <a href="rewards-demo.html" class="demo-fab" aria-label="Try Flashcard Demo">Try Flashcard Demo</a>
+      </div>
+    </section>
 
-    <script>
-        // canvas shimmer grid background
-        const canvas = document.getElementById("bg");
-        const ctx = canvas.getContext("2d");
-        let width, height, t = 0;
-        const isMobile = window.innerWidth < 768;
+    <!-- ── ALTERNATIVE DOWNLOADS ─────────────────────────────── -->
+    <section class="app-alt-downloads">
+      <div class="app-wrap">
+        <div class="app-section-header">
+          <span class="app-badge">More Options</span>
+          <h2>Alternative download options</h2>
+          <p>Can't find us on your app store? We've got you covered.</p>
+        </div>
 
-        const resize = () => {
-            width = canvas.width = window.innerWidth;
-            height = canvas.height = window.innerHeight;
-        };
-        window.addEventListener("resize", resize);
-        resize();
+        <div class="alt-grid">
+          <a href="https://freedomstore.io" class="alt-card">
+            <div class="alt-icon">
+              <svg width="24" height="24" viewBox="0 0 384 512" fill="currentColor" aria-hidden="true">
+                <path d="M318.7 268.3c-1.1-64.1 52.4-94.9 54.7-96.3-29.9-43.7-76.3-49.6-92.7-50.2-39.5-4-77.1 23.2-97.2 23.2-20.1 0-51.3-22.6-84.3-22-43.3.6-83.3 25.2-105.6 64.1-45.2 78.3-11.6 194.3 32.5 257.8 21.5 31 47 65.8 80.6 64.5 32.2-1.3 44.5-20.8 83.5-20.8 39 0 50.1 20.8 84.3 20.1 34.8-.7 56.8-31.6 78.2-62.8 24.6-35.9 34.7-70.6 35.3-72.5-.8-.4-68.1-26.2-69.1-103.1zm-64.7-196.1c17.8-21.6 29.8-51.7 26.5-81.8-25.6 1-56.7 17.1-74.8 38.7-16.4 19.1-30.8 49.6-26.9 78.7 28.4 2.2 57.5-14.5 75.2-35.6z"/>
+              </svg>
+            </div>
+            <div class="alt-content">
+              <h3>Freedomstore</h3>
+              <p>iOS — EU, UK & Brasil</p>
+            </div>
+            <svg class="alt-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+            </svg>
+          </a>
 
-        function draw() {
-            ctx.clearRect(0, 0, width, height);
-            const gridSize = isMobile ? 80 : 60; // Larger grid on mobile for performance
-            for (let x = 0; x < width; x += gridSize) {
-                for (let y = 0; y < height; y += gridSize) {
-                    const offset = Math.sin((x + t) * 0.01) * 10;
-                    const alpha = 0.08 + 0.05 * Math.sin((y + t) * 0.015);
-                    ctx.fillStyle = `rgba(0,255,153,${alpha})`;
-                    ctx.fillRect(x + offset, y, 2, 2);
-                }
-            }
-            t += 1.2;
-            requestAnimationFrame(draw);
-        }
-        draw();
-    </script>
+          <a href="https://testflight.apple.com/join/H8HdnCd1" class="alt-card">
+            <div class="alt-icon">
+              <svg width="24" height="24" viewBox="0 0 384 512" fill="currentColor" aria-hidden="true">
+                <path d="M318.7 268.3c-1.1-64.1 52.4-94.9 54.7-96.3-29.9-43.7-76.3-49.6-92.7-50.2-39.5-4-77.1 23.2-97.2 23.2-20.1 0-51.3-22.6-84.3-22-43.3.6-83.3 25.2-105.6 64.1-45.2 78.3-11.6 194.3 32.5 257.8 21.5 31 47 65.8 80.6 64.5 32.2-1.3 44.5-20.8 83.5-20.8 39 0 50.1 20.8 84.3 20.1 34.8-.7 56.8-31.6 78.2-62.8 24.6-35.9 34.7-70.6 35.3-72.5-.8-.4-68.1-26.2-69.1-103.1zm-64.7-196.1c17.8-21.6 29.8-51.7 26.5-81.8-25.6 1-56.7 17.1-74.8 38.7-16.4 19.1-30.8 49.6-26.9 78.7 28.4 2.2 57.5-14.5 75.2-35.6z"/>
+              </svg>
+            </div>
+            <div class="alt-content">
+              <h3>TestFlight</h3>
+              <p>iOS — international access</p>
+            </div>
+            <svg class="alt-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+            </svg>
+          </a>
 
+          <a href="https://github.com/lnflash/flash-mobile/releases/download/v0.4.1-beta/app-arm64-v8a-release.apk" class="alt-card">
+            <div class="alt-icon">
+              <svg width="24" height="24" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true">
+                <path d="M325.3 234.3 104.3 102c-13.3-8-28.3-1.4-28.3 14v280c0 15.5 15 22 28.3 14l221-132.3c12.3-7.4 12.4-20.5 0-27.4z"/>
+              </svg>
+            </div>
+            <div class="alt-content">
+              <h3>Direct APK</h3>
+              <p>Android — download directly</p>
+            </div>
+            <svg class="alt-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+            </svg>
+          </a>
+        </div>
+
+        <p class="alt-help">
+          App not showing up? Reach us on
+          <a href="https://wa.me/18762909250" target="_blank" rel="noopener">WhatsApp</a>,
+          <a href="https://discord.gg/AkPpxJzC2R" target="_blank" rel="noopener">Discord</a>, or
+          <a href="mailto:support@getflash.io">Email</a> — we'll sort you out.
+        </p>
+      </div>
+    </section>
+
+    <!-- ── FINAL CTA ──────────────────────────────────────────── -->
+    <section class="app-final-cta">
+      <div class="app-wrap">
+        <div class="app-cta-box">
+          <h2>Ready to send money like it's a text message?</h2>
+          <p>Join 10,000+ people already using Flash across Jamaica and the Caribbean.</p>
+          <div class="app-cta-downloads">
+            <a href="https://play.google.com/store/apps/details?id=com.lnflash" class="download-btn download-android download-dark">
+              <svg class="store-icon" viewBox="0 0 512 512" aria-hidden="true">
+                <path d="M325.3 234.3 104.3 102c-13.3-8-28.3-1.4-28.3 14v280c0 15.5 15 22 28.3 14l221-132.3c12.3-7.4 12.4-20.5 0-27.4z"/>
+              </svg>
+              <div class="download-text">
+                <span class="download-label">Get it on</span>
+                <span class="download-name">Google Play</span>
+              </div>
+            </a>
+            <a href="https://apps.apple.com/jm/app/flash-send-spend-and-save/id6451129095" class="download-btn download-ios download-dark">
+              <svg class="store-icon" viewBox="0 0 384 512" aria-hidden="true">
+                <path d="M318.7 268.3c-1.1-64.1 52.4-94.9 54.7-96.3-29.9-43.7-76.3-49.6-92.7-50.2-39.5-4-77.1 23.2-97.2 23.2-20.1 0-51.3-22.6-84.3-22-43.3.6-83.3 25.2-105.6 64.1-45.2 78.3-11.6 194.3 32.5 257.8 21.5 31 47 65.8 80.6 64.5 32.2-1.3 44.5-20.8 83.5-20.8 39 0 50.1 20.8 84.3 20.1 34.8-.7 56.8-31.6 78.2-62.8 24.6-35.9 34.7-70.6 35.3-72.5-.8-.4-68.1-26.2-69.1-103.1zm-64.7-196.1c17.8-21.6 29.8-51.7 26.5-81.8-25.6 1-56.7 17.1-74.8 38.7-16.4 19.1-30.8 49.6-26.9 78.7 28.4 2.2 57.5-14.5 75.2-35.6z"/>
+              </svg>
+              <div class="download-text">
+                <span class="download-label">Download on the</span>
+                <span class="download-name">App Store</span>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <div id="footer-placeholder"></div>
+  <div id="svg-icons-placeholder"></div>
+
+  <!-- Load components BEFORE other scripts -->
+  <script src="../js/core/component-loader.js"></script>
+
+  <!-- Scripts -->
+  <script src="https://code.jquery.com/jquery-3.7.0.min.js"
+    integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/MotionPathPlugin.min.js"></script>
+
+  <script src="../js/core/main.js"></script>
+  <script src="../js/modules/btcTracker.js"></script>
+
+  <!-- Tidio Chat -->
+  <script src="//code.tidio.co/0kbm4jqybxrrarlw7cjflhnb8fzv6lyt.js" async></script>
 </body>
 
 </html>

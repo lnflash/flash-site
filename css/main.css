@@ -209,22 +209,7 @@ a.nav-link {
   outline: none;
   transition: color var(--transition-time);
 }
-a:not(.no-style, .nav-link)::after {
-  content: "";
-  position: absolute;
-  left: 5px;
-  bottom: -3px;
-  height: 3px;
-  width: 95%;
-  border-radius: 3px;
-  background-color: var(--flash-green);
-  transition: width var(--transition-time);
-}
-p a:not(.no-style, .nav-link)::after {
-  bottom: -2px;
-  height: 2px;
-  border-radius: 2px;
-}
+/* Green underline animation removed — no link decorations */
 a:visited {
   color: inherit;
 }
@@ -233,10 +218,7 @@ a:focus-visible,
 .nav-link.active {
   color: var(--flash-green);
 }
-a:hover::after,
-a:focus-visible::after {
-  width: 100%;
-}
+/* hover::after removed — no underline animation */
 a.greenlink {
   color: var(--flash-green);
 }
@@ -1428,6 +1410,28 @@ footer {
   margin-bottom: 8px;
 }
 .powered,
+/* Footer utils row — BTC ticker + dark mode toggle */
+.footer-utils {
+  background-color: var(--bg-body);
+  border-top: 1px solid var(--box-shadow);
+  padding: 12px 0;
+}
+.footer-utils > .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.footer-utils .btc-widget {
+  margin: 0;
+}
+.footer-utils .darkmode-switch {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-size: var(--fSize-small);
+}
+
 .footer-mid,
 .footer-btm {
   font-size: var(--fSize-small);
