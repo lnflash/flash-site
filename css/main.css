@@ -224,7 +224,7 @@ a:focus-visible,
 a.greenlink {
   color: var(--flash-green);
 }
-button:not(.accordion-head) {
+button:not(.accordion-head, .nav-hamburger, .nav-close) {
   padding: 0 40px;
   height: 40px;
   border-radius: 20px;
@@ -249,8 +249,8 @@ button:not(.accordion-head) {
   background-color: var(--bg-body);
   color: var(--text-colour);
 }
-button:hover:not(.accordion-head),
-button:focus-visible:not(.accordion-head) {
+button:hover:not(.accordion-head, .nav-hamburger, .nav-close),
+button:focus-visible:not(.accordion-head, .nav-hamburger, .nav-close) {
   background-color: var(--flash-green);
   border-color: var(--flash-green);
   color: var(--flash-white);
@@ -341,16 +341,25 @@ header .container {
   color: var(--flash-green);
 }
 
-/* Dark header: white nav text */
-body.dark-mode .nav-link,
-body.home-page .nav-link {
+/* Dark header: white nav text — scoped to header only, NOT the mobile drawer */
+body.dark-mode header .nav-link,
+body.home-page header .nav-link {
   color: rgba(255, 255, 255, 0.85);
 }
 
-body.dark-mode .nav-link:hover,
-body.home-page .nav-link:hover {
+body.dark-mode header .nav-link:hover,
+body.home-page header .nav-link:hover {
   background: rgba(255, 255, 255, 0.07);
   color: #3AB54A;
+}
+
+/* Mobile drawer always has a light background — force dark text */
+.main-nav .nav-link {
+  color: #111218 !important;
+}
+.main-nav .nav-link:hover {
+  background: rgba(0, 0, 0, 0.05) !important;
+  color: var(--flash-green) !important;
 }
 
 /* ── Nav CTA button — sparkly ── */
