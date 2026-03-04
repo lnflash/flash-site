@@ -306,10 +306,10 @@ body.home-page {
 
 .hero-badge-text {
   font-family: var(--font-display);
-  font-size: 13px;
-  font-weight: 600;
-  color: rgba(240, 240, 246, 0.7);
-  letter-spacing: 0.03em;
+  font-size: 15px;
+  font-weight: 700;
+  color: rgba(240, 240, 246, 0.92);
+  letter-spacing: 0.02em;
   position: relative;
   padding-bottom: 5px;
 }
@@ -692,21 +692,23 @@ body.home-page {
 }
 
 .remittance-callout {
-  background: var(--surface-2);
-  border: 1px solid rgba(58,181,74,0.2);
-  border-left: 3px solid var(--green);
+  background: rgba(58, 181, 74, 0.08);
+  border: 1px solid rgba(58,181,74,0.35);
+  border-left: 4px solid var(--green);
   border-radius: var(--radius-sm);
-  padding: 16px 20px;
+  padding: 20px 24px;
 }
 
 .remittance-callout p {
-  font-size: 14px;
-  color: var(--text-2);
-  line-height: 1.6;
+  font-size: 15px; /* was 14px — too small for a core value prop */
+  color: var(--text-1);
+  line-height: 1.65;
+  font-weight: 500;
 }
 
 .remittance-callout strong {
   color: var(--green);
+  font-weight: 700;
 }
 
 .remittance-right {
