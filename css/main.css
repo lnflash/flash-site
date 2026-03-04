@@ -125,7 +125,7 @@ main {
   margin-left: auto;
   margin-right: auto;
 }
-section:not(.pg-download) > * {
+section:not(.pg-download) > * + * {
   padding-top: var(--padding-section);
 }
 main section:last-of-type {
