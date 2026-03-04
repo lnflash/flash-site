@@ -284,6 +284,10 @@ body.home-page header {
   -webkit-backdrop-filter: blur(16px);
 }
 
+/* Homepage header is always dark — force white logo regardless of body theme */
+body.home-page header .logo-container img.light { display: none; }
+body.home-page header .logo-container img.dark  { display: block; }
+
 header .container {
   display: flex;
   align-items: center;
@@ -302,9 +306,9 @@ header .container {
   width: auto;
 }
 
-@media (max-width: 640px) {
+@media (max-width: 799px) {
   .logo-container {
-    --_logo-height: 30px;
+    --_logo-height: 28px;
   }
 }
 
@@ -1796,13 +1800,21 @@ footer {
     display: block;
   }
 
-  /* ── Mobile header layout ── */
+  /* ── Mobile header layout — centered logo pattern ── */
   header .container {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-end; /* hamburger right; logo is absolute-centered */
     padding: 12px var(--padding-gen);
     gap: 0;
+    position: relative;
+  }
+
+  .logo-container {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1;
   }
 
   nav {
