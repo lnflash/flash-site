@@ -155,14 +155,28 @@ body.app-page h1, body.app-page h2, body.app-page h3 {
 .app-trust {
   display: flex;
   flex-wrap: wrap;
-  gap: 16px;
-  margin-bottom: 36px;
+  gap: 8px 20px;
+  margin-bottom: 32px;
 }
 
-.app-trust span {
-  font-size: 14px;
+.app-trust-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13.5px;
+  font-weight: 500;
   color: var(--text-3);
   font-family: var(--font-body);
+}
+
+.app-trust-item svg {
+  color: #3AB54A;
+  flex-shrink: 0;
+}
+
+/* Rating star icon: solid fill via currentColor */
+.app-trust-item svg[fill="currentColor"] {
+  color: #F59E0B;
 }
 
 /* Download Buttons */
