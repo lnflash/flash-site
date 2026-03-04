@@ -462,9 +462,11 @@ body.home-page {
   display: flex;
   flex-direction: column;
   gap: 0;
-  transition: border-color 200ms ease, transform 200ms ease;
+  transition: border-color 200ms ease, transform 200ms ease, box-shadow 200ms ease;
   position: relative;
   overflow: hidden;
+  /* Elevation: surface-1 is very close to white bg — shadow separates the card */
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
 }
 
 .way-card::before {
@@ -482,6 +484,7 @@ body.home-page {
 .way-card:hover {
   border-color: rgba(58,181,74,0.25);
   transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.10), 0 2px 6px rgba(0,0,0,0.06);
 }
 
 .way-card:hover::before {
@@ -546,7 +549,7 @@ body.home-page {
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 14px;
+  font-size: 15px;
   color: var(--text-2);
 }
 
@@ -795,7 +798,7 @@ body.home-page {
 }
 
 .flow-content span {
-  font-size: 13px;
+  font-size: 15px;
   color: var(--text-2);
 }
 
@@ -910,7 +913,7 @@ body.home-page {
   display: flex;
   align-items: center;
   gap: 9px;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 500;
   color: var(--text-2);
   line-height: 1.4;
