@@ -1139,6 +1139,7 @@ body.home-page {
 
   .hero-actions {
     justify-content: center;
+    margin-bottom: 36px; /* was 56px — less gap before trust strip on mobile */
   }
 
   .hero-social-proof {
@@ -1194,7 +1195,7 @@ body.home-page {
 
 @media (max-width: 640px) {
   :root {
-    --section-gap: 64px;
+    --section-gap: 48px; /* was 64px — tighter on small screens */
   }
 
   .numbers-grid {
@@ -1207,6 +1208,24 @@ body.home-page {
 
   .hero-h1 {
     font-size: 36px;
+  }
+
+  /* Trust strip: 2-col grid at mobile — cleaner than flex-wrap */
+  .hero-trust-strip {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px 12px;
+    margin-top: 20px;
+    margin-bottom: 8px;
+  }
+
+  /* Stats row: tighter gap on mobile */
+  .hero-social-proof {
+    gap: 12px;
+  }
+
+  .hero-stat-divider {
+    height: 24px;
   }
 
   /* Contact strip: wrap buttons on small screens */
