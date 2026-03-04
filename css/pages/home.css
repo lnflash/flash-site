@@ -269,6 +269,9 @@ body.home-page {
 .hero-body {
   position: relative;
   z-index: 2;
+  /* main.css applies `section > * { padding-top: 120px }` globally;
+     #pg-hero manages its own spacing via padding-top on the section itself */
+  padding-top: 0 !important;
 }
 
 .hero-wrap {
