@@ -302,6 +302,12 @@ header .container {
   width: auto;
 }
 
+@media (max-width: 640px) {
+  .logo-container {
+    --_logo-height: 30px;
+  }
+}
+
 /* ── Main nav ── */
 .main-nav {
   list-style: none;
