@@ -1850,10 +1850,15 @@ footer {
   }
 
   /* ── Mobile drawer backdrop ── */
+  /* inset:0 on a fixed child of fixed parent = relative to parent, not viewport.
+     Use explicit top/left/width/height to guarantee full-screen coverage. */
   #nav-backdrop {
     display: block;
     position: fixed;
-    inset: 0;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
     background: rgba(0, 0, 0, 0.5);
     z-index: 9998;
     opacity: 0;
@@ -1871,7 +1876,7 @@ footer {
     top: 0;
     right: 0;
     height: 100vh;
-    width: min(80vw, 300px);
+    width: min(88vw, 320px); /* wider = less uncovered screen for backdrop to handle */
     flex-direction: column;
     align-items: stretch;
     gap: 4px;
