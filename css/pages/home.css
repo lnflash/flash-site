@@ -1122,11 +1122,21 @@ body.home-page {
     --section-gap: 80px;
   }
 
+  /* On mobile the phone is hidden — switch from center to flex-start
+     so the hero doesn't pad 175px of dead space above the text */
+  #pg-hero {
+    min-height: auto;
+    justify-content: flex-start;
+    padding-top: 96px; /* header ~58px + 38px breathing room */
+    padding-bottom: 48px;
+  }
+
   .hero-wrap {
     grid-template-columns: 1fr;
     text-align: center;
     min-height: auto;
-    padding-top: 40px;
+    padding-top: 16px;
+    padding-bottom: 0;
   }
 
   .hero-left {
