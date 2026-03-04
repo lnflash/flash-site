@@ -548,7 +548,10 @@ window.onload = () => {
   initNavigationElements();
 
   // Register GSAP Plugins
-  gsap.registerPlugin(MotionPathPlugin);
+  // MotionPathPlugin only loaded on pages that need it (e.g. mission.html)
+  if (typeof MotionPathPlugin !== 'undefined') {
+    gsap.registerPlugin(MotionPathPlugin);
+  }
   // Set About Card Message
   cardSelect(0);
 

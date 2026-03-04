@@ -1593,6 +1593,10 @@ footer {
   max-width: 175px;
   margin: 25px 30px 25px 0;
 }
+
+/* Footer is always dark — always show white logo */
+.footer-top .footer-links img.light { display: none; }
+.footer-top .footer-links img.dark  { display: block; }
 .footer-links .badge {
   max-height: 52px;
   width: auto;
