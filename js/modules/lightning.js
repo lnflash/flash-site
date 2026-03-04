@@ -1,51 +1,47 @@
 /**
- * lightning.js v2 — GSAP + SVG lightning animation
+ * lightning.js v3 — Realistic GSAP + SVG lightning
  *
- * Replaces the canvas-based v1 with SVG paths animated via GSAP.
- * Benefits over canvas:
- *   - No DPR/buffer-size mismatch on mobile
- *   - No globalCompositeOperation state leakage
- *   - GSAP opacity tweens are bulletproof cross-device
- *   - SVG scales perfectly at any resolution
+ * Improvements over v2:
+ *   - Two-layer rendering: wide diffuse glow + sharp bright core per bolt
+ *   - Tree branching: 3–6 branches per strike (not just one fork)
+ *   - Multiple return strokes: rapid flicker before long afterglow (real lightning physics)
+ *   - More subdivisions + larger displacement = jaggier, more naturalistic paths
+ *   - Color: white core (#fff) over cyan-blue glow — matches real cloud-to-ground lightning
+ *   - Branches taper: thinner, shorter, dimmer than trunk
  *
  * Preserves:
- *   - Easter egg / Keys of the Caribbean strike counter
- *   - IntersectionObserver (only animates when hero is in view)
- *   - API surface expected by main.js (cvsStorm, observer, animate, startLightning, stormInterval)
+ *   - Easter egg / Keys of the Caribbean (fires at strike 15)
+ *   - IntersectionObserver — only animates when hero is in view
+ *   - API surface expected by main.js
  */
 
 // ─── Configuration ────────────────────────────────────────────────────────────
-const STRIKE_MIN_DELAY  = 3;    // seconds minimum between strikes
-const STRIKE_MAX_DELAY  = 9;    // seconds maximum between strikes
-const SUBDIVISIONS      = 4;    // midpoint displacement passes (more = jaggier bolt)
-const DISPLACEMENT      = 70;   // max horizontal offset per subdivision (px)
-const FORK_CHANCE       = 0.45; // probability a strike spawns a branch bolt
-const FLASH_DURATION    = 0.03; // seconds for initial flash-in
-const FADE_DURATION     = 0.85; // seconds for the fade-out
-const BOLT_COLOR        = 'rgba(200, 240, 255, 1)';
-const FORK_COLOR        = 'rgba(160, 220, 255, 0.75)';
+const STRIKE_MIN_DELAY  = 4;    // seconds min between strikes
+const STRIKE_MAX_DELAY  = 11;   // seconds max between strikes
+const TRUNK_SUBDIVISIONS = 5;   // midpoint passes for main bolt (more = jaggier)
+const BRANCH_SUBDIVISIONS = 4;  // midpoint passes for branches
+const TRUNK_DISP        = 110;  // initial displacement for trunk (px)
+const BRANCH_DISP       = 75;   // initial displacement for branches (px)
+const MIN_BRANCHES      = 2;    // min branch bolts per strike
+const MAX_BRANCHES      = 5;    // max branch bolts per strike
 
-// ─── Easter egg state (preserved from v1) ────────────────────────────────────
+// ─── Easter egg state (preserved) ────────────────────────────────────────────
 let lightningStrikeCount = 0;
 let rabbitHoleRevealed   = false;
 let hunterToken          = null;
 
 // ─── DOM setup ────────────────────────────────────────────────────────────────
 const heroSection = document.getElementById('pg-hero');
-
-// Legacy canvas: kept in DOM (main.js checks for it), hidden visually.
-const cvsStorm = document.getElementById('lightning-storm');
+const cvsStorm    = document.getElementById('lightning-storm');
 if (cvsStorm) cvsStorm.style.display = 'none';
 
-// main.js compatibility stubs — called from window.onload
-const stormInterval  = 4500;
-const animate        = () => {};  // no-op; GSAP handles everything
+// main.js compatibility stubs
+const stormInterval = 4500;
+const animate       = () => {};
 function startLightning() { startStorm(); }
-
-// Stub observer for main.js's `observer.observe(cvsStorm)` call
 const observer = new IntersectionObserver(() => {}, { threshold: 0.05 });
 
-// ─── SVG injection ────────────────────────────────────────────────────────────
+// ─── SVG setup ────────────────────────────────────────────────────────────────
 if (!heroSection) {
   console.warn('[lightning] #pg-hero not found — aborting.');
 } else {
@@ -65,16 +61,25 @@ if (!heroSection) {
     overflow:      'visible',
   });
 
-  // SVG filter: layered gaussian blur for electric glow
+  // Two filters:
+  //   bolt-outer — wide, soft diffuse corona (5px + 12px blur)
+  //   bolt-inner — tight, bright core glow (1.5px blur only)
   const defs = document.createElementNS(svgNS, 'defs');
   defs.innerHTML = `
-    <filter id="bolt-glow" x="-80%" y="-20%" width="260%" height="140%"
+    <filter id="bolt-outer" x="-120%" y="-20%" width="340%" height="140%"
             color-interpolation-filters="sRGB">
-      <feGaussianBlur in="SourceGraphic" stdDeviation="2.5" result="blur1"/>
-      <feGaussianBlur in="SourceGraphic" stdDeviation="7"   result="blur2"/>
+      <feGaussianBlur in="SourceGraphic" stdDeviation="5"  result="b1"/>
+      <feGaussianBlur in="SourceGraphic" stdDeviation="12" result="b2"/>
       <feMerge>
-        <feMergeNode in="blur2"/>
-        <feMergeNode in="blur1"/>
+        <feMergeNode in="b2"/>
+        <feMergeNode in="b1"/>
+      </feMerge>
+    </filter>
+    <filter id="bolt-inner" x="-60%" y="-10%" width="220%" height="120%"
+            color-interpolation-filters="sRGB">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="1.5" result="b"/>
+      <feMerge>
+        <feMergeNode in="b"/>
         <feMergeNode in="SourceGraphic"/>
       </feMerge>
     </filter>
@@ -82,108 +87,154 @@ if (!heroSection) {
   svg.appendChild(defs);
   heroSection.appendChild(svg);
 
-  // ─── Path generation (midpoint displacement) ────────────────────────────────
+  // ─── Midpoint displacement path generation ────────────────────────────────
   function generatePoints(x0, y0, x1, y1, passes, disp) {
     let pts = [{ x: x0, y: y0 }, { x: x1, y: y1 }];
+    let d   = disp;
 
-    for (let pass = 0; pass < passes; pass++) {
+    for (let p = 0; p < passes; p++) {
       const next = [];
       for (let i = 0; i < pts.length - 1; i++) {
-        const a  = pts[i];
-        const b  = pts[i + 1];
-        const mx = (a.x + b.x) / 2 + (Math.random() - 0.5) * disp;
-        const my = (a.y + b.y) / 2;
+        const a = pts[i], b = pts[i + 1];
+        // Slight downward bias on midpoint y keeps bolt moving earthward
+        const my = (a.y + b.y) / 2 + (Math.random() - 0.48) * d * 0.18;
+        const mx = (a.x + b.x) / 2 + (Math.random() - 0.5)  * d;
         next.push(a, { x: mx, y: my });
       }
       next.push(pts[pts.length - 1]);
-      pts  = next;
-      disp *= 0.6; // tighten displacement each pass
+      pts = next;
+      d  *= 0.55; // decay displacement each pass
     }
-
     return pts;
   }
 
-  function toPathD(pts) {
+  function toD(pts) {
     return pts.map((p, i) => `${i === 0 ? 'M' : 'L'}${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(' ');
   }
 
-  function makePath(d, strokeColor, strokeWidth) {
-    const path = document.createElementNS(svgNS, 'path');
-    path.setAttribute('d',                  d);
-    path.setAttribute('stroke',             strokeColor);
-    path.setAttribute('stroke-width',       strokeWidth);
-    path.setAttribute('stroke-linecap',     'round');
-    path.setAttribute('stroke-linejoin',    'round');
-    path.setAttribute('fill',               'none');
-    path.setAttribute('filter',             'url(#bolt-glow)');
-    path.style.opacity = '0';
-    return path;
+  // Two-layer bolt: outer glow path + inner core path
+  function makeBolt(d, glowWidth, coreWidth, glowColor, coreColor) {
+    const group = document.createElementNS(svgNS, 'g');
+    group.style.opacity = '0';
+
+    const glow = document.createElementNS(svgNS, 'path');
+    glow.setAttribute('d',             d);
+    glow.setAttribute('stroke',        glowColor);
+    glow.setAttribute('stroke-width',  glowWidth);
+    glow.setAttribute('stroke-linecap','round');
+    glow.setAttribute('stroke-linejoin','round');
+    glow.setAttribute('fill',          'none');
+    glow.setAttribute('filter',        'url(#bolt-outer)');
+
+    const core = document.createElementNS(svgNS, 'path');
+    core.setAttribute('d',             d);
+    core.setAttribute('stroke',        coreColor);
+    core.setAttribute('stroke-width',  coreWidth);
+    core.setAttribute('stroke-linecap','round');
+    core.setAttribute('stroke-linejoin','round');
+    core.setAttribute('fill',          'none');
+    core.setAttribute('filter',        'url(#bolt-inner)');
+
+    group.appendChild(glow);
+    group.appendChild(core);
+    return group;
   }
 
-  // ─── Strike ─────────────────────────────────────────────────────────────────
+  // ─── Strike ───────────────────────────────────────────────────────────────
   function strike() {
     const w = heroSection.offsetWidth;
     const h = heroSection.offsetHeight;
 
-    // Main bolt — random x at top, random x at bottom
-    const topX  = w * 0.1 + Math.random() * w * 0.8;
-    const botX  = w * 0.1 + Math.random() * w * 0.8;
-    const pts   = generatePoints(topX, 0, botX, h, SUBDIVISIONS, DISPLACEMENT);
-    const main  = makePath(toPathD(pts), BOLT_COLOR, '1.5');
-    svg.appendChild(main);
+    // Trunk: random top-x → random bottom-x, full height
+    const topX   = w * 0.05 + Math.random() * w * 0.9;
+    const botX   = w * 0.05 + Math.random() * w * 0.9;
+    const trunk  = generatePoints(topX, 0, botX, h, TRUNK_SUBDIVISIONS, TRUNK_DISP);
+    const trunkEl = makeBolt(
+      toD(trunk),
+      '5',  '1.2',                       // glow 5px wide, core 1.2px
+      'rgba(120, 180, 255, 0.55)',        // blue glow
+      'rgba(240, 250, 255, 1)'            // white-blue core
+    );
+    svg.appendChild(trunkEl);
 
-    // Flash → flicker → fade
-    gsap.timeline({ onComplete: () => main.remove() })
-      .to(main, { opacity: 1,   duration: FLASH_DURATION,   ease: 'none' })
-      .to(main, { opacity: 0.4, duration: 0.05,             ease: 'none' })
-      .to(main, { opacity: 0.9, duration: 0.04,             ease: 'none' })
-      .to(main, { opacity: 0,   duration: FADE_DURATION,    ease: 'power3.out' });
+    // Branches: pick random attachment points along trunk
+    const numBranches = MIN_BRANCHES + Math.floor(Math.random() * (MAX_BRANCHES - MIN_BRANCHES + 1));
+    const branchEls   = [];
 
-    // Fork bolt — branches from a random mid-segment
-    if (Math.random() < FORK_CHANCE) {
-      const fi     = Math.floor(pts.length * (0.25 + Math.random() * 0.35));
-      const fStart = pts[fi];
-      const fEndX  = Math.max(10, Math.min(w - 10, fStart.x + (Math.random() - 0.5) * 160));
-      const fEndY  = h * (0.6 + Math.random() * 0.4);
-      const fPts   = generatePoints(fStart.x, fStart.y, fEndX, fEndY, SUBDIVISIONS - 1, DISPLACEMENT * 0.7);
-      const fork   = makePath(toPathD(fPts), FORK_COLOR, '1');
-      svg.appendChild(fork);
+    for (let b = 0; b < numBranches; b++) {
+      // Attach in the lower 70% of the trunk (avoid tiny top stubs)
+      const startIdx = Math.floor(trunk.length * (0.15 + Math.random() * 0.65));
+      const origin   = trunk[startIdx];
 
-      gsap.timeline({ onComplete: () => fork.remove() })
-        .to(fork, { opacity: 0.8, duration: FLASH_DURATION, ease: 'none' })
-        .to(fork, { opacity: 0,   duration: FADE_DURATION * 0.8, ease: 'power2.out', delay: 0.06 });
+      // Branch end: spread horizontally, terminate before floor
+      const endX  = Math.max(5, Math.min(w - 5, origin.x + (Math.random() - 0.5) * w * 0.5));
+      const endY  = origin.y + (h - origin.y) * (0.3 + Math.random() * 0.6);
+
+      const bPts  = generatePoints(origin.x, origin.y, endX, endY, BRANCH_SUBDIVISIONS, BRANCH_DISP);
+
+      // Branches get thinner & dimmer than trunk; deep branches dimmer still
+      const depthFade = 0.5 + 0.5 * (1 - startIdx / trunk.length);
+      const bEl = makeBolt(
+        toD(bPts),
+        `${(3 * depthFade).toFixed(1)}`,
+        `${(0.8 * depthFade).toFixed(1)}`,
+        `rgba(100, 160, 255, ${(0.35 * depthFade).toFixed(2)})`,
+        `rgba(220, 240, 255, ${(0.85 * depthFade).toFixed(2)})`
+      );
+      svg.appendChild(bEl);
+      branchEls.push({ el: bEl, depth: depthFade });
     }
 
-    // ── Easter egg: Keys of the Caribbean (preserved from v1) ──
-    lightningStrikeCount++;
+    // ── Return strokes (realistic flicker) ──
+    // Real lightning: step leader (dim) → 2–3 rapid return strokes → afterglow
+    const returnStrokes = 1 + Math.floor(Math.random() * 2); // 2 or 3 total flashes
+    const tl = gsap.timeline({
+      onComplete: () => {
+        trunkEl.remove();
+        branchEls.forEach(b => b.el.remove());
+      }
+    });
 
+    // Build flicker sequence
+    let t = 0;
+    for (let s = 0; s < returnStrokes; s++) {
+      const peak = s === 0 ? 1 : 0.6 + Math.random() * 0.3; // first stroke brightest
+      tl.to([trunkEl, ...branchEls.map(b => b.el)], {
+        opacity: peak, duration: 0.025, ease: 'none'
+      }, t);
+      t += 0.025;
+      tl.to([trunkEl, ...branchEls.map(b => b.el)], {
+        opacity: peak * 0.25, duration: 0.04, ease: 'none'
+      }, t);
+      t += 0.04;
+    }
+
+    // Final afterglow fade — long, smooth power curve
+    tl.to([trunkEl, ...branchEls.map(b => b.el)], {
+      opacity: 1, duration: 0.02, ease: 'none'
+    }, t);
+    tl.to([trunkEl, ...branchEls.map(b => b.el)], {
+      opacity: 0, duration: 1.1, ease: 'power3.out'
+    }, t + 0.02);
+
+    // ── Easter egg ──
+    lightningStrikeCount++;
     const logMessages = [
-      'you are not alone',
-      'there is no spoon',
-      'wake up, sons and daughters',
-      'the cake is a lie',
-      'the answer is 42',
-      'dont panic',
-      'are you lost?',
-      'you are not lost',
-      'we are all Satoshi',
-      'the revolution is decentralized',
-      'who the cap fit',
-      'we gotta chase dem crazy',
-      'you cant run away from yourself',
-      'the truth is out there',
-      'one one cocoa full basket',
-      'yes i am a pirate',
+      'you are not alone',       'there is no spoon',
+      'wake up, sons and daughters', 'the cake is a lie',
+      'the answer is 42',        'dont panic',
+      'are you lost?',           'you are not lost',
+      'we are all Satoshi',      'the revolution is decentralized',
+      'who the cap fit',         'we gotta chase dem crazy',
+      'you cant run away from yourself', 'the truth is out there',
+      'one one cocoa full basket', 'yes i am a pirate',
       'i love you too',
     ];
     console.log(logMessages[Math.floor(Math.random() * logMessages.length)]);
-
-    if (lightningStrikeCount === 15 && !rabbitHoleRevealed) {
-      revealRabbitHole();
-    }
+    if (lightningStrikeCount === 15 && !rabbitHoleRevealed) revealRabbitHole();
   }
 
-  // ─── Scheduler ──────────────────────────────────────────────────────────────
+  // ─── Scheduler ────────────────────────────────────────────────────────────
   let stormActive = false;
 
   function scheduleNextStrike() {
@@ -197,8 +248,7 @@ if (!heroSection) {
   function startStorm() {
     if (stormActive) return;
     stormActive = true;
-    // Fire first strike after a short random delay so it doesn't hit on load
-    const firstDelay = 1.5 + Math.random() * 3;
+    const firstDelay = 1.5 + Math.random() * 2.5;
     gsap.delayedCall(firstDelay, () => { if (stormActive) { strike(); scheduleNextStrike(); } });
   }
 
@@ -207,19 +257,15 @@ if (!heroSection) {
     gsap.killDelayedCallsTo(scheduleNextStrike);
   }
 
-  // IntersectionObserver — only animate when hero is visible
+  // IntersectionObserver on hero section
   const heroObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      entry.isIntersecting ? startStorm() : stopStorm();
-    });
+    entries.forEach(e => e.isIntersecting ? startStorm() : stopStorm());
   }, { threshold: 0.05 });
-
   heroObserver.observe(heroSection);
 
-  // ─── Easter egg: revealRabbitHole (preserved verbatim from v1) ──────────────
+  // ─── Easter egg: revealRabbitHole (preserved verbatim) ────────────────────
   async function revealRabbitHole() {
     rabbitHoleRevealed = true;
-
     const token = localStorage.getItem('hunt_token');
 
     if (!token) {
