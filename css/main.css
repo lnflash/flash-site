@@ -1849,6 +1849,22 @@ footer {
     justify-content: center;
   }
 
+  /* ── Mobile drawer backdrop ── */
+  #nav-backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 9998;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  #nav-backdrop.active {
+    opacity: 1;
+    pointer-events: all;
+  }
+
   /* ── Mobile slide-out drawer ── */
   .main-nav {
     position: fixed;

@@ -31,12 +31,25 @@ function initNavigationElements() {
 function changeMobileNavState() {
   if (!mainNav) return;
 
+  const backdrop = document.getElementById('nav-backdrop');
+
   if (mainNav.dataset.mobState === "closed") {
     mainNav.dataset.mobState = "open";
+    document.body.style.overflow = 'hidden'; // prevent scroll behind drawer
+    if (backdrop) backdrop.classList.add('active');
   } else {
     mainNav.dataset.mobState = "closed";
+    document.body.style.overflow = '';
+    if (backdrop) backdrop.classList.remove('active');
   }
 }
+
+// Backdrop tap closes the drawer
+document.addEventListener('click', (e) => {
+  if (e.target && e.target.id === 'nav-backdrop') {
+    changeMobileNavState();
+  }
+});
 
 // Cards (About Page)
 const cards = document.querySelectorAll('.card');
