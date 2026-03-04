@@ -1614,6 +1614,54 @@ footer {
 /* Footer is always dark — always show white logo */
 .footer-top .footer-links img.light { display: none; }
 .footer-top .footer-links img.dark  { display: block; }
+
+/* ── Footer trust badges ── */
+.footer-trust {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin: 20px 0 8px;
+}
+
+.footer-trust-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 12px;
+  font-weight: 600;
+  color: rgba(200, 202, 220, 0.7);
+  letter-spacing: 0.02em;
+}
+
+.footer-trust-badge svg {
+  color: rgba(200, 202, 220, 0.5);
+  flex-shrink: 0;
+}
+
+/* ── Footer social icons ── */
+.footer-social {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin: 8px 0 16px;
+}
+
+.footer-social-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  color: rgba(200, 202, 220, 0.55);
+  transition: color 0.15s, background 0.15s;
+}
+
+.footer-social-link:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.07);
+}
 .footer-links .badge {
   max-height: 52px;
   width: auto;
