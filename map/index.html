@@ -570,7 +570,7 @@
 
       // Populate sheet
       const mapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${fp.mapInfo.coordinates.latitude},${fp.mapInfo.coordinates.longitude}`;
-      const flashProfileUrl = `https://app.flashapp.me/${fp.username}`;
+      const flashPayUrl = `https://pay.flashapp.me/${fp.username}`;
 
       document.getElementById('sheetBody').innerHTML = `
         <div class="sheet-merchant-name">${escHtml(fp.mapInfo.title)}</div>
@@ -588,8 +588,9 @@
             </svg>
             Get Directions
           </a>
-          <a href="${flashProfileUrl}" target="_blank" rel="noopener noreferrer" class="sheet-btn sheet-btn-secondary">
-            View Profile
+          <a href="${flashPayUrl}" target="_blank" rel="noopener noreferrer" class="sheet-btn sheet-btn-secondary">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+            Pay with Flash
           </a>
         </div>
       `;
