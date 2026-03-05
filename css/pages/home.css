@@ -218,7 +218,7 @@ body.home-page {
   flex-direction: column;
   justify-content: center;
   overflow: hidden;
-  padding-top: 96px;
+  padding-top: 72px;
   padding-bottom: 0;
 }
 
@@ -269,6 +269,13 @@ body.home-page {
 .hero-body {
   position: relative;
   z-index: 2;
+}
+
+/* canvas + .hero-bg are preceding DOM siblings (display:none / position:absolute),
+   making .hero-body match section > * + * and inherit 120px. Zero it out.
+   #pg-hero .hero-body has specificity (1,1,0) > the global rule's (0,1,1) */
+#pg-hero .hero-body {
+  padding-top: 0;
 }
 
 .hero-wrap {
@@ -1123,11 +1130,11 @@ body.home-page {
   }
 
   /* On mobile the phone is hidden — switch from center to flex-start
-     so the hero doesn't pad 175px of dead space above the text */
+     so the hero doesn't pad dead space above the text */
   #pg-hero {
     min-height: auto;
     justify-content: flex-start;
-    padding-top: 96px; /* header ~58px + 38px breathing room */
+    padding-top: 72px; /* header ~43px + 29px breathing room */
     padding-bottom: 48px;
   }
 
