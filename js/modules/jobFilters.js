@@ -16,8 +16,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
 
-            // Toggle collapsed state
-            this.classList.toggle('collapsed');
+            // Toggle expanded state (CSS uses .expanded to reveal .job-description)
+            this.classList.toggle('expanded');
         });
     });
 
