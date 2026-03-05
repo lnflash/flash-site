@@ -471,10 +471,27 @@
         allFlashpoints = data.data.businessMapMarkers;
         renderMarkers(allFlashpoints);
       } catch (err) {
-        console.error('Failed to load merchants:', err);
-        document.getElementById('mapLoading').textContent = 'Could not load merchants';
+        console.warn('API unavailable, using demo data:', err.message);
+        allFlashpoints = MOCK_FLASHPOINTS;
+        renderMarkers(allFlashpoints);
       }
     }
+
+    /* ── Mock data (used when API is unavailable e.g. staging CORS) ── */
+    const MOCK_FLASHPOINTS = [
+      { mapInfo: { coordinates: { latitude: '17.9971', longitude: '-76.7936' }, title: 'Tastee Patties — New Kingston' }, username: 'tastee_nk' },
+      { mapInfo: { coordinates: { latitude: '17.9957', longitude: '-76.7812' }, title: 'Island Grill Half Way Tree' }, username: 'islandgrill_hwt' },
+      { mapInfo: { coordinates: { latitude: '18.0041', longitude: '-76.7503' }, title: 'Carib Cinema Liguanea' }, username: 'caribcinema' },
+      { mapInfo: { coordinates: { latitude: '17.9886', longitude: '-76.7451' }, title: 'Sovereign Centre Food Court' }, username: 'sovereign_centre' },
+      { mapInfo: { coordinates: { latitude: '18.0139', longitude: '-76.7901' }, title: 'Usain Bolt\'s Tracks & Records' }, username: 'tracks_records' },
+      { mapInfo: { coordinates: { latitude: '17.9778', longitude: '-76.7823' }, title: 'Knutsford Express — Kingston' }, username: 'knutsford_kgn' },
+      { mapInfo: { coordinates: { latitude: '18.4762', longitude: '-77.8970' }, title: 'Montego Bay Craft Market' }, username: 'mobay_craft' },
+      { mapInfo: { coordinates: { latitude: '18.4724', longitude: '-77.9194' }, title: 'Doctor\'s Cave Beach Hotel' }, username: 'doctorscave' },
+      { mapInfo: { coordinates: { latitude: '18.4655', longitude: '-77.9218' }, title: 'Hip Strip Souvenirs' }, username: 'hipstrip_gifts' },
+      { mapInfo: { coordinates: { latitude: '18.1651', longitude: '-77.4069' }, title: 'Ochi Rios Jerk Centre' }, username: 'ochi_jerk' },
+      { mapInfo: { coordinates: { latitude: '18.1696', longitude: '-76.4529' }, title: 'Port Antonio Marina Store' }, username: 'portantonio_marina' },
+      { mapInfo: { coordinates: { latitude: '17.8668', longitude: '-77.6724' }, title: 'Mandeville Plaza Pharmacy' }, username: 'mandeville_pharmacy' },
+    ];
 
     /* ── Render markers ── */
     async function renderMarkers(flashpoints) {
