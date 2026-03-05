@@ -1583,7 +1583,12 @@ body.dark-mode .contact-form-card:hover {
 footer {
   margin-top: var(--padding-gen);
 }
-.footer-top > .container,
+.footer-top > .container {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 40px;
+}
 .footer-mid > .container {
   display: flex;
   justify-content: space-between;
@@ -1617,13 +1622,21 @@ footer {
 .footer-top .footer-links img.light { display: none; }
 .footer-top .footer-links img.dark  { display: block; }
 
+/* ── Footer center column (trust + social stacked) ── */
+.footer-center-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
 /* ── Footer trust badges ── */
 .footer-trust {
   display: flex;
   align-items: center;
-  gap: 20px;
-  flex-wrap: wrap;
-  margin: 20px 0 8px;
+  gap: 10px;
+  flex-wrap: nowrap;
+  margin: 0;
 }
 
 .footer-trust-badge {
@@ -1652,7 +1665,7 @@ footer {
   display: flex;
   align-items: center;
   gap: 4px;
-  margin: 8px 0 16px;
+  margin: 0;
 }
 
 .footer-social-link {
