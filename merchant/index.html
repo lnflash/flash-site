@@ -263,16 +263,16 @@
     .chat-send-btn:disabled { opacity: 0.5; cursor: not-allowed; }
     .chat-send-hint { font-size: 11px; color: var(--muted); }
 
-    .nip07-note {
+    .visitor-id {
       font-size: 12px;
       color: var(--sub);
-      background: #FFF7ED;
-      border: 1px solid #FED7AA;
+      background: #F0FDF4;
+      border: 1px solid var(--green-border);
       border-radius: 8px;
       padding: 8px 12px;
       line-height: 1.5;
     }
-    .nip07-note a { color: #C2410C; }
+    .visitor-id strong { color: #15803D; }
 
     /* ── Connecting indicator ── */
     @keyframes spin { to { transform: rotate(360deg); } }
@@ -391,14 +391,13 @@
 
       <!-- Compose -->
       <div class="chat-compose">
-        <div class="nip07-note" id="nostrNote" style="display:none"></div>
+        <div class="visitor-id" id="visitorIdBadge"></div>
         <textarea class="chat-input" id="chatInput" placeholder="Send a message to this merchant…" rows="2"></textarea>
         <div class="chat-send-row">
           <button class="chat-send-btn" id="chatSendBtn" disabled>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
             Send
           </button>
-          <span class="chat-send-hint" id="chatSendHint">Requires a Nostr extension (NIP-07)</span>
         </div>
       </div>
     </div>
@@ -525,7 +524,7 @@ async function init() {
     const markers = markersData?.data?.businessMapMarkers || [];
     const merchant = markers.find(m => m.username === USERNAME);
 
-    const hexPubkey = nostrTools.nip19.decode(npub).data;
+    const hexPubkey = NostrTools.nip19.decode(npub).data;
     const displayName = merchant?.mapInfo?.title || USERNAME;
 
     renderProfile(displayName, npub, hexPubkey);
@@ -587,24 +586,33 @@ function useMockData() {
   if (rows.length) document.getElementById('placesDetails').innerHTML = rows.join('');
 
   // Render mock Nostr messages
-  const hexPubkey = nostrTools.nip19.decode(mock.npub).data;
+  const hexPubkey = NostrTools.nip19.decode(mock.npub).data;
+  merchantHexPubkey = hexPubkey;
+  merchantDisplayName = mock.title;
+
+  // Fake ephemeral keys for mock mode
+  const sk = NostrTools.generateSecretKey();
+  ephemeralKeys = { sk, pk: NostrTools.getPublicKey(sk) };
+  const num = Math.floor(1000 + Math.random() * 9000);
+  visitorName = `Flash visitor #${num}`;
+  document.getElementById('visitorIdBadge').innerHTML =
+    `Sending as <strong>${visitorName}</strong> — your identity is private`;
+
   document.getElementById('relayDot').classList.add('connected');
   document.getElementById('relayStatusText').textContent = 'Demo mode (mock data)';
 
   mock.messages.forEach(msg => {
-    const isMerchant = msg.pubkey === 'MERCHANT';
     const ev = {
       id: Math.random().toString(36),
-      pubkey: isMerchant ? hexPubkey : msg.pubkey,
       content: msg.content,
-      created_at: Math.floor(msg.created_at)
+      created_at: Math.floor(msg.created_at),
+      _fromMerchant: msg.pubkey === 'MERCHANT'
     };
     seenEvents.add(ev.id);
     msgList.push(ev);
   });
   msgList.sort((a,b) => b.created_at - a.created_at);
-  renderFeed(hexPubkey);
-
+  renderFeed();
   setupCompose();
 }
 
@@ -696,151 +704,199 @@ async function enrichWithPlaces(merchant) {
   }
 }
 
-/* ── Nostr chat ── */
+/* ── Nostr chat (NIP-17 gift wrap with ephemeral keys) ── */
 const RELAYS = [
   'wss://relay.damus.io',
-  'wss://nos.lol',
-  'wss://relay.primal.net'
+  'wss://relay.primal.net',
+  'wss://relay.snort.social',
+  'wss://nostr.mom',
+  'wss://relay.nostr.bg',
+  'wss://nostr-pub.wellorder.net'
 ];
 
-let hexPubkey, merchantDisplayName;
+let merchantHexPubkey, merchantNpub, merchantDisplayName;
+let ephemeralKeys = null;
+let visitorName = null;
 const seenEvents = new Set();
 const msgList = [];
 
+const now = () => Math.round(Date.now() / 1000);
+function bytesToHex(b) { return Array.from(b).map(x => x.toString(16).padStart(2,'0')).join(''); }
+
+/* NIP-17 helpers */
+function createRumor(content, senderSk, recipientPubkey) {
+  const rumor = {
+    kind: 14,
+    created_at: now(),
+    content,
+    tags: [['p', recipientPubkey]],
+    pubkey: NostrTools.getPublicKey(senderSk)
+  };
+  rumor.id = NostrTools.getEventHash(rumor);
+  return rumor;
+}
+
+function nip44Encrypt(sk, pk, plaintext) {
+  const key = NostrTools.nip44.v2.utils.getConversationKey(bytesToHex(sk), pk);
+  return NostrTools.nip44.v2.encrypt(plaintext, key);
+}
+
+function nip44Decrypt(sk, pk, ciphertext) {
+  const key = NostrTools.nip44.v2.utils.getConversationKey(bytesToHex(sk), pk);
+  return NostrTools.nip44.v2.decrypt(ciphertext, key);
+}
+
+function createSeal(rumor, senderSk, recipientPk) {
+  return NostrTools.finalizeEvent({
+    kind: 13,
+    created_at: now(),
+    tags: [],
+    content: nip44Encrypt(senderSk, recipientPk, JSON.stringify(rumor))
+  }, senderSk);
+}
+
+function createWrap(seal, recipientPk) {
+  const randomSk = NostrTools.generateSecretKey();
+  return NostrTools.finalizeEvent({
+    kind: 1059,
+    created_at: now(),
+    tags: [['p', recipientPk]],
+    content: nip44Encrypt(randomSk, recipientPk, JSON.stringify(seal))
+  }, randomSk);
+}
+
+function unwrapGift(wrapEvent, sk) {
+  const sealStr = nip44Decrypt(sk, wrapEvent.pubkey, wrapEvent.content);
+  const seal = JSON.parse(sealStr);
+  const rumorStr = nip44Decrypt(sk, seal.pubkey, seal.content);
+  return JSON.parse(rumorStr);
+}
+
+async function publishToRelays(event) {
+  const pool = new NostrTools.SimplePool();
+  await Promise.allSettled(RELAYS.map(url => pool.publish([url], event)));
+}
+
+async function sendNip17(content) {
+  const rumor = createRumor(content, ephemeralKeys.sk, merchantHexPubkey);
+  const seal  = createSeal(rumor, ephemeralKeys.sk, merchantHexPubkey);
+  const wrap  = createWrap(seal, merchantHexPubkey);
+  await publishToRelays(wrap);
+  return rumor;
+}
+
+/* Init chat */
 function initNostrChat(pubkey, npub, displayName) {
-  hexPubkey = pubkey;
+  merchantHexPubkey = pubkey;
+  merchantNpub = npub;
   merchantDisplayName = displayName;
 
-  // Check NIP-07
+  // Generate ephemeral keypair for this visitor
+  const sk = NostrTools.generateSecretKey();
+  const pk = NostrTools.getPublicKey(sk);
+  ephemeralKeys = { sk, pk };
+  const num = Math.floor(1000 + Math.random() * 9000);
+  visitorName = `Flash visitor #${num}`;
+
+  document.getElementById('visitorIdBadge').innerHTML =
+    `Sending as <strong>${visitorName}</strong> — your identity is private`;
+
+  // Enable compose
   setupCompose();
 
-  // Connect to relays
-  let connectedCount = 0;
-  const subs = [];
+  // Subscribe to incoming gift wraps (merchant replies)
+  subscribeToReplies(pk);
+}
 
-  RELAYS.forEach(url => {
-    try {
-      const relay = nostrTools.relayInit(url);
-      relay.connect();
+function subscribeToReplies(myPk) {
+  const pool = new NostrTools.SimplePool();
+  let connected = 0;
 
-      relay.on('connect', () => {
-        connectedCount++;
-        document.getElementById('relayDot').classList.add('connected');
-        document.getElementById('relayStatusText').textContent = `Connected (${connectedCount} relay${connectedCount > 1 ? 's' : ''})`;
-
-        // Subscribe to notes involving this merchant
-        const sub = relay.sub([
-          // Notes FROM the merchant
-          { kinds: [1], authors: [pubkey], limit: 20 },
-          // Notes TO / mentioning the merchant
-          { kinds: [1], '#p': [pubkey], limit: 40 }
-        ]);
-
-        sub.on('event', event => {
-          if (seenEvents.has(event.id)) return;
-          seenEvents.add(event.id);
-          addMessage(event, pubkey);
-        });
-
-        subs.push(sub);
-      });
-
-      relay.on('error', () => {
-        if (connectedCount === 0) {
-          document.getElementById('relayStatusText').textContent = 'Could not connect to relays';
-        }
-      });
-    } catch (e) {
-      console.warn('Relay error:', url, e);
+  pool.subscribeMany(RELAYS, [{ kinds: [1059], '#p': [myPk], limit: 50 }], {
+    onevent(event) {
+      try {
+        const rumor = unwrapGift(event, ephemeralKeys.sk);
+        if (seenEvents.has(rumor.id)) return;
+        seenEvents.add(rumor.id);
+        msgList.push({ ...rumor, _fromMerchant: true });
+        msgList.sort((a,b) => b.created_at - a.created_at);
+        renderFeed();
+      } catch(e) { /* not for us */ }
     }
+  });
+
+  // Update relay status via connection probing
+  RELAYS.forEach(url => {
+    NostrTools.Relay.connect(url).then(r => {
+      connected++;
+      document.getElementById('relayDot').classList.add('connected');
+      document.getElementById('relayStatusText').textContent =
+        `Connected (${connected} relay${connected > 1 ? 's' : ''})`;
+      r.close();
+    }).catch(() => {});
   });
 }
 
-function addMessage(event, merchantPubkey) {
-  msgList.push(event);
-  msgList.sort((a, b) => b.created_at - a.created_at); // newest first
-  renderFeed(merchantPubkey);
-}
-
-function renderFeed(merchantPubkey) {
-  const feed = document.getElementById('chatFeed');
+function renderFeed() {
+  const feed  = document.getElementById('chatFeed');
   const empty = document.getElementById('chatEmpty');
-
-  if (msgList.length === 0) { empty.style.display = 'block'; return; }
+  if (msgList.length === 0) { empty.style.display = 'flex'; return; }
   empty.style.display = 'none';
 
-  feed.innerHTML = msgList.slice(0, 50).map(ev => {
-    const isMerchant = ev.pubkey === merchantPubkey;
-    const shortKey = ev.pubkey.slice(0, 8) + '…';
-    const time = new Date(ev.created_at * 1000).toLocaleString();
-    return `<div class="chat-msg ${isMerchant ? 'from-merchant' : ''}">
+  feed.innerHTML = msgList.slice(0, 60).map(ev => {
+    const isMe = !ev._fromMerchant;
+    const label = isMe ? (visitorName || 'You') : merchantDisplayName;
+    const time = new Date(ev.created_at * 1000).toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
+    return `<div class="chat-msg ${ev._fromMerchant ? 'from-merchant' : ''}">
       <div class="chat-msg-meta">
-        <span class="author">${isMerchant ? escHtml(merchantDisplayName) : shortKey}</span>
-        ${isMerchant ? '<span class="merchant-tag">merchant</span>' : ''}
+        <span class="author">${escHtml(label)}</span>
+        ${ev._fromMerchant ? '<span class="merchant-tag">merchant</span>' : ''}
         <span style="margin-left:auto">${time}</span>
       </div>
       <div class="chat-msg-text">${escHtml(ev.content)}</div>
     </div>`;
   }).join('');
+  feed.scrollTop = feed.scrollHeight;
 }
 
 function setupCompose() {
-  const input = document.getElementById('chatInput');
+  const input   = document.getElementById('chatInput');
   const sendBtn = document.getElementById('chatSendBtn');
-  const hint = document.getElementById('chatSendHint');
-  const note = document.getElementById('nostrNote');
 
-  if (window.nostr) {
-    // NIP-07 available
-    sendBtn.disabled = false;
-    hint.textContent = 'Signed with your Nostr extension';
-    note.style.display = 'none';
+  sendBtn.disabled = false;
+  input.addEventListener('input', () => { sendBtn.disabled = !input.value.trim(); });
 
-    input.addEventListener('input', () => {
-      sendBtn.disabled = !input.value.trim();
-    });
+  sendBtn.addEventListener('click', async () => {
+    const content = input.value.trim();
+    if (!content) return;
 
-    sendBtn.addEventListener('click', async () => {
-      const content = input.value.trim();
-      if (!content) return;
-      sendBtn.disabled = true;
-      sendBtn.innerHTML = '<div class="spinner"></div> Sending…';
-
-      try {
-        const event = {
-          kind: 1,
-          created_at: Math.floor(Date.now() / 1000),
-          tags: [['p', hexPubkey]],
-          content
-        };
-        const signed = await window.nostr.signEvent(event);
-
-        // Publish to relays
-        await Promise.any(RELAYS.map(url =>
-          nostrTools.relayInit(url).publish(signed).catch(() => {})
-        ));
-
-        input.value = '';
-        sendBtn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg> Send';
-        sendBtn.disabled = false;
-      } catch (err) {
-        console.error('Send failed:', err);
-        sendBtn.innerHTML = 'Failed — retry';
-        sendBtn.disabled = false;
-      }
-    });
-
-  } else {
-    // No NIP-07 — show install hint
-    note.style.display = 'block';
-    note.innerHTML = `To send a message you need a Nostr browser extension like
-      <a href="https://getalby.com" target="_blank" rel="noopener noreferrer">Alby</a> or
-      <a href="https://www.nos2x.xyz" target="_blank" rel="noopener noreferrer">nos2x</a>.
-      Or use the Flash app directly.`;
     sendBtn.disabled = true;
-    hint.style.display = 'none';
-  }
+    sendBtn.innerHTML = '<div class="spinner"></div>';
+
+    // Optimistic: show message immediately
+    const optimistic = {
+      id: 'opt-' + Date.now(),
+      content,
+      created_at: now(),
+      _fromMerchant: false
+    };
+    seenEvents.add(optimistic.id);
+    msgList.unshift(optimistic);
+    renderFeed();
+    input.value = '';
+
+    try {
+      await sendNip17(content);
+      sendBtn.innerHTML = SEND_ICON + ' Send';
+    } catch(err) {
+      console.error('Send failed:', err);
+      sendBtn.innerHTML = 'Retry';
+    }
+    sendBtn.disabled = false;
+  });
 }
+
+const SEND_ICON = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>`;
 
 /* ── Util ── */
 function escHtml(str) {
