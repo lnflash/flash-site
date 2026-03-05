@@ -1121,3 +1121,88 @@ body.team-page h1, body.team-page h2, body.team-page h3 {
     justify-content: center;
   }
 }
+
+/* ══════════════════════════════════════════════════════════════
+   JOIN THE TEAM CARD — Option C (dark aspirational)
+   ══════════════════════════════════════════════════════════════ */
+.join-team-card {
+  display: flex;
+  flex-direction: column;
+  background: #09090E;
+  border: 2px dashed #3AB54A;
+  border-radius: 12px;
+  overflow: hidden;
+  text-decoration: none;
+  cursor: pointer;
+  transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.join-team-card:hover {
+  border-color: #5ECF6A;
+  transform: translateY(-4px);
+  box-shadow: 0 8px 32px rgba(58, 181, 74, 0.18);
+}
+
+.join-team-image-area {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  background: linear-gradient(145deg, #0D1A0F 0%, #09090E 60%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 24px;
+}
+
+.join-team-tagline {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  color: rgba(255, 255, 255, 0.35);
+  text-align: center;
+  line-height: 1.5;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.join-team-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 80px;
+  background: rgba(58, 181, 74, 0.1);
+  border: 1.5px solid rgba(58, 181, 74, 0.3);
+  border-radius: 50%;
+}
+
+.join-team-body {
+  padding: 16px 18px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.join-team-name {
+  font-size: 16px;
+  font-weight: 700;
+  color: #F0F0F6;
+  margin: 0;
+}
+
+.join-team-sub {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.45);
+  margin: 0 0 10px;
+}
+
+.join-team-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #3AB54A;
+  letter-spacing: 0.01em;
+}
