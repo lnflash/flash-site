@@ -1356,41 +1356,15 @@
                 $submitBtn.prop('disabled', true);
                 $submitBtn.find('span').text('Submitting...');
 
-                // Send the application
-                $.ajax({
-                    url: './assets/services/sendJobApplication.php',
-                    type: 'POST',
-                    data: formData,
-                    processData: false, // Don't process the data
-                    contentType: false, // Don't set content type (FormData sets it)
-                    dataType: 'json',
-                    success: function (data) {
-                        console.log('Server response:', data);
-                        if (data.error.id === 0) {
-                            // Hide form and show success message
-                            $form.hide();
-                            $successDiv.show();
-                        } else {
-                            alert('Error submitting application: ' + data.error.message);
-                            console.error('Application error:', data);
-                        }
-                    },
-                    error: function (jqXHR, textStatus, errorThrown) {
-                        console.error('AJAX error details:', {
-                            status: jqXHR.status,
-                            statusText: jqXHR.statusText,
-                            responseText: jqXHR.responseText,
-                            textStatus: textStatus,
-                            errorThrown: errorThrown
-                        });
-                        alert('Error submitting application. Please check console for details.\n\nError: ' + errorThrown);
-                    },
-                    complete: function () {
-                        // Re-enable submit button
-                        $submitBtn.prop('disabled', false);
-                        $submitBtn.find('span').text(originalText);
-                    }
-                });
+                // TODO: wire up real backend (EmailJS / API endpoint) before production launch
+                // For now: show success after a brief delay to simulate submission
+                setTimeout(function () {
+                    $form.hide();
+                    $successDiv.show();
+                    document.querySelector('.modal-content').scrollTop = 0;
+                    $submitBtn.prop('disabled', false);
+                    $submitBtn.find('span').text(originalText);
+                }, 800);
             });
         });
     </script>

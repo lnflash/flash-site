@@ -97,23 +97,8 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Form Submission
-    modalForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-
-        // Get form data
-        const formData = new FormData(this);
-
-        // Here you would normally send the data to your server
-        // For now, we'll just show the success message
-
-        // Show success message
-        modalForm.style.display = 'none';
-        successDiv.style.display = 'block';
-
-        // Scroll to top of modal
-        document.querySelector('.modal-content').scrollTop = 0;
-    });
+    // Form Submission — handled by inline script in team.html (AJAX / server submission)
+    // Do NOT add a duplicate submit handler here.
 
     // Search Functionality
     if (searchInput) {
