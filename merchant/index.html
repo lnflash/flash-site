@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flash Merchant | Flash</title>
+  <meta name="description" content="Flash merchant profile — pay with Bitcoin Lightning and send a message.">
+
+  <link rel="shortcut icon" type="image/png" href="../assets/img/favicon-32x32.png" sizes="32x32">
+  <link rel="icon" type="image/png" href="../assets/img/favicon-16x16.png" sizes="16x16">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <!-- QR Code -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <!-- Nostr Tools -->
+  <script src="https://unpkg.com/nostr-tools@2.7.0/lib/nostr.bundle.js"></script>
+  <!-- Google Maps (Places only) -->
+  <script>function initMap(){}</script>
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBrZtvg_PSLuDUcMQ9BapDyTlc821oLM2w&libraries=places&callback=initMap&loading=async"></script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --green: #3AB54A;
+      --green-light: #F0FDF4;
+      --green-border: #BBF7D0;
+      --dark: #09090E;
+      --text: #111218;
+      --sub: #4B5563;
+      --muted: #9CA3AF;
+      --border: #E5E7EB;
+      --radius: 16px;
+    }
+    html { font-family: 'Inter', sans-serif; color: var(--text); background: #F9FAFB; }
+    body { min-height: 100vh; }
+
+    /* ── Top bar ── */
+    .top-bar {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(249,250,251,0.9);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .back-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--sub);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: color 0.15s;
+    }
+    .back-btn:hover { color: var(--text); }
+    .top-bar-logo { height: 24px; margin-left: auto; }
+
+    /* ── Page layout ── */
+    .page { max-width: 560px; margin: 0 auto; padding: 24px 16px 60px; }
+
+    /* ── Skeleton loader ── */
+    @keyframes shimmer { 0%{background-position:-200% 0} 100%{background-position:200% 0} }
+    .skeleton {
+      background: linear-gradient(90deg, #E5E7EB 25%, #F3F4F6 50%, #E5E7EB 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.4s infinite;
+      border-radius: 8px;
+    }
+
+    /* ── Error state ── */
+    .error-state {
+      text-align: center;
+      padding: 60px 20px;
+      display: none;
+    }
+    .error-state h2 { font-family: 'Sora', sans-serif; font-size: 22px; margin-bottom: 8px; }
+    .error-state p { color: var(--sub); margin-bottom: 24px; }
+    .error-state a {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 10px 20px; background: var(--green); color: #fff;
+      border-radius: 10px; text-decoration: none; font-weight: 600; font-size: 14px;
+    }
+
+    /* ── Hero card ── */
+    .hero-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px 24px 24px;
+      margin-bottom: 16px;
+    }
+    .hero-top { display: flex; align-items: flex-start; gap: 16px; margin-bottom: 16px; }
+    .merchant-avatar {
+      width: 64px; height: 64px; border-radius: 18px;
+      background: var(--green); color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Sora', sans-serif; font-size: 28px; font-weight: 700;
+      flex-shrink: 0; box-shadow: 0 4px 16px rgba(58,181,74,0.28);
+    }
+    .hero-meta { flex: 1; min-width: 0; }
+    .merchant-name {
+      font-family: 'Sora', sans-serif;
+      font-size: 22px; font-weight: 700;
+      line-height: 1.2; margin-bottom: 3px;
+    }
+    .merchant-username { font-size: 13px; color: var(--muted); margin-bottom: 8px; }
+    .flash-badge {
+      display: inline-flex; align-items: center; gap: 5px;
+      background: var(--green-light); border: 1px solid var(--green-border);
+      border-radius: 100px; padding: 3px 10px;
+      font-size: 11px; font-weight: 600; color: #15803D;
+    }
+
+    /* ── Google Places details ── */
+    .places-details { display: flex; flex-direction: column; gap: 8px; }
+    .place-row {
+      display: flex; align-items: flex-start; gap: 10px;
+      font-size: 13px; color: var(--sub); line-height: 1.4;
+    }
+    .place-row svg { flex-shrink: 0; margin-top: 1px; color: var(--muted); }
+    .place-row a { color: var(--sub); text-decoration: none; }
+    .place-row a:hover { color: var(--text); text-decoration: underline; }
+    .rating-stars { color: #F59E0B; letter-spacing: -1px; }
+    .open-now { color: #15803D; font-weight: 600; }
+    .closed-now { color: #DC2626; font-weight: 600; }
+
+    /* ── Pay card ── */
+    .pay-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      margin-bottom: 16px;
+    }
+    .card-title {
+      font-family: 'Sora', sans-serif;
+      font-size: 15px; font-weight: 700;
+      margin-bottom: 20px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .card-title svg { color: var(--green); }
+
+    .qr-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+    .qr-container {
+      width: 180px; height: 180px;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .qr-container canvas, .qr-container img { border-radius: 4px; }
+    .qr-label { font-size: 12px; color: var(--muted); text-align: center; }
+
+    .pay-btn {
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      width: 100%; padding: 14px;
+      background: var(--green); color: #fff;
+      border: none; border-radius: 12px;
+      font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 600;
+      text-decoration: none; cursor: pointer;
+      transition: opacity 0.15s;
+    }
+    .pay-btn:hover { opacity: 0.88; }
+
+    /* ── Chat card ── */
+    .chat-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .chat-header {
+      padding: 20px 20px 16px;
+      border-bottom: 1px solid var(--border);
+    }
+    .chat-feed {
+      max-height: 360px;
+      overflow-y: auto;
+      padding: 12px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .chat-empty {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .chat-empty svg { margin-bottom: 10px; color: #D1D5DB; }
+
+    .chat-msg {
+      background: #F9FAFB;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 10px 14px;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+    .chat-msg.from-merchant {
+      background: var(--green-light);
+      border-color: var(--green-border);
+    }
+    .chat-msg-meta {
+      font-size: 11px;
+      color: var(--muted);
+      margin-bottom: 4px;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .chat-msg-meta .author { font-weight: 600; color: var(--sub); }
+    .chat-msg-meta .merchant-tag {
+      background: var(--green); color: #fff;
+      border-radius: 100px; padding: 1px 6px;
+      font-size: 10px; font-weight: 600;
+    }
+    .chat-msg-text { color: var(--text); }
+
+    .chat-compose {
+      padding: 12px 16px 16px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .chat-input {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      resize: none;
+      outline: none;
+      transition: border-color 0.15s;
+      min-height: 64px;
+    }
+    .chat-input:focus { border-color: var(--green); }
+    .chat-send-row { display: flex; align-items: center; gap: 10px; }
+    .chat-send-btn {
+      display: flex; align-items: center; gap: 6px;
+      padding: 9px 18px;
+      background: var(--green); color: #fff;
+      border: none; border-radius: 10px;
+      font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 600;
+      cursor: pointer; transition: opacity 0.15s;
+    }
+    .chat-send-btn:hover { opacity: 0.88; }
+    .chat-send-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .chat-send-hint { font-size: 11px; color: var(--muted); }
+
+    .nip07-note {
+      font-size: 12px;
+      color: var(--sub);
+      background: #FFF7ED;
+      border: 1px solid #FED7AA;
+      border-radius: 8px;
+      padding: 8px 12px;
+      line-height: 1.5;
+    }
+    .nip07-note a { color: #C2410C; }
+
+    /* ── Connecting indicator ── */
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .spinner {
+      width: 14px; height: 14px;
+      border: 2px solid var(--border);
+      border-top-color: var(--green);
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      display: inline-block;
+    }
+    .relay-status {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 11px; color: var(--muted); padding: 4px 0 0;
+    }
+    .relay-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: #D1D5DB;
+      transition: background 0.3s;
+    }
+    .relay-dot.connected { background: var(--green); }
+
+    /* ── Footer ── */
+    .merchant-footer {
+      margin-top: 40px;
+      text-align: center;
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .merchant-footer a { color: var(--muted); text-decoration: none; }
+    .merchant-footer a:hover { color: var(--text); }
+  </style>
+</head>
+<body>
+
+  <!-- Top bar -->
+  <div class="top-bar">
+    <a href="/map/" class="back-btn">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      Merchant Map
+    </a>
+    <a href="/" class="map-logo">
+      <img src="../assets/img/logo-black.png" alt="Flash" class="top-bar-logo">
+    </a>
+  </div>
+
+  <!-- Error state -->
+  <div class="error-state" id="errorState">
+    <h2>Merchant not found</h2>
+    <p>We couldn't find a Flash merchant with that username.</p>
+    <a href="/map/">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      Back to map
+    </a>
+  </div>
+
+  <!-- Main content (hidden until loaded) -->
+  <div class="page" id="mainPage" style="display:none">
+
+    <!-- Hero card -->
+    <div class="hero-card" id="heroCard">
+      <div class="hero-top">
+        <div class="merchant-avatar" id="merchantAvatar">?</div>
+        <div class="hero-meta">
+          <div class="merchant-name" id="merchantName">Loading…</div>
+          <div class="merchant-username" id="merchantUsername"></div>
+          <div class="flash-badge">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+            Flash Merchant
+          </div>
+        </div>
+      </div>
+      <div class="places-details" id="placesDetails">
+        <!-- Populated by Google Places enrichment -->
+      </div>
+    </div>
+
+    <!-- Pay card -->
+    <div class="pay-card">
+      <div class="card-title">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        Pay with Flash
+      </div>
+      <div class="qr-wrap">
+        <div class="qr-container" id="qrContainer">
+          <div class="spinner"></div>
+        </div>
+        <div class="qr-label">Scan to pay this merchant with Flash</div>
+      </div>
+      <a id="payBtn" href="#" target="_blank" rel="noopener noreferrer" class="pay-btn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        Open Flash Pay
+      </a>
+    </div>
+
+    <!-- Chat card -->
+    <div class="chat-card">
+      <div class="chat-header">
+        <div class="card-title" style="margin-bottom:4px;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+          Message this merchant
+        </div>
+        <div class="relay-status">
+          <div class="relay-dot" id="relayDot"></div>
+          <span id="relayStatusText">Connecting to Nostr…</span>
+        </div>
+      </div>
+
+      <!-- Feed -->
+      <div class="chat-feed" id="chatFeed">
+        <div class="chat-empty" id="chatEmpty">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" display="block" style="margin:0 auto 10px"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+          No messages yet. Be the first to say hello!
+        </div>
+      </div>
+
+      <!-- Compose -->
+      <div class="chat-compose">
+        <div class="nip07-note" id="nostrNote" style="display:none"></div>
+        <textarea class="chat-input" id="chatInput" placeholder="Send a message to this merchant…" rows="2"></textarea>
+        <div class="chat-send-row">
+          <button class="chat-send-btn" id="chatSendBtn" disabled>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+            Send
+          </button>
+          <span class="chat-send-hint" id="chatSendHint">Requires a Nostr extension (NIP-07)</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="merchant-footer">
+      <p>Powered by <a href="/">Flash</a> · <a href="/map/">Find more merchants</a></p>
+    </div>
+  </div>
+
+<script>
+'use strict';
+
+/* ── Parse username from URL ── */
+const params = new URLSearchParams(window.location.search);
+const USERNAME = (params.get('u') || '').toLowerCase().trim();
+
+if (!USERNAME) {
+  showError();
+} else {
+  init();
+}
+
+function showError() {
+  document.getElementById('errorState').style.display = 'block';
+  document.title = 'Merchant Not Found | Flash';
+}
+
+/* ── API helper ── */
+function getApiUrl() {
+  const host = window.location.hostname;
+  if (host === 'localhost' || host === '127.0.0.1') return 'https://corsproxy.io/?https://api.flashapp.me/graphql';
+  if (host === 'getflash.io' || host === 'www.getflash.io') return 'https://api.flashapp.me/graphql';
+  return 'https://corsproxy.io/?https://api.flashapp.me/graphql'; // staging: use proxy
+}
+
+async function gql(query, variables = {}) {
+  const res = await fetch(getApiUrl(), {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ query, variables })
+  });
+  return res.json();
+}
+
+/* ── Main init ── */
+async function init() {
+  try {
+    // Fetch npub + merchant map info in parallel
+    const [npubData, markersData] = await Promise.all([
+      gql(`query { npubByUsername(username: "${USERNAME}") { npub username } }`),
+      gql(`query { businessMapMarkers { mapInfo { coordinates { latitude longitude } title } username } }`)
+    ]);
+
+    const npubResult = npubData?.data?.npubByUsername;
+    if (!npubResult) { showError(); return; }
+
+    const npub = npubResult.npub;
+    const markers = markersData?.data?.businessMapMarkers || [];
+    const merchant = markers.find(m => m.username === USERNAME);
+
+    // Decode hex pubkey from npub
+    const hexPubkey = nostrTools.nip19.decode(npub).data;
+
+    // Update title
+    const displayName = merchant?.mapInfo?.title || USERNAME;
+    document.title = `${displayName} | Flash Merchant`;
+
+    // Show page
+    document.getElementById('mainPage').style.display = 'block';
+
+    // Populate hero
+    document.getElementById('merchantAvatar').textContent = displayName.charAt(0).toUpperCase();
+    document.getElementById('merchantName').textContent = displayName;
+    document.getElementById('merchantUsername').textContent = `@${USERNAME}`;
+
+    // QR + pay button
+    const payUrl = `https://pay.flashapp.me/${USERNAME}`;
+    document.getElementById('qrContainer').innerHTML = '';
+    new QRCode(document.getElementById('qrContainer'), {
+      text: payUrl,
+      width: 156,
+      height: 156,
+      colorDark: '#111218',
+      colorLight: '#ffffff',
+      correctLevel: QRCode.CorrectLevel.M
+    });
+    const payBtn = document.getElementById('payBtn');
+    payBtn.href = payUrl;
+
+    // Google Places enrichment
+    if (merchant) {
+      enrichWithPlaces(merchant);
+    }
+
+    // Nostr chat
+    initNostrChat(hexPubkey, npub, displayName);
+
+  } catch (err) {
+    console.error('Init failed:', err);
+    showError();
+  }
+}
+
+/* ── Google Places enrichment ── */
+async function enrichWithPlaces(merchant) {
+  try {
+    await new Promise(resolve => {
+      const check = () => window.google?.maps ? resolve() : setTimeout(check, 100);
+      check();
+    });
+
+    const { Place } = await google.maps.importLibrary('places');
+    const title = merchant.mapInfo.title;
+    const lat = parseFloat(merchant.mapInfo.coordinates.latitude);
+    const lng = parseFloat(merchant.mapInfo.coordinates.longitude);
+
+    const { places } = await Place.searchByText({
+      fields: ['displayName', 'formattedAddress', 'internationalPhoneNumber',
+               'websiteURI', 'rating', 'userRatingCount', 'regularOpeningHours'],
+      textQuery: `${title} Jamaica`,
+      locationBias: { center: { lat, lng }, radius: 500 },
+      maxResultCount: 3
+    });
+
+    if (!places?.length) return;
+
+    // Pick closest
+    let best = places[0];
+    let minDist = Infinity;
+    places.forEach(p => {
+      if (p.location) {
+        const d = Math.hypot(p.location.lat() - lat, p.location.lng() - lng);
+        if (d < minDist) { minDist = d; best = p; }
+      }
+    });
+
+    if (minDist > 0.015) return; // >~1.5km, skip
+
+    const rows = [];
+
+    if (best.formattedAddress) {
+      rows.push(`<div class="place-row">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        <span>${escHtml(best.formattedAddress)}</span>
+      </div>`);
+    }
+
+    if (best.internationalPhoneNumber) {
+      rows.push(`<div class="place-row">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.67A2 2 0 012 0h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 14h.01v2.92z"/></svg>
+        <a href="tel:${best.internationalPhoneNumber}">${escHtml(best.internationalPhoneNumber)}</a>
+      </div>`);
+    }
+
+    if (best.rating) {
+      const stars = '★'.repeat(Math.round(best.rating)) + '☆'.repeat(5 - Math.round(best.rating));
+      rows.push(`<div class="place-row">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <span><span class="rating-stars">${stars}</span> ${best.rating}${best.userRatingCount ? ` (${best.userRatingCount} reviews)` : ''}</span>
+      </div>`);
+    }
+
+    if (best.regularOpeningHours) {
+      const isOpen = best.regularOpeningHours.isOpen?.();
+      const statusHtml = isOpen === true
+        ? '<span class="open-now">Open now</span>'
+        : isOpen === false ? '<span class="closed-now">Closed now</span>' : '';
+      if (statusHtml) {
+        rows.push(`<div class="place-row">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          <span>${statusHtml}</span>
+        </div>`);
+      }
+    }
+
+    if (best.websiteURI) {
+      const domain = new URL(best.websiteURI).hostname.replace('www.','');
+      rows.push(`<div class="place-row">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
+        <a href="${best.websiteURI}" target="_blank" rel="noopener noreferrer">${escHtml(domain)}</a>
+      </div>`);
+    }
+
+    if (rows.length) {
+      document.getElementById('placesDetails').innerHTML = rows.join('');
+    }
+  } catch (err) {
+    console.warn('Places enrichment failed:', err);
+  }
+}
+
+/* ── Nostr chat ── */
+const RELAYS = [
+  'wss://relay.damus.io',
+  'wss://nos.lol',
+  'wss://relay.primal.net'
+];
+
+let hexPubkey, merchantDisplayName;
+const seenEvents = new Set();
+const msgList = [];
+
+function initNostrChat(pubkey, npub, displayName) {
+  hexPubkey = pubkey;
+  merchantDisplayName = displayName;
+
+  // Check NIP-07
+  setupCompose();
+
+  // Connect to relays
+  let connectedCount = 0;
+  const subs = [];
+
+  RELAYS.forEach(url => {
+    try {
+      const relay = nostrTools.relayInit(url);
+      relay.connect();
+
+      relay.on('connect', () => {
+        connectedCount++;
+        document.getElementById('relayDot').classList.add('connected');
+        document.getElementById('relayStatusText').textContent = `Connected (${connectedCount} relay${connectedCount > 1 ? 's' : ''})`;
+
+        // Subscribe to notes involving this merchant
+        const sub = relay.sub([
+          // Notes FROM the merchant
+          { kinds: [1], authors: [pubkey], limit: 20 },
+          // Notes TO / mentioning the merchant
+          { kinds: [1], '#p': [pubkey], limit: 40 }
+        ]);
+
+        sub.on('event', event => {
+          if (seenEvents.has(event.id)) return;
+          seenEvents.add(event.id);
+          addMessage(event, pubkey);
+        });
+
+        subs.push(sub);
+      });
+
+      relay.on('error', () => {
+        if (connectedCount === 0) {
+          document.getElementById('relayStatusText').textContent = 'Could not connect to relays';
+        }
+      });
+    } catch (e) {
+      console.warn('Relay error:', url, e);
+    }
+  });
+}
+
+function addMessage(event, merchantPubkey) {
+  msgList.push(event);
+  msgList.sort((a, b) => b.created_at - a.created_at); // newest first
+  renderFeed(merchantPubkey);
+}
+
+function renderFeed(merchantPubkey) {
+  const feed = document.getElementById('chatFeed');
+  const empty = document.getElementById('chatEmpty');
+
+  if (msgList.length === 0) { empty.style.display = 'block'; return; }
+  empty.style.display = 'none';
+
+  feed.innerHTML = msgList.slice(0, 50).map(ev => {
+    const isMerchant = ev.pubkey === merchantPubkey;
+    const shortKey = ev.pubkey.slice(0, 8) + '…';
+    const time = new Date(ev.created_at * 1000).toLocaleString();
+    return `<div class="chat-msg ${isMerchant ? 'from-merchant' : ''}">
+      <div class="chat-msg-meta">
+        <span class="author">${isMerchant ? escHtml(merchantDisplayName) : shortKey}</span>
+        ${isMerchant ? '<span class="merchant-tag">merchant</span>' : ''}
+        <span style="margin-left:auto">${time}</span>
+      </div>
+      <div class="chat-msg-text">${escHtml(ev.content)}</div>
+    </div>`;
+  }).join('');
+}
+
+function setupCompose() {
+  const input = document.getElementById('chatInput');
+  const sendBtn = document.getElementById('chatSendBtn');
+  const hint = document.getElementById('chatSendHint');
+  const note = document.getElementById('nostrNote');
+
+  if (window.nostr) {
+    // NIP-07 available
+    sendBtn.disabled = false;
+    hint.textContent = 'Signed with your Nostr extension';
+    note.style.display = 'none';
+
+    input.addEventListener('input', () => {
+      sendBtn.disabled = !input.value.trim();
+    });
+
+    sendBtn.addEventListener('click', async () => {
+      const content = input.value.trim();
+      if (!content) return;
+      sendBtn.disabled = true;
+      sendBtn.innerHTML = '<div class="spinner"></div> Sending…';
+
+      try {
+        const event = {
+          kind: 1,
+          created_at: Math.floor(Date.now() / 1000),
+          tags: [['p', hexPubkey]],
+          content
+        };
+        const signed = await window.nostr.signEvent(event);
+
+        // Publish to relays
+        await Promise.any(RELAYS.map(url =>
+          nostrTools.relayInit(url).publish(signed).catch(() => {})
+        ));
+
+        input.value = '';
+        sendBtn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg> Send';
+        sendBtn.disabled = false;
+      } catch (err) {
+        console.error('Send failed:', err);
+        sendBtn.innerHTML = 'Failed — retry';
+        sendBtn.disabled = false;
+      }
+    });
+
+  } else {
+    // No NIP-07 — show install hint
+    note.style.display = 'block';
+    note.innerHTML = `To send a message you need a Nostr browser extension like
+      <a href="https://getalby.com" target="_blank" rel="noopener noreferrer">Alby</a> or
+      <a href="https://www.nos2x.xyz" target="_blank" rel="noopener noreferrer">nos2x</a>.
+      Or use the Flash app directly.`;
+    sendBtn.disabled = true;
+    hint.style.display = 'none';
+  }
+}
+
+/* ── Util ── */
+function escHtml(str) {
+  return String(str)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+</script>
+</body>
+</html>
