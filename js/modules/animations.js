@@ -82,7 +82,10 @@
   function initCounters() {
     if (reducedMotion) return;
     document.querySelectorAll('.hero-stat-number').forEach((el) => {
-      animateCounter(el);
+      // Only animate purely numeric stats (skip "0%", "<3s" etc.)
+      if (parseStatValue(el.textContent.trim())) {
+        animateCounter(el);
+      }
     });
   }
 
