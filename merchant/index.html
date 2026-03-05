@@ -426,6 +426,72 @@ function showError() {
   document.title = 'Merchant Not Found | Flash';
 }
 
+/* ── Mock data (staging fallback) ── */
+const MOCK_DB = {
+  tastee_nk: {
+    npub: 'npub1tfu6k97p3sm5cw2fzrcvjyp5l4n267rmpeg059fugcx5ue0q4mhst9xnst',
+    title: 'Tastee Patties — New Kingston',
+    lat: 17.9971, lng: -76.7936,
+    places: {
+      address: '79 Knutsford Blvd, Kingston, Jamaica',
+      phone: '+1 876-926-4682',
+      rating: 4.3, reviews: 312,
+      isOpen: true,
+      website: 'https://tasteejamaica.com'
+    },
+    messages: [
+      { pubkey: 'MERCHANT', content: 'Welcome to Tastee! We now accept Flash payments at all Kingston locations. Just show your QR at the counter. 🇯🇲⚡', created_at: Date.now()/1000 - 3600 },
+      { pubkey: 'abcd1234ef567890', content: 'Grabbed my beef patty and paid with Flash in 2 seconds. Wild how fast it is!', created_at: Date.now()/1000 - 7200 },
+      { pubkey: 'cafe9876ba543210', content: 'Do you guys have the coco bread available in the evening?', created_at: Date.now()/1000 - 18000 },
+      { pubkey: 'MERCHANT', content: 'Yes! Coco bread available all day until we close at 10pm. Come through!', created_at: Date.now()/1000 - 17500 },
+    ]
+  },
+  islandgrill_hwt: {
+    npub: 'npub1tfu6k97p3sm5cw2fzrcvjyp5l4n267rmpeg059fugcx5ue0q4mhst9xnst',
+    title: 'Island Grill Half Way Tree',
+    lat: 17.9957, lng: -76.7812,
+    places: {
+      address: '2 Constant Spring Rd, Kingston, Jamaica',
+      phone: '+1 876-926-8083',
+      rating: 4.1, reviews: 541,
+      isOpen: true
+    },
+    messages: [
+      { pubkey: 'MERCHANT', content: 'Island Grill HWT now accepts Flash ⚡. Pay at the kiosk or show your Flash app at checkout.', created_at: Date.now()/1000 - 86400 },
+      { pubkey: 'dead0000beef1111', content: 'Best jerk chicken in Kingston. Flash payment was instant 🔥', created_at: Date.now()/1000 - 43200 },
+    ]
+  },
+  doctorscave: {
+    npub: 'npub1tfu6k97p3sm5cw2fzrcvjyp5l4n267rmpeg059fugcx5ue0q4mhst9xnst',
+    title: "Doctor's Cave Beach Hotel",
+    lat: 18.4724, lng: -77.9194,
+    places: {
+      address: 'Gloucester Ave, Montego Bay, Jamaica',
+      phone: '+1 876-952-4355',
+      rating: 4.6, reviews: 1204,
+      isOpen: true,
+      website: 'https://doctorscavebhotel.com'
+    },
+    messages: [
+      { pubkey: 'MERCHANT', content: "Doctor's Cave Beach Hotel accepts Flash payments at the front desk and beach bar. No fees, instant settlement. 🌊⚡", created_at: Date.now()/1000 - 172800 },
+    ]
+  },
+  ochi_jerk: {
+    npub: 'npub1tfu6k97p3sm5cw2fzrcvjyp5l4n267rmpeg059fugcx5ue0q4mhst9xnst',
+    title: 'Ochi Rios Jerk Centre',
+    lat: 18.1651, lng: -77.4069,
+    places: {
+      address: 'DaCosta Dr, Ocho Rios, Jamaica',
+      rating: 4.5, reviews: 287,
+      isOpen: false
+    },
+    messages: [
+      { pubkey: 'MERCHANT', content: 'Big up to all our Flash customers! Come check us in Ochi 🇯🇲', created_at: Date.now()/1000 - 259200 },
+      { pubkey: 'f00dlov3r9876', content: 'Best jerk pork on the island. Paid with Flash no problem!', created_at: Date.now()/1000 - 100800 },
+    ]
+  }
+};
+
 /* ── API helper ── */
 function getApiUrl() {
   const host = window.location.hostname;
@@ -459,47 +525,87 @@ async function init() {
     const markers = markersData?.data?.businessMapMarkers || [];
     const merchant = markers.find(m => m.username === USERNAME);
 
-    // Decode hex pubkey from npub
     const hexPubkey = nostrTools.nip19.decode(npub).data;
-
-    // Update title
     const displayName = merchant?.mapInfo?.title || USERNAME;
-    document.title = `${displayName} | Flash Merchant`;
 
-    // Show page
-    document.getElementById('mainPage').style.display = 'block';
-
-    // Populate hero
-    document.getElementById('merchantAvatar').textContent = displayName.charAt(0).toUpperCase();
-    document.getElementById('merchantName').textContent = displayName;
-    document.getElementById('merchantUsername').textContent = `@${USERNAME}`;
-
-    // QR + pay button
-    const payUrl = `https://pay.flashapp.me/${USERNAME}`;
-    document.getElementById('qrContainer').innerHTML = '';
-    new QRCode(document.getElementById('qrContainer'), {
-      text: payUrl,
-      width: 156,
-      height: 156,
-      colorDark: '#111218',
-      colorLight: '#ffffff',
-      correctLevel: QRCode.CorrectLevel.M
-    });
-    const payBtn = document.getElementById('payBtn');
-    payBtn.href = payUrl;
-
-    // Google Places enrichment
-    if (merchant) {
-      enrichWithPlaces(merchant);
-    }
-
-    // Nostr chat
+    renderProfile(displayName, npub, hexPubkey);
+    if (merchant) enrichWithPlaces(merchant);
     initNostrChat(hexPubkey, npub, displayName);
 
   } catch (err) {
-    console.error('Init failed:', err);
-    showError();
+    console.warn('API unavailable, using mock data:', err.message);
+    useMockData();
   }
+}
+
+/* ── Render profile UI ── */
+function renderProfile(displayName, npub, hexPubkey) {
+  document.title = `${displayName} | Flash Merchant`;
+  document.getElementById('mainPage').style.display = 'block';
+  document.getElementById('merchantAvatar').textContent = displayName.charAt(0).toUpperCase();
+  document.getElementById('merchantName').textContent = displayName;
+  document.getElementById('merchantUsername').textContent = `@${USERNAME}`;
+
+  const payUrl = `https://pay.flashapp.me/${USERNAME}`;
+  document.getElementById('qrContainer').innerHTML = '';
+  new QRCode(document.getElementById('qrContainer'), {
+    text: payUrl, width: 156, height: 156,
+    colorDark: '#111218', colorLight: '#ffffff',
+    correctLevel: QRCode.CorrectLevel.M
+  });
+  document.getElementById('payBtn').href = payUrl;
+}
+
+/* ── Mock data fallback (staging / offline) ── */
+function useMockData() {
+  const mock = MOCK_DB[USERNAME];
+  if (!mock) { showError(); return; }
+
+  // Render basic profile
+  renderProfile(mock.title, mock.npub, null);
+
+  // Render mock Places details
+  const p = mock.places;
+  const stars = p.rating ? '★'.repeat(Math.round(p.rating)) + '☆'.repeat(5 - Math.round(p.rating)) : '';
+  const rows = [];
+  if (p.address) rows.push(`<div class="place-row">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+    <span>${escHtml(p.address)}</span></div>`);
+  if (p.phone) rows.push(`<div class="place-row">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.67A2 2 0 012 0h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 14h.01v2.92z"/></svg>
+    <a href="tel:${p.phone}">${escHtml(p.phone)}</a></div>`);
+  if (p.rating) rows.push(`<div class="place-row">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+    <span><span class="rating-stars">${stars}</span> ${p.rating}${p.reviews ? ` (${p.reviews} reviews)` : ''}</span></div>`);
+  if (p.isOpen !== undefined) rows.push(`<div class="place-row">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+    <span class="${p.isOpen ? 'open-now' : 'closed-now'}">${p.isOpen ? 'Open now' : 'Closed now'}</span></div>`);
+  if (p.website) { const domain = new URL(p.website).hostname.replace('www.','');
+    rows.push(`<div class="place-row">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
+    <a href="${p.website}" target="_blank" rel="noopener noreferrer">${escHtml(domain)}</a></div>`); }
+  if (rows.length) document.getElementById('placesDetails').innerHTML = rows.join('');
+
+  // Render mock Nostr messages
+  const hexPubkey = nostrTools.nip19.decode(mock.npub).data;
+  document.getElementById('relayDot').classList.add('connected');
+  document.getElementById('relayStatusText').textContent = 'Demo mode (mock data)';
+
+  mock.messages.forEach(msg => {
+    const isMerchant = msg.pubkey === 'MERCHANT';
+    const ev = {
+      id: Math.random().toString(36),
+      pubkey: isMerchant ? hexPubkey : msg.pubkey,
+      content: msg.content,
+      created_at: Math.floor(msg.created_at)
+    };
+    seenEvents.add(ev.id);
+    msgList.push(ev);
+  });
+  msgList.sort((a,b) => b.created_at - a.created_at);
+  renderFeed(hexPubkey);
+
+  setupCompose();
 }
 
 /* ── Google Places enrichment ── */
