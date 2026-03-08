@@ -285,53 +285,6 @@
     <section id="pg-remittance" class="home-section">
       <div class="home-wrap">
 
-        <!-- How it works — 3-step visual for sender + receiver -->
-        <div class="how-it-works" data-reveal>
-          <p class="section-eyebrow" style="text-align:center; margin-bottom:32px;">How it works</p>
-          <div class="hiw-steps">
-
-            <div class="hiw-step" data-reveal data-reveal-delay="1">
-              <div class="hiw-icon">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
-              </div>
-              <div class="hiw-content">
-                <strong>1. Sender buys Bitcoin</strong>
-                <span>Buy BTC on Strike, Cash App, or any Bitcoin exchange.</span>
-              </div>
-            </div>
-
-            <div class="hiw-arrow" aria-hidden="true">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-            </div>
-
-            <div class="hiw-step hiw-step-flash" data-reveal data-reveal-delay="2">
-              <div class="hiw-icon hiw-icon-flash">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-              </div>
-              <div class="hiw-content">
-                <strong>2. Flash sends via Lightning</strong>
-                <span>Arrives in seconds. Flash fee: <em style="color:var(--green);font-style:normal;font-weight:700;">zero</em>.</span>
-              </div>
-            </div>
-
-            <div class="hiw-arrow" aria-hidden="true">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-            </div>
-
-            <div class="hiw-step" data-reveal data-reveal-delay="3">
-              <div class="hiw-icon">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
-              </div>
-              <div class="hiw-content">
-                <strong>3. Family receives &amp; spends</strong>
-                <span>Tap to pay at Flash merchants — or cash out to your local bank account.</span>
-              </div>
-            </div>
-
-          </div>
-        </div>
-        <!-- /HOW IT WORKS -->
-
         <div class="remittance-grid">
 
           <!-- Left: Copy + fee table -->
@@ -440,22 +393,7 @@
     <!-- /REMITTANCE -->
 
 
-    <!-- ③b MID-PAGE CTA ─────────────────────────────────────── -->
-    <section class="home-section-sm" style="background: var(--surface-1); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
-      <div class="home-wrap">
-        <div style="display:flex; align-items:center; justify-content:space-between; gap:24px; flex-wrap:wrap;">
-          <div>
-            <p style="font-family:var(--font-display); font-size:clamp(18px,2vw,24px); font-weight:700; color:var(--text-1); margin-bottom:6px;">Ready to send money home for free?</p>
-            <p style="font-size:15px; color:var(--text-3); margin:0;">Download Flash, top up with Bitcoin, and your family gets it in seconds.</p>
-          </div>
-          <a href="/app" class="btn-primary" style="flex-shrink:0;">
-            Download Flash — It's Free
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-          </a>
-        </div>
-      </div>
-    </section>
-    <!-- /MID-PAGE CTA -->
+
 
     <!-- ④ MERCHANTS ──────────────────────────────────────────── -->
     <section id="pg-merchants" class="home-section">
@@ -605,47 +543,49 @@
 
 
 
-    <!-- ⑦ MERCHANT CTA ─────────────────────────────────────── -->
-    <section class="home-section-sm" style="background: var(--surface-1); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
+    <!-- ⑦ CLOSING STRIP — merged merchant CTA + contact ──────── -->
+    <section id="pg-contact-strip" class="home-section-sm" style="background: var(--surface-1); border-top: 1px solid var(--border);">
       <div class="home-wrap">
-        <div class="merchants-cta-row">
-          <div class="merchants-cta-text">
-            <h3>Ready to accept Flash at your business?</h3>
-            <p>Join 34+ merchants across the Caribbean accepting Bitcoin payments. Setup is free, takes under 30 minutes, and requires no hardware.</p>
-          </div>
-          <div style="display:flex;gap:12px;flex-shrink:0;flex-wrap:wrap;">
-            <a href="https://signup.getflash.io" target="_blank" rel="noopener noreferrer" class="btn-primary">Get Flash POS</a>
-            <a href="/map" class="btn-secondary">See merchant map</a>
-          </div>
-        </div>
-      </div>
-    </section>
-    <!-- /MERCHANT CTA -->
+        <div style="display:flex; flex-direction:column; gap:32px;">
 
-    <!-- ⑧ CONTACT STRIP ──────────────────────────────────────── -->
-    <section id="pg-contact-strip" class="home-section-sm">
-      <div class="home-wrap">
-        <div class="contact-strip-inner">
-          <div class="contact-strip-text">
-            <h3>Questions? We're here.</h3>
-            <p>Reach the Flash team directly. We reply fast.</p>
+          <!-- Merchant row -->
+          <div class="merchants-cta-row">
+            <div class="merchants-cta-text">
+              <h3>Ready to accept Flash at your business?</h3>
+              <p>Join merchants across the Caribbean accepting Bitcoin payments. Setup is free, takes under 30 minutes, and requires no hardware.</p>
+            </div>
+            <div style="display:flex;gap:12px;flex-shrink:0;flex-wrap:wrap;">
+              <a href="https://signup.getflash.io" target="_blank" rel="noopener noreferrer" class="btn-primary">Get Flash POS</a>
+              <a href="/map" class="btn-secondary">See merchant map</a>
+            </div>
           </div>
-          <div class="contact-strip-actions">
-            <a href="mailto:support@getflash.io" class="btn-primary">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-                <polyline points="22,6 12,13 2,6"/>
-              </svg>
-              Email us
-            </a>
-            <a href="https://wa.me/18762909250" target="_blank" rel="noopener noreferrer" class="btn-secondary">WhatsApp</a>
-            <a href="https://documentation.getflash.io/en/development" target="_blank" rel="noopener noreferrer" class="btn-soft contact-dev-link">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                <polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>
-              </svg>
-              Developer API
-            </a>
+
+          <hr style="border:none; border-top:1px solid var(--border); margin:0;">
+
+          <!-- Contact row -->
+          <div class="contact-strip-inner">
+            <div class="contact-strip-text">
+              <h3>Questions? We're here.</h3>
+              <p>Reach the Flash team directly. We reply fast.</p>
+            </div>
+            <div class="contact-strip-actions">
+              <a href="mailto:support@getflash.io" class="btn-primary">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                  <polyline points="22,6 12,13 2,6"/>
+                </svg>
+                Email us
+              </a>
+              <a href="https://wa.me/18762909250" target="_blank" rel="noopener noreferrer" class="btn-secondary">WhatsApp</a>
+              <a href="https://documentation.getflash.io/en/development" target="_blank" rel="noopener noreferrer" class="btn-soft contact-dev-link">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                  <polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>
+                </svg>
+                Developer API
+              </a>
+            </div>
           </div>
+
         </div>
       </div>
     </section>
