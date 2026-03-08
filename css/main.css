@@ -64,6 +64,7 @@
 html {
   scroll-behavior: smooth;
   background-color: var(--bg-body);
+  overflow-x: hidden;
 }
 
 /* Page Load Fade-In Animation */
@@ -114,6 +115,7 @@ body {
   background-color: var(--bg-body);
   color: var(--text-colour);
   transition: color var(--_dark-transition), background-color var(--_dark-transition);
+  overflow-x: hidden;
 }
 main {
   max-width: 100vw;
