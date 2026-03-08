@@ -1636,8 +1636,8 @@ footer {
 .footer-trust {
   display: flex;
   align-items: center;
-  gap: 10px;
-  flex-wrap: nowrap;
+  gap: 8px;
+  flex-wrap: wrap;
   margin: 0;
 }
 

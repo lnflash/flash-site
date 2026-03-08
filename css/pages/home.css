@@ -1215,6 +1215,18 @@ body.home-page {
     --section-gap: 48px; /* was 64px — tighter on small screens */
   }
 
+  /* Tighter sm section padding on mobile */
+  .home-section-sm {
+    padding: 48px 0;
+  }
+
+  /* Allow CTA buttons to wrap text on small screens */
+  .btn-primary,
+  .btn-secondary {
+    white-space: normal;
+    text-align: center;
+  }
+
   .numbers-grid {
     grid-template-columns: repeat(2, 1fr);
   }
