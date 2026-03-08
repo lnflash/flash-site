@@ -1123,6 +1123,18 @@ body.home-page {
   flex-shrink: 0;
 }
 
+/* ── Testimonials grid ──────────────────────────────────────── */
+.testimonial-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  align-items: center;
+}
+
+.btn-testimonial-cta {
+  width: fit-content;
+}
+
 /* ── RESPONSIVE ─────────────────────────────────────────────── */
 @media (max-width: 960px) {
   :root {
@@ -1220,11 +1232,23 @@ body.home-page {
     padding: 48px 0;
   }
 
-  /* Allow CTA buttons to wrap text on small screens */
-  .btn-primary,
-  .btn-secondary {
-    white-space: normal;
-    text-align: center;
+  /* Testimonial CTA: full width on mobile */
+  .btn-testimonial-cta {
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* Merchant CTA buttons: stack full-width */
+  .merchants-cta-row > div:last-child {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .merchants-cta-row .btn-primary,
+  .merchants-cta-row .btn-secondary {
+    width: 100%;
+    justify-content: center;
+    white-space: nowrap;
   }
 
   .numbers-grid {
@@ -1263,9 +1287,13 @@ body.home-page {
     justify-content: center;
   }
 
-  /* Testimonial layout: single column */
+  /* Testimonial layout: single column — hide portrait, show quotes only */
   .testimonial-grid {
     grid-template-columns: 1fr;
+  }
+
+  .testimonial-grid > a:first-child {
+    display: none;
   }
 
   /* Section title size cap */
