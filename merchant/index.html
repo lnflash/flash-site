@@ -582,7 +582,7 @@ function useMockData() {
   if (p.website) { const domain = new URL(p.website).hostname.replace('www.','');
     rows.push(`<div class="place-row">
     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
-    <a href="${p.website}" target="_blank" rel="noopener noreferrer">${escHtml(domain)}</a></div>`); }
+    <a href="${safeUrl(p.website)}" target="_blank" rel="noopener noreferrer">${escHtml(domain)}</a></div>`); }
   if (rows.length) document.getElementById('placesDetails').innerHTML = rows.join('');
 
   // Render mock Nostr messages
@@ -692,7 +692,7 @@ async function enrichWithPlaces(merchant) {
       const domain = new URL(best.websiteURI).hostname.replace('www.','');
       rows.push(`<div class="place-row">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
-        <a href="${best.websiteURI}" target="_blank" rel="noopener noreferrer">${escHtml(domain)}</a>
+        <a href="${safeUrl(best.websiteURI)}" target="_blank" rel="noopener noreferrer">${escHtml(domain)}</a>
       </div>`);
     }
 
@@ -902,6 +902,13 @@ const SEND_ICON = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" s
 function escHtml(str) {
   return String(str)
     .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function safeUrl(url) {
+  try {
+    const u = new URL(String(url));
+    if (u.protocol === 'https:' || u.protocol === 'http:') return u.href;
+  } catch (_) {}
+  return '#';
 }
 </script>
 </body>
