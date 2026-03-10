@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flash Merchant | Flash</title>
+  <meta name="description" content="Flash merchant profile — pay with Bitcoin Lightning and send a message.">
+
+  <link rel="shortcut icon" type="image/png" href="../assets/img/favicon-32x32.png" sizes="32x32">
+  <link rel="icon" type="image/png" href="../assets/img/favicon-16x16.png" sizes="16x16">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <!-- QR Code -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <!-- Nostr Tools -->
+  <script src="https://unpkg.com/nostr-tools@2.23.3/lib/nostr.bundle.js"></script>
+  <!-- Google Maps (Places only) -->
+  <script>function initMap(){}</script>
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBrZtvg_PSLuDUcMQ9BapDyTlc821oLM2w&libraries=places&callback=initMap&loading=async"></script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --green: #3AB54A;
+      --green-light: #F0FDF4;
+      --green-border: #BBF7D0;
+      --dark: #09090E;
+      --text: #111218;
+      --sub: #4B5563;
+      --muted: #9CA3AF;
+      --border: #E5E7EB;
+      --radius: 16px;
+    }
+    html { font-family: 'Inter', sans-serif; color: var(--text); background: #F9FAFB; }
+    body { min-height: 100vh; }
+
+    /* ── Top bar ── */
+    .top-bar {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(249,250,251,0.9);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .back-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--sub);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: color 0.15s;
+    }
+    .back-btn:hover { color: var(--text); }
+    .top-bar-logo { height: 24px; margin-left: auto; }
+
+    /* ── Page layout ── */
+    .page { max-width: 560px; margin: 0 auto; padding: 24px 16px 60px; }
+
+    /* ── Skeleton loader ── */
+    @keyframes shimmer { 0%{background-position:-200% 0} 100%{background-position:200% 0} }
+    .skeleton {
+      background: linear-gradient(90deg, #E5E7EB 25%, #F3F4F6 50%, #E5E7EB 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.4s infinite;
+      border-radius: 8px;
+    }
+
+    /* ── Error state ── */
+    .error-state {
+      text-align: center;
+      padding: 60px 20px;
+      display: none;
+    }
+    .error-state h2 { font-family: 'Sora', sans-serif; font-size: 22px; margin-bottom: 8px; }
+    .error-state p { color: var(--sub); margin-bottom: 24px; }
+    .error-state a {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 10px 20px; background: var(--green); color: #fff;
+      border-radius: 10px; text-decoration: none; font-weight: 600; font-size: 14px;
+    }
+
+    /* ── Hero card ── */
+    .hero-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px 24px 24px;
+      margin-bottom: 16px;
+    }
+    .hero-top { display: flex; align-items: flex-start; gap: 16px; margin-bottom: 16px; }
+    .merchant-avatar {
+      width: 64px; height: 64px; border-radius: 18px;
+      background: var(--green); color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Sora', sans-serif; font-size: 28px; font-weight: 700;
+      flex-shrink: 0; box-shadow: 0 4px 16px rgba(58,181,74,0.28);
+    }
+    .hero-meta { flex: 1; min-width: 0; }
+    .merchant-name {
+      font-family: 'Sora', sans-serif;
+      font-size: 22px; font-weight: 700;
+      line-height: 1.2; margin-bottom: 3px;
+    }
+    .merchant-username { font-size: 13px; color: var(--muted); margin-bottom: 8px; }
+    .flash-badge {
+      display: inline-flex; align-items: center; gap: 5px;
+      background: var(--green-light); border: 1px solid var(--green-border);
+      border-radius: 100px; padding: 3px 10px;
+      font-size: 11px; font-weight: 600; color: #15803D;
+    }
+
+    /* ── Google Places details ── */
+    .places-details { display: flex; flex-direction: column; gap: 8px; }
+    .place-row {
+      display: flex; align-items: flex-start; gap: 10px;
+      font-size: 13px; color: var(--sub); line-height: 1.4;
+    }
+    .place-row svg { flex-shrink: 0; margin-top: 1px; color: var(--muted); }
+    .place-row a { color: var(--sub); text-decoration: none; }
+    .place-row a:hover { color: var(--text); text-decoration: underline; }
+    .rating-stars { color: #F59E0B; letter-spacing: -1px; }
+    .open-now { color: #15803D; font-weight: 600; }
+    .closed-now { color: #DC2626; font-weight: 600; }
+
+    /* ── Pay card ── */
+    .pay-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      margin-bottom: 16px;
+    }
+    .card-title {
+      font-family: 'Sora', sans-serif;
+      font-size: 15px; font-weight: 700;
+      margin-bottom: 20px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .card-title svg { color: var(--green); }
+
+    .qr-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+    .qr-container {
+      width: 180px; height: 180px;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .qr-container canvas, .qr-container img { border-radius: 4px; }
+    .qr-label { font-size: 12px; color: var(--muted); text-align: center; }
+
+    .pay-btn {
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      width: 100%; padding: 14px;
+      background: var(--green); color: #fff;
+      border: none; border-radius: 12px;
+      font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 600;
+      text-decoration: none; cursor: pointer;
+      transition: opacity 0.15s;
+    }
+    .pay-btn:hover { opacity: 0.88; }
+
+    /* ── Chat card ── */
+    .chat-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .chat-header {
+      padding: 20px 20px 16px;
+      border-bottom: 1px solid var(--border);
+    }
+    .chat-feed {
+      max-height: 360px;
+      overflow-y: auto;
+      padding: 12px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .chat-empty {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .chat-empty svg { margin-bottom: 10px; color: #D1D5DB; }
+
+    .chat-msg {
+      background: #F9FAFB;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 10px 14px;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+    .chat-msg.from-merchant {
+      background: var(--green-light);
+      border-color: var(--green-border);
+    }
+    .chat-msg-meta {
+      font-size: 11px;
+      color: var(--muted);
+      margin-bottom: 4px;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .chat-msg-meta .author { font-weight: 600; color: var(--sub); }
+    .chat-msg-meta .merchant-tag {
+      background: var(--green); color: #fff;
+      border-radius: 100px; padding: 1px 6px;
+      font-size: 10px; font-weight: 600;
+    }
+    .chat-msg-text { color: var(--text); }
+
+    .chat-compose {
+      padding: 12px 16px 16px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .chat-input {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      resize: none;
+      outline: none;
+      transition: border-color 0.15s;
+      min-height: 64px;
+    }
+    .chat-input:focus { border-color: var(--green); }
+    .chat-send-row { display: flex; align-items: center; gap: 10px; }
+    .chat-send-btn {
+      display: flex; align-items: center; gap: 6px;
+      padding: 9px 18px;
+      background: var(--green); color: #fff;
+      border: none; border-radius: 10px;
+      font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 600;
+      cursor: pointer; transition: opacity 0.15s;
+    }
+    .chat-send-btn:hover { opacity: 0.88; }
+    .chat-send-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .chat-send-hint { font-size: 11px; color: var(--muted); }
+
+    .visitor-id {
+      font-size: 12px;
+      color: var(--sub);
+      background: #F0FDF4;
+      border: 1px solid var(--green-border);
+      border-radius: 8px;
+      padding: 8px 12px;
+      line-height: 1.5;
+    }
+    .visitor-id strong { color: #15803D; }
+
+    /* ── Connecting indicator ── */
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .spinner {
+      width: 14px; height: 14px;
+      border: 2px solid var(--border);
+      border-top-color: var(--green);
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      display: inline-block;
+    }
+    .relay-status {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 11px; color: var(--muted); padding: 4px 0 0;
+    }
+    .relay-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: #D1D5DB;
+      transition: background 0.3s;
+    }
+    .relay-dot.connected { background: var(--green); }
+
+    /* ── Footer ── */
+    .merchant-footer {
+      margin-top: 40px;
+      text-align: center;
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .merchant-footer a { color: var(--muted); text-decoration: none; }
+    .merchant-footer a:hover { color: var(--text); }
+  </style>
+</head>
+<body>
+
+  <!-- Top bar -->
+  <div class="top-bar">
+    <a href="/map/" class="back-btn">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      Merchant Map
+    </a>
+    <a href="/" class="map-logo">
+      <img src="../assets/img/logo-black.png" alt="Flash" class="top-bar-logo">
+    </a>
+  </div>
+
+  <!-- Error state -->
+  <div class="error-state" id="errorState">
+    <h2>Merchant not found</h2>
+    <p>We couldn't find a Flash merchant with that username.</p>
+    <a href="/map/">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      Back to map
+    </a>
+  </div>
+
+  <!-- Main content (hidden until loaded) -->
+  <div class="page" id="mainPage" style="display:none">
+
+    <!-- Hero card -->
+    <div class="hero-card" id="heroCard">
+      <div class="hero-top">
+        <div class="merchant-avatar" id="merchantAvatar">?</div>
+        <div class="hero-meta">
+          <div class="merchant-name" id="merchantName">Loading…</div>
+          <div class="merchant-username" id="merchantUsername"></div>
+          <div class="flash-badge">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+            Flash Merchant
+          </div>
+        </div>
+      </div>
+      <div class="places-details" id="placesDetails">
+        <!-- Populated by Google Places enrichment -->
+      </div>
+    </div>
+
+    <!-- Pay card -->
+    <div class="pay-card">
+      <div class="card-title">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        Pay with Flash
+      </div>
+      <div class="qr-wrap">
+        <div class="qr-container" id="qrContainer">
+          <div class="spinner"></div>
+        </div>
+        <div class="qr-label">Scan to pay this merchant with Flash</div>
+      </div>
+      <a id="payBtn" href="#" target="_blank" rel="noopener noreferrer" class="pay-btn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        Open Flash Pay
+      </a>
+    </div>
+
+    <!-- Chat card -->
+    <div class="chat-card">
+      <div class="chat-header">
+        <div class="card-title" style="margin-bottom:4px;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+          Message this merchant
+        </div>
+        <div class="relay-status">
+          <div class="relay-dot" id="relayDot"></div>
+          <span id="relayStatusText">Connecting to Nostr…</span>
+        </div>
+      </div>
+
+      <!-- Feed -->
+      <div class="chat-feed" id="chatFeed">
+        <div class="chat-empty" id="chatEmpty">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" display="block" style="margin:0 auto 10px"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+          No messages yet. Be the first to say hello!
+        </div>
+      </div>
+
+      <!-- Compose -->
+      <div class="chat-compose">
+        <div class="visitor-id" id="visitorIdBadge"></div>
+        <textarea class="chat-input" id="chatInput" placeholder="Send a message to this merchant…" rows="2"></textarea>
+        <div class="chat-send-row">
+          <button class="chat-send-btn" id="chatSendBtn" disabled>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+            Send
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="merchant-footer">
+      <p>Powered by <a href="/">Flash</a> · <a href="/map/">Find more merchants</a></p>
+    </div>
+  </div>
+
+<script>
+'use strict';
+
+/* ── Parse username from URL ── */
+const params = new URLSearchParams(window.location.search);
+const USERNAME = (params.get('u') || '').toLowerCase().trim();
+
+if (!USERNAME) {
+  showError();
+} else {
+  init();
+}
+
+function showError() {
+  document.getElementById('errorState').style.display = 'block';
+  document.title = 'Merchant Not Found | Flash';
+}
+
+/* ── Mock data (staging fallback) ── */
+const MOCK_DB = {
+  tastee_nk: {
+    npub: 'npub1tfu6k97p3sm5cw2fzrcvjyp5l4n267rmpeg059fugcx5ue0q4mhst9xnst',
+    title: 'Tastee Patties — New Kingston',
+    lat: 17.9971, lng: -76.7936,
+    places: {
+      address: '79 Knutsford Blvd, Kingston, Jamaica',
+      phone: '+1 876-926-4682',
+      rating: 4.3, reviews: 312,
+      isOpen: true,
+      website: 'https://tasteejamaica.com'
+    },
+    messages: [
+      { pubkey: 'MERCHANT', content: 'Welcome to Tastee! We now accept Flash payments at all Kingston locations. Just show your QR at the counter. 🇯🇲⚡', created_at: Date.now()/1000 - 3600 },
+      { pubkey: 'abcd1234ef567890', content: 'Grabbed my beef patty and paid with Flash in 2 seconds. Wild how fast it is!', created_at: Date.now()/1000 - 7200 },
+      { pubkey: 'cafe9876ba543210', content: 'Do you guys have the coco bread available in the evening?', created_at: Date.now()/1000 - 18000 },
+      { pubkey: 'MERCHANT', content: 'Yes! Coco bread available all day until we close at 10pm. Come through!', created_at: Date.now()/1000 - 17500 },
+    ]
+  },
+  islandgrill_hwt: {
+    npub: 'npub1tfu6k97p3sm5cw2fzrcvjyp5l4n267rmpeg059fugcx5ue0q4mhst9xnst',
+    title: 'Island Grill Half Way Tree',
+    lat: 17.9957, lng: -76.7812,
+    places: {
+      address: '2 Constant Spring Rd, Kingston, Jamaica',
+      phone: '+1 876-926-8083',
+      rating: 4.1, reviews: 541,
+      isOpen: true
+    },
+    messages: [
+      { pubkey: 'MERCHANT', content: 'Island Grill HWT now accepts Flash ⚡. Pay at the kiosk or show your Flash app at checkout.', created_at: Date.now()/1000 - 86400 },
+      { pubkey: 'dead0000beef1111', content: 'Best jerk chicken in Kingston. Flash payment was instant 🔥', created_at: Date.now()/1000 - 43200 },
+    ]
+  },
+  doctorscave: {
+    npub: 'npub1tfu6k97p3sm5cw2fzrcvjyp5l4n267rmpeg059fugcx5ue0q4mhst9xnst',
+    title: "Doctor's Cave Beach Hotel",
+    lat: 18.4724, lng: -77.9194,
+    places: {
+      address: 'Gloucester Ave, Montego Bay, Jamaica',
+      phone: '+1 876-952-4355',
+      rating: 4.6, reviews: 1204,
+      isOpen: true,
+      website: 'https://doctorscavebhotel.com'
+    },
+    messages: [
+      { pubkey: 'MERCHANT', content: "Doctor's Cave Beach Hotel accepts Flash payments at the front desk and beach bar. No fees, instant settlement. 🌊⚡", created_at: Date.now()/1000 - 172800 },
+    ]
+  },
+  ochi_jerk: {
+    npub: 'npub1tfu6k97p3sm5cw2fzrcvjyp5l4n267rmpeg059fugcx5ue0q4mhst9xnst',
+    title: 'Ochi Rios Jerk Centre',
+    lat: 18.1651, lng: -77.4069,
+    places: {
+      address: 'DaCosta Dr, Ocho Rios, Jamaica',
+      rating: 4.5, reviews: 287,
+      isOpen: false
+    },
+    messages: [
+      { pubkey: 'MERCHANT', content: 'Big up to all our Flash customers! Come check us in Ochi 🇯🇲', created_at: Date.now()/1000 - 259200 },
+      { pubkey: 'f00dlov3r9876', content: 'Best jerk pork on the island. Paid with Flash no problem!', created_at: Date.now()/1000 - 100800 },
+    ]
+  }
+};
+
+/* ── API helper ── */
+function getApiUrl() {
+  const host = window.location.hostname;
+  if (host === 'localhost' || host === '127.0.0.1') return 'https://corsproxy.io/?https://api.flashapp.me/graphql';
+  if (host === 'getflash.io' || host === 'www.getflash.io') return 'https://api.flashapp.me/graphql';
+  return 'https://corsproxy.io/?https://api.flashapp.me/graphql'; // staging: use proxy
+}
+
+async function gql(query, variables = {}) {
+  const res = await fetch(getApiUrl(), {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ query, variables })
+  });
+  return res.json();
+}
+
+/* ── Main init ── */
+async function init() {
+  try {
+    // Fetch npub + merchant map info in parallel
+    const [npubData, markersData] = await Promise.all([
+      gql(`query { npubByUsername(username: "${USERNAME}") { npub username } }`),
+      gql(`query { businessMapMarkers { mapInfo { coordinates { latitude longitude } title } username } }`)
+    ]);
+
+    const npubResult = npubData?.data?.npubByUsername;
+    if (!npubResult) { showError(); return; }
+
+    const npub = npubResult.npub;
+    const markers = markersData?.data?.businessMapMarkers || [];
+    const merchant = markers.find(m => m.username === USERNAME);
+
+    const hexPubkey = NostrTools.nip19.decode(npub).data;
+    const displayName = merchant?.mapInfo?.title || USERNAME;
+
+    renderProfile(displayName, npub, hexPubkey);
+    if (merchant) enrichWithPlaces(merchant);
+    initNostrChat(hexPubkey, npub, displayName);
+
+  } catch (err) {
+    console.warn('API unavailable, using mock data:', err.message);
+    useMockData();
+  }
+}
+
+/* ── Render profile UI ── */
+function renderProfile(displayName, npub, hexPubkey) {
+  document.title = `${displayName} | Flash Merchant`;
+  document.getElementById('mainPage').style.display = 'block';
+  document.getElementById('merchantAvatar').textContent = displayName.charAt(0).toUpperCase();
+  document.getElementById('merchantName').textContent = displayName;
+  document.getElementById('merchantUsername').textContent = `@${USERNAME}`;
+
+  const payUrl = `https://pay.flashapp.me/${USERNAME}`;
+  document.getElementById('qrContainer').innerHTML = '';
+  new QRCode(document.getElementById('qrContainer'), {
+    text: payUrl, width: 156, height: 156,
+    colorDark: '#111218', colorLight: '#ffffff',
+    correctLevel: QRCode.CorrectLevel.M
+  });
+  document.getElementById('payBtn').href = payUrl;
+}
+
+/* ── Mock data fallback (staging / offline) ── */
+function useMockData() {
+  const mock = MOCK_DB[USERNAME];
+  if (!mock) { showError(); return; }
+
+  // Render basic profile
+  renderProfile(mock.title, mock.npub, null);
+
+  // Render mock Places details
+  const p = mock.places;
+  const stars = p.rating ? '★'.repeat(Math.round(p.rating)) + '☆'.repeat(5 - Math.round(p.rating)) : '';
+  const rows = [];
+  if (p.address) rows.push(`<div class="place-row">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+    <span>${escHtml(p.address)}</span></div>`);
+  if (p.phone) rows.push(`<div class="place-row">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.67A2 2 0 012 0h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 14h.01v2.92z"/></svg>
+    <a href="tel:${p.phone}">${escHtml(p.phone)}</a></div>`);
+  if (p.rating) rows.push(`<div class="place-row">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+    <span><span class="rating-stars">${stars}</span> ${p.rating}${p.reviews ? ` (${p.reviews} reviews)` : ''}</span></div>`);
+  if (p.isOpen !== undefined) rows.push(`<div class="place-row">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+    <span class="${p.isOpen ? 'open-now' : 'closed-now'}">${p.isOpen ? 'Open now' : 'Closed now'}</span></div>`);
+  if (p.website) { const domain = new URL(p.website).hostname.replace('www.','');
+    rows.push(`<div class="place-row">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
+    <a href="${safeUrl(p.website)}" target="_blank" rel="noopener noreferrer">${escHtml(domain)}</a></div>`); }
+  if (rows.length) document.getElementById('placesDetails').innerHTML = rows.join('');
+
+  // Render mock Nostr messages
+  const hexPubkey = NostrTools.nip19.decode(mock.npub).data;
+  merchantHexPubkey = hexPubkey;
+  merchantDisplayName = mock.title;
+
+  // Fake ephemeral keys for mock mode
+  const sk = NostrTools.generateSecretKey();
+  ephemeralKeys = { sk, pk: NostrTools.getPublicKey(sk) };
+  const num = Math.floor(1000 + Math.random() * 9000);
+  visitorName = `Flash visitor #${num}`;
+  document.getElementById('visitorIdBadge').innerHTML =
+    `Sending as <strong>${visitorName}</strong> — your identity is private`;
+
+  document.getElementById('relayDot').classList.add('connected');
+  document.getElementById('relayStatusText').textContent = 'Demo mode (mock data)';
+
+  mock.messages.forEach(msg => {
+    const ev = {
+      id: Math.random().toString(36),
+      content: msg.content,
+      created_at: Math.floor(msg.created_at),
+      _fromMerchant: msg.pubkey === 'MERCHANT'
+    };
+    seenEvents.add(ev.id);
+    msgList.push(ev);
+  });
+  msgList.sort((a,b) => b.created_at - a.created_at);
+  renderFeed();
+  setupCompose();
+}
+
+/* ── Google Places enrichment ── */
+async function enrichWithPlaces(merchant) {
+  try {
+    await new Promise(resolve => {
+      const check = () => window.google?.maps ? resolve() : setTimeout(check, 100);
+      check();
+    });
+
+    const { Place } = await google.maps.importLibrary('places');
+    const title = merchant.mapInfo.title;
+    const lat = parseFloat(merchant.mapInfo.coordinates.latitude);
+    const lng = parseFloat(merchant.mapInfo.coordinates.longitude);
+
+    const { places } = await Place.searchByText({
+      fields: ['displayName', 'formattedAddress', 'internationalPhoneNumber',
+               'websiteURI', 'rating', 'userRatingCount', 'regularOpeningHours'],
+      textQuery: `${title} Jamaica`,
+      locationBias: { center: { lat, lng }, radius: 500 },
+      maxResultCount: 3
+    });
+
+    if (!places?.length) return;
+
+    // Pick closest
+    let best = places[0];
+    let minDist = Infinity;
+    places.forEach(p => {
+      if (p.location) {
+        const d = Math.hypot(p.location.lat() - lat, p.location.lng() - lng);
+        if (d < minDist) { minDist = d; best = p; }
+      }
+    });
+
+    if (minDist > 0.015) return; // >~1.5km, skip
+
+    const rows = [];
+
+    if (best.formattedAddress) {
+      rows.push(`<div class="place-row">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        <span>${escHtml(best.formattedAddress)}</span>
+      </div>`);
+    }
+
+    if (best.internationalPhoneNumber) {
+      rows.push(`<div class="place-row">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.67A2 2 0 012 0h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 14h.01v2.92z"/></svg>
+        <a href="tel:${best.internationalPhoneNumber}">${escHtml(best.internationalPhoneNumber)}</a>
+      </div>`);
+    }
+
+    if (best.rating) {
+      const stars = '★'.repeat(Math.round(best.rating)) + '☆'.repeat(5 - Math.round(best.rating));
+      rows.push(`<div class="place-row">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <span><span class="rating-stars">${stars}</span> ${best.rating}${best.userRatingCount ? ` (${best.userRatingCount} reviews)` : ''}</span>
+      </div>`);
+    }
+
+    if (best.regularOpeningHours) {
+      const isOpen = best.regularOpeningHours.isOpen?.();
+      const statusHtml = isOpen === true
+        ? '<span class="open-now">Open now</span>'
+        : isOpen === false ? '<span class="closed-now">Closed now</span>' : '';
+      if (statusHtml) {
+        rows.push(`<div class="place-row">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          <span>${statusHtml}</span>
+        </div>`);
+      }
+    }
+
+    if (best.websiteURI) {
+      const domain = new URL(best.websiteURI).hostname.replace('www.','');
+      rows.push(`<div class="place-row">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
+        <a href="${safeUrl(best.websiteURI)}" target="_blank" rel="noopener noreferrer">${escHtml(domain)}</a>
+      </div>`);
+    }
+
+    if (rows.length) {
+      document.getElementById('placesDetails').innerHTML = rows.join('');
+    }
+  } catch (err) {
+    console.warn('Places enrichment failed:', err);
+  }
+}
+
+/* ── Nostr chat (NIP-17 gift wrap with ephemeral keys) ── */
+const RELAYS = [
+  'wss://relay.damus.io',
+  'wss://relay.primal.net',
+  'wss://relay.snort.social',
+  'wss://nostr.mom',
+  'wss://relay.nostr.bg',
+  'wss://nostr-pub.wellorder.net'
+];
+
+let merchantHexPubkey, merchantNpub, merchantDisplayName;
+let ephemeralKeys = null;
+let visitorName = null;
+const seenEvents = new Set();
+const msgList = [];
+
+const now = () => Math.round(Date.now() / 1000);
+function bytesToHex(b) { return Array.from(b).map(x => x.toString(16).padStart(2,'0')).join(''); }
+
+/* NIP-17 helpers */
+function createRumor(content, senderSk, recipientPubkey) {
+  const rumor = {
+    kind: 14,
+    created_at: now(),
+    content,
+    tags: [['p', recipientPubkey]],
+    pubkey: NostrTools.getPublicKey(senderSk)
+  };
+  rumor.id = NostrTools.getEventHash(rumor);
+  return rumor;
+}
+
+function nip44Encrypt(sk, pk, plaintext) {
+  const key = NostrTools.nip44.v2.utils.getConversationKey(bytesToHex(sk), pk);
+  return NostrTools.nip44.v2.encrypt(plaintext, key);
+}
+
+function nip44Decrypt(sk, pk, ciphertext) {
+  const key = NostrTools.nip44.v2.utils.getConversationKey(bytesToHex(sk), pk);
+  return NostrTools.nip44.v2.decrypt(ciphertext, key);
+}
+
+function createSeal(rumor, senderSk, recipientPk) {
+  return NostrTools.finalizeEvent({
+    kind: 13,
+    created_at: now(),
+    tags: [],
+    content: nip44Encrypt(senderSk, recipientPk, JSON.stringify(rumor))
+  }, senderSk);
+}
+
+function createWrap(seal, recipientPk) {
+  const randomSk = NostrTools.generateSecretKey();
+  return NostrTools.finalizeEvent({
+    kind: 1059,
+    created_at: now(),
+    tags: [['p', recipientPk]],
+    content: nip44Encrypt(randomSk, recipientPk, JSON.stringify(seal))
+  }, randomSk);
+}
+
+function unwrapGift(wrapEvent, sk) {
+  const sealStr = nip44Decrypt(sk, wrapEvent.pubkey, wrapEvent.content);
+  const seal = JSON.parse(sealStr);
+  const rumorStr = nip44Decrypt(sk, seal.pubkey, seal.content);
+  return JSON.parse(rumorStr);
+}
+
+async function publishToRelays(event) {
+  const pool = new NostrTools.SimplePool();
+  await Promise.allSettled(RELAYS.map(url => pool.publish([url], event)));
+}
+
+async function sendNip17(content) {
+  const rumor = createRumor(content, ephemeralKeys.sk, merchantHexPubkey);
+  const seal  = createSeal(rumor, ephemeralKeys.sk, merchantHexPubkey);
+  const wrap  = createWrap(seal, merchantHexPubkey);
+  await publishToRelays(wrap);
+  return rumor;
+}
+
+/* Init chat */
+function initNostrChat(pubkey, npub, displayName) {
+  merchantHexPubkey = pubkey;
+  merchantNpub = npub;
+  merchantDisplayName = displayName;
+
+  // Generate ephemeral keypair for this visitor
+  const sk = NostrTools.generateSecretKey();
+  const pk = NostrTools.getPublicKey(sk);
+  ephemeralKeys = { sk, pk };
+  const num = Math.floor(1000 + Math.random() * 9000);
+  visitorName = `Flash visitor #${num}`;
+
+  document.getElementById('visitorIdBadge').innerHTML =
+    `Sending as <strong>${visitorName}</strong> — your identity is private`;
+
+  // Enable compose
+  setupCompose();
+
+  // Subscribe to incoming gift wraps (merchant replies)
+  subscribeToReplies(pk);
+}
+
+function subscribeToReplies(myPk) {
+  const pool = new NostrTools.SimplePool();
+  let connected = 0;
+
+  pool.subscribeMany(RELAYS, [{ kinds: [1059], '#p': [myPk], limit: 50 }], {
+    onevent(event) {
+      try {
+        const rumor = unwrapGift(event, ephemeralKeys.sk);
+        if (seenEvents.has(rumor.id)) return;
+        seenEvents.add(rumor.id);
+        msgList.push({ ...rumor, _fromMerchant: true });
+        msgList.sort((a,b) => b.created_at - a.created_at);
+        renderFeed();
+      } catch(e) { /* not for us */ }
+    }
+  });
+
+  // Update relay status via connection probing
+  RELAYS.forEach(url => {
+    NostrTools.Relay.connect(url).then(r => {
+      connected++;
+      document.getElementById('relayDot').classList.add('connected');
+      document.getElementById('relayStatusText').textContent =
+        `Connected (${connected} relay${connected > 1 ? 's' : ''})`;
+      r.close();
+    }).catch(() => {});
+  });
+}
+
+function renderFeed() {
+  const feed  = document.getElementById('chatFeed');
+  const empty = document.getElementById('chatEmpty');
+  if (msgList.length === 0) { empty.style.display = 'flex'; return; }
+  empty.style.display = 'none';
+
+  feed.innerHTML = msgList.slice(0, 60).map(ev => {
+    const isMe = !ev._fromMerchant;
+    const label = isMe ? (visitorName || 'You') : merchantDisplayName;
+    const time = new Date(ev.created_at * 1000).toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
+    return `<div class="chat-msg ${ev._fromMerchant ? 'from-merchant' : ''}">
+      <div class="chat-msg-meta">
+        <span class="author">${escHtml(label)}</span>
+        ${ev._fromMerchant ? '<span class="merchant-tag">merchant</span>' : ''}
+        <span style="margin-left:auto">${time}</span>
+      </div>
+      <div class="chat-msg-text">${escHtml(ev.content)}</div>
+    </div>`;
+  }).join('');
+  feed.scrollTop = feed.scrollHeight;
+}
+
+function setupCompose() {
+  const input   = document.getElementById('chatInput');
+  const sendBtn = document.getElementById('chatSendBtn');
+
+  sendBtn.disabled = false;
+  input.addEventListener('input', () => { sendBtn.disabled = !input.value.trim(); });
+
+  sendBtn.addEventListener('click', async () => {
+    const content = input.value.trim();
+    if (!content) return;
+
+    sendBtn.disabled = true;
+    sendBtn.innerHTML = '<div class="spinner"></div>';
+
+    // Optimistic: show message immediately
+    const optimistic = {
+      id: 'opt-' + Date.now(),
+      content,
+      created_at: now(),
+      _fromMerchant: false
+    };
+    seenEvents.add(optimistic.id);
+    msgList.unshift(optimistic);
+    renderFeed();
+    input.value = '';
+
+    try {
+      await sendNip17(content);
+      sendBtn.innerHTML = SEND_ICON + ' Send';
+    } catch(err) {
+      console.error('Send failed:', err);
+      sendBtn.innerHTML = 'Retry';
+    }
+    sendBtn.disabled = false;
+  });
+}
+
+const SEND_ICON = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>`;
+
+/* ── Util ── */
+function escHtml(str) {
+  return String(str)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function safeUrl(url) {
+  try {
+    const u = new URL(String(url));
+    if (u.protocol === 'https:' || u.protocol === 'http:') return u.href;
+  } catch (_) {}
+  return '#';
+}
+</script>
+</body>
+</html>

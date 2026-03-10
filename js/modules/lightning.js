@@ -1,327 +1,329 @@
-// This is the JS file for the lightning animations
+/**
+ * lightning.js v3 — Realistic GSAP + SVG lightning
+ *
+ * Improvements over v2:
+ *   - Two-layer rendering: wide diffuse glow + sharp bright core per bolt
+ *   - Tree branching: 3–6 branches per strike (not just one fork)
+ *   - Multiple return strokes: rapid flicker before long afterglow (real lightning physics)
+ *   - More subdivisions + larger displacement = jaggier, more naturalistic paths
+ *   - Color: white core (#fff) over cyan-blue glow — matches real cloud-to-ground lightning
+ *   - Branches taper: thinner, shorter, dimmer than trunk
+ *
+ * Preserves:
+ *   - Easter egg / Keys of the Caribbean (fires at strike 15)
+ *   - IntersectionObserver — only animates when hero is in view
+ *   - API surface expected by main.js
+ */
 
-// Check dark mode state
-let darkMode = false;
-const checkMode = () => {
-  if (sessionStorage.getItem("theme") == "light") {
-    return false;
-  }
-  return true;
-};
+// ─── Configuration ────────────────────────────────────────────────────────────
+const STRIKE_MIN_DELAY  = 4;    // seconds min between strikes
+const STRIKE_MAX_DELAY  = 11;   // seconds max between strikes
+const TRUNK_SUBDIVISIONS = 5;   // midpoint passes for main bolt (more = jaggier)
+const BRANCH_SUBDIVISIONS = 4;  // midpoint passes for branches
+const TRUNK_DISP        = 110;  // initial displacement for trunk (px)
+const BRANCH_DISP       = 75;   // initial displacement for branches (px)
+const MIN_BRANCHES      = 2;    // min branch bolts per strike
+const MAX_BRANCHES      = 5;    // max branch bolts per strike
 
-// Canvas lightning animation based on a combination of two methods:
-// "Make it Flash" by Sooraj (PS), found at https://dev.to/soorajsnblaze333/make-it-flash-lightning-with-canvas-43nh
-// "Create lightnings with JavaScript and HTML5" by Balint, found at https://codepen.io/mcdorli/post/creating-lightnings-with-javascript-and-html5-canvas
-
-const cvsStorm = document.getElementById("lightning-storm");
-const ctxStorm = cvsStorm.getContext("2d");
-
-let canvasVisible = true;
-let canvasHeight = cvsStorm.height;
-let canvasWidth = cvsStorm.width;
-
-const minSegmentHeight = 5;
-let groundHeight = canvasHeight;
-const lightningThickness = 5;
-const roughness = 2;
-let maxDifference = canvasWidth / 5;
-let opacity = 1;
-
-let lightningInterval;
-const stormInterval = 4500;
-const strikeInterval = 8000;
-let lightning = [];
-let lightningSplit = [];
-let hasFork = false;
-
-// Stage 1: The Awakening - Rabbit Hole Easter Egg
+// ─── Easter egg state (preserved) ────────────────────────────────────────────
 let lightningStrikeCount = 0;
-let rabbitHoleRevealed = false;
-let hunterToken = null;
+let rabbitHoleRevealed   = false;
+let hunterToken          = null;
 
-function resizeCanvas() {
-  let stormCvsHeight = window.screen.height;
-  let stormCvsWidth = document.body.offsetWidth;
+// ─── DOM setup ────────────────────────────────────────────────────────────────
+const heroSection = document.getElementById('pg-hero');
+const cvsStorm    = document.getElementById('lightning-storm');
+if (cvsStorm) cvsStorm.style.display = 'none';
 
-  cvsStorm.setAttribute("height", stormCvsHeight);
-  cvsStorm.setAttribute("width", stormCvsWidth);
-  canvasHeight = stormCvsHeight;
-  canvasWidth = stormCvsWidth;
-  groundHeight = canvasHeight;
-  maxDifference = canvasWidth / 5;
-}
-resizeCanvas();
+// main.js compatibility stubs
+const stormInterval = 4500;
+const animate       = () => {};
+function startLightning() { startStorm(); }
+const observer = new IntersectionObserver(() => {}, { threshold: 0.05 });
 
-// Lightning Animation
-function getRandomInteger(min, max) {
-  const buffer = new Uint32Array(1);
-  window.crypto.getRandomValues(buffer);
-  let random = buffer[0] / (0xffffffff + 1);
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(random * (max - min + 1)) + min;
-}
-function timing() {
-  return (Math.floor(Math.random() * 8) + 1) * 500;
-}
+// ─── SVG setup ────────────────────────────────────────────────────────────────
+if (!heroSection) {
+  console.warn('[lightning] #pg-hero not found — aborting.');
+} else {
+  const svgNS = 'http://www.w3.org/2000/svg';
 
-function clearCanvas() {
-  ctxStorm.clearRect(0, 0, canvasWidth, canvasHeight);
-  ctxStorm.beginPath();
-}
+  const svg = document.createElementNS(svgNS, 'svg');
+  svg.setAttribute('id', 'lightning-svg');
+  svg.setAttribute('aria-hidden', 'true');
+  Object.assign(svg.style, {
+    position:      'absolute',
+    top:           '0',
+    left:          '0',
+    width:         '100%',
+    height:        '100%',
+    pointerEvents: 'none',
+    zIndex:        '1',
+    overflow:      'visible',
+  });
 
-function draw(ln, spl, opacity) {
-  const colorLight = `hsla(180, 80%, 80%, ${opacity})`;
-  const colorDark = `hsla(187, 100%, 89%, ${opacity})`;
-  const shadowLight = "hsl(180, 80%, 80%)";
-  const shadowDark = "hsl(187, 100%, 89%)";
-  let color;
-  let shadowColor;
-  darkMode = checkMode();
-  darkMode ? (color = colorDark) : (color = colorLight);
-  darkMode ? (shadowColor = shadowDark) : (shadowColor = shadowLight);
-  line(ln, color, shadowColor);
-  if (spl.length > 0) {
-    line(spl, color, shadowColor);
-  }
-}
-function line(ln, color, shadowColor) {
-  ctxStorm.strokeStyle = color;
-  ctxStorm.shadowColor = shadowColor;
-  ctxStorm.globalCompositeOperation = "lighter";
-  ctxStorm.shadowBlur = 15;
-  ctxStorm.beginPath();
-  ctxStorm.lineWidth = lightningThickness;
-  for (var i = 0; i < ln.length; i++) {
-    ctxStorm.lineTo(ln[i].x, ln[i].y);
-  }
-  ctxStorm.stroke();
-}
+  // Two filters:
+  //   bolt-outer — wide, soft diffuse corona (5px + 12px blur)
+  //   bolt-inner — tight, bright core glow (1.5px blur only)
+  const defs = document.createElementNS(svgNS, 'defs');
+  defs.innerHTML = `
+    <filter id="bolt-outer" x="-120%" y="-20%" width="340%" height="140%"
+            color-interpolation-filters="sRGB">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="5"  result="b1"/>
+      <feGaussianBlur in="SourceGraphic" stdDeviation="12" result="b2"/>
+      <feMerge>
+        <feMergeNode in="b2"/>
+        <feMergeNode in="b1"/>
+      </feMerge>
+    </filter>
+    <filter id="bolt-inner" x="-60%" y="-10%" width="220%" height="120%"
+            color-interpolation-filters="sRGB">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="1.5" result="b"/>
+      <feMerge>
+        <feMergeNode in="b"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  `;
+  svg.appendChild(defs);
+  heroSection.appendChild(svg);
 
-function forkChance() {
-  const chance = 0.3;
-  if (Math.random() <= chance) {
-    return true;
-  }
-  return false;
-}
+  // ─── Midpoint displacement path generation ────────────────────────────────
+  function generatePoints(x0, y0, x1, y1, passes, disp) {
+    let pts = [{ x: x0, y: y0 }, { x: x1, y: y1 }];
+    let d   = disp;
 
-function render() {
-  lightning = createLightning();
-  opacity = 1;
-  hasFork = forkChance();
-  lightningSplit = []; // reset the lightning split
-  if (hasFork) {
-    // choose where the lightning splits from main branch
-    const minStart = lightning.length * 0.4;
-    const maxStart = lightning.length * 0.7;
-    splitTop = lightning[getRandomInteger(minStart, maxStart)];
-    lightningSplit = createSplit(splitTop.x, splitTop.y);
-  }
-  // draw the lightning
-  draw(lightning, lightningSplit, opacity);
-
-  // Easter egg messages for Keys of the Caribbean
-  const logMessages = [
-    "you are not alone",
-    "there is no spoon",
-    "wake up, sons and daughters",
-    "the cake is a lie",
-    "the answer is 42",
-    "dont panic",
-    "are you lost?",
-    "you are not lost",
-    "we are all Satoshi",
-    "the revolution is decentralized",
-    "who the cap fit",
-    "we gotta chase dem crazy",
-    "you cant run away from yourself",
-    "the truth is out there",
-    "one one cocoa full basket",
-    "yes i am a pirate",
-    "i love you too",
-  ];
-  const logMessage = logMessages[Math.floor(Math.random() * logMessages.length)];
-  console.log(logMessage);
-
-  // Stage 1: The Awakening - Trigger after 15 lightning strikes
-  lightningStrikeCount++;
-  if (lightningStrikeCount === 15 && !rabbitHoleRevealed) {
-    revealRabbitHole();
-  }
-}
-
-function createLightning() {
-  let top = { x: getRandomInteger(2, canvasWidth - 2), y: 0 };
-  let segmentHeight = groundHeight - top.y;
-  lightning = [];
-  // Starting point of the lightning strike
-  lightning.push({ x: top.x, y: top.y });
-  // Ending point of the lightning strike
-  lightning.push({ x: Math.random() * (canvasWidth - 100) + 50, y: groundHeight });
-  let currDiff = maxDifference;
-  while (segmentHeight > minSegmentHeight) {
-    let newSegments = [];
-    for (let i = 0; i < lightning.length - 1; i++) {
-      const start = lightning[i];
-      const end = lightning[i + 1];
-      const midX = (start.x + end.x) / 2;
-      const newX = midX + (Math.random() * 2 - 1) * currDiff;
-      newSegments.push(start, { x: newX, y: (start.y + end.y) / 2 });
-    }
-    // Add the ending point to the segment array
-    newSegments.push(lightning.pop());
-    // Update the lightning strike with the new segments;
-    lightning = newSegments;
-
-    currDiff /= roughness;
-    segmentHeight /= 2;
-  }
-  return lightning;
-}
-function createSplit(x, y) {
-  let top = { x: x, y: y };
-  let segmentHeight = groundHeight - top.y;
-  lightningSplit = [];
-  // Starting point of the lightning strike fork
-  lightningSplit.push({ x: top.x, y: top.y });
-  // Ending point of the lightning strike fork
-  lightningSplit.push({ x: Math.random() * (canvasWidth - 100) + 50, y: groundHeight });
-  let currDiff = maxDifference;
-  while (segmentHeight > minSegmentHeight) {
-    let newSegments = [];
-    for (let i = 0; i < lightningSplit.length - 1; i++) {
-      const start = lightningSplit[i];
-      const end = lightningSplit[i + 1];
-      const midX = (start.x + end.x) / 2;
-      const newX = midX + (Math.random() * 2 - 1) * currDiff;
-      newSegments.push(start, { x: newX, y: (start.y + end.y) / 2 });
-    }
-    // Add the ending point to the segment array
-    newSegments.push(lightningSplit.pop());
-    // Update the lightning strike with the new segments;
-    lightningSplit = newSegments;
-
-    currDiff /= roughness;
-    segmentHeight /= 2;
-  }
-  return lightningSplit;
-}
-
-const animate = function () {
-  // Fade out the lightning strike
-  clearCanvas();
-  opacity -= 0.01;
-  draw(lightning, lightningSplit, opacity);
-  requestAnimationFrame(animate);
-};
-
-function startLightning(interval) {
-  clearInterval(lightningInterval);
-  lightningInterval = setInterval(function () {
-    let delay = timing();
-    setTimeout(() => {
-      render();
-    }, delay);
-  }, interval);
-}
-
-// Switching canvas based on which canvas is in viewport
-const observer = new IntersectionObserver(
-  (entries) => {
-    entries.forEach((entry) => {
-      if (entry.target == cvsStorm) {
-        canvasVisible = entry.isIntersecting;
+    for (let p = 0; p < passes; p++) {
+      const next = [];
+      for (let i = 0; i < pts.length - 1; i++) {
+        const a = pts[i], b = pts[i + 1];
+        // Slight downward bias on midpoint y keeps bolt moving earthward
+        const my = (a.y + b.y) / 2 + (Math.random() - 0.48) * d * 0.18;
+        const mx = (a.x + b.x) / 2 + (Math.random() - 0.5)  * d;
+        next.push(a, { x: mx, y: my });
       }
-    });
-    chooseCanvas();
-  },
-  { threshold: [0.05] }
-);
-
-function chooseCanvas() {
-  let stormVisible = canvasVisible;
-
-  if (stormVisible) {
-    startLightning(stormInterval);
-  } else {
-    return;
-  }
-}
-
-// Stage 1: Reveal the rabbit hole - Keys of the Caribbean discovery
-async function revealRabbitHole() {
-  rabbitHoleRevealed = true;
-
-  // Check if hunter is logged in
-  const token = localStorage.getItem('hunt_token');
-
-  if (!token) {
-    // Not logged in - cryptic hint to register first
-    console.log('%c');
-    console.log('%c═══════════════════════════════════════════════════════════════', 'color: #F6C453;');
-    console.log('%c  ⚡ SIGNAL DETECTED ⚡', 'font-size: 20px; color: #F6C453; font-weight: bold;');
-    console.log('%c═══════════════════════════════════════════════════════════════', 'color: #F6C453;');
-    console.log('%c');
-    console.log('%c  "I\'ve been working on a new electronic cash system', 'font-size: 14px; color: #7C8A92; font-style: italic;');
-    console.log('%c   that\'s fully peer-to-peer, with no trusted third party."', 'font-size: 14px; color: #7C8A92; font-style: italic;');
-    console.log('%c                                        — Satoshi, 2008', 'font-size: 12px; color: #41AD49;');
-    console.log('%c');
-    console.log('%c  The hunt awaits, but first you must register...', 'font-size: 14px; color: #7C8A92;');
-    console.log('%c  → /treasure-hunt-for-real-this-time-2140/register.html', 'font-size: 14px; color: #41AD49;');
-    console.log('%c');
-    console.log('%c═══════════════════════════════════════════════════════════════', 'color: #F6C453;');
-    return;
+      next.push(pts[pts.length - 1]);
+      pts = next;
+      d  *= 0.55; // decay displacement each pass
+    }
+    return pts;
   }
 
-  // Fetch hunter-specific Stage 1 token
-  try {
-    const response = await fetch('https://kotc.islandbitcoin.com/api/get-stage1-token.php', {
-      headers: {
-        'Authorization': `Bearer ${token}`
+  function toD(pts) {
+    return pts.map((p, i) => `${i === 0 ? 'M' : 'L'}${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(' ');
+  }
+
+  // Two-layer bolt: outer glow path + inner core path
+  function makeBolt(d, glowWidth, coreWidth, glowColor, coreColor) {
+    const group = document.createElementNS(svgNS, 'g');
+    group.style.opacity = '0';
+
+    const glow = document.createElementNS(svgNS, 'path');
+    glow.setAttribute('d',             d);
+    glow.setAttribute('stroke',        glowColor);
+    glow.setAttribute('stroke-width',  glowWidth);
+    glow.setAttribute('stroke-linecap','round');
+    glow.setAttribute('stroke-linejoin','round');
+    glow.setAttribute('fill',          'none');
+    glow.setAttribute('filter',        'url(#bolt-outer)');
+
+    const core = document.createElementNS(svgNS, 'path');
+    core.setAttribute('d',             d);
+    core.setAttribute('stroke',        coreColor);
+    core.setAttribute('stroke-width',  coreWidth);
+    core.setAttribute('stroke-linecap','round');
+    core.setAttribute('stroke-linejoin','round');
+    core.setAttribute('fill',          'none');
+    core.setAttribute('filter',        'url(#bolt-inner)');
+
+    group.appendChild(glow);
+    group.appendChild(core);
+    return group;
+  }
+
+  // ─── Strike ───────────────────────────────────────────────────────────────
+  function strike() {
+    const w = heroSection.offsetWidth;
+    const h = heroSection.offsetHeight;
+
+    // Trunk: random top-x → random bottom-x, full height
+    const topX   = w * 0.05 + Math.random() * w * 0.9;
+    const botX   = w * 0.05 + Math.random() * w * 0.9;
+    const trunk  = generatePoints(topX, 0, botX, h, TRUNK_SUBDIVISIONS, TRUNK_DISP);
+    const trunkEl = makeBolt(
+      toD(trunk),
+      '5',  '1.2',                       // glow 5px wide, core 1.2px
+      'rgba(120, 180, 255, 0.55)',        // blue glow
+      'rgba(240, 250, 255, 1)'            // white-blue core
+    );
+    svg.appendChild(trunkEl);
+
+    // Branches: pick random attachment points along trunk
+    const numBranches = MIN_BRANCHES + Math.floor(Math.random() * (MAX_BRANCHES - MIN_BRANCHES + 1));
+    const branchEls   = [];
+
+    for (let b = 0; b < numBranches; b++) {
+      // Attach in the lower 70% of the trunk (avoid tiny top stubs)
+      const startIdx = Math.floor(trunk.length * (0.15 + Math.random() * 0.65));
+      const origin   = trunk[startIdx];
+
+      // Branch end: spread horizontally, terminate before floor
+      const endX  = Math.max(5, Math.min(w - 5, origin.x + (Math.random() - 0.5) * w * 0.5));
+      const endY  = origin.y + (h - origin.y) * (0.3 + Math.random() * 0.6);
+
+      const bPts  = generatePoints(origin.x, origin.y, endX, endY, BRANCH_SUBDIVISIONS, BRANCH_DISP);
+
+      // Branches get thinner & dimmer than trunk; deep branches dimmer still
+      const depthFade = 0.5 + 0.5 * (1 - startIdx / trunk.length);
+      const bEl = makeBolt(
+        toD(bPts),
+        `${(3 * depthFade).toFixed(1)}`,
+        `${(0.8 * depthFade).toFixed(1)}`,
+        `rgba(100, 160, 255, ${(0.35 * depthFade).toFixed(2)})`,
+        `rgba(220, 240, 255, ${(0.85 * depthFade).toFixed(2)})`
+      );
+      svg.appendChild(bEl);
+      branchEls.push({ el: bEl, depth: depthFade });
+    }
+
+    // ── Return strokes (realistic flicker) ──
+    // Real lightning: step leader (dim) → 2–3 rapid return strokes → afterglow
+    const returnStrokes = 1 + Math.floor(Math.random() * 2); // 2 or 3 total flashes
+    const tl = gsap.timeline({
+      onComplete: () => {
+        trunkEl.remove();
+        branchEls.forEach(b => b.el.remove());
       }
     });
 
-    const data = await response.json();
-
-    if (data.success && data.stage1_token) {
-      hunterToken = data.stage1_token;
-
-      // Reveal the Keys of the Caribbean discovery sequence
-      console.log('%c');
-      console.log('%c╔═══════════════════════════════════════════════════════════════╗', 'color: #F6C453;');
-      console.log('%c║  ⚡ KEYS OF THE CARIBBEAN - SIGNAL ACQUIRED ⚡                 ║', 'font-size: 16px; color: #F6C453; font-weight: bold;');
-      console.log('%c╚═══════════════════════════════════════════════════════════════╝', 'color: #F6C453;');
-      console.log('%c');
-      console.log('%c  He posted one final message. Then silence.', 'font-size: 14px; color: #7C8A92;');
-      console.log('%c  But not forever...', 'font-size: 14px; color: #7C8A92;');
-      console.log('%c');
-      console.log('%c  ┌─────────────────────────────────────────────────────────┐', 'color: #41AD49;');
-      console.log('%c  │  YOUR ACCESS TOKEN:                                     │', 'color: #41AD49;');
-      console.log(`%c  │  ${hunterToken.padEnd(50)}│`, 'font-size: 16px; color: #00FFFF; font-weight: bold;');
-      console.log('%c  └─────────────────────────────────────────────────────────┘', 'color: #41AD49;');
-      console.log('%c');
-      console.log('%c  STEP 1: Save this token in your Hunter Dashboard', 'font-size: 14px; color: #F6C453; font-weight: bold;');
-      console.log('%c           → /treasure-hunt-for-real-this-time-2140/hunter-dashboard.html', 'font-size: 12px; color: #41AD49;');
-      console.log('%c');
-      console.log('%c  STEP 2: Find the Key Terminal...', 'font-size: 14px; color: #F6C453; font-weight: bold;');
-      console.log('%c           His email was satoshin@gmx.com', 'font-size: 12px; color: #7C8A92; font-style: italic;');
-      console.log('%c           What if he had a flash identity?', 'font-size: 12px; color: #7C8A92; font-style: italic;');
-      console.log('%c');
-      console.log('%c  "We are all Satoshi."', 'font-size: 14px; color: #41AD49; font-style: italic;');
-      console.log('%c');
-      console.log('%c╔═══════════════════════════════════════════════════════════════╗', 'color: #F6C453;');
-      console.log('%c║  The vault awaits those who prove themselves worthy...        ║', 'color: #7C8A92;');
-      console.log('%c╚═══════════════════════════════════════════════════════════════╝', 'color: #F6C453;');
-    } else {
-      // Token generation failed
-      console.log('%c⚠️ Signal interference detected...', 'font-size: 16px; color: #FCA5A5;');
-      console.log('%cPlease refresh and try again.', 'font-size: 14px; color: #7C8A92;');
+    // Build flicker sequence
+    let t = 0;
+    for (let s = 0; s < returnStrokes; s++) {
+      const peak = s === 0 ? 1 : 0.6 + Math.random() * 0.3; // first stroke brightest
+      tl.to([trunkEl, ...branchEls.map(b => b.el)], {
+        opacity: peak, duration: 0.025, ease: 'none'
+      }, t);
+      t += 0.025;
+      tl.to([trunkEl, ...branchEls.map(b => b.el)], {
+        opacity: peak * 0.25, duration: 0.04, ease: 'none'
+      }, t);
+      t += 0.04;
     }
-  } catch (error) {
-    console.error('Signal acquisition failed:', error);
+
+    // Final afterglow fade — long, smooth power curve
+    tl.to([trunkEl, ...branchEls.map(b => b.el)], {
+      opacity: 1, duration: 0.02, ease: 'none'
+    }, t);
+    tl.to([trunkEl, ...branchEls.map(b => b.el)], {
+      opacity: 0, duration: 1.1, ease: 'power3.out'
+    }, t + 0.02);
+
+    // ── Easter egg ──
+    lightningStrikeCount++;
+    const logMessages = [
+      'you are not alone',       'there is no spoon',
+      'wake up, sons and daughters', 'the cake is a lie',
+      'the answer is 42',        'dont panic',
+      'are you lost?',           'you are not lost',
+      'we are all Satoshi',      'the revolution is decentralized',
+      'who the cap fit',         'we gotta chase dem crazy',
+      'you cant run away from yourself', 'the truth is out there',
+      'one one cocoa full basket', 'yes i am a pirate',
+      'i love you too',
+    ];
+    console.log(logMessages[Math.floor(Math.random() * logMessages.length)]);
+    if (lightningStrikeCount === 15 && !rabbitHoleRevealed) revealRabbitHole();
+  }
+
+  // ─── Scheduler ────────────────────────────────────────────────────────────
+  let stormActive = false;
+
+  function scheduleNextStrike() {
+    if (!stormActive) return;
+    const delay = STRIKE_MIN_DELAY + Math.random() * (STRIKE_MAX_DELAY - STRIKE_MIN_DELAY);
+    gsap.delayedCall(delay, () => {
+      if (stormActive) { strike(); scheduleNextStrike(); }
+    });
+  }
+
+  function startStorm() {
+    if (stormActive) return;
+    stormActive = true;
+    const firstDelay = 1.5 + Math.random() * 2.5;
+    gsap.delayedCall(firstDelay, () => { if (stormActive) { strike(); scheduleNextStrike(); } });
+  }
+
+  function stopStorm() {
+    stormActive = false;
+    gsap.killDelayedCallsTo(scheduleNextStrike);
+  }
+
+  // IntersectionObserver on hero section
+  const heroObserver = new IntersectionObserver((entries) => {
+    entries.forEach(e => e.isIntersecting ? startStorm() : stopStorm());
+  }, { threshold: 0.05 });
+  heroObserver.observe(heroSection);
+
+  // ─── Easter egg: revealRabbitHole (preserved verbatim) ────────────────────
+  async function revealRabbitHole() {
+    rabbitHoleRevealed = true;
+    const token = localStorage.getItem('hunt_token');
+
+    if (!token) {
+      console.log('%c');
+      console.log('%c═══════════════════════════════════════════════════════════════', 'color: #F6C453;');
+      console.log('%c  ⚡ SIGNAL DETECTED ⚡', 'font-size: 20px; color: #F6C453; font-weight: bold;');
+      console.log('%c═══════════════════════════════════════════════════════════════', 'color: #F6C453;');
+      console.log('%c');
+      console.log('%c  "I\'ve been working on a new electronic cash system', 'font-size: 14px; color: #7C8A92; font-style: italic;');
+      console.log('%c   that\'s fully peer-to-peer, with no trusted third party."', 'font-size: 14px; color: #7C8A92; font-style: italic;');
+      console.log('%c                                        — Satoshi, 2008', 'font-size: 12px; color: #41AD49;');
+      console.log('%c');
+      console.log('%c  The hunt awaits, but first you must register...', 'font-size: 14px; color: #7C8A92;');
+      console.log('%c  → /treasure-hunt-for-real-this-time-2140/register.html', 'font-size: 14px; color: #41AD49;');
+      console.log('%c');
+      console.log('%c═══════════════════════════════════════════════════════════════', 'color: #F6C453;');
+      return;
+    }
+
+    try {
+      const response = await fetch('https://kotc.islandbitcoin.com/api/get-stage1-token.php', {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      const data = await response.json();
+
+      if (data.success && data.stage1_token) {
+        hunterToken = data.stage1_token;
+        console.log('%c');
+        console.log('%c╔═══════════════════════════════════════════════════════════════╗', 'color: #F6C453;');
+        console.log('%c║  ⚡ KEYS OF THE CARIBBEAN - SIGNAL ACQUIRED ⚡                 ║', 'font-size: 16px; color: #F6C453; font-weight: bold;');
+        console.log('%c╚═══════════════════════════════════════════════════════════════╝', 'color: #F6C453;');
+        console.log('%c');
+        console.log('%c  He posted one final message. Then silence.', 'font-size: 14px; color: #7C8A92;');
+        console.log('%c  But not forever...', 'font-size: 14px; color: #7C8A92;');
+        console.log('%c');
+        console.log('%c  ┌─────────────────────────────────────────────────────────┐', 'color: #41AD49;');
+        console.log('%c  │  YOUR ACCESS TOKEN:                                     │', 'color: #41AD49;');
+        console.log(`%c  │  ${hunterToken.padEnd(50)}│`, 'font-size: 16px; color: #00FFFF; font-weight: bold;');
+        console.log('%c  └─────────────────────────────────────────────────────────┘', 'color: #41AD49;');
+        console.log('%c');
+        console.log('%c  STEP 1: Save this token in your Hunter Dashboard', 'font-size: 14px; color: #F6C453; font-weight: bold;');
+        console.log('%c           → /treasure-hunt-for-real-this-time-2140/hunter-dashboard.html', 'font-size: 12px; color: #41AD49;');
+        console.log('%c');
+        console.log('%c  STEP 2: Find the Key Terminal...', 'font-size: 14px; color: #F6C453; font-weight: bold;');
+        console.log('%c           His email was satoshin@gmx.com', 'font-size: 12px; color: #7C8A92; font-style: italic;');
+        console.log('%c           What if he had a flash identity?', 'font-size: 12px; color: #7C8A92; font-style: italic;');
+        console.log('%c');
+        console.log('%c  "We are all Satoshi."', 'font-size: 14px; color: #41AD49; font-style: italic;');
+        console.log('%c');
+        console.log('%c╔═══════════════════════════════════════════════════════════════╗', 'color: #F6C453;');
+        console.log('%c║  The vault awaits those who prove themselves worthy...        ║', 'color: #7C8A92;');
+        console.log('%c╚═══════════════════════════════════════════════════════════════╝', 'color: #F6C453;');
+      } else {
+        console.log('%c⚠️ Signal interference detected...', 'font-size: 16px; color: #FCA5A5;');
+        console.log('%cPlease refresh and try again.', 'font-size: 14px; color: #7C8A92;');
+      }
+    } catch (error) {
+      console.error('Signal acquisition failed:', error);
+    }
   }
 }
-
-// Observer setup
-observer.observe(cvsStorm);

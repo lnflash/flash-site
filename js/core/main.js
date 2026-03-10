@@ -31,12 +31,25 @@ function initNavigationElements() {
 function changeMobileNavState() {
   if (!mainNav) return;
 
+  const backdrop = document.getElementById('nav-backdrop');
+
   if (mainNav.dataset.mobState === "closed") {
     mainNav.dataset.mobState = "open";
+    document.body.style.overflow = 'hidden'; // prevent scroll behind drawer
+    if (backdrop) backdrop.classList.add('active');
   } else {
     mainNav.dataset.mobState = "closed";
+    document.body.style.overflow = '';
+    if (backdrop) backdrop.classList.remove('active');
   }
 }
+
+// Backdrop tap closes the drawer
+document.addEventListener('click', (e) => {
+  if (e.target && e.target.id === 'nav-backdrop') {
+    changeMobileNavState();
+  }
+});
 
 // Cards (About Page)
 const cards = document.querySelectorAll('.card');
@@ -393,7 +406,7 @@ if (globe !== null) {
 // Dark Mode Declarations
 const darkTheme = "dark";
 const lightTheme = "light";
-let theme = darkTheme;
+let theme = lightTheme;
 const yellow = "#fff200";
 const purple = "#5C42AD";
 const green = "#41ad49";
@@ -457,7 +470,8 @@ function changeTheme(value) {
 if (localStorage.getItem("theme")) {
   changeTheme(localStorage.getItem("theme"));
 } else {
-  changeTheme("dark");
+  // Default to light mode on first visit
+  changeTheme("light");
 }
 
 // Globe
@@ -517,6 +531,12 @@ function changeEmailIcon(value) {
 document.addEventListener('componentsLoaded', () => {
   initNavigationElements();
   attachMobileMenuListeners();
+
+  // Re-sync dark mode label now that footer component is in DOM
+  const dmText = document.getElementById("darkmode-text");
+  if (dmText) {
+    dmText.textContent = (theme === darkTheme) ? "On" : "Off";
+  }
 });
 
 // Attach mobile menu listeners - called after components load
@@ -541,7 +561,10 @@ window.onload = () => {
   initNavigationElements();
 
   // Register GSAP Plugins
-  gsap.registerPlugin(MotionPathPlugin);
+  // MotionPathPlugin only loaded on pages that need it (e.g. mission.html)
+  if (typeof MotionPathPlugin !== 'undefined') {
+    gsap.registerPlugin(MotionPathPlugin);
+  }
   // Set About Card Message
   cardSelect(0);
 

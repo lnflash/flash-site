@@ -6,21 +6,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <!-- Primary Meta Tags -->
-  <title>Flash | Bitcoin Payments & Merchant Rewards for the Caribbean</title>
-  <meta name="title" content="Flash | Bitcoin Payments & Merchant Rewards for the Caribbean">
+  <title>Flash | Built for the Caribbean</title>
+  <meta name="title" content="Flash | Jamaica's First Bitcoin Wallet">
   <meta name="description"
-    content="Caribbean's leading Bitcoin payment and merchant rewards platform. Instant transactions, low fees, and loyalty rewards for businesses across Jamaica and the Caribbean.">
+    content="Flash is the Caribbean's Lightning wallet. Buy Bitcoin with local currency, send money home for free, and spend at Flash merchants across the Caribbean.">
   <meta name="keywords"
-    content="Bitcoin Caribbean, Lightning Network Jamaica, merchant rewards, Bitcoin payments, Caribbean fintech, Flash wallet, merchant POS">
+    content="Caribbean Bitcoin wallet, Lightning Network Caribbean, send money home Caribbean, Flash wallet, Bitcoin Jamaica, Bitcoin Cayman">
   <meta name="author" content="Flash">
 
   <!-- Open Graph / Facebook -->
   <meta property="fb:app_id" content="811035578520412">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://getflash.io/">
-  <meta property="og:title" content="Flash | Bitcoin Payments & Merchant Rewards for the Caribbean">
+  <meta property="og:title" content="Flash | Jamaica's First Bitcoin Wallet">
   <meta property="og:description"
-    content="Caribbean's leading Bitcoin payment and merchant rewards platform. Instant transactions, low fees, and loyalty rewards for businesses.">
+    content="Buy Bitcoin with local currency. Send money home for free. Spend at Flash merchants. The Caribbean's Lightning wallet.">
   <meta property="og:image" content="https://getflash.io/assets/img/download-og-image-small.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="800">
@@ -29,9 +29,9 @@
   <!-- Twitter -->
   <meta property="twitter:card" content="summary_large_image">
   <meta property="twitter:url" content="https://getflash.io/">
-  <meta property="twitter:title" content="Flash | Bitcoin Payments & Merchant Rewards for the Caribbean">
+  <meta property="twitter:title" content="Flash | Jamaica's First Bitcoin Wallet">
   <meta property="twitter:description"
-    content="Caribbean's leading Bitcoin payment and merchant rewards platform. Instant transactions, low fees, and loyalty rewards.">
+    content="Buy Bitcoin with Jamaican dollars. Send money home for free. Spend at Flash merchants.">
   <meta property="twitter:image" content="https://getflash.io/assets/img/download-og-image-small.png">
   <meta name="twitter:site" content="@LNFlash">
 
@@ -45,724 +45,552 @@
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&amp;display=swap"
-    rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
   <!-- CSS -->
   <link rel="stylesheet" href="css/main.css" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
   <link rel="stylesheet" href="css/pages/home.css" />
 
   <!-- Dark Mode Init (must load before body renders to prevent flicker) -->
   <script src="js/core/dark-mode-init.js"></script>
 </head>
 
-<body>
+<body class="home-page">
   <!-- Header Component (loaded dynamically) -->
   <div id="header-placeholder"></div>
 
   <main>
-    <!-- Page: Download / Hero -->
-    <section id="pg-download" class="pg-download page">
-      <!-- Canvas drawn to via lightning.js -->
-      <canvas id="lightning-storm"></canvas>
-      <!-- City Background -->
-      <img class="banner-bg wide-bg" src="assets/img/kingston.svg" alt="">
-      <img class="banner-bg small-bg" src="assets/img/kingston-small.svg" alt="">
-      <!-- Content -->
-      <div class="container col-2-even">
-        <div class="banner-left">
-          <h1 class="banner-txt">Bitcoin Payments and <span class="banner-highlight">Merchant Rewards</span></h1>
-          <p class="slogan">@ Lightning Speed</p>
-          <div class="downloads-container">
-            <a href="https://getflash.io/app" target="_blank" id="googleplay-link" class="no-style download-btn">
-              <img src="assets/img/download-button.png" alt="Get it on Google Play or AppStore"
-                style="height: auto; width: 150%; max-width: 250px;" />
-            </a>
-            <!-- <a href="https://apps.apple.com/jm/app/flash-send-spend-and-save/id6451129095" target="_blank"
-              id="appstore-link" class="no-style">
-              <img src="assets/img/ios-badge.png" alt="Download on the App Store" />
-            </a> -->
-          </div>
-        </div>
-        <div class="banner-right" id="phoneContainer">
-          <img src="assets/img/phone.png" alt="Flash Mobile App" id="bannerPhone" class="banner-phone" loading="lazy">
-        </div>
+
+    <!-- ① HERO ──────────────────────────────────────────────── -->
+    <section id="pg-hero" class="home-section">
+      <!-- Lightning strike canvas -->
+      <canvas id="lightning-storm" aria-hidden="true"></canvas>
+      <!-- Background -->
+      <div class="hero-bg" aria-hidden="true">
+        <img class="hero-city" src="assets/img/kingston.svg" alt="">
       </div>
-    </section>
-    <!-- End of Page: Download / Hero -->
 
-    <!-- Page: Product Showcase -->
-    <section id="pg-products" class="pg-products page">
-      <div class="divider">
-        <div class="container">
-          <!-- Section Header -->
-          <div class="products-header">
-            <span class="section-badge">Our Products</span>
-            <h2 class="products-title">Experience the Future of Payments</h2>
-            <p class="products-subtitle">Lightning-fast transactions at your fingertips</p>
-          </div>
-
-          <!-- Swiper Carousel -->
-          <div class="swiper products-swiper">
-            <div class="swiper-wrapper">
-
-              <!-- Flash Mobile -->
-              <div class="swiper-slide">
-                <div class="product-showcase-card">
-                  <div class="product-card-inner">
-                    <div class="product-image-container">
-                      <div class="product-glow"></div>
-                      <img src="assets/img/phone.png" alt="Flash Mobile App" class="product-img" loading="lazy" />
-                      <div class="product-badge-tag">Most Popular</div>
-                    </div>
-                    <div class="product-content">
-                      <div class="product-header-section">
-                        <div class="product-icon-badge">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path>
-                          </svg>
-                        </div>
-                        <h3 class="product-name">Flash Mobile</h3>
-                      </div>
-                      <p class="product-description">
-                        Send Payments instantly with near-zero fees. Experience the lightning-fast speed of sending
-                        money on Flash with our intuitive mobile app designed for everyone.
-                      </p>
-                      <div class="product-features-list">
-                        <div class="feature-item">
-                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2.5">
-                            <polyline points="20 6 9 17 4 12"></polyline>
-                          </svg>
-                          <span>Instant Payments</span>
-                        </div>
-                        <div class="feature-item">
-                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2.5">
-                            <polyline points="20 6 9 17 4 12"></polyline>
-                          </svg>
-                          <span>Minimal Fees</span>
-                        </div>
-                        <div class="feature-item">
-                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2.5">
-                            <polyline points="20 6 9 17 4 12"></polyline>
-                          </svg>
-                          <span>Buy Bitcoin</span>
-                        </div>
-                      </div>
-                      <a href="/app" class="product-cta-btn">
-                        <span>Get the App</span>
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                          stroke-width="2">
-                          <line x1="5" y1="12" x2="19" y2="12"></line>
-                          <polyline points="12 5 19 12 12 19"></polyline>
-                        </svg>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Flash POS -->
-              <div class="swiper-slide">
-                <div class="product-showcase-card">
-                  <div class="product-card-inner">
-                    <div class="product-image-container">
-                      <div class="product-glow"></div>
-                      <img src="assets/img/POS.png" alt="Flash POS System" class="product-img" loading="lazy" />
-                      <div class="product-badge-tag business">For Business</div>
-                    </div>
-                    <div class="product-content">
-                      <div class="product-header-section">
-                        <div class="product-icon-badge">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <rect x="2" y="5" width="20" height="14" rx="2"></rect>
-                            <line x1="2" y1="10" x2="22" y2="10"></line>
-                          </svg>
-                        </div>
-                        <h3 class="product-name">Flash POS</h3>
-                      </div>
-                      <p class="product-description">
-                        Transform your business with our powerful point of sale system. Accept digital payments
-                        seamlessly
-                        with real-time reporting and no hidden fees.
-                      </p>
-                      <div class="product-features-list">
-                        <div class="feature-item">
-                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2.5">
-                            <polyline points="20 6 9 17 4 12"></polyline>
-                          </svg>
-                          <span>Easy Setup</span>
-                        </div>
-                        <div class="feature-item">
-                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2.5">
-                            <polyline points="20 6 9 17 4 12"></polyline>
-                          </svg>
-                          <span>Real-Time Analytics</span>
-                        </div>
-                        <div class="feature-item">
-                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2.5">
-                            <polyline points="20 6 9 17 4 12"></polyline>
-                          </svg>
-                          <span>Multi-Device Support</span>
-                        </div>
-                      </div>
-                      <a href="/rewards.html" class="product-cta-btn">
-                        <span>Learn More</span>
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                          stroke-width="2">
-                          <line x1="5" y1="12" x2="19" y2="12"></line>
-                          <polyline points="12 5 19 12 12 19"></polyline>
-                        </svg>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Flash Card -->
-              <div class="swiper-slide">
-                <div class="product-showcase-card">
-                  <div class="product-card-inner">
-                    <div class="product-image-container">
-                      <div class="product-glow"></div>
-                      <img src="assets/img/Flashcard.png" alt="Flash Card" class="product-img" loading="lazy" />
-                      <div class="product-badge-tag premium">Rewards</div>
-                    </div>
-                    <div class="product-content">
-                      <div class="product-header-section">
-                        <div class="product-icon-badge">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <rect x="2" y="5" width="20" height="14" rx="2"></rect>
-                            <path d="M2 10h20"></path>
-                          </svg>
-                        </div>
-                        <h3 class="product-name">Flash Card</h3>
-                      </div>
-                      <p class="product-description">
-                        Your rewards, instantly spendable using tap-to-pay cards that work everywhere Flash is accepted.
-                        Digital rewards with the convenience of traditional payment cards.
-                      </p>
-                      <div class="product-features-list">
-                        <div class="feature-item">
-                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2.5">
-                            <polyline points="20 6 9 17 4 12"></polyline>
-                          </svg>
-                          <span>Works Offline</span>
-                        </div>
-                        <div class="feature-item">
-                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2.5">
-                            <polyline points="20 6 9 17 4 12"></polyline>
-                          </svg>
-                          <span>Cashback Rewards</span>
-                        </div>
-                        <div class="feature-item">
-                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2.5">
-                            <polyline points="20 6 9 17 4 12"></polyline>
-                          </svg>
-                          <span>Global Acceptance</span>
-                        </div>
-                      </div>
-                      <a href="/map" class="product-cta-btn">
-                        <span>Get Your Card</span>
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                          stroke-width="2">
-                          <line x1="5" y1="12" x2="19" y2="12"></line>
-                          <polyline points="12 5 19 12 12 19"></polyline>
-                        </svg>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Flash API -->
-              <div class="swiper-slide">
-                <div class="product-showcase-card">
-                  <div class="product-card-inner">
-                    <div class="product-image-container">
-                      <div class="product-glow"></div>
-                      <img src="assets/img/flash-api.jpeg" alt="Flash API for Developers" class="product-img"
-                        loading="lazy" />
-                      <div class="product-badge-tag developer">For Developers</div>
-                    </div>
-                    <div class="product-content">
-                      <div class="product-header-section">
-                        <div class="product-icon-badge">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <polyline points="16 18 22 12 16 6"></polyline>
-                            <polyline points="8 6 2 12 8 18"></polyline>
-                          </svg>
-                        </div>
-                        <h3 class="product-name">Flash API</h3>
-                      </div>
-                      <p class="product-description">
-                        Build the future of payments. Integrate Digital Payments on the Bitcoin & Lightning networks
-                        into your applications
-                        with our powerful, developer-friendly API and comprehensive documentation.
-                      </p>
-                      <div class="product-features-list">
-                        <div class="feature-item">
-                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2.5">
-                            <polyline points="20 6 9 17 4 12"></polyline>
-                          </svg>
-                          <span>RESTful API</span>
-                        </div>
-                        <div class="feature-item">
-                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2.5">
-                            <polyline points="20 6 9 17 4 12"></polyline>
-                          </svg>
-                          <span>WebSocket Support</span>
-                        </div>
-                        <div class="feature-item">
-                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2.5">
-                            <polyline points="20 6 9 17 4 12"></polyline>
-                          </svg>
-                          <span>Full Documentation</span>
-                        </div>
-                      </div>
-                      <a href="https://documentation.getflash.io/en/development" target="_blank"
-                        rel="noopener noreferrer" class="product-cta-btn">
-                        <span>View Docs</span>
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                          stroke-width="2">
-                          <line x1="5" y1="12" x2="19" y2="12"></line>
-                          <polyline points="12 5 19 12 12 19"></polyline>
-                        </svg>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Flash Mobile (Duplicate) -->
-              <div class="swiper-slide">
-                <div class="product-showcase-card">
-                  <div class="product-card-inner">
-                    <div class="product-image-container">
-                      <div class="product-glow"></div>
-                      <img src="assets/img/phone.png" alt="Flash Mobile App" class="product-img" loading="lazy" />
-                      <div class="product-badge-tag">Most Popular</div>
-                    </div>
-                    <div class="product-content">
-                      <div class="product-header-section">
-                        <div class="product-icon-badge">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path>
-                          </svg>
-                        </div>
-                        <h3 class="product-name">Flash Mobile</h3>
-                      </div>
-                      <p class="product-description">
-                        Send Payments instantly with near-zero fees. Experience the lightning-fast speed of sending
-                        money on Flash with our intuitive mobile app designed for everyone.
-                      </p>
-                      <div class="product-features-list">
-                        <div class="feature-item">
-                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2.5">
-                            <polyline points="20 6 9 17 4 12"></polyline>
-                          </svg>
-                          <span>Instant Payments</span>
-                        </div>
-                        <div class="feature-item">
-                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2.5">
-                            <polyline points="20 6 9 17 4 12"></polyline>
-                          </svg>
-                          <span>Minimal Fees</span>
-                        </div>
-                        <div class="feature-item">
-                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2.5">
-                            <polyline points="20 6 9 17 4 12"></polyline>
-                          </svg>
-                          <span>Buy Bitcoin</span>
-                        </div>
-                      </div>
-                      <a href="/app" class="product-cta-btn">
-                        <span>Get the App</span>
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                          stroke-width="2">
-                          <line x1="5" y1="12" x2="19" y2="12"></line>
-                          <polyline points="12 5 19 12 12 19"></polyline>
-                        </svg>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Flash POS (Duplicate) -->
-              <div class="swiper-slide">
-                <div class="product-showcase-card">
-                  <div class="product-card-inner">
-                    <div class="product-image-container">
-                      <div class="product-glow"></div>
-                      <img src="assets/img/POS.png" alt="Flash POS System" class="product-img" loading="lazy" />
-                      <div class="product-badge-tag business">For Business</div>
-                    </div>
-                    <div class="product-content">
-                      <div class="product-header-section">
-                        <div class="product-icon-badge">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <rect x="2" y="5" width="20" height="14" rx="2"></rect>
-                            <line x1="2" y1="10" x2="22" y2="10"></line>
-                          </svg>
-                        </div>
-                        <h3 class="product-name">Flash POS</h3>
-                      </div>
-                      <p class="product-description">
-                        Transform your business with our powerful point of sale system. Accept digital payments
-                        seamlessly
-                        with real-time reporting and no hidden fees.
-                      </p>
-                      <div class="product-features-list">
-                        <div class="feature-item">
-                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2.5">
-                            <polyline points="20 6 9 17 4 12"></polyline>
-                          </svg>
-                          <span>Easy Setup</span>
-                        </div>
-                        <div class="feature-item">
-                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2.5">
-                            <polyline points="20 6 9 17 4 12"></polyline>
-                          </svg>
-                          <span>Real-Time Analytics</span>
-                        </div>
-                        <div class="feature-item">
-                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2.5">
-                            <polyline points="20 6 9 17 4 12"></polyline>
-                          </svg>
-                          <span>Multi-Device Support</span>
-                        </div>
-                      </div>
-                      <a href="/rewards.html" class="product-cta-btn">
-                        <span>Learn More</span>
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                          stroke-width="2">
-                          <line x1="5" y1="12" x2="19" y2="12"></line>
-                          <polyline points="12 5 19 12 12 19"></polyline>
-                        </svg>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Flash Card (Duplicate) -->
-              <div class="swiper-slide">
-                <div class="product-showcase-card">
-                  <div class="product-card-inner">
-                    <div class="product-image-container">
-                      <div class="product-glow"></div>
-                      <img src="assets/img/Flashcard.png" alt="Flash Card" class="product-img" loading="lazy" />
-                      <div class="product-badge-tag premium">Rewards</div>
-                    </div>
-                    <div class="product-content">
-                      <div class="product-header-section">
-                        <div class="product-icon-badge">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <rect x="2" y="5" width="20" height="14" rx="2"></rect>
-                            <path d="M2 10h20"></path>
-                          </svg>
-                        </div>
-                        <h3 class="product-name">Flash Card</h3>
-                      </div>
-                      <p class="product-description">
-                        Your rewards, instantly spendable using tap-to-pay cards that work everywhere Flash is accepted.
-                        Digital rewards with the convenience of traditional payment cards.
-                      </p>
-                      <div class="product-features-list">
-                        <div class="feature-item">
-                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2.5">
-                            <polyline points="20 6 9 17 4 12"></polyline>
-                          </svg>
-                          <span>Works Offline</span>
-                        </div>
-                        <div class="feature-item">
-                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2.5">
-                            <polyline points="20 6 9 17 4 12"></polyline>
-                          </svg>
-                          <span>Cashback Rewards</span>
-                        </div>
-                        <div class="feature-item">
-                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2.5">
-                            <polyline points="20 6 9 17 4 12"></polyline>
-                          </svg>
-                          <span>Global Acceptance</span>
-                        </div>
-                      </div>
-                      <a href="/map" class="product-cta-btn">
-                        <span>Get Your Card</span>
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                          stroke-width="2">
-                          <line x1="5" y1="12" x2="19" y2="12"></line>
-                          <polyline points="12 5 19 12 12 19"></polyline>
-                        </svg>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Flash API (Duplicate) -->
-              <div class="swiper-slide">
-                <div class="product-showcase-card">
-                  <div class="product-card-inner">
-                    <div class="product-image-container">
-                      <div class="product-glow"></div>
-                      <img src="assets/img/flash-api.jpeg" alt="Flash API for Developers" class="product-img"
-                        loading="lazy" />
-                      <div class="product-badge-tag developer">For Developers</div>
-                    </div>
-                    <div class="product-content">
-                      <div class="product-header-section">
-                        <div class="product-icon-badge">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <polyline points="16 18 22 12 16 6"></polyline>
-                            <polyline points="8 6 2 12 8 18"></polyline>
-                          </svg>
-                        </div>
-                        <h3 class="product-name">Flash API</h3>
-                      </div>
-                      <p class="product-description">
-                        Build the future of payments. Integrate Digital Payments on the Bitcoin & Lightning networks
-                        into your applications
-                        with our powerful, developer-friendly API and comprehensive documentation.
-                      </p>
-                      <div class="product-features-list">
-                        <div class="feature-item">
-                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2.5">
-                            <polyline points="20 6 9 17 4 12"></polyline>
-                          </svg>
-                          <span>RESTful API</span>
-                        </div>
-                        <div class="feature-item">
-                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2.5">
-                            <polyline points="20 6 9 17 4 12"></polyline>
-                          </svg>
-                          <span>WebSocket Support</span>
-                        </div>
-                        <div class="feature-item">
-                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2.5">
-                            <polyline points="20 6 9 17 4 12"></polyline>
-                          </svg>
-                          <span>Full Documentation</span>
-                        </div>
-                      </div>
-                      <a href="https://documentation.getflash.io/en/development" target="_blank"
-                        rel="noopener noreferrer" class="product-cta-btn">
-                        <span>View Docs</span>
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                          stroke-width="2">
-                          <line x1="5" y1="12" x2="19" y2="12"></line>
-                          <polyline points="12 5 19 12 12 19"></polyline>
-                        </svg>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
+      <div class="hero-body">
+        <div class="hero-wrap">
+          <!-- Left: Copy -->
+          <div class="hero-left">
+            <!-- First-mover mark — no pill, just warmth -->
+            <div class="hero-badge">
+              <span class="hero-badge-flag">🇯🇲</span>
+              <span class="hero-badge-text">Built for the Caribbean</span>
             </div>
 
-            <!-- Navigation -->
-            <div class="swiper-button-next products-nav-btn"></div>
-            <div class="swiper-button-prev products-nav-btn"></div>
+            <h1 class="hero-h1">
+              Buy it.<br>
+              Send it.<br>
+              <em>Spend it.</em>
+            </h1>
 
-            <!-- Pagination -->
-            <div class="swiper-pagination products-pagination"></div>
-          </div>
+            <p class="hero-sub">
+              Receive money in seconds — no bank account needed.
+            </p>
 
-        </div>
-      </div>
-    </section>
-    <!-- End of Page: Product Showcase -->
-
-    <!-- Page: FAQ -->
-    <!-- <section id="pg-faq" class="page">
-      <div id="faq" class="faq divider">
-        <div class="container">
-          <h2>Frequently Asked Questions</h2>
-          <div class="accordion">
-            <!-- Inserted by JS. Edit content in faq.json 
-          </div>
-        </div>
-      </div>
-    </section> -->
-    <!-- End of Page: FAQ -->
-
-    <!-- Page: Contact -->
-    <section id="pg-contact" class="pg-contact page">
-      <div class="container">
-        <div class="section-header-centered">
-          <span class="section-badge">Get in Touch</span>
-          <h2>Contact Us</h2>
-          <p class="section-subtitle">Have a question? Want to learn how Flash can transform your business? We'd love to
-            hear from you.</p>
-        </div>
-
-        <div class="contact-content-wrapper">
-          <!-- Contact Info Card -->
-          <div class="contact-info-card">
-            <h3>Let's Connect</h3>
-            <p class="contact-description">Email us or complete the form if you have a specific query or would like to
-              know more about Flash.</p>
-
-            <div class="contact-method">
-              <div class="contact-icon">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-                  <polyline points="22,6 12,13 2,6"></polyline>
+            <div class="hero-actions">
+              <a href="/app" class="btn-primary">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+                  <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
                 </svg>
-              </div>
-              <div>
-                <p class="method-label">Email</p>
-                <a href="mailto:support@getflash.io" class="method-value">support@getflash.io</a>
-              </div>
+                Download Flash — It's Free
+              </a>
+              <a href="/rewards.html" class="btn-secondary">
+                For Merchants
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                  <line x1="5" y1="12" x2="19" y2="12"/>
+                  <polyline points="12 5 19 12 12 19"/>
+                </svg>
+              </a>
             </div>
 
-            <div class="socials-section">
-              <p class="socials-label">Follow Us</p>
-              <div class="socials-grid">
-                <a href="https://primal.net/p/npub1l080awn9wsw87ywm3flmpmccf5rmlvhd7vfgspj2pnavxupnlfesmflash"
-                  target="_blank" class="social-link light" aria-label="Nostr">
-                  <img src="assets/img/icon-nostr-black.png" alt="Nostr" loading="lazy">
-                </a>
-                <a href="https://primal.net/p/npub1l080awn9wsw87ywm3flmpmccf5rmlvhd7vfgspj2pnavxupnlfesmflash"
-                  target="_blank" class="social-link dark" aria-label="Nostr">
-                  <img src="assets/img/icon-nostr-white.png" alt="Nostr" loading="lazy">
-                </a>
-                <a href="https://x.com/LNFlash" target="_blank" class="social-link light" aria-label="X">
-                  <img src="assets/img/icon-x-black.png" alt="X" loading="lazy">
-                </a>
-                <a href="https://x.com/LNFlash" target="_blank" class="social-link dark" aria-label="X">
-                  <img src="assets/img/icon-x-white.png" alt="X" loading="lazy">
-                </a>
-                <a href="https://github.com/lnflash" target="_blank" class="social-link light" aria-label="GitHub">
-                  <img src="assets/img/icon-github-black.png" alt="GitHub" loading="lazy">
-                </a>
-                <a href="https://github.com/lnflash" target="_blank" class="social-link dark" aria-label="GitHub">
-                  <img src="assets/img/icon-github-white.png" alt="GitHub" loading="lazy">
-                </a>
-                <a href="https://www.instagram.com/getflash.io/" target="_blank" class="social-link light"
-                  aria-label="Instagram">
-                  <img src="assets/img/icon-instagram-black.png" alt="Instagram" loading="lazy">
-                </a>
-                <a href="https://www.instagram.com/getflash.io/" target="_blank" class="social-link dark"
-                  aria-label="Instagram">
-                  <img src="assets/img/icon-instagram-white.png" alt="Instagram" loading="lazy">
-                </a>
-                <a href="https://www.youtube.com/@LNFlash" target="_blank" class="social-link light"
-                  aria-label="YouTube">
-                  <img src="assets/img/icon-youtube-white.png" alt="YouTube" loading="lazy">
-                </a>
-                <a href="https://www.youtube.com/@LNFlash" target="_blank" class="social-link dark"
-                  aria-label="YouTube">
-                  <img src="assets/img/icon-youtube-black.png" alt="YouTube" loading="lazy">
-                </a>
-                <a href="https://www.linkedin.com/company/getflash-io" target="_blank" class="social-link light"
-                  aria-label="LinkedIn">
-                  <img src="assets/img/icon-linkedin-black.png" alt="LinkedIn" loading="lazy">
-                </a>
-                <a href="https://www.linkedin.com/company/getflash-io" target="_blank" class="social-link dark"
-                  aria-label="LinkedIn">
-                  <img src="assets/img/icon-linkedin-white.png" alt="LinkedIn" loading="lazy">
-                </a>
+            <!-- Trust strip -->
+            <div class="hero-trust-strip">
+              <span class="hero-trust-item">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                No bank account needed
+              </span>
+              <span class="hero-trust-item">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                Free to send
+              </span>
+              <span class="hero-trust-item">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/></svg>
+                Your keys, your Bitcoin
+              </span>
+              <span class="hero-trust-item">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                10k+ downloads
+              </span>
+            </div>
+
+            <!-- Social proof -->
+            <div class="hero-social-proof">
+              <div class="hero-stat">
+                <span class="hero-stat-number">0%</span>
+                <span class="hero-stat-label">Transfer fee</span>
+              </div>
+              <div class="hero-stat-divider"></div>
+              <div class="hero-stat">
+                <span class="hero-stat-number">&lt;3s</span>
+                <span class="hero-stat-label">Transfer speed</span>
+              </div>
+              <div class="hero-stat-divider"></div>
+              <div class="hero-stat">
+                <span class="hero-stat-number">34+</span>
+                <span class="hero-stat-label">Merchants & growing</span>
               </div>
             </div>
           </div>
-          <!-- Contact Form Card -->
-          <div class="contact-form-card">
-            <form class="contact-form" method="post">
-              <div class="formfields">
-                <div class="form-group">
-                  <label for="c-name">Name</label>
-                  <input type="text" name="c-name" id="c-name" placeholder="Your name" required />
-                </div>
 
-                <div class="form-group">
-                  <label for="c-email">Email</label>
-                  <input type="email" name="c-email" id="c-email" placeholder="your@email.com" required />
-                </div>
-
-                <div class="form-group">
-                  <label for="c-msg">Message</label>
-                  <textarea name="c-msg" id="c-msg" class="c-msg" placeholder="Tell us how we can help..."
-                    required></textarea>
-                </div>
-
-                <div class="button-container">
-                  <button id="send-msg-btn" class="contact-submit-btn">
-                    <span>Send Message</span>
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                      <line x1="5" y1="12" x2="19" y2="12"></line>
-                      <polyline points="12 5 19 12 12 19"></polyline>
-                    </svg>
-                  </button>
-                </div>
-              </div>
-
-              <div class="success-msg form-success">
-                <div class="success-icon-wrapper">
-                  <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
-                  </svg>
-                </div>
-                <h3>Message Sent!</h3>
-                <p>Thanks for reaching out to us! We'll get back to you as soon as possible.</p>
-              </div>
-
-              <div class="error-msg form-error hidden">
-                <div class="error-icon-wrapper">
-                  <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <circle cx="12" cy="12" r="10"></circle>
-                    <line x1="12" y1="8" x2="12" y2="12"></line>
-                    <line x1="12" y1="16" x2="12.01" y2="16"></line>
-                  </svg>
-                </div>
-                <p>We're sorry! Something went wrong and your message didn't get sent.</p>
-                <div class="btn-container">
-                  <button id="close-error-msg" class="button-2">Try Again</button>
-                </div>
-              </div>
-            </form>
+          <!-- Right: Phone -->
+          <div class="hero-right" aria-hidden="true">
+            <div class="hero-phone-wrap">
+              <div class="hero-phone-glow"></div>
+              <img
+                src="assets/img/phone.png"
+                alt="Flash mobile app"
+                class="hero-phone"
+                loading="eager"
+              />
+            </div>
           </div>
         </div>
       </div>
     </section>
-    <!-- End of Page: Contact -->
+    <!-- /HERO -->
+
+    <!-- ② EXPLAINER VIDEO ──────────────────────────────────────── -->
+    <section id="pg-explainer" class="home-section-sm" style="background: var(--bg); border-top: 1px solid var(--border);">
+      <div class="home-wrap" style="max-width: 960px; text-align: center;">
+        <p class="section-eyebrow" data-reveal style="margin-bottom: 24px;">See how it works</p>
+        <div data-reveal style="border-radius: 20px; overflow: hidden; box-shadow: 0 24px 80px rgba(0,0,0,0.45), 0 0 0 1px rgba(255,255,255,0.06);">
+          <video
+            src="assets/video/flash-explainer.mp4"
+            controls
+            playsinline
+            preload="metadata"
+            style="width: 100%; display: block; border-radius: 20px;"
+            aria-label="Flash explainer video — see how Lightning payments work across the Caribbean"
+          ></video>
+        </div>
+      </div>
+    </section>
+    <!-- /EXPLAINER VIDEO -->
+
+    <!-- ③ THREE WAYS ─────────────────────────────────────────── -->
+    <section id="pg-ways" class="home-section">
+      <div class="home-wrap">
+
+        <div class="ways-header" data-reveal>
+          <p class="section-eyebrow">One App</p>
+          <h2 class="section-title">Three ways to change how<br>the Caribbean moves money</h2>
+          <p class="section-subtitle">Flash works for everyone — whether you're buying Bitcoin for the first time, sending money home, or running a business.</p>
+        </div>
+
+        <div class="ways-grid">
+
+          <!-- Card 1: Buy Bitcoin -->
+          <div class="way-card way-buy" data-reveal data-reveal-delay="1">
+            <div class="way-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M9.5 8h3.5a2 2 0 0 1 0 4H9.5"/>
+                <path d="M9.5 12h4a2 2 0 0 1 0 4H9.5"/>
+                <line x1="12" y1="6" x2="12" y2="8"/>
+                <line x1="12" y1="16" x2="12" y2="18"/>
+              </svg>
+            </div>
+            <p class="way-number">01 / Buy</p>
+            <h3 class="way-title">Buy Bitcoin in the Caribbean</h3>
+            <p class="way-desc">Buy Bitcoin directly with your local bank account — no foreign exchange desk, no overseas account needed. Simple, local, and fast.</p>
+            <ul class="way-features">
+              <li>Pay with local currency from your local bank</li>
+              <li>Receive Bitcoin instantly in your wallet</li>
+              <li>Track the price in real time</li>
+              <li>Starting in Jamaica and Cayman Islands — expanding across the Caribbean</li>
+            </ul>
+            <a href="/app" class="btn-soft">
+              Download Flash
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+                <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+              </svg>
+            </a>
+            <span class="way-cta-note">Download the app to get started</span>
+          </div>
+
+          <!-- Card 2: Send Money -->
+          <div class="way-card way-send" data-reveal data-reveal-delay="2">
+            <div class="way-icon way-icon--send">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <line x1="22" y1="2" x2="11" y2="13"/>
+                <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+              </svg>
+            </div>
+            <p class="way-number">02 / Send</p>
+            <h3 class="way-title">Send Money Home</h3>
+            <div class="way-stat-highlight">
+              <span class="way-stat-num">$0</span>
+              <span class="way-stat-label">Flash transfer fee. Always.</span>
+            </div>
+            <p class="way-desc">Transfer money home in seconds — not days. When family spends at a Flash merchant, the whole journey costs nothing. Compare that to other services charging 5–7%.</p>
+            <ul class="way-features">
+              <li>Flash transfer fee: zero</li>
+              <li>Arrives in seconds, not days</li>
+              <li>Spend at Flash merchants — completely free</li>
+              <li>Cash out to your local bank account</li>
+            </ul>
+            <a href="#pg-remittance" class="btn-soft">
+              See how it works
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+                <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+              </svg>
+            </a>
+          </div>
+
+          <!-- Card 3: Spend & Earn -->
+          <div class="way-card" data-reveal data-reveal-delay="3">
+            <div class="way-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="2" y="5" width="20" height="14" rx="2"/>
+                <path d="M2 10h20"/>
+              </svg>
+            </div>
+            <p class="way-number">03 / Spend</p>
+            <h3 class="way-title">Spend &amp; Earn Rewards</h3>
+            <p class="way-desc">Tap to pay at any Flash merchant with your Flash Card. Earn cashback on every purchase. The more you spend locally, the more you save — and the more sending money home costs nothing.</p>
+            <ul class="way-features">
+              <li>Tap-to-pay Flash Card</li>
+              <li>Cashback on every purchase</li>
+              <li>Works at all Flash-enabled merchants</li>
+              <li>Accepted on Lightning globally</li>
+            </ul>
+            <a href="/map" class="btn-soft">
+              Find merchants
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+                <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+              </svg>
+            </a>
+          </div>
+
+        </div>
+      </div>
+    </section>
+    <!-- /THREE WAYS -->
+
+
+    <!-- ③ REMITTANCE ─────────────────────────────────────────── -->
+    <section id="pg-remittance" class="home-section">
+      <div class="home-wrap">
+
+        <div class="remittance-grid">
+
+          <!-- Left: Copy + fee table -->
+          <div class="remittance-left" data-reveal>
+            <p class="section-eyebrow">Send Money Home</p>
+            <h2 class="section-title">Transparent<br>fee breakdown.</h2>
+            <p class="section-subtitle" style="margin-bottom: 36px;">
+              Flash charges zero to transfer money over Lightning. Cash out to a local bank costs 2%. Spend at a Flash merchant — pay nothing at all.
+            </p>
+
+            <!-- Fee comparison table -->
+            <div class="fee-table">
+              <div class="fee-row">
+                <div class="fee-row-label">
+                  <strong>Buy Bitcoin (US exchange)</strong>
+                  Third-party cost — depends on your exchange
+                </div>
+                <div class="fee-row-value is-muted">1 – 3%</div>
+              </div>
+              <div class="fee-row is-highlight">
+                <div class="fee-row-label">
+                  <strong>⚡ Flash transfer fee</strong>
+                  Lightning Network — instant
+                </div>
+                <div class="fee-row-value is-green">Free</div>
+              </div>
+              <div class="fee-row">
+                <div class="fee-row-label">
+                  <strong>Flash cash-out to local bank</strong>
+                  Flash fee to convert to local currency and deposit
+                </div>
+                <div class="fee-row-value" style="color:var(--orange);">2%</div>
+              </div>
+              <div class="fee-row">
+                <div class="fee-row-label">
+                  <strong>Spend at Flash merchant</strong>
+                  No cash-out needed — zero conversion cost
+                </div>
+                <div class="fee-row-value is-green">Free</div>
+              </div>
+            </div>
+
+            <div class="remittance-callout">
+              <p>When your family spends Flash at a local merchant, <strong>sending money home is completely free</strong> — no on-ramp, no cash-out, no conversion. That's why every new Flash merchant makes sending money home cheaper for everyone.</p>
+            </div>
+          </div>
+
+          <!-- Right: Flow diagram -->
+          <div class="remittance-right">
+            <div class="remittance-visual-card" data-reveal data-reveal-delay="1">
+              <h4>How sending money home works</h4>
+              <div class="flow-steps">
+
+                <div class="flow-step">
+                  <div class="flow-dot">1</div>
+                  <div class="flow-content">
+                    <strong>Buy Bitcoin anywhere</strong>
+                    <span>Use Strike, Cash App, or any Bitcoin exchange.</span>
+                    <div class="flow-cost is-third-party">~1–3% exchange fee</div>
+                  </div>
+                </div>
+
+                <div class="flow-step">
+                  <div class="flow-dot is-green">⚡</div>
+                  <div class="flow-content">
+                    <strong>Send via Flash on Lightning</strong>
+                    <span>Money arrives in seconds. Flash charges nothing.</span>
+                    <div class="flow-cost is-free">Flash fee: zero</div>
+                  </div>
+                </div>
+
+                <div class="flow-step">
+                  <div class="flow-dot">3a</div>
+                  <div class="flow-content">
+                    <strong>Option A — Spend at Flash merchant</strong>
+                    <span>Groceries, restaurants, shops. Tap to pay. No conversion needed.</span>
+                    <div class="flow-cost is-free">Total cost: zero</div>
+                  </div>
+                </div>
+
+                <div class="flow-step">
+                  <div class="flow-dot">3b</div>
+                  <div class="flow-content">
+                    <strong>Option B — Cash out to bank</strong>
+                    <span>Flash converts to your local currency and deposits to your local bank account.</span>
+                    <div class="flow-cost is-third-party">2% Flash cash-out fee</div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            <div style="background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 20px 24px; display: flex; gap: 16px; align-items: flex-start;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--text-3)" stroke-width="2" style="flex-shrink:0;margin-top:2px" aria-hidden="true">
+                <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+              </svg>
+              <p style="font-size:13px;color:var(--text-2);line-height:1.6;">
+                Other services charge 5–7% on a $200 transfer — roughly J$1,800. Flash's transfer fee is zero. Cash-out to bank is 2%. Spend at a Flash merchant and pay nothing at all.
+              </p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+    <!-- /REMITTANCE -->
+
+
+
+
+    <!-- ④ MERCHANTS ──────────────────────────────────────────── -->
+    <section id="pg-merchants" class="home-section">
+      <div class="home-wrap">
+
+        <div class="merchants-header" data-reveal>
+          <p class="section-eyebrow">For Business</p>
+          <h2 class="section-title">The ecosystem that makes it work</h2>
+          <p class="section-subtitle">Every Flash merchant is a node in a system where sending money home costs nothing. Flash POS and the Flash Card are how that system grows.</p>
+        </div>
+
+        <div class="merchants-grid">
+
+          <!-- Flash POS — real merchant photo -->
+          <div class="merchant-card" data-reveal data-reveal-delay="1">
+            <img src="assets/img/rewards-hero.jpg" alt="Customer tapping a Flash card at a merchant POS terminal" class="merchant-card-img" loading="lazy" style="object-position: center center;">
+            <div class="merchant-card-body">
+              <h3 class="merchant-card-title">Flash POS</h3>
+              <p class="merchant-card-desc">Accept Bitcoin payments at your business. Works on any device — phone, tablet, or dedicated terminal. Real-time reports, no chargebacks, no hidden fees. Settlement in seconds.</p>
+              <ul class="merchant-features">
+                <li class="merchant-feature">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12" y2="18"/></svg>
+                  Works on any phone, tablet, or terminal
+                </li>
+                <li class="merchant-feature">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                  Settlement in seconds — not days
+                </li>
+                <li class="merchant-feature">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+                  Real-time sales reports
+                </li>
+                <li class="merchant-feature">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                  Zero chargebacks, ever
+                </li>
+              </ul>
+              <a href="https://signup.getflash.io" target="_blank" rel="noopener noreferrer" class="btn-soft" style="margin-top:8px;">
+                Set up your business
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+                  <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+                </svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- Flash Card -->
+          <div class="merchant-card" data-reveal data-reveal-delay="2">
+            <img src="assets/img/Flashcard.png" alt="Flash tap-to-pay card" class="merchant-card-img" loading="lazy" style="object-fit: contain; padding: 24px; background: #f8f8f8;">
+            <div class="merchant-card-body">
+              <h3 class="merchant-card-title">Flash Card</h3>
+              <p class="merchant-card-desc">Your Flash balance, on a physical card. Tap to pay at any Flash merchant. Earn cashback on every purchase. Works offline. Accepted everywhere Lightning payments are accepted globally.</p>
+              <ul class="merchant-features">
+                <li class="merchant-feature">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg>
+                  Tap to pay at every Flash merchant
+                </li>
+                <li class="merchant-feature">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                  Cashback on every purchase
+                </li>
+                <li class="merchant-feature">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                  Works offline — no data needed
+                </li>
+                <li class="merchant-feature">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                  Accepted on the Lightning Network globally
+                </li>
+              </ul>
+              <a href="/map" class="btn-soft" style="margin-top:8px;">
+                Find where to spend
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+                  <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+                </svg>
+              </a>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+    <!-- /MERCHANTS -->
+
+
+    <!-- ⑥ TESTIMONIALS ──────────────────────────────────────── -->
+    <section id="pg-testimonials" class="home-section">
+      <div class="home-wrap">
+
+        <div class="testimonial-grid">
+
+          <!-- Portrait -->
+          <a href="https://www.instagram.com/reel/DIq4coIO17C" target="_blank" rel="noopener noreferrer" style="display:block; position:relative; border-radius: var(--radius-lg); overflow:hidden; aspect-ratio: 4/5; max-height: 560px; text-decoration:none;" data-reveal aria-label="Watch RaggaMuffin Café on Instagram">
+            <img
+              src="assets/img/flash-merchant-portrait.jpg"
+              alt="Flash merchant in Jamaica"
+              style="width:100%; height:100%; object-fit:cover; object-position: center top; transition: transform 0.3s ease;"
+              loading="lazy"
+              onmouseover="this.style.transform='scale(1.03)'" onmouseout="this.style.transform='scale(1)'"
+            >
+            <!-- Play badge -->
+            <div style="position:absolute; top:16px; right:16px; background:rgba(10,10,14,0.75); backdrop-filter:blur(8px); border:1px solid rgba(255,255,255,0.15); border-radius:100px; padding:6px 12px; display:flex; align-items:center; gap:6px;">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="white" aria-hidden="true"><path d="M5 3l14 9-14 9V3z"/></svg>
+              <span style="font-size:11px; font-weight:600; color:#fff; letter-spacing:0.03em;">Watch on Instagram</span>
+            </div>
+            <!-- Name badge overlay -->
+            <div style="position:absolute; bottom:24px; left:24px; background:rgba(10,10,14,0.85); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); border:1px solid rgba(255,255,255,0.1); border-radius:var(--radius-sm); padding:12px 16px;">
+              <div style="font-family:var(--font-display); font-size:14px; font-weight:700; color:#fff;">RaggaMuffin Café</div>
+              <div style="font-size:12px; color:rgba(255,255,255,0.6); margin-top:2px;">Flash Merchant · Kingston, Jamaica 🇯🇲</div>
+            </div>
+          </a>
+
+          <!-- Quotes — both same card treatment -->
+          <div style="display:flex; flex-direction:column; gap:20px;">
+            <p class="section-eyebrow">What people are saying</p>
+
+            <!-- Quote 1 — consumer/sender -->
+            <blockquote class="testimonial-card" data-reveal data-reveal-delay="1" style="margin:0; background:var(--surface-1); border:1px solid var(--border); border-left:4px solid var(--green); border-radius:var(--radius-md); padding:28px 32px;">
+              <p style="font-family:var(--font-display); font-size:clamp(18px, 1.8vw, 22px); font-weight:600; color:var(--text-1); line-height:1.45; margin-bottom:20px;">
+                "Mi used to stress every time mi need fi send money. Other remittance lines long, fees high. Now? Flash it in 2 minutes from mi phone."
+              </p>
+              <footer style="font-size:14px; color:var(--text-3);">— Real Flash user from Kingston 🇯🇲</footer>
+            </blockquote>
+
+            <!-- Quote 2 — merchant -->
+            <blockquote class="testimonial-card" data-reveal data-reveal-delay="2" style="margin:0; background:var(--surface-1); border:1px solid var(--border); border-left:4px solid var(--green); border-radius:var(--radius-md); padding:28px 32px;">
+              <p style="font-size:16px; color:var(--text-2); line-height:1.65; margin-bottom:20px;">
+                "Accepting Flash at the café was easier than I expected. My customers love it — especially the ones whose families send money from abroad. They just spend it here, no conversion needed."
+              </p>
+              <footer style="font-size:14px; color:var(--text-3);">— Merchant, RaggaMuffin Café · Kingston 🇯🇲</footer>
+            </blockquote>
+
+            <a href="/app" class="btn-primary btn-testimonial-cta">
+              Download Flash — 0% transfer fee
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+                <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+              </svg>
+            </a>
+          </div>
+
+        </div>
+      </div>
+    </section>
+    <!-- /TESTIMONIALS -->
+
+
+
+
+    <!-- ⑦ CLOSING STRIP — merged merchant CTA + contact ──────── -->
+    <section id="pg-contact-strip" class="home-section-sm" style="background: var(--surface-1); border-top: 1px solid var(--border);">
+      <div class="home-wrap">
+        <div style="display:flex; flex-direction:column; gap:32px;">
+
+          <!-- Merchant row -->
+          <div class="merchants-cta-row">
+            <div class="merchants-cta-text">
+              <h3>Ready to accept Flash at your business?</h3>
+              <p>Join merchants across the Caribbean accepting Bitcoin payments. Setup is free, takes under 30 minutes, and requires no hardware.</p>
+            </div>
+            <div style="display:flex;gap:12px;flex-shrink:0;flex-wrap:wrap;">
+              <a href="https://signup.getflash.io" target="_blank" rel="noopener noreferrer" class="btn-primary">Get Flash POS</a>
+              <a href="/map" class="btn-secondary">See merchant map</a>
+            </div>
+          </div>
+
+          <hr style="border:none; border-top:1px solid var(--border); margin:0;">
+
+          <!-- Contact row -->
+          <div class="contact-strip-inner">
+            <div class="contact-strip-text">
+              <h3>Questions? We're here.</h3>
+              <p>Reach the Flash team directly. We reply fast.</p>
+            </div>
+            <div class="contact-strip-actions">
+              <a href="mailto:support@getflash.io" class="btn-primary">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                  <polyline points="22,6 12,13 2,6"/>
+                </svg>
+                Email us
+              </a>
+              <a href="https://wa.me/18762909250" target="_blank" rel="noopener noreferrer" class="btn-secondary">WhatsApp</a>
+              <a href="https://documentation.getflash.io/en/development" target="_blank" rel="noopener noreferrer" class="btn-soft contact-dev-link">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                  <polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>
+                </svg>
+                Developer API
+              </a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+    <!-- /CONTACT STRIP -->
+
   </main>
 
   <!-- Footer Component (loaded dynamically) -->
@@ -778,34 +606,27 @@
   <script src="https://code.jquery.com/jquery-3.7.0.min.js"
     integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
 
-  <!-- GSAP & Plugins CDN -->
+  <!-- GSAP -->
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/MotionPathPlugin.min.js"></script>
 
-  <!-- Swiper JS -->
-  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-
-  <!-- Custom JS Modules -->
-  <script src="js/modules/globeSvg.js"></script>
+  <!-- Custom JS -->
   <script src="js/core/main.js"></script>
-  <script src="js/modules/faqFetch.js"></script>
   <script src="js/modules/lightning.js"></script>
+  <script src="js/modules/animations.js"></script>
   <script src="js/modules/btcTracker.js"></script>
-  <script src="js/modules/productCarousel.js"></script>
-  <script src="js/modules/product-carousel-init.js"></script>
+
+  <!-- Tidio chat -->
   <script src="//code.tidio.co/0kbm4jqybxrrarlw7cjflhnb8fzv6lyt.js" async></script>
 
   <!-- Treasure Hunt Easter Egg -->
   <script>
-    // Hidden console message for treasure hunters
     const styles = {
-      title: 'color: #41AD49; font-size: 24px; font-weight: bold; text-shadow: 2px 2px 0px #000;',
+      title:    'color: #41AD49; font-size: 24px; font-weight: bold; text-shadow: 2px 2px 0px #000;',
       subtitle: 'color: #F5A623; font-size: 16px; font-weight: bold;',
-      text: 'color: #fff; font-size: 14px;',
-      hint: 'color: #41AD49; font-size: 14px; font-style: italic;',
-      code: 'background: #1a1a1a; color: #41AD49; padding: 2px 6px; font-family: monospace; font-size: 13px;'
+      text:     'color: #fff; font-size: 14px;',
+      hint:     'color: #41AD49; font-size: 14px; font-style: italic;',
+      code:     'background: #1a1a1a; color: #41AD49; padding: 2px 6px; font-family: monospace; font-size: 13px;'
     };
-
     console.log('%c🏴‍☠️ Keys of the Caribbean 🏴‍☠️', styles.title);
     console.log('%c━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━', 'color: #41AD49;');
     console.log('%c\nWell, well, well... A developer, are we?', styles.subtitle);
@@ -821,6 +642,6 @@
     console.log('%c\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━', 'color: #41AD49;');
     console.log('%c⚡ May the sats be with you ⚡\n', styles.subtitle);
   </script>
-</body>
 
+</body>
 </html>

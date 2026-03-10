@@ -1,0 +1,533 @@
+/* ============================================================
+   getflash.io — App Download Page Styles
+   Lori / Flash Design System / 2026-03-03
+   ============================================================ */
+
+/* ── Design Tokens ──────────────────────────────────────────── */
+body.app-page {
+  --bg:             #FFFFFF;
+  --surface-1:      #F7F8FA;
+  --surface-2:      #F0F2F5;
+  --border:         #E5E7EB;
+  --text-1:         #111218;
+  --text-2:         #4B5563;
+  --text-3:         #9CA3AF;
+  --green:          #41AD49;
+  --green-dim:      rgba(65, 173, 73, 0.10);
+  --green-glow:     rgba(65, 173, 73, 0.20);
+  --font-display:   "Sora", sans-serif;
+  --font-body:      "Inter", sans-serif;
+  --radius-md:      16px;
+  --radius-lg:      24px;
+  --shadow-card:    0 1px 3px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.04);
+  --max-w:          1140px;
+  --section-gap:    96px;
+}
+
+/* ── Base ───────────────────────────────────────────────────── */
+body.app-page {
+  background: var(--bg);
+  color: var(--text-1);
+  font-family: var(--font-body);
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+body.app-page * { box-sizing: border-box; }
+body.app-page a { text-decoration: none; color: inherit; }
+
+body.app-page h1, body.app-page h2, body.app-page h3 {
+  font-family: var(--font-display);
+  line-height: 1.2;
+}
+
+/* ── Layout ─────────────────────────────────────────────────── */
+.app-wrap {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* ── Section Headers ────────────────────────────────────────── */
+.app-section-header {
+  text-align: center;
+  max-width: 640px;
+  margin: 0 auto 56px;
+}
+
+.app-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--green);
+  background: var(--green-dim);
+  border: 1px solid rgba(65, 173, 73, 0.25);
+  padding: 6px 14px;
+  border-radius: 100px;
+  margin-bottom: 16px;
+}
+
+.app-section-header h2 {
+  font-size: clamp(28px, 4vw, 40px);
+  font-weight: 700;
+  color: var(--text-1);
+  margin-bottom: 12px;
+}
+
+.app-section-header p {
+  font-size: 17px;
+  color: var(--text-2);
+  margin: 0;
+  line-height: 1.65;
+}
+
+/* ── Hero ───────────────────────────────────────────────────── */
+.app-hero {
+  padding: 120px 0 80px;
+  background: var(--bg);
+  position: relative;
+  overflow: hidden;
+}
+
+.app-hero::before {
+  content: '';
+  position: absolute;
+  top: -150px;
+  right: -100px;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(65, 173, 73, 0.06) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.app-hero-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+}
+
+/* Left Copy */
+.app-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--green);
+  background: var(--green-dim);
+  border: 1px solid rgba(65, 173, 73, 0.25);
+  padding: 6px 14px;
+  border-radius: 100px;
+  margin-bottom: 24px;
+}
+
+.app-h1 {
+  font-family: var(--font-display);
+  font-size: clamp(36px, 5vw, 60px);
+  font-weight: 800;
+  line-height: 1.1;
+  color: var(--text-1);
+  margin-bottom: 20px;
+}
+
+.app-em {
+  color: var(--green);
+  font-style: normal;
+}
+
+.app-sub {
+  font-size: 18px;
+  color: var(--text-2);
+  line-height: 1.65;
+  margin-bottom: 28px;
+  max-width: 480px;
+}
+
+.app-trust {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+  margin-bottom: 32px;
+}
+
+.app-trust-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13.5px;
+  font-weight: 500;
+  color: var(--text-3);
+  font-family: var(--font-body);
+}
+
+.app-trust-item svg {
+  color: #3AB54A;
+  flex-shrink: 0;
+}
+
+/* Rating star icon: solid fill via currentColor */
+.app-trust-item svg[fill="currentColor"] {
+  color: #F59E0B;
+}
+
+/* Download Buttons */
+.app-downloads {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.download-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--text-1);
+  color: #fff !important;
+  padding: 14px 24px;
+  border-radius: var(--radius-md);
+  border: 1.5px solid var(--text-1);
+  transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  text-decoration: none !important;
+  min-width: 180px;
+}
+
+.download-btn:hover {
+  background: #222230;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+}
+
+.store-icon {
+  width: 24px;
+  height: 24px;
+  fill: #fff;
+  flex-shrink: 0;
+}
+
+.download-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.download-label {
+  font-size: 11px;
+  color: rgba(255,255,255,0.7);
+  line-height: 1;
+  margin-bottom: 2px;
+  font-family: var(--font-body);
+}
+
+.download-name {
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1;
+}
+
+/* Dark variant for CTA section */
+.download-dark {
+  background: rgba(255,255,255,0.12);
+  border-color: rgba(255,255,255,0.3);
+  color: #fff !important;
+}
+
+.download-dark:hover {
+  background: rgba(255,255,255,0.20);
+}
+
+/* Hero Visual */
+.app-hero-visual {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.app-phone-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 380px;
+  height: 380px;
+  background: radial-gradient(circle, rgba(65, 173, 73, 0.15) 0%, transparent 70%);
+  z-index: 0;
+  border-radius: 50%;
+}
+
+.app-phone {
+  position: relative;
+  z-index: 1;
+  max-width: 280px;
+  width: 100%;
+  filter: drop-shadow(0 32px 64px rgba(0,0,0,0.20));
+}
+
+/* ── Features ───────────────────────────────────────────────── */
+.app-features {
+  padding: var(--section-gap) 0;
+  background: var(--surface-1);
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 24px;
+}
+
+.feature-card {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 32px 28px;
+  box-shadow: var(--shadow-card);
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.feature-card:hover {
+  box-shadow: 0 4px 20px rgba(0,0,0,0.10);
+  transform: translateY(-3px);
+}
+
+.feature-icon {
+  width: 52px;
+  height: 52px;
+  background: var(--green-dim);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  color: var(--green);
+}
+
+.feature-card h3 {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-1);
+  margin-bottom: 10px;
+}
+
+.feature-card p {
+  font-size: 15px;
+  color: var(--text-2);
+  line-height: 1.65;
+  margin: 0;
+}
+
+/* ── Alt Downloads ──────────────────────────────────────────── */
+.app-alt-downloads {
+  padding: var(--section-gap) 0;
+  background: var(--bg);
+}
+
+.alt-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.alt-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: var(--surface-1);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 20px 24px;
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+  text-decoration: none !important;
+}
+
+.alt-card:hover {
+  border-color: var(--green);
+  box-shadow: 0 4px 16px rgba(65, 173, 73, 0.12);
+}
+
+.alt-icon {
+  width: 44px;
+  height: 44px;
+  background: var(--green-dim);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--green);
+  flex-shrink: 0;
+}
+
+.alt-content {
+  flex: 1;
+}
+
+.alt-content h3 {
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-1);
+  margin: 0 0 4px;
+}
+
+.alt-content p {
+  font-size: 13px;
+  color: var(--text-3);
+  margin: 0;
+}
+
+.alt-arrow {
+  color: var(--text-3);
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+
+.alt-card:hover .alt-arrow {
+  transform: translateX(4px);
+  color: var(--green);
+}
+
+.alt-help {
+  text-align: center;
+  font-size: 15px;
+  color: var(--text-2);
+  line-height: 1.65;
+}
+
+.alt-help a {
+  color: var(--green) !important;
+  font-weight: 600;
+}
+
+/* ── Final CTA ──────────────────────────────────────────────── */
+.app-final-cta {
+  padding: var(--section-gap) 0;
+  background: var(--surface-1);
+}
+
+.app-cta-box {
+  background: linear-gradient(135deg, #09090E 0%, #111218 100%);
+  border-radius: var(--radius-lg);
+  padding: 72px 48px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.app-cta-box::before {
+  content: '';
+  position: absolute;
+  top: -80px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(65, 173, 73, 0.15) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.app-cta-box h2 {
+  font-family: var(--font-display);
+  font-size: clamp(24px, 4vw, 38px);
+  font-weight: 700;
+  color: #F0F0F6;
+  margin-bottom: 16px;
+  position: relative;
+  z-index: 1;
+}
+
+.app-cta-box p {
+  font-size: 17px;
+  color: #9497B4;
+  margin-bottom: 36px;
+  position: relative;
+  z-index: 1;
+}
+
+.app-cta-downloads {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Responsive ─────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .app-hero-grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .app-hero-visual {
+    order: -1;
+  }
+
+  .app-phone {
+    max-width: 200px;
+  }
+
+  .app-downloads {
+    flex-direction: column;
+  }
+
+  .download-btn {
+    min-width: unset;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .app-cta-box {
+    padding: 48px 24px;
+  }
+
+  .app-cta-downloads {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+/* ── MOBILE (≤ 640px) ───────────────────────────────────────── */
+@media (max-width: 640px) {
+  .app-hero-grid {
+    padding-top: 80px;
+  }
+
+  .app-hero-title {
+    font-size: clamp(28px, 8vw, 40px);
+  }
+
+  .app-hero-subtitle {
+    font-size: 15px;
+  }
+
+  /* Features: single column */
+  .features-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* Alternative download items: tighter */
+  .alt-download-item {
+    padding: 16px 18px;
+  }
+
+  /* CTA box */
+  .app-cta-box {
+    padding: 40px 20px;
+  }
+
+  .app-cta-title {
+    font-size: clamp(22px, 6vw, 32px);
+  }
+}
