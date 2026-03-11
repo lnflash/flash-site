@@ -539,13 +539,12 @@
 
     /* Photo strip */
     .sheet-places-photo {
+      display: block;
       width: 100%;
-      height: 180px;
-      object-fit: cover;
-      object-position: center;
+      height: auto;        /* natural aspect ratio — no cropping */
+      max-height: 280px;   /* cap very tall portraits */
       border-radius: 10px;
       margin-bottom: 8px;
-      display: block;
       background: #f3f4f6;
     }
 
