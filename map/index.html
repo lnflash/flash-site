@@ -786,7 +786,7 @@
     const CARIB_RADIUS  = 500; // km
     const DEDUP_LAT_DEG = 0.00045; // ~50m in latitude degrees
     const DEDUP_LON_DEG = 0.00065; // ~50m in longitude degrees (at lat 18°)
-    const BTCMAP_MIN_ZOOM = 11; // individual markers only at zoom >= 11
+    const BTCMAP_MIN_ZOOM = 7; // individual markers at zoom >= 7 (Caribbean view)
 
     /* ─────────────────────────────────────────
        Category icon mapping (BTCMap icon → emoji)
@@ -829,11 +829,8 @@
         rotateControl: false,
         fullscreenControl: false,
         clickableIcons: false,
-        gestureHandling: 'greedy',
-        styles: [
-          { featureType: 'poi', elementType: 'labels', stylers: [{ visibility: 'off' }] },
-          { featureType: 'transit', stylers: [{ visibility: 'off' }] }
-        ]
+        gestureHandling: 'greedy'
+        // Note: styles[] is incompatible with mapId — use Cloud Styling in Google Console
       });
 
       // Close sheet on map click
