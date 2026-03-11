@@ -1231,7 +1231,7 @@
         rows.push(`<div class="sheet-detail-row"><span class="sheet-icon">🌐</span><a href="${escHtml(place.website)}" target="_blank" rel="noopener noreferrer">${escHtml(domain)}</a></div>`);
       }
 
-      const enrichmentId = `places-enrich-${place.id.replace(/[^a-z0-9]/gi, '')}`;
+      const enrichmentId = `places-enrich-${String(place.id).replace(/[^a-z0-9]/gi, '')}`;
 
       document.getElementById('sheetBody').innerHTML = `
         <div class="sheet-merchant-name">${escHtml(place.name)}</div>
