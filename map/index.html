@@ -97,7 +97,7 @@
       background: rgba(255,255,255,0.09);
       border: 1px solid rgba(255,255,255,0.12);
       border-radius: 10px;
-      padding: 8px 12px 8px 34px;
+      padding: 8px 28px 8px 34px;
       color: #fff;
       font-family: 'Inter', sans-serif;
       font-size: 14px;
@@ -478,6 +478,104 @@
       font-weight: 600;
     }
 
+    /* ── Unified search dropdown ── */
+    .search-dropdown {
+      position: absolute;
+      top: calc(100% + 6px);
+      left: 0;
+      right: 0;
+      z-index: 300;
+      background: rgba(13, 13, 20, 0.97);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.45);
+      display: none;
+    }
+    .search-dropdown.open { display: block; }
+
+    .search-group-header {
+      padding: 9px 14px 4px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.3);
+    }
+
+    .search-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      cursor: pointer;
+      transition: background 0.1s;
+      outline: none;
+    }
+    .search-item:hover,
+    .search-item:focus { background: rgba(255,255,255,0.07); }
+
+    .search-item-icon {
+      font-size: 15px;
+      flex-shrink: 0;
+      width: 22px;
+      text-align: center;
+      line-height: 1;
+    }
+
+    .search-item-text { flex: 1; min-width: 0; }
+
+    .search-item-name {
+      font-size: 14px;
+      font-weight: 500;
+      color: #fff;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .search-item-sub {
+      font-size: 12px;
+      color: rgba(255,255,255,0.42);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-top: 1px;
+    }
+
+    .search-divider {
+      height: 1px;
+      background: rgba(255,255,255,0.07);
+      margin: 3px 0;
+    }
+
+    .search-empty {
+      padding: 16px 14px;
+      font-size: 13px;
+      color: rgba(255,255,255,0.38);
+      text-align: center;
+    }
+
+    /* Clear button inside search wrap */
+    .search-clear {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: rgba(255,255,255,0.45);
+      cursor: pointer;
+      padding: 2px;
+      font-size: 15px;
+      line-height: 1;
+      display: none;
+    }
+    .search-clear.visible { display: block; }
+    .search-clear:hover { color: rgba(255,255,255,0.75); }
+
     /* Google Maps UI overrides */
     .gm-style .gm-style-iw-c { display: none !important; }
     .gm-style .gm-style-iw-tc { display: none !important; }
@@ -505,7 +603,9 @@
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
         <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
       </svg>
-      <input type="text" class="map-search" id="searchInput" placeholder="Search merchants…" autocomplete="off" autocorrect="off" spellcheck="false">
+      <input type="text" class="map-search" id="searchInput" placeholder="Search merchants…" autocomplete="off" autocorrect="off" spellcheck="false" aria-autocomplete="list" aria-controls="searchDropdown">
+      <button class="search-clear" id="searchClear" aria-label="Clear search">×</button>
+      <div class="search-dropdown" id="searchDropdown" role="listbox"></div>
     </div>
 
     <a href="https://signup.getflash.io" class="map-cta" target="_blank" rel="noopener noreferrer">
@@ -1158,43 +1258,237 @@
     document.getElementById('sheetBackdrop').addEventListener('click', closeSheet);
 
     /* ─────────────────────────────────────────
-       Search (Flash only for now — ENG-193 adds BTCMap search)
+       Unified search — Flash + BTCMap + Places (ENG-193)
     ───────────────────────────────────────── */
-    document.getElementById('searchInput').addEventListener('input', function () {
-      const q = this.value.trim().toLowerCase();
-      const noResults = document.getElementById('mapNoResults');
 
-      if (!q) {
-        renderFlashMarkers(allFlashpoints);
-        // Re-show BTCMap markers
-        btcMapMarkerMap.forEach(m => {
-          const bounds = map.getBounds();
-          const zoom = map.getZoom();
-          if (zoom >= BTCMAP_MIN_ZOOM && bounds && bounds.contains(m.position)) {
-            m.map = map;
-          }
-        });
-        noResults.classList.remove('visible');
+    // Lazy-init Google Places AutocompleteService
+    let _autocompleteService = null;
+    function getAutocompleteService() {
+      if (!_autocompleteService) {
+        _autocompleteService = new google.maps.places.AutocompleteService();
+      }
+      return _autocompleteService;
+    }
+
+    // In-flight search state
+    let _searchResults = { flash: [], btc: [], places: [] };
+    let _btcSearchTimer = null;
+    let _searchVersion = 0; // increment to cancel stale results
+
+    const searchInput  = document.getElementById('searchInput');
+    const searchClear  = document.getElementById('searchClear');
+    const searchDropdown = document.getElementById('searchDropdown');
+
+    searchInput.addEventListener('input', function () {
+      const q = this.value.trim();
+      searchClear.classList.toggle('visible', q.length > 0);
+
+      if (q.length < 2) {
+        closeSearchDropdown();
         return;
       }
 
-      // Hide BTCMap markers while searching Flash
-      btcMapMarkerMap.forEach(m => m.map = null);
+      const version = ++_searchVersion;
 
-      const filtered = allFlashpoints.filter(fp =>
-        fp.mapInfo.title.toLowerCase().includes(q) ||
-        fp.username.toLowerCase().includes(q)
+      // ── Flash: instant client-side filter ──
+      _searchResults.flash = allFlashpoints
+        .filter(fp =>
+          fp.mapInfo.title.toLowerCase().includes(q.toLowerCase()) ||
+          fp.username.toLowerCase().includes(q.toLowerCase())
+        )
+        .slice(0, 3);
+      _searchResults.btc = [];
+      _searchResults.places = [];
+      renderSearchDropdown();
+
+      if (q.length < 3) return; // BTCMap + Places need ≥3 chars
+
+      // ── BTCMap: debounced API search ──
+      if (_btcSearchTimer) clearTimeout(_btcSearchTimer);
+      _btcSearchTimer = setTimeout(async () => {
+        try {
+          const url = `${BTCMAP_API}?name=${encodeURIComponent(q)}&fields=${BTCMAP_FIELDS}`;
+          const res = await fetch(url);
+          if (!res.ok || _searchVersion !== version) return;
+          const places = await res.json();
+          _searchResults.btc = (places || []).slice(0, 3);
+          if (_searchVersion === version) renderSearchDropdown();
+        } catch (_) {}
+      }, 320);
+
+      // ── Google Places autocomplete ──
+      getAutocompleteService().getPlacePredictions(
+        {
+          input: q,
+          // Bias toward Caribbean (1000km around Jamaica)
+          locationBias: new google.maps.Circle({
+            center: { lat: CARIB_LAT, lng: CARIB_LON },
+            radius: 1_000_000
+          }),
+          types: ['establishment', 'geocode']
+        },
+        (predictions, status) => {
+          if (_searchVersion !== version) return;
+          _searchResults.places = (status === google.maps.places.PlacesServiceStatus.OK && predictions)
+            ? predictions.slice(0, 3)
+            : [];
+          renderSearchDropdown();
+        }
       );
-
-      renderFlashMarkers(filtered);
-
-      if (filtered.length === 0) {
-        noResults.classList.add('visible');
-        document.getElementById('mapCount').classList.add('hidden');
-      } else {
-        noResults.classList.remove('visible');
-      }
     });
+
+    searchInput.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') clearSearch();
+    });
+
+    searchClear.addEventListener('click', clearSearch);
+
+    // Close dropdown on outside click
+    document.addEventListener('click', function (e) {
+      if (!e.target.closest('.map-search-wrap')) closeSearchDropdown();
+    });
+
+    function clearSearch() {
+      searchInput.value = '';
+      searchClear.classList.remove('visible');
+      closeSearchDropdown();
+      // Restore all Flash markers + BTCMap markers
+      renderFlashMarkers(allFlashpoints);
+      syncBTCMapMarkers();
+      document.getElementById('mapNoResults').classList.remove('visible');
+    }
+
+    function closeSearchDropdown() {
+      searchDropdown.classList.remove('open');
+    }
+
+    /* Build and inject the dropdown HTML */
+    function renderSearchDropdown() {
+      const { flash, btc, places } = _searchResults;
+
+      if (!flash.length && !btc.length && !places.length) {
+        searchDropdown.innerHTML = '<div class="search-empty">No results found</div>';
+        searchDropdown.classList.add('open');
+        return;
+      }
+
+      let html = '';
+
+      if (flash.length) {
+        html += '<div class="search-group-header">⚡ Flash Merchants</div>';
+        flash.forEach((fp, i) => {
+          html += `
+            <div class="search-item" role="option" data-type="flash" data-idx="${i}" tabindex="0">
+              <span class="search-item-icon">⚡</span>
+              <div class="search-item-text">
+                <div class="search-item-name">${escHtml(fp.mapInfo.title)}</div>
+                <div class="search-item-sub">@${escHtml(fp.username)}</div>
+              </div>
+            </div>`;
+        });
+      }
+
+      if (flash.length && (btc.length || places.length)) {
+        html += '<div class="search-divider"></div>';
+      }
+
+      if (btc.length) {
+        html += '<div class="search-group-header">₿ Bitcoin Merchants</div>';
+        btc.forEach((place, i) => {
+          html += `
+            <div class="search-item" role="option" data-type="btc" data-idx="${i}" tabindex="0">
+              <span class="search-item-icon">${categoryIcon(place.icon)}</span>
+              <div class="search-item-text">
+                <div class="search-item-name">${escHtml(place.name)}</div>
+                <div class="search-item-sub">${escHtml(place.address || '')}</div>
+              </div>
+            </div>`;
+        });
+      }
+
+      if (btc.length && places.length) {
+        html += '<div class="search-divider"></div>';
+      }
+
+      if (places.length) {
+        html += '<div class="search-group-header">📍 Places</div>';
+        places.forEach((p, i) => {
+          const main = p.structured_formatting ? p.structured_formatting.main_text : p.description;
+          const sub  = p.structured_formatting ? p.structured_formatting.secondary_text : '';
+          html += `
+            <div class="search-item" role="option" data-type="place" data-idx="${i}" tabindex="0">
+              <span class="search-item-icon">📍</span>
+              <div class="search-item-text">
+                <div class="search-item-name">${escHtml(main)}</div>
+                <div class="search-item-sub">${escHtml(sub)}</div>
+              </div>
+            </div>`;
+        });
+      }
+
+      searchDropdown.innerHTML = html;
+      searchDropdown.classList.add('open');
+
+      // Wire up item clicks (event delegation)
+      searchDropdown.querySelectorAll('.search-item').forEach(item => {
+        const activate = () => {
+          const type = item.dataset.type;
+          const idx  = parseInt(item.dataset.idx);
+          if (type === 'flash') selectFlashResult(_searchResults.flash[idx]);
+          if (type === 'btc')   selectBTCMapResult(_searchResults.btc[idx]);
+          if (type === 'place') selectPlacesResult(_searchResults.places[idx]);
+        };
+        item.addEventListener('click', activate);
+        item.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') activate(); });
+      });
+    }
+
+    /* ── Result selection handlers ── */
+
+    function selectFlashResult(fp) {
+      closeSearchDropdown();
+      const lat = parseFloat(fp.mapInfo.coordinates.latitude);
+      const lng = parseFloat(fp.mapInfo.coordinates.longitude);
+      map.setCenter({ lat, lng });
+      map.setZoom(16);
+      // Find matching Flash marker and open sheet
+      const marker = flashMarkers.find(m =>
+        Math.abs(m.position.lat - lat) < 0.0002 &&
+        Math.abs(m.position.lng - lng) < 0.0002
+      );
+      if (marker) openFlashSheet(fp, marker);
+    }
+
+    async function selectBTCMapResult(place) {
+      closeSearchDropdown();
+      // Add to cache so syncBTCMapMarkers creates a marker
+      if (!btcMapCache.has(place.id)) {
+        btcMapCache.set(place.id, place);
+        updateLocationCount();
+      }
+      map.setCenter({ lat: place.lat, lng: place.lon });
+      map.setZoom(16);
+      await syncBTCMapMarkers();
+      const marker = btcMapMarkerMap.get(place.id);
+      // marker will exist since zoom 16 >= BTCMAP_MIN_ZOOM
+      if (marker) openBTCMapSheet(place, marker);
+    }
+
+    function selectPlacesResult(prediction) {
+      closeSearchDropdown();
+      getPlacesService().getDetails(
+        { placeId: prediction.place_id, fields: ['geometry'] },
+        (result, status) => {
+          if (status !== google.maps.places.PlacesServiceStatus.OK || !result.geometry) return;
+          if (result.geometry.viewport) {
+            map.fitBounds(result.geometry.viewport);
+          } else {
+            map.setCenter(result.geometry.location);
+            map.setZoom(15);
+          }
+        }
+      );
+    }
 
     /* ─────────────────────────────────────────
        Util
