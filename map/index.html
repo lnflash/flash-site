@@ -539,13 +539,14 @@
 
     /* Photo strip */
     .sheet-places-photo {
-      width: 100%;
-      height: 136px;
-      object-fit: cover;
-      border-radius: 10px;
-      margin-bottom: 8px;
       display: block;
-      background: #f3f4f6; /* placeholder while loading */
+      width: auto;         /* natural width — no stretch */
+      max-width: 100%;     /* don't overflow card */
+      height: auto;        /* natural aspect ratio */
+      max-height: 280px;   /* cap very tall portraits */
+      border-radius: 10px;
+      margin: 0 auto 8px;  /* center horizontally */
+      background: #f3f4f6;
     }
 
     /* Rating + review count */
@@ -786,7 +787,7 @@
     const CARIB_RADIUS  = 500; // km
     const DEDUP_LAT_DEG = 0.00045; // ~50m in latitude degrees
     const DEDUP_LON_DEG = 0.00065; // ~50m in longitude degrees (at lat 18°)
-    const BTCMAP_MIN_ZOOM = 11; // individual markers only at zoom >= 11
+    const BTCMAP_MIN_ZOOM = 0; // no zoom restriction — dataset is small enough (~30-500 markers)
 
     /* ─────────────────────────────────────────
        Category icon mapping (BTCMap icon → emoji)
@@ -829,11 +830,8 @@
         rotateControl: false,
         fullscreenControl: false,
         clickableIcons: false,
-        gestureHandling: 'greedy',
-        styles: [
-          { featureType: 'poi', elementType: 'labels', stylers: [{ visibility: 'off' }] },
-          { featureType: 'transit', stylers: [{ visibility: 'off' }] }
-        ]
+        gestureHandling: 'greedy'
+        // Note: styles[] is incompatible with mapId — use Cloud Styling in Google Console
       });
 
       // Close sheet on map click
@@ -1234,7 +1232,7 @@
         rows.push(`<div class="sheet-detail-row"><span class="sheet-icon">🌐</span><a href="${escHtml(place.website)}" target="_blank" rel="noopener noreferrer">${escHtml(domain)}</a></div>`);
       }
 
-      const enrichmentId = `places-enrich-${place.id.replace(/[^a-z0-9]/gi, '')}`;
+      const enrichmentId = `places-enrich-${String(place.id).replace(/[^a-z0-9]/gi, '')}`;
 
       document.getElementById('sheetBody').innerHTML = `
         <div class="sheet-merchant-name">${escHtml(place.name)}</div>
@@ -1334,7 +1332,7 @@
               // Build photo element
               let photoHtml = '';
               if (hasPhotos) {
-                const photoUrl = details.photos[0].getUrl({ maxWidth: 480, maxHeight: 200 });
+                const photoUrl = details.photos[0].getUrl({ maxWidth: 1600, maxHeight: 900 });
                 photoHtml = `<img src="${photoUrl}" alt="Photo of ${escHtml(place.name)}" class="sheet-places-photo" loading="lazy">`;
               }
 
