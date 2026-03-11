@@ -511,30 +511,50 @@ async function gql(query, variables = {}) {
 /* ── Main init ── */
 async function init() {
   try {
-    // Fetch npub + merchant map info in parallel
-    const [npubData, markersData] = await Promise.all([
+    // Check user exists + fetch npub + map info in parallel
+    const [walletData, npubData, markersData] = await Promise.all([
+      gql(`query { accountDefaultWallet(username: "${USERNAME}") { id walletCurrency } }`),
       gql(`query { npubByUsername(username: "${USERNAME}") { npub username } }`),
       gql(`query { businessMapMarkers { mapInfo { coordinates { latitude longitude } title } username } }`)
     ]);
 
-    const npubResult = npubData?.data?.npubByUsername;
-    if (!npubResult) { showError(); return; }
+    // Must have a Flash wallet to be a valid user — npub is optional
+    const wallet = walletData?.data?.accountDefaultWallet;
+    if (!wallet) { showError(); return; }
 
-    const npub = npubResult.npub;
+    // npub is only needed for Nostr chat — profile works without it
+    const npubResult = npubData?.data?.npubByUsername;
+    const npub = npubResult?.npub || null;
+
     const markers = markersData?.data?.businessMapMarkers || [];
     const merchant = markers.find(m => m.username === USERNAME);
-
-    const hexPubkey = NostrTools.nip19.decode(npub).data;
     const displayName = merchant?.mapInfo?.title || USERNAME;
 
+    const hexPubkey = npub ? NostrTools.nip19.decode(npub).data : null;
     renderProfile(displayName, npub, hexPubkey);
     if (merchant) enrichWithPlaces(merchant);
-    initNostrChat(hexPubkey, npub, displayName);
+
+    if (npub && hexPubkey) {
+      initNostrChat(hexPubkey, npub, displayName);
+    } else {
+      disableChat();
+    }
 
   } catch (err) {
     console.warn('API unavailable, using mock data:', err.message);
     useMockData();
   }
+}
+
+/* ── Disable chat when merchant has no npub ── */
+function disableChat() {
+  const chatCard = document.querySelector('.chat-card');
+  if (!chatCard) return;
+  chatCard.innerHTML = `
+    <div style="padding:28px 24px; text-align:center; color:var(--muted);">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin:0 auto 10px; display:block; color:#D1D5DB"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+      <p style="font-size:13px;">Messaging not available for this merchant yet.</p>
+    </div>`;
 }
 
 /* ── Render profile UI ── */
