@@ -5,9 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="description" content="Find Flash merchants near you — 34+ locations across Jamaica accepting Bitcoin payments.">
+  <meta name="description" content="Find Flash merchants and 12,700+ Bitcoin-accepting businesses near you — the most comprehensive Bitcoin spending map in the Caribbean.">
   <meta property="og:title" content="Flash Merchant Map | Flash">
-  <meta property="og:description" content="Find Flash merchants near you — 34+ locations across Jamaica accepting Bitcoin payments.">
+  <meta property="og:description" content="Find Flash merchants and 12,700+ Bitcoin-accepting businesses near you.">
   <meta property="og:url" content="https://getflash.io/map/">
   <meta property="og:image" content="https://getflash.io/assets/img/download-button-og.jpg">
   <meta name="twitter:card" content="summary_large_image">
@@ -26,6 +26,7 @@
 
     :root {
       --green: #3AB54A;
+      --orange: #F7931A;
       --dark: #09090E;
       --text: #111218;
       --muted: #6B7280;
@@ -152,8 +153,29 @@
       letter-spacing: 0.02em;
       pointer-events: none;
       transition: opacity 0.2s;
+      white-space: nowrap;
     }
     .map-count.hidden { opacity: 0; }
+
+    /* ── BTCMap loading pill ── */
+    .btcmap-loading-pill {
+      position: fixed;
+      top: max(68px, calc(env(safe-area-inset-top) + 56px));
+      right: 16px;
+      z-index: 100;
+      background: rgba(247, 147, 26, 0.92);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border-radius: 100px;
+      padding: 5px 12px;
+      color: #fff;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      animation: pulse 1.4s ease infinite;
+      display: none;
+    }
+    .btcmap-loading-pill.visible { display: block; }
 
     /* ── Bottom sheet ── */
     .map-sheet {
@@ -194,7 +216,7 @@
       font-size: 20px;
       font-weight: 700;
       color: var(--text);
-      margin-bottom: 4px;
+      margin-bottom: 6px;
       line-height: 1.2;
     }
 
@@ -204,6 +226,7 @@
       margin-bottom: 16px;
     }
 
+    /* Flash source badge */
     .sheet-badge {
       display: inline-flex;
       align-items: center;
@@ -217,9 +240,63 @@
       color: #15803D;
       margin-bottom: 20px;
     }
+    .sheet-badge svg { color: var(--green); }
 
-    .sheet-badge svg {
-      color: var(--green);
+    /* BTCMap source badge */
+    .sheet-btcmap-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: #FFF7ED;
+      border: 1px solid #FED7AA;
+      border-radius: 100px;
+      padding: 4px 10px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #C2410C;
+      margin-bottom: 14px;
+    }
+
+    /* Detail rows for BTCMap info cards */
+    .sheet-detail-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 8px;
+      line-height: 1.4;
+    }
+    .sheet-detail-row .sheet-icon { flex-shrink: 0; font-size: 15px; line-height: 1.3; }
+    .sheet-detail-row a { color: var(--green); text-decoration: none; }
+    .sheet-detail-row a:hover { text-decoration: underline; }
+
+    /* Verified / Boosted inline badges */
+    .sheet-meta-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+    .sheet-verified {
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      font-size: 11px;
+      color: #15803D;
+      font-weight: 600;
+    }
+    .sheet-boosted {
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      font-size: 11px;
+      color: #92400E;
+      font-weight: 600;
+      background: #FEF3C7;
+      border-radius: 100px;
+      padding: 2px 8px;
     }
 
     .sheet-actions {
@@ -270,7 +347,7 @@
       pointer-events: all;
     }
 
-    /* ── Custom map markers ── */
+    /* ── Flash markers ── */
     .flash-marker {
       width: 36px;
       height: 44px;
@@ -300,14 +377,25 @@
       object-fit: contain;
     }
 
-    .flash-marker-tip {
-      width: 0;
-      height: 0;
-      border-left: 6px solid transparent;
-      border-right: 6px solid transparent;
-      border-top: 8px solid var(--green);
-      margin: 0 auto;
+    /* ── BTCMap markers ── */
+    .btcmap-marker {
+      width: 30px;
+      height: 30px;
+      background: var(--orange);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 13px;
+      line-height: 1;
+      box-shadow: 0 2px 6px rgba(247, 147, 26, 0.45);
+      border: 2px solid rgba(255,255,255,0.75);
+      transition: transform 0.15s;
+      user-select: none;
     }
+    .btcmap-marker:hover { transform: scale(1.12); }
+    .btcmap-marker.active { transform: scale(1.18); }
 
     /* ── No results state ── */
     .map-no-results {
@@ -392,6 +480,9 @@
   <div class="map-loading" id="mapLoading">Loading merchants…</div>
   <div class="map-count hidden" id="mapCount"></div>
 
+  <!-- BTCMap loading pill (top-right, orange) -->
+  <div class="btcmap-loading-pill" id="btcLoadingPill">Loading Bitcoin merchants…</div>
+
   <!-- No results -->
   <div class="map-no-results" id="mapNoResults">
     <strong>No merchants found</strong>
@@ -412,12 +503,64 @@
   <script>
     'use strict';
 
-    let map, markers = [], allFlashpoints = [], activeMarker = null;
+    /* ─────────────────────────────────────────
+       State
+    ───────────────────────────────────────── */
+    let map;
+    let flashMarkers = [];          // AdvancedMarkerElement[] for Flash merchants
+    let allFlashpoints = [];        // raw Flash API data
+    let activeMarker = null;        // currently selected marker (Flash or BTCMap)
 
-    /* ── Map init ── */
+    // BTCMap state
+    const btcMapCache = new Map();      // BTCMap id → place object
+    const btcMapMarkerMap = new Map();  // BTCMap id → AdvancedMarkerElement
+    let btcMapPreloaded = false;
+    let btcMapFetchTimer = null;
+    let btcMapRetryDelay = 1000;
+
+    /* ─────────────────────────────────────────
+       BTCMap constants
+    ───────────────────────────────────────── */
+    const BTCMAP_API    = 'https://api.btcmap.org/v4/places/search';
+    const BTCMAP_FIELDS = 'id,lat,lon,name,icon,address,opening_hours,phone,website,verified_at,boosted_until,osm_id';
+    const CARIB_LAT     = 18.1;
+    const CARIB_LON     = -77.3;
+    const CARIB_RADIUS  = 500; // km
+    const DEDUP_LAT_DEG = 0.00045; // ~50m in latitude degrees
+    const DEDUP_LON_DEG = 0.00065; // ~50m in longitude degrees (at lat 18°)
+    const BTCMAP_MIN_ZOOM = 11; // individual markers only at zoom >= 11
+
+    /* ─────────────────────────────────────────
+       Category icon mapping (BTCMap icon → emoji)
+    ───────────────────────────────────────── */
+    const CATEGORY_ICONS = {
+      restaurant: '🍽', lunch_dining: '🍽', food: '🍽', fast_food: '🍽',
+      local_cafe: '☕', cafe: '☕', coffee: '☕',
+      hotel: '🏨', lodging: '🏨', bed: '🏨', accommodation: '🏨',
+      local_atm: '🏧', atm: '🏧',
+      local_bar: '🍺', bar: '🍺', nightlife: '🍺', pub: '🍺',
+      shopping_cart: '🛍', store: '🛍', shop: '🛍', mall: '🛍', shopping: '🛍',
+      local_florist: '💆', spa: '💆', service: '💆', beauty: '💆',
+      local_gas_station: '⛽', gas_station: '⛽',
+      local_hospital: '🏥', hospital: '🏥', clinic: '🏥',
+      local_pharmacy: '💊', pharmacy: '💊',
+      directions_car: '🚗', car_repair: '🚗', automotive: '🚗',
+    };
+
+    function categoryIcon(icon) {
+      if (!icon) return '₿';
+      if (CATEGORY_ICONS[icon]) return CATEGORY_ICONS[icon];
+      // try prefix match (e.g. "local_cafe_extra" → "local_cafe")
+      const prefix = icon.split('_').slice(0, 2).join('_');
+      return CATEGORY_ICONS[prefix] || CATEGORY_ICONS[icon.split('_')[0]] || '₿';
+    }
+
+    /* ─────────────────────────────────────────
+       Map init
+    ───────────────────────────────────────── */
     window.initMapCallback = async function () {
       map = new google.maps.Map(document.getElementById('map'), {
-        center: { lat: 18.1096, lng: -77.2975 }, // Jamaica center
+        center: { lat: 18.1096, lng: -77.2975 },
         zoom: 10,
         mapId: 'FLASH_MAP',
         disableDefaultUI: false,
@@ -438,10 +581,27 @@
       // Close sheet on map click
       map.addListener('click', closeSheet);
 
-      await loadFlashpoints();
+      // On idle: sync BTCMap marker visibility + trigger viewport fetch if needed
+      map.addListener('idle', onMapIdle);
+
+      // Load both data sources in parallel
+      await Promise.allSettled([
+        loadFlashpoints(),
+        loadBTCMapCaribbean()
+      ]);
     };
 
-    /* ── Fetch merchants ── */
+    /* ─────────────────────────────────────────
+       Map idle handler
+    ───────────────────────────────────────── */
+    function onMapIdle() {
+      syncBTCMapMarkers();
+      scheduleViewportFetch();
+    }
+
+    /* ─────────────────────────────────────────
+       Flash merchants
+    ───────────────────────────────────────── */
     async function loadFlashpoints() {
       const host = window.location.hostname;
       let apiUrl;
@@ -469,15 +629,15 @@
 
         const data = await res.json();
         allFlashpoints = data.data.businessMapMarkers;
-        renderMarkers(allFlashpoints);
+        renderFlashMarkers(allFlashpoints);
       } catch (err) {
-        console.warn('API unavailable, using demo data:', err.message);
+        console.warn('Flash API unavailable, using demo data:', err.message);
         allFlashpoints = MOCK_FLASHPOINTS;
-        renderMarkers(allFlashpoints);
+        renderFlashMarkers(allFlashpoints);
       }
     }
 
-    /* ── Mock data (used when API is unavailable e.g. staging CORS) ── */
+    /* ── Mock data (fallback when Flash API is unavailable e.g. staging CORS) ── */
     const MOCK_FLASHPOINTS = [
       { mapInfo: { coordinates: { latitude: '17.9971', longitude: '-76.7936' }, title: 'Tastee Patties — New Kingston' }, username: 'tastee_nk' },
       { mapInfo: { coordinates: { latitude: '17.9957', longitude: '-76.7812' }, title: 'Island Grill Half Way Tree' }, username: 'islandgrill_hwt' },
@@ -493,11 +653,13 @@
       { mapInfo: { coordinates: { latitude: '17.8668', longitude: '-77.6724' }, title: 'Mandeville Plaza Pharmacy' }, username: 'mandeville_pharmacy' },
     ];
 
-    /* ── Render markers ── */
-    async function renderMarkers(flashpoints) {
-      // Clear existing
-      markers.forEach(m => m.map = null);
-      markers = [];
+    /* ─────────────────────────────────────────
+       Flash marker rendering
+    ───────────────────────────────────────── */
+    async function renderFlashMarkers(flashpoints) {
+      // Clear existing Flash markers
+      flashMarkers.forEach(m => m.map = null);
+      flashMarkers = [];
 
       const { AdvancedMarkerElement } = await google.maps.importLibrary('marker');
 
@@ -519,21 +681,19 @@
           map,
           position: pos,
           content: el,
-          title: fp.mapInfo.title
+          title: fp.mapInfo.title,
+          zIndex: 10  // Flash markers always above BTCMap markers
         });
 
-        marker.addListener('click', () => openSheet(fp, marker));
-        markers.push(marker);
+        marker.addListener('click', () => openFlashSheet(fp, marker));
+        flashMarkers.push(marker);
       });
 
-      // Update UI
-      const loading = document.getElementById('mapLoading');
-      const count = document.getElementById('mapCount');
-      loading.style.display = 'none';
-      count.textContent = `${flashpoints.length} merchant${flashpoints.length !== 1 ? 's' : ''}`;
-      count.classList.remove('hidden');
+      // Hide loading spinner
+      document.getElementById('mapLoading').style.display = 'none';
+      updateLocationCount();
 
-      // Fit map to markers if more than 1
+      // Fit map to Flash markers if more than 1
       if (flashpoints.length > 1) {
         const bounds = new google.maps.LatLngBounds();
         flashpoints.forEach(fp => bounds.extend({
@@ -544,20 +704,185 @@
       }
     }
 
-    /* ── Bottom sheet ── */
-    function openSheet(fp, marker) {
-      // Reset previous active marker style
-      if (activeMarker) {
-        activeMarker.content.classList.remove('active');
-      }
-      marker.content.classList.add('active');
-      activeMarker = marker;
+    /* ─────────────────────────────────────────
+       BTCMap — data layer (ENG-190)
+    ───────────────────────────────────────── */
 
-      // Pan map so merchant is visible above the sheet
+    /** Haversine distance in km between two lat/lon points */
+    function haversineKm(lat1, lon1, lat2, lon2) {
+      const R = 6371;
+      const dLat = (lat2 - lat1) * Math.PI / 180;
+      const dLon = (lon2 - lon1) * Math.PI / 180;
+      const a = Math.sin(dLat / 2) ** 2
+        + Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * Math.sin(dLon / 2) ** 2;
+      return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    }
+
+    /** Returns true if a BTCMap merchant is within ~50m of any Flash merchant */
+    function isNearFlashMerchant(lat, lon) {
+      return allFlashpoints.some(fp => {
+        const dlat = Math.abs(parseFloat(fp.mapInfo.coordinates.latitude) - lat);
+        const dlon = Math.abs(parseFloat(fp.mapInfo.coordinates.longitude) - lon);
+        return dlat < DEDUP_LAT_DEG && dlon < DEDUP_LON_DEG;
+      });
+    }
+
+    /** Merge BTCMap API response into cache. Returns count of newly added merchants. */
+    function mergeBTCMapData(places) {
+      let added = 0;
+      for (const place of places) {
+        if (btcMapCache.has(place.id)) continue;
+        if (isNearFlashMerchant(place.lat, place.lon)) continue; // deduplicate
+        btcMapCache.set(place.id, place);
+        added++;
+      }
+      return added;
+    }
+
+    /** Preload Caribbean region (~500 merchants) on page load */
+    async function loadBTCMapCaribbean() {
+      const pill = document.getElementById('btcLoadingPill');
+      pill.classList.add('visible');
+      try {
+        const url = `${BTCMAP_API}?lat=${CARIB_LAT}&lon=${CARIB_LON}&radius_km=${CARIB_RADIUS}&fields=${BTCMAP_FIELDS}`;
+        const res = await fetch(url);
+        if (!res.ok) throw new Error(`BTCMap API ${res.status}`);
+        const places = await res.json();
+        mergeBTCMapData(places);
+        btcMapPreloaded = true;
+        syncBTCMapMarkers();
+        updateLocationCount();
+      } catch (err) {
+        console.warn('BTCMap unavailable — showing Flash merchants only:', err.message);
+        // Graceful degradation: no BTCMap markers shown, no error to user
+      } finally {
+        pill.classList.remove('visible');
+      }
+    }
+
+    /** Schedule a debounced viewport fetch (500ms) */
+    function scheduleViewportFetch() {
+      if (btcMapFetchTimer) clearTimeout(btcMapFetchTimer);
+      btcMapFetchTimer = setTimeout(doViewportFetch, 500);
+    }
+
+    /** Fetch BTCMap merchants for current viewport if outside preloaded region */
+    async function doViewportFetch() {
+      const center = map.getCenter();
+      const bounds = map.getBounds();
+      if (!bounds || !center) return;
+
+      const ne = bounds.getNorthEast();
+      const radiusKm = Math.min(
+        haversineKm(center.lat(), center.lng(), ne.lat(), ne.lng()),
+        150 // cap viewport radius at 150km
+      );
+
+      // Skip if current viewport is fully inside the preloaded Caribbean region
+      if (btcMapPreloaded) {
+        const distToCarib = haversineKm(center.lat(), center.lng(), CARIB_LAT, CARIB_LON);
+        if (distToCarib + radiusKm < CARIB_RADIUS) return;
+      }
+
+      try {
+        const url = `${BTCMAP_API}?lat=${center.lat()}&lon=${center.lng()}&radius_km=${Math.ceil(radiusKm)}&fields=${BTCMAP_FIELDS}`;
+        const res = await fetch(url);
+        if (!res.ok) {
+          if (res.status === 429) {
+            // Exponential backoff on rate limit
+            btcMapRetryDelay = Math.min(btcMapRetryDelay * 2, 30000);
+            btcMapFetchTimer = setTimeout(doViewportFetch, btcMapRetryDelay);
+          }
+          return;
+        }
+        btcMapRetryDelay = 1000; // reset on success
+        const places = await res.json();
+        const added = mergeBTCMapData(places);
+        if (added > 0) {
+          syncBTCMapMarkers();
+          updateLocationCount();
+        }
+      } catch (err) {
+        console.warn('BTCMap viewport fetch failed:', err.message);
+      }
+    }
+
+    /* ─────────────────────────────────────────
+       BTCMap — marker rendering (ENG-191)
+    ───────────────────────────────────────── */
+
+    /**
+     * Sync BTCMap marker visibility with current map state.
+     * Creates markers on first use; toggles .map property for show/hide.
+     * Individual markers only shown at zoom >= BTCMAP_MIN_ZOOM.
+     */
+    async function syncBTCMapMarkers() {
+      if (btcMapCache.size === 0) return;
+
+      const { AdvancedMarkerElement } = await google.maps.importLibrary('marker');
+      const bounds = map.getBounds();
+      const zoom = map.getZoom();
+      const shouldShowIndividual = zoom >= BTCMAP_MIN_ZOOM;
+
+      for (const [id, place] of btcMapCache) {
+        const inBounds = !bounds || bounds.contains({ lat: place.lat, lng: place.lon });
+        const visible = shouldShowIndividual && inBounds;
+
+        if (!btcMapMarkerMap.has(id)) {
+          // Only create the DOM element + marker if it's actually going to be shown
+          if (!visible) continue;
+
+          const el = document.createElement('div');
+          el.className = 'btcmap-marker';
+          el.textContent = categoryIcon(place.icon);
+
+          const marker = new AdvancedMarkerElement({
+            map,
+            position: { lat: place.lat, lng: place.lon },
+            content: el,
+            title: place.name,
+            zIndex: 1  // Flash markers (zIndex: 10) always render on top
+          });
+
+          marker.addListener('click', () => openBTCMapSheet(place, marker));
+          btcMapMarkerMap.set(id, marker);
+        } else {
+          // Toggle visibility
+          const marker = btcMapMarkerMap.get(id);
+          marker.map = visible ? map : null;
+        }
+      }
+    }
+
+    /* ─────────────────────────────────────────
+       Location count
+    ───────────────────────────────────────── */
+    function updateLocationCount() {
+      const countEl = document.getElementById('mapCount');
+      const flashCount = allFlashpoints.length;
+      const btcCount = btcMapCache.size;
+
+      if (flashCount === 0 && btcCount === 0) {
+        countEl.classList.add('hidden');
+        return;
+      }
+
+      if (btcCount > 0) {
+        countEl.textContent = `⚡ ${flashCount} Flash · ₿ ${btcCount.toLocaleString()} Bitcoin`;
+      } else {
+        countEl.textContent = `${flashCount} merchant${flashCount !== 1 ? 's' : ''}`;
+      }
+      countEl.classList.remove('hidden');
+    }
+
+    /* ─────────────────────────────────────────
+       Pan helper (shared between both sheet types)
+    ───────────────────────────────────────── */
+    function panMapForSheet(position) {
       const sheetHeight = window.innerHeight * 0.44;
       const projection = map.getProjection();
       if (projection) {
-        const point = projection.fromLatLngToPoint(marker.position);
+        const point = projection.fromLatLngToPoint(position);
         const scale = Math.pow(2, map.getZoom());
         const offsetY = sheetHeight / (2 * scale);
         const newCenter = projection.fromPointToLatLng(
@@ -565,10 +890,20 @@
         );
         map.panTo(newCenter);
       } else {
-        map.panTo(marker.position);
+        map.panTo(position);
       }
+    }
 
-      // Populate sheet
+    /* ─────────────────────────────────────────
+       Flash merchant bottom sheet
+    ───────────────────────────────────────── */
+    function openFlashSheet(fp, marker) {
+      if (activeMarker) activeMarker.content.classList.remove('active');
+      marker.content.classList.add('active');
+      activeMarker = marker;
+
+      panMapForSheet(marker.position);
+
       const mapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${fp.mapInfo.coordinates.latitude},${fp.mapInfo.coordinates.longitude}`;
       const merchantProfileUrl = `/merchant/?u=${fp.username}`;
 
@@ -599,6 +934,74 @@
       document.getElementById('sheetBackdrop').classList.add('open');
     }
 
+    /* ─────────────────────────────────────────
+       BTCMap merchant bottom sheet (ENG-192 stub)
+    ───────────────────────────────────────── */
+    function openBTCMapSheet(place, marker) {
+      if (activeMarker) activeMarker.content.classList.remove('active');
+      marker.content.classList.add('active');
+      activeMarker = marker;
+
+      panMapForSheet(marker.position);
+
+      const mapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${place.lat},${place.lon}`;
+      const btcmapUrl = place.osm_id
+        ? `https://btcmap.org/merchant/${place.osm_id}`
+        : null;
+
+      // Verified badge
+      const verifiedHtml = place.verified_at
+        ? `<span class="sheet-verified">✓ Verified ${new Date(place.verified_at).toLocaleDateString('en', { month: 'short', year: 'numeric' })}</span>`
+        : '';
+
+      // Boosted badge
+      const isBoosted = place.boosted_until && new Date(place.boosted_until) > new Date();
+      const boostedHtml = isBoosted ? `<span class="sheet-boosted">⭐ Boosted</span>` : '';
+
+      // Detail rows
+      const rows = [];
+      if (place.address)
+        rows.push(`<div class="sheet-detail-row"><span class="sheet-icon">📍</span><span>${escHtml(place.address)}</span></div>`);
+      if (place.opening_hours)
+        rows.push(`<div class="sheet-detail-row"><span class="sheet-icon">🕐</span><span>${escHtml(place.opening_hours)}</span></div>`);
+      if (place.phone)
+        rows.push(`<div class="sheet-detail-row"><span class="sheet-icon">📞</span><a href="tel:${escHtml(place.phone)}">${escHtml(place.phone)}</a></div>`);
+      if (place.website) {
+        let domain = place.website;
+        try { domain = new URL(place.website).hostname.replace(/^www\./, ''); } catch (_) {}
+        rows.push(`<div class="sheet-detail-row"><span class="sheet-icon">🌐</span><a href="${escHtml(place.website)}" target="_blank" rel="noopener noreferrer">${escHtml(domain)}</a></div>`);
+      }
+
+      document.getElementById('sheetBody').innerHTML = `
+        <div class="sheet-merchant-name">${escHtml(place.name)}</div>
+        ${verifiedHtml || boostedHtml ? `<div class="sheet-meta-row">${verifiedHtml}${boostedHtml}</div>` : ''}
+        <div class="sheet-btcmap-badge">₿ Bitcoin Merchant</div>
+        ${rows.join('')}
+        <div class="sheet-actions">
+          <a href="${mapsUrl}" target="_blank" rel="noopener noreferrer" class="sheet-btn sheet-btn-primary">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0h6"/>
+            </svg>
+            Get Directions
+          </a>
+          ${btcmapUrl ? `
+          <a href="${btcmapUrl}" target="_blank" rel="noopener noreferrer" class="sheet-btn sheet-btn-secondary">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/>
+              <polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>
+            </svg>
+            Open in BTCMap
+          </a>` : ''}
+        </div>
+      `;
+
+      document.getElementById('mapSheet').classList.add('open');
+      document.getElementById('sheetBackdrop').classList.add('open');
+    }
+
+    /* ─────────────────────────────────────────
+       Close sheet
+    ───────────────────────────────────────── */
     function closeSheet() {
       document.getElementById('mapSheet').classList.remove('open');
       document.getElementById('sheetBackdrop').classList.remove('open');
@@ -610,36 +1013,55 @@
 
     document.getElementById('sheetBackdrop').addEventListener('click', closeSheet);
 
-    /* ── Search ── */
+    /* ─────────────────────────────────────────
+       Search (Flash only for now — ENG-193 adds BTCMap search)
+    ───────────────────────────────────────── */
     document.getElementById('searchInput').addEventListener('input', function () {
       const q = this.value.trim().toLowerCase();
       const noResults = document.getElementById('mapNoResults');
-      const count = document.getElementById('mapCount');
 
       if (!q) {
-        renderMarkers(allFlashpoints);
+        renderFlashMarkers(allFlashpoints);
+        // Re-show BTCMap markers
+        btcMapMarkerMap.forEach(m => {
+          const bounds = map.getBounds();
+          const zoom = map.getZoom();
+          if (zoom >= BTCMAP_MIN_ZOOM && bounds && bounds.contains(m.position)) {
+            m.map = map;
+          }
+        });
         noResults.classList.remove('visible');
         return;
       }
+
+      // Hide BTCMap markers while searching Flash
+      btcMapMarkerMap.forEach(m => m.map = null);
 
       const filtered = allFlashpoints.filter(fp =>
         fp.mapInfo.title.toLowerCase().includes(q) ||
         fp.username.toLowerCase().includes(q)
       );
 
-      renderMarkers(filtered);
+      renderFlashMarkers(filtered);
 
       if (filtered.length === 0) {
         noResults.classList.add('visible');
-        count.classList.add('hidden');
+        document.getElementById('mapCount').classList.add('hidden');
       } else {
         noResults.classList.remove('visible');
       }
     });
 
-    /* ── Util ── */
+    /* ─────────────────────────────────────────
+       Util
+    ───────────────────────────────────────── */
     function escHtml(str) {
-      return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
     }
   </script>
 </body>
