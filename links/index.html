@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Primary Meta Tags -->
+  <title>Flash | Links</title>
+  <meta name="description" content="Bitcoin payments for the Caribbean. Download Flash, find merchants, and join the community.">
+  <meta name="robots" content="noindex">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://getflash.io/links">
+  <meta property="og:title" content="Flash — Bitcoin payments for the Caribbean">
+  <meta property="og:description" content="Download Flash. Send money home in seconds. 0% transfer fee.">
+  <meta property="og:image" content="https://getflash.io/assets/img/download-og-image-small.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="800">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@LNFlash">
+  <meta name="twitter:title" content="Flash — Bitcoin payments for the Caribbean">
+  <meta name="twitter:description" content="Download Flash. Send money home in seconds. 0% transfer fee.">
+  <meta name="twitter:image" content="https://getflash.io/assets/img/download-og-image-small.png">
+
+  <!-- Canonical -->
+  <link rel="canonical" href="https://getflash.io/links">
+
+  <!-- Favicons -->
+  <link rel="shortcut icon" type="image/png" href="../assets/img/favicon-32x32.png" sizes="32x32">
+  <link rel="icon" type="image/png" href="../assets/img/favicon-16x16.png" sizes="16x16">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg:         #09090E;
+      --bg-card:    rgba(255,255,255,0.05);
+      --bg-card-hover: rgba(255,255,255,0.08);
+      --border:     rgba(255,255,255,0.08);
+      --border-hover: rgba(255,255,255,0.16);
+      --green:      #3AB54A;
+      --green-dim:  rgba(58,181,74,0.15);
+      --green-glow: rgba(58,181,74,0.35);
+      --text:       #ffffff;
+      --text-muted: #888899;
+      --text-dim:   #444455;
+      --radius:     16px;
+      --radius-lg:  22px;
+    }
+
+    html {
+      background: var(--bg);
+      min-height: 100%;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 48px 20px 40px;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* ── Background glows ── */
+    body::before {
+      content: '';
+      position: fixed; top: -120px; left: 50%;
+      transform: translateX(-50%);
+      width: 600px; height: 500px;
+      background: radial-gradient(ellipse, rgba(58,181,74,0.09) 0%, transparent 65%);
+      pointer-events: none; z-index: 0;
+    }
+    body::after {
+      content: '';
+      position: fixed; bottom: -100px; right: -100px;
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, rgba(58,181,74,0.06) 0%, transparent 65%);
+      pointer-events: none; z-index: 0;
+    }
+
+    /* ── Grain overlay ── */
+    .grain {
+      position: fixed; inset: 0; z-index: 1; pointer-events: none; opacity: 0.025;
+      background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='200' height='200' filter='url(%23n)'/></svg>");
+      background-size: 200px 200px;
+      mix-blend-mode: screen;
+    }
+
+    /* ── Card container ── */
+    .card {
+      width: 100%;
+      max-width: 480px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+      position: relative; z-index: 2;
+    }
+
+    /* ── Header ── */
+    .header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+      padding-bottom: 36px;
+      width: 100%;
+    }
+
+    .logo {
+      height: 36px;
+      width: auto;
+      display: block;
+    }
+
+    .tagline {
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--text-muted);
+      letter-spacing: 0.2px;
+      text-align: center;
+    }
+
+    /* ── Divider ── */
+    .divider {
+      width: 100%;
+      height: 1px;
+      background: var(--border);
+      margin-bottom: 28px;
+    }
+
+    /* ── Links stack ── */
+    .links {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      width: 100%;
+    }
+
+    /* ── Base button ── */
+    .link-btn {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      width: 100%;
+      padding: 18px 20px;
+      border-radius: var(--radius-lg);
+      text-decoration: none;
+      border: 1px solid var(--border);
+      background: var(--bg-card);
+      cursor: pointer;
+      transition:
+        transform 120ms ease,
+        background 160ms ease,
+        border-color 160ms ease,
+        box-shadow 160ms ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .link-btn:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--border-hover);
+      transform: translateY(-1px) scale(1.005);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    }
+
+    .link-btn:active {
+      transform: scale(0.985);
+      transition-duration: 60ms;
+    }
+
+    /* ── Primary CTA: Download ── */
+    .link-btn--primary {
+      background: var(--green);
+      border-color: transparent;
+      box-shadow: 0 0 0 rgba(58,181,74,0);
+      transition:
+        transform 120ms ease,
+        box-shadow 160ms ease;
+    }
+
+    .link-btn--primary:hover {
+      background: #3EC453;
+      border-color: transparent;
+      box-shadow: 0 6px 32px rgba(58,181,74,0.45), 0 2px 8px rgba(58,181,74,0.30);
+      transform: translateY(-2px) scale(1.01);
+    }
+
+    .link-btn--primary .btn-label,
+    .link-btn--primary .btn-chevron { color: #000; }
+    .link-btn--primary .btn-icon { color: #000; opacity: 0.75; }
+
+    /* ── Icon ── */
+    .btn-icon {
+      width: 40px; height: 40px; flex-shrink: 0;
+      border-radius: 10px;
+      background: rgba(255,255,255,0.08);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--text);
+    }
+
+    .link-btn--primary .btn-icon {
+      background: rgba(0,0,0,0.15);
+    }
+
+    .btn-icon svg {
+      width: 20px; height: 20px;
+      display: block;
+    }
+
+    /* ── Label ── */
+    .btn-label {
+      flex: 1;
+      font-family: 'Sora', sans-serif;
+      font-weight: 700;
+      font-size: 17px;
+      color: var(--text);
+      letter-spacing: -0.2px;
+    }
+
+    /* ── Chevron ── */
+    .btn-chevron {
+      flex-shrink: 0;
+      color: var(--text-dim);
+      transition: transform 160ms ease, color 160ms ease;
+    }
+
+    .link-btn:hover .btn-chevron {
+      transform: translateX(2px);
+      color: var(--text-muted);
+    }
+    .link-btn--primary:hover .btn-chevron { color: rgba(0,0,0,0.5); }
+
+    /* ── Footer ── */
+    .footer {
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .footer-logo {
+      height: 22px;
+      width: auto;
+      opacity: 0.35;
+    }
+
+    .footer-copy {
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      color: var(--text-dim);
+      text-align: center;
+      letter-spacing: 0.1px;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 360px) {
+      body { padding: 36px 16px 32px; }
+      .btn-label { font-size: 16px; }
+    }
+
+    @media (min-width: 600px) {
+      body { padding: 72px 24px 60px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="grain" aria-hidden="true"></div>
+
+  <div class="card">
+
+    <!-- Header -->
+    <header class="header">
+      <img
+        src="../assets/img/logo-white.png"
+        alt="Flash"
+        class="logo"
+        width="139" height="65"
+      >
+      <p class="tagline">Bitcoin payments for the Caribbean.</p>
+    </header>
+
+    <div class="divider"></div>
+
+    <!-- Links -->
+    <nav class="links" aria-label="Flash links">
+
+      <!-- 1. Download Flash — PRIMARY CTA -->
+      <a
+        href="https://getflash.io/app?utm_source=instagram&utm_medium=linkinbio&utm_campaign=links-page"
+        class="link-btn link-btn--primary"
+        aria-label="Download Flash app"
+      >
+        <div class="btn-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="7 10 12 15 17 10"/>
+            <line x1="12" y1="15" x2="12" y2="3"/>
+          </svg>
+        </div>
+        <span class="btn-label">Download Flash</span>
+        <svg class="btn-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <line x1="5" y1="12" x2="19" y2="12"/>
+          <polyline points="12 5 19 12 12 19"/>
+        </svg>
+      </a>
+
+      <!-- 2. Find a Flash merchant -->
+      <a
+        href="https://getflash.io/map?utm_source=instagram&utm_medium=linkinbio&utm_campaign=links-page"
+        class="link-btn"
+        aria-label="Find a Flash merchant near you"
+      >
+        <div class="btn-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z"/>
+            <circle cx="12" cy="10" r="3"/>
+          </svg>
+        </div>
+        <span class="btn-label">Find a Flash merchant</span>
+        <svg class="btn-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <line x1="5" y1="12" x2="19" y2="12"/>
+          <polyline points="12 5 19 12 12 19"/>
+        </svg>
+      </a>
+
+      <!-- 3. Buy Bitcoin with Flash -->
+      <a
+        href="https://getflash.io/app?utm_source=instagram&utm_medium=linkinbio&utm_campaign=links-page&utm_content=buy-bitcoin"
+        class="link-btn"
+        aria-label="Buy Bitcoin with Flash"
+      >
+        <div class="btn-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M11.767 19.089c4.924.868 6.14-6.025 1.216-6.894m-1.216 6.894L10.5 21m1.267-1.911-.5-2.828m0 0c-4.924-.868-6.142 6.025-1.217 6.893m1.217-6.893L9.5 13.5M9.5 7.5c4.924-.868 6.14 6.025 1.216 6.894m0 0L9.5 7.5m1.716 6.394L9.5 7.5m1.716 6.394.5 2.83M9.5 7.5l-.5-2.83m0 0C4.076 5.537 2.86 12.43 7.784 13.3m1.716-8.63L7.784 13.3"/>
+          </svg>
+        </div>
+        <span class="btn-label">Buy Bitcoin with Flash</span>
+        <svg class="btn-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <line x1="5" y1="12" x2="19" y2="12"/>
+          <polyline points="12 5 19 12 12 19"/>
+        </svg>
+      </a>
+
+      <!-- 4. Join the Flash community (WhatsApp) -->
+      <a
+        href="https://wa.me/18762909250?utm_source=instagram&utm_medium=linkinbio&utm_campaign=links-page&utm_content=whatsapp"
+        class="link-btn"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Join the Flash community on WhatsApp"
+      >
+        <div class="btn-icon" aria-hidden="true">
+          <!-- WhatsApp icon -->
+          <svg viewBox="0 0 24 24" fill="currentColor" stroke="none">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+          </svg>
+        </div>
+        <span class="btn-label">Join the Flash community</span>
+        <svg class="btn-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <line x1="5" y1="12" x2="19" y2="12"/>
+          <polyline points="12 5 19 12 12 19"/>
+        </svg>
+      </a>
+
+      <!-- 5. Island Bitcoin meetups -->
+      <a
+        href="https://community.islandbitcoin.com?utm_source=instagram&utm_medium=linkinbio&utm_campaign=links-page&utm_content=island-bitcoin"
+        class="link-btn"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Island Bitcoin meetups in Jamaica"
+      >
+        <div class="btn-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+            <circle cx="9" cy="7" r="4"/>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+          </svg>
+        </div>
+        <span class="btn-label">Island Bitcoin meetups</span>
+        <svg class="btn-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <line x1="5" y1="12" x2="19" y2="12"/>
+          <polyline points="12 5 19 12 12 19"/>
+        </svg>
+      </a>
+
+    </nav>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <img
+        src="../assets/img/logo-white.png"
+        alt="Flash"
+        class="footer-logo"
+        width="69" height="33"
+      >
+      <p class="footer-copy">© 2026 Flash. Made in Jamaica. 🇯🇲</p>
+    </footer>
+
+  </div>
+</body>
+</html>

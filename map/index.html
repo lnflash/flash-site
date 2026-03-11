@@ -5,9 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="description" content="Find Flash merchants near you — 34+ locations across Jamaica accepting Bitcoin payments.">
+  <meta name="description" content="Find Flash merchants and 12,700+ Bitcoin-accepting businesses near you — the most comprehensive Bitcoin spending map in the Caribbean.">
   <meta property="og:title" content="Flash Merchant Map | Flash">
-  <meta property="og:description" content="Find Flash merchants near you — 34+ locations across Jamaica accepting Bitcoin payments.">
+  <meta property="og:description" content="Find Flash merchants and 12,700+ Bitcoin-accepting businesses near you.">
   <meta property="og:url" content="https://getflash.io/map/">
   <meta property="og:image" content="https://getflash.io/assets/img/download-button-og.jpg">
   <meta name="twitter:card" content="summary_large_image">
@@ -26,6 +26,7 @@
 
     :root {
       --green: #3AB54A;
+      --orange: #F7931A;
       --dark: #09090E;
       --text: #111218;
       --muted: #6B7280;
@@ -47,13 +48,17 @@
       height: 100%;
     }
 
-    /* ── Top header bar ── */
-    .map-header {
+    /* ── Top bar container (header + filter bar, both fixed together) ── */
+    .map-topbar {
       position: fixed;
       top: 0;
       left: 0;
       right: 0;
       z-index: 100;
+    }
+
+    /* ── Header row ── */
+    .map-header {
       display: flex;
       align-items: center;
       gap: 12px;
@@ -63,6 +68,85 @@
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
       border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+
+    /* ── Filter bar (chips row below header) ── */
+    .filter-bar {
+      background: rgba(9, 9, 14, 0.84);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      padding: 8px 16px;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none; /* Firefox */
+    }
+    .filter-bar::-webkit-scrollbar { display: none; }
+
+    .filter-chips {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      width: max-content;
+    }
+
+    .filter-sep {
+      width: 1px;
+      height: 16px;
+      background: rgba(255,255,255,0.15);
+      flex-shrink: 0;
+      margin: 0 2px;
+    }
+
+    .filter-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 5px 11px;
+      border-radius: 100px;
+      font-size: 12px;
+      font-weight: 600;
+      font-family: 'Inter', sans-serif;
+      border: 1.5px solid rgba(255,255,255,0.14);
+      background: transparent;
+      color: rgba(255,255,255,0.5);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: border-color 0.15s, background 0.15s, color 0.15s, opacity 0.15s;
+      flex-shrink: 0;
+    }
+    .filter-chip:hover {
+      border-color: rgba(255,255,255,0.28);
+      color: rgba(255,255,255,0.8);
+    }
+
+    /* Active state — generic */
+    .filter-chip.active {
+      background: rgba(255,255,255,0.1);
+      border-color: rgba(255,255,255,0.32);
+      color: #fff;
+    }
+
+    /* Source chip — Flash (green tint when active) */
+    .filter-chip.chip-flash.active {
+      background: rgba(58, 181, 74, 0.18);
+      border-color: rgba(58, 181, 74, 0.55);
+      color: #4ACA5A;
+    }
+
+    /* Source chip — Bitcoin (orange tint when active) */
+    .filter-chip.chip-btc.active {
+      background: rgba(247, 147, 26, 0.18);
+      border-color: rgba(247, 147, 26, 0.55);
+      color: #F7931A;
+    }
+
+    /* Disabled (e.g. categories when BTC layer is off) */
+    .filter-chip:disabled,
+    .filter-chip.dimmed {
+      opacity: 0.35;
+      cursor: default;
+      pointer-events: none;
     }
 
     .map-logo {
@@ -96,7 +180,7 @@
       background: rgba(255,255,255,0.09);
       border: 1px solid rgba(255,255,255,0.12);
       border-radius: 10px;
-      padding: 8px 12px 8px 34px;
+      padding: 8px 28px 8px 34px;
       color: #fff;
       font-family: 'Inter', sans-serif;
       font-size: 14px;
@@ -152,8 +236,29 @@
       letter-spacing: 0.02em;
       pointer-events: none;
       transition: opacity 0.2s;
+      white-space: nowrap;
     }
     .map-count.hidden { opacity: 0; }
+
+    /* ── BTCMap loading pill ── */
+    .btcmap-loading-pill {
+      position: fixed;
+      top: max(68px, calc(env(safe-area-inset-top) + 56px));
+      right: 16px;
+      z-index: 100;
+      background: rgba(247, 147, 26, 0.92);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border-radius: 100px;
+      padding: 5px 12px;
+      color: #fff;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      animation: pulse 1.4s ease infinite;
+      display: none;
+    }
+    .btcmap-loading-pill.visible { display: block; }
 
     /* ── Bottom sheet ── */
     .map-sheet {
@@ -194,7 +299,7 @@
       font-size: 20px;
       font-weight: 700;
       color: var(--text);
-      margin-bottom: 4px;
+      margin-bottom: 6px;
       line-height: 1.2;
     }
 
@@ -204,6 +309,7 @@
       margin-bottom: 16px;
     }
 
+    /* Flash source badge */
     .sheet-badge {
       display: inline-flex;
       align-items: center;
@@ -217,9 +323,63 @@
       color: #15803D;
       margin-bottom: 20px;
     }
+    .sheet-badge svg { color: var(--green); }
 
-    .sheet-badge svg {
-      color: var(--green);
+    /* BTCMap source badge */
+    .sheet-btcmap-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: #FFF7ED;
+      border: 1px solid #FED7AA;
+      border-radius: 100px;
+      padding: 4px 10px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #C2410C;
+      margin-bottom: 14px;
+    }
+
+    /* Detail rows for BTCMap info cards */
+    .sheet-detail-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 8px;
+      line-height: 1.4;
+    }
+    .sheet-detail-row .sheet-icon { flex-shrink: 0; font-size: 15px; line-height: 1.3; }
+    .sheet-detail-row a { color: var(--green); text-decoration: none; }
+    .sheet-detail-row a:hover { text-decoration: underline; }
+
+    /* Verified / Boosted inline badges */
+    .sheet-meta-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+    .sheet-verified {
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      font-size: 11px;
+      color: #15803D;
+      font-weight: 600;
+    }
+    .sheet-boosted {
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      font-size: 11px;
+      color: #92400E;
+      font-weight: 600;
+      background: #FEF3C7;
+      border-radius: 100px;
+      padding: 2px 8px;
     }
 
     .sheet-actions {
@@ -270,7 +430,7 @@
       pointer-events: all;
     }
 
-    /* ── Custom map markers ── */
+    /* ── Flash markers ── */
     .flash-marker {
       width: 36px;
       height: 44px;
@@ -300,14 +460,25 @@
       object-fit: contain;
     }
 
-    .flash-marker-tip {
-      width: 0;
-      height: 0;
-      border-left: 6px solid transparent;
-      border-right: 6px solid transparent;
-      border-top: 8px solid var(--green);
-      margin: 0 auto;
+    /* ── BTCMap markers ── */
+    .btcmap-marker {
+      width: 30px;
+      height: 30px;
+      background: var(--orange);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 13px;
+      line-height: 1;
+      box-shadow: 0 2px 6px rgba(247, 147, 26, 0.45);
+      border: 2px solid rgba(255,255,255,0.75);
+      transition: transform 0.15s;
+      user-select: none;
     }
+    .btcmap-marker:hover { transform: scale(1.12); }
+    .btcmap-marker.active { transform: scale(1.18); }
 
     /* ── No results state ── */
     .map-no-results {
@@ -347,6 +518,147 @@
       animation: pulse 1.4s ease infinite;
     }
 
+    /* ── Google Places enrichment (BTCMap info cards) ── */
+    .sheet-places-enrichment {
+      margin-bottom: 14px;
+    }
+
+    /* Shimmer loading state */
+    @keyframes shimmer {
+      0%   { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+    .sheet-places-shimmer {
+      height: 13px;
+      width: 160px;
+      background: linear-gradient(90deg, #f0f0f0 25%, #e4e4e4 50%, #f0f0f0 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.6s ease-in-out infinite;
+      border-radius: 4px;
+    }
+
+    /* Photo strip */
+    .sheet-places-photo {
+      width: 100%;
+      height: 136px;
+      object-fit: cover;
+      border-radius: 10px;
+      margin-bottom: 8px;
+      display: block;
+      background: #f3f4f6; /* placeholder while loading */
+    }
+
+    /* Rating + review count */
+    .sheet-places-meta {
+      font-size: 12px;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .sheet-places-rating {
+      color: #D97706;
+      font-weight: 600;
+    }
+
+    /* ── Unified search dropdown ── */
+    .search-dropdown {
+      position: absolute;
+      top: calc(100% + 6px);
+      left: 0;
+      right: 0;
+      z-index: 300;
+      background: rgba(13, 13, 20, 0.97);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.45);
+      display: none;
+    }
+    .search-dropdown.open { display: block; }
+
+    .search-group-header {
+      padding: 9px 14px 4px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.3);
+    }
+
+    .search-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      cursor: pointer;
+      transition: background 0.1s;
+      outline: none;
+    }
+    .search-item:hover,
+    .search-item:focus { background: rgba(255,255,255,0.07); }
+
+    .search-item-icon {
+      font-size: 15px;
+      flex-shrink: 0;
+      width: 22px;
+      text-align: center;
+      line-height: 1;
+    }
+
+    .search-item-text { flex: 1; min-width: 0; }
+
+    .search-item-name {
+      font-size: 14px;
+      font-weight: 500;
+      color: #fff;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .search-item-sub {
+      font-size: 12px;
+      color: rgba(255,255,255,0.42);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-top: 1px;
+    }
+
+    .search-divider {
+      height: 1px;
+      background: rgba(255,255,255,0.07);
+      margin: 3px 0;
+    }
+
+    .search-empty {
+      padding: 16px 14px;
+      font-size: 13px;
+      color: rgba(255,255,255,0.38);
+      text-align: center;
+    }
+
+    /* Clear button inside search wrap */
+    .search-clear {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: rgba(255,255,255,0.45);
+      cursor: pointer;
+      padding: 2px;
+      font-size: 15px;
+      line-height: 1;
+      display: none;
+    }
+    .search-clear.visible { display: block; }
+    .search-clear:hover { color: rgba(255,255,255,0.75); }
+
     /* Google Maps UI overrides */
     .gm-style .gm-style-iw-c { display: none !important; }
     .gm-style .gm-style-iw-tc { display: none !important; }
@@ -364,26 +676,60 @@
 
 <body>
 
-  <!-- Header -->
-  <header class="map-header">
-    <a href="/" class="map-logo" aria-label="Flash home">
-      <img src="../assets/img/logo-white.png" alt="Flash">
-    </a>
+  <!-- Top bar: header + filter chips -->
+  <div class="map-topbar">
 
-    <div class="map-search-wrap">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-        <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
-      </svg>
-      <input type="text" class="map-search" id="searchInput" placeholder="Search merchants…" autocomplete="off" autocorrect="off" spellcheck="false">
+    <header class="map-header">
+      <a href="/" class="map-logo" aria-label="Flash home">
+        <img src="../assets/img/logo-white.png" alt="Flash">
+      </a>
+
+      <div class="map-search-wrap">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
+        </svg>
+        <input type="text" class="map-search" id="searchInput" placeholder="Search merchants…" autocomplete="off" autocorrect="off" spellcheck="false" aria-autocomplete="list" aria-controls="searchDropdown">
+        <button class="search-clear" id="searchClear" aria-label="Clear search">×</button>
+        <div class="search-dropdown" id="searchDropdown" role="listbox"></div>
+      </div>
+
+      <a href="https://signup.getflash.io" class="map-cta" target="_blank" rel="noopener noreferrer">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+          <path d="M12 5v14M5 12h14"/>
+        </svg>
+        <span>Become a merchant</span>
+      </a>
+    </header>
+
+    <!-- Filter chips bar -->
+    <div class="filter-bar" id="filterBar" role="toolbar" aria-label="Map filters">
+      <div class="filter-chips">
+
+        <!-- Data source toggles -->
+        <button class="filter-chip chip-flash active" id="chipFlash" aria-pressed="true">⚡ Flash</button>
+        <button class="filter-chip chip-btc active"   id="chipBTC"   aria-pressed="true">₿ Bitcoin</button>
+
+        <span class="filter-sep" role="separator"></span>
+
+        <!-- Open Now -->
+        <button class="filter-chip" id="chipOpenNow" aria-pressed="false">🕐 Open Now</button>
+
+        <span class="filter-sep" role="separator"></span>
+
+        <!-- Category shortcuts (apply to BTCMap merchants) -->
+        <button class="filter-chip cat active" data-cat=""           aria-pressed="true">All</button>
+        <button class="filter-chip cat"        data-cat="restaurant" aria-pressed="false">🍽️ Restaurant</button>
+        <button class="filter-chip cat"        data-cat="cafe"       aria-pressed="false">☕ Cafe</button>
+        <button class="filter-chip cat"        data-cat="hotel"      aria-pressed="false">🏨 Hotel</button>
+        <button class="filter-chip cat"        data-cat="atm"        aria-pressed="false">🏧 ATM</button>
+        <button class="filter-chip cat"        data-cat="bar"        aria-pressed="false">🍺 Bar</button>
+        <button class="filter-chip cat"        data-cat="shop"       aria-pressed="false">🛍️ Shop</button>
+        <button class="filter-chip cat"        data-cat="service"    aria-pressed="false">💆 Service</button>
+
+      </div>
     </div>
 
-    <a href="https://signup.getflash.io" class="map-cta" target="_blank" rel="noopener noreferrer">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
-        <path d="M12 5v14M5 12h14"/>
-      </svg>
-      <span>Become a merchant</span>
-    </a>
-  </header>
+  </div><!-- /.map-topbar -->
 
   <!-- Map container -->
   <div id="map"></div>
@@ -391,6 +737,9 @@
   <!-- Loading / count pill -->
   <div class="map-loading" id="mapLoading">Loading merchants…</div>
   <div class="map-count hidden" id="mapCount"></div>
+
+  <!-- BTCMap loading pill (top-right, orange) -->
+  <div class="btcmap-loading-pill" id="btcLoadingPill">Loading Bitcoin merchants…</div>
 
   <!-- No results -->
   <div class="map-no-results" id="mapNoResults">
@@ -412,12 +761,64 @@
   <script>
     'use strict';
 
-    let map, markers = [], allFlashpoints = [], activeMarker = null;
+    /* ─────────────────────────────────────────
+       State
+    ───────────────────────────────────────── */
+    let map;
+    let flashMarkers = [];          // AdvancedMarkerElement[] for Flash merchants
+    let allFlashpoints = [];        // raw Flash API data
+    let activeMarker = null;        // currently selected marker (Flash or BTCMap)
 
-    /* ── Map init ── */
+    // BTCMap state
+    const btcMapCache = new Map();      // BTCMap id → place object
+    const btcMapMarkerMap = new Map();  // BTCMap id → AdvancedMarkerElement
+    let btcMapPreloaded = false;
+    let btcMapFetchTimer = null;
+    let btcMapRetryDelay = 1000;
+
+    /* ─────────────────────────────────────────
+       BTCMap constants
+    ───────────────────────────────────────── */
+    const BTCMAP_API    = 'https://api.btcmap.org/v4/places/search';
+    const BTCMAP_FIELDS = 'id,lat,lon,name,icon,address,opening_hours,phone,website,verified_at,boosted_until,osm_id';
+    const CARIB_LAT     = 18.1;
+    const CARIB_LON     = -77.3;
+    const CARIB_RADIUS  = 500; // km
+    const DEDUP_LAT_DEG = 0.00045; // ~50m in latitude degrees
+    const DEDUP_LON_DEG = 0.00065; // ~50m in longitude degrees (at lat 18°)
+    const BTCMAP_MIN_ZOOM = 11; // individual markers only at zoom >= 11
+
+    /* ─────────────────────────────────────────
+       Category icon mapping (BTCMap icon → emoji)
+    ───────────────────────────────────────── */
+    const CATEGORY_ICONS = {
+      restaurant: '🍽', lunch_dining: '🍽', food: '🍽', fast_food: '🍽',
+      local_cafe: '☕', cafe: '☕', coffee: '☕',
+      hotel: '🏨', lodging: '🏨', bed: '🏨', accommodation: '🏨',
+      local_atm: '🏧', atm: '🏧',
+      local_bar: '🍺', bar: '🍺', nightlife: '🍺', pub: '🍺',
+      shopping_cart: '🛍', store: '🛍', shop: '🛍', mall: '🛍', shopping: '🛍',
+      local_florist: '💆', spa: '💆', service: '💆', beauty: '💆',
+      local_gas_station: '⛽', gas_station: '⛽',
+      local_hospital: '🏥', hospital: '🏥', clinic: '🏥',
+      local_pharmacy: '💊', pharmacy: '💊',
+      directions_car: '🚗', car_repair: '🚗', automotive: '🚗',
+    };
+
+    function categoryIcon(icon) {
+      if (!icon) return '₿';
+      if (CATEGORY_ICONS[icon]) return CATEGORY_ICONS[icon];
+      // try prefix match (e.g. "local_cafe_extra" → "local_cafe")
+      const prefix = icon.split('_').slice(0, 2).join('_');
+      return CATEGORY_ICONS[prefix] || CATEGORY_ICONS[icon.split('_')[0]] || '₿';
+    }
+
+    /* ─────────────────────────────────────────
+       Map init
+    ───────────────────────────────────────── */
     window.initMapCallback = async function () {
       map = new google.maps.Map(document.getElementById('map'), {
-        center: { lat: 18.1096, lng: -77.2975 }, // Jamaica center
+        center: { lat: 18.1096, lng: -77.2975 },
         zoom: 10,
         mapId: 'FLASH_MAP',
         disableDefaultUI: false,
@@ -438,10 +839,27 @@
       // Close sheet on map click
       map.addListener('click', closeSheet);
 
-      await loadFlashpoints();
+      // On idle: sync BTCMap marker visibility + trigger viewport fetch if needed
+      map.addListener('idle', onMapIdle);
+
+      // Load both data sources in parallel
+      await Promise.allSettled([
+        loadFlashpoints(),
+        loadBTCMapCaribbean()
+      ]);
     };
 
-    /* ── Fetch merchants ── */
+    /* ─────────────────────────────────────────
+       Map idle handler
+    ───────────────────────────────────────── */
+    function onMapIdle() {
+      syncBTCMapMarkers();
+      scheduleViewportFetch();
+    }
+
+    /* ─────────────────────────────────────────
+       Flash merchants
+    ───────────────────────────────────────── */
     async function loadFlashpoints() {
       const host = window.location.hostname;
       let apiUrl;
@@ -469,15 +887,15 @@
 
         const data = await res.json();
         allFlashpoints = data.data.businessMapMarkers;
-        renderMarkers(allFlashpoints);
+        renderFlashMarkers(allFlashpoints);
       } catch (err) {
-        console.warn('API unavailable, using demo data:', err.message);
+        console.warn('Flash API unavailable, using demo data:', err.message);
         allFlashpoints = MOCK_FLASHPOINTS;
-        renderMarkers(allFlashpoints);
+        renderFlashMarkers(allFlashpoints);
       }
     }
 
-    /* ── Mock data (used when API is unavailable e.g. staging CORS) ── */
+    /* ── Mock data (fallback when Flash API is unavailable e.g. staging CORS) ── */
     const MOCK_FLASHPOINTS = [
       { mapInfo: { coordinates: { latitude: '17.9971', longitude: '-76.7936' }, title: 'Tastee Patties — New Kingston' }, username: 'tastee_nk' },
       { mapInfo: { coordinates: { latitude: '17.9957', longitude: '-76.7812' }, title: 'Island Grill Half Way Tree' }, username: 'islandgrill_hwt' },
@@ -493,11 +911,13 @@
       { mapInfo: { coordinates: { latitude: '17.8668', longitude: '-77.6724' }, title: 'Mandeville Plaza Pharmacy' }, username: 'mandeville_pharmacy' },
     ];
 
-    /* ── Render markers ── */
-    async function renderMarkers(flashpoints) {
-      // Clear existing
-      markers.forEach(m => m.map = null);
-      markers = [];
+    /* ─────────────────────────────────────────
+       Flash marker rendering
+    ───────────────────────────────────────── */
+    async function renderFlashMarkers(flashpoints) {
+      // Clear existing Flash markers
+      flashMarkers.forEach(m => m.map = null);
+      flashMarkers = [];
 
       const { AdvancedMarkerElement } = await google.maps.importLibrary('marker');
 
@@ -519,21 +939,19 @@
           map,
           position: pos,
           content: el,
-          title: fp.mapInfo.title
+          title: fp.mapInfo.title,
+          zIndex: 10  // Flash markers always above BTCMap markers
         });
 
-        marker.addListener('click', () => openSheet(fp, marker));
-        markers.push(marker);
+        marker.addListener('click', () => openFlashSheet(fp, marker));
+        flashMarkers.push(marker);
       });
 
-      // Update UI
-      const loading = document.getElementById('mapLoading');
-      const count = document.getElementById('mapCount');
-      loading.style.display = 'none';
-      count.textContent = `${flashpoints.length} merchant${flashpoints.length !== 1 ? 's' : ''}`;
-      count.classList.remove('hidden');
+      // Hide loading spinner
+      document.getElementById('mapLoading').style.display = 'none';
+      updateLocationCount();
 
-      // Fit map to markers if more than 1
+      // Fit map to Flash markers if more than 1
       if (flashpoints.length > 1) {
         const bounds = new google.maps.LatLngBounds();
         flashpoints.forEach(fp => bounds.extend({
@@ -544,20 +962,189 @@
       }
     }
 
-    /* ── Bottom sheet ── */
-    function openSheet(fp, marker) {
-      // Reset previous active marker style
-      if (activeMarker) {
-        activeMarker.content.classList.remove('active');
-      }
-      marker.content.classList.add('active');
-      activeMarker = marker;
+    /* ─────────────────────────────────────────
+       BTCMap — data layer (ENG-190)
+    ───────────────────────────────────────── */
 
-      // Pan map so merchant is visible above the sheet
+    /** Haversine distance in km between two lat/lon points */
+    function haversineKm(lat1, lon1, lat2, lon2) {
+      const R = 6371;
+      const dLat = (lat2 - lat1) * Math.PI / 180;
+      const dLon = (lon2 - lon1) * Math.PI / 180;
+      const a = Math.sin(dLat / 2) ** 2
+        + Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * Math.sin(dLon / 2) ** 2;
+      return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    }
+
+    /** Returns true if a BTCMap merchant is within ~50m of any Flash merchant */
+    function isNearFlashMerchant(lat, lon) {
+      return allFlashpoints.some(fp => {
+        const dlat = Math.abs(parseFloat(fp.mapInfo.coordinates.latitude) - lat);
+        const dlon = Math.abs(parseFloat(fp.mapInfo.coordinates.longitude) - lon);
+        return dlat < DEDUP_LAT_DEG && dlon < DEDUP_LON_DEG;
+      });
+    }
+
+    /** Merge BTCMap API response into cache. Returns count of newly added merchants. */
+    function mergeBTCMapData(places) {
+      let added = 0;
+      for (const place of places) {
+        if (btcMapCache.has(place.id)) continue;
+        if (isNearFlashMerchant(place.lat, place.lon)) continue; // deduplicate
+        btcMapCache.set(place.id, place);
+        added++;
+      }
+      return added;
+    }
+
+    /** Preload Caribbean region (~500 merchants) on page load */
+    async function loadBTCMapCaribbean() {
+      const pill = document.getElementById('btcLoadingPill');
+      pill.classList.add('visible');
+      try {
+        const url = `${BTCMAP_API}?lat=${CARIB_LAT}&lon=${CARIB_LON}&radius_km=${CARIB_RADIUS}&fields=${BTCMAP_FIELDS}`;
+        const res = await fetch(url);
+        if (!res.ok) throw new Error(`BTCMap API ${res.status}`);
+        const places = await res.json();
+        mergeBTCMapData(places);
+        btcMapPreloaded = true;
+        syncBTCMapMarkers();
+        updateLocationCount();
+      } catch (err) {
+        console.warn('BTCMap unavailable — showing Flash merchants only:', err.message);
+        // Graceful degradation: no BTCMap markers shown, no error to user
+      } finally {
+        pill.classList.remove('visible');
+      }
+    }
+
+    /** Schedule a debounced viewport fetch (500ms) */
+    function scheduleViewportFetch() {
+      if (btcMapFetchTimer) clearTimeout(btcMapFetchTimer);
+      btcMapFetchTimer = setTimeout(doViewportFetch, 500);
+    }
+
+    /** Fetch BTCMap merchants for current viewport if outside preloaded region */
+    async function doViewportFetch() {
+      const center = map.getCenter();
+      const bounds = map.getBounds();
+      if (!bounds || !center) return;
+
+      const ne = bounds.getNorthEast();
+      const radiusKm = Math.min(
+        haversineKm(center.lat(), center.lng(), ne.lat(), ne.lng()),
+        150 // cap viewport radius at 150km
+      );
+
+      // Skip if current viewport is fully inside the preloaded Caribbean region
+      if (btcMapPreloaded) {
+        const distToCarib = haversineKm(center.lat(), center.lng(), CARIB_LAT, CARIB_LON);
+        if (distToCarib + radiusKm < CARIB_RADIUS) return;
+      }
+
+      try {
+        const url = `${BTCMAP_API}?lat=${center.lat()}&lon=${center.lng()}&radius_km=${Math.ceil(radiusKm)}&fields=${BTCMAP_FIELDS}`;
+        const res = await fetch(url);
+        if (!res.ok) {
+          if (res.status === 429) {
+            // Exponential backoff on rate limit
+            btcMapRetryDelay = Math.min(btcMapRetryDelay * 2, 30000);
+            btcMapFetchTimer = setTimeout(doViewportFetch, btcMapRetryDelay);
+          }
+          return;
+        }
+        btcMapRetryDelay = 1000; // reset on success
+        const places = await res.json();
+        const added = mergeBTCMapData(places);
+        if (added > 0) {
+          syncBTCMapMarkers();
+          updateLocationCount();
+        }
+      } catch (err) {
+        console.warn('BTCMap viewport fetch failed:', err.message);
+      }
+    }
+
+    /* ─────────────────────────────────────────
+       BTCMap — marker rendering (ENG-191)
+    ───────────────────────────────────────── */
+
+    /**
+     * Sync BTCMap marker visibility with current map state.
+     * Creates markers on first use; toggles .map property for show/hide.
+     * Individual markers only shown at zoom >= BTCMAP_MIN_ZOOM.
+     */
+    async function syncBTCMapMarkers() {
+      if (btcMapCache.size === 0) return;
+
+      const { AdvancedMarkerElement } = await google.maps.importLibrary('marker');
+      const bounds = map.getBounds();
+      const zoom = map.getZoom();
+      const shouldShowIndividual = zoom >= BTCMAP_MIN_ZOOM;
+
+      for (const [id, place] of btcMapCache) {
+        const inBounds = !bounds || bounds.contains({ lat: place.lat, lng: place.lon });
+        const visible = filters.btc
+          && shouldShowIndividual
+          && inBounds
+          && placeMatchesCat(place, filters.cat)
+          && (!filters.openNow || isOpenNow(place.opening_hours));
+
+        if (!btcMapMarkerMap.has(id)) {
+          // Only create the DOM element + marker if it's actually going to be shown
+          if (!visible) continue;
+
+          const el = document.createElement('div');
+          el.className = 'btcmap-marker';
+          el.textContent = categoryIcon(place.icon);
+
+          const marker = new AdvancedMarkerElement({
+            map,
+            position: { lat: place.lat, lng: place.lon },
+            content: el,
+            title: place.name,
+            zIndex: 1  // Flash markers (zIndex: 10) always render on top
+          });
+
+          marker.addListener('click', () => openBTCMapSheet(place, marker));
+          btcMapMarkerMap.set(id, marker);
+        } else {
+          // Toggle visibility
+          const marker = btcMapMarkerMap.get(id);
+          marker.map = visible ? map : null;
+        }
+      }
+    }
+
+    /* ─────────────────────────────────────────
+       Location count
+    ───────────────────────────────────────── */
+    function updateLocationCount() {
+      const countEl = document.getElementById('mapCount');
+      const flashCount = allFlashpoints.length;
+      const btcCount = btcMapCache.size;
+
+      if (flashCount === 0 && btcCount === 0) {
+        countEl.classList.add('hidden');
+        return;
+      }
+
+      if (btcCount > 0) {
+        countEl.textContent = `⚡ ${flashCount} Flash · ₿ ${btcCount.toLocaleString()} Bitcoin`;
+      } else {
+        countEl.textContent = `${flashCount} merchant${flashCount !== 1 ? 's' : ''}`;
+      }
+      countEl.classList.remove('hidden');
+    }
+
+    /* ─────────────────────────────────────────
+       Pan helper (shared between both sheet types)
+    ───────────────────────────────────────── */
+    function panMapForSheet(position) {
       const sheetHeight = window.innerHeight * 0.44;
       const projection = map.getProjection();
       if (projection) {
-        const point = projection.fromLatLngToPoint(marker.position);
+        const point = projection.fromLatLngToPoint(position);
         const scale = Math.pow(2, map.getZoom());
         const offsetY = sheetHeight / (2 * scale);
         const newCenter = projection.fromPointToLatLng(
@@ -565,10 +1152,20 @@
         );
         map.panTo(newCenter);
       } else {
-        map.panTo(marker.position);
+        map.panTo(position);
       }
+    }
 
-      // Populate sheet
+    /* ─────────────────────────────────────────
+       Flash merchant bottom sheet
+    ───────────────────────────────────────── */
+    function openFlashSheet(fp, marker) {
+      if (activeMarker) activeMarker.content.classList.remove('active');
+      marker.content.classList.add('active');
+      activeMarker = marker;
+
+      panMapForSheet(marker.position);
+
       const mapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${fp.mapInfo.coordinates.latitude},${fp.mapInfo.coordinates.longitude}`;
       const merchantProfileUrl = `/merchant/?u=${fp.username}`;
 
@@ -599,6 +1196,175 @@
       document.getElementById('sheetBackdrop').classList.add('open');
     }
 
+    /* ─────────────────────────────────────────
+       BTCMap merchant bottom sheet (ENG-192 stub)
+    ───────────────────────────────────────── */
+    function openBTCMapSheet(place, marker) {
+      if (activeMarker) activeMarker.content.classList.remove('active');
+      marker.content.classList.add('active');
+      activeMarker = marker;
+
+      panMapForSheet(marker.position);
+
+      const mapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${place.lat},${place.lon}`;
+      const btcmapUrl = place.osm_id
+        ? `https://btcmap.org/merchant/${place.osm_id}`
+        : null;
+
+      // Verified badge
+      const verifiedHtml = place.verified_at
+        ? `<span class="sheet-verified">✓ Verified ${new Date(place.verified_at).toLocaleDateString('en', { month: 'short', year: 'numeric' })}</span>`
+        : '';
+
+      // Boosted badge
+      const isBoosted = place.boosted_until && new Date(place.boosted_until) > new Date();
+      const boostedHtml = isBoosted ? `<span class="sheet-boosted">⭐ Boosted</span>` : '';
+
+      // Detail rows
+      const rows = [];
+      if (place.address)
+        rows.push(`<div class="sheet-detail-row"><span class="sheet-icon">📍</span><span>${escHtml(place.address)}</span></div>`);
+      if (place.opening_hours)
+        rows.push(`<div class="sheet-detail-row"><span class="sheet-icon">🕐</span><span>${escHtml(place.opening_hours)}</span></div>`);
+      if (place.phone)
+        rows.push(`<div class="sheet-detail-row"><span class="sheet-icon">📞</span><a href="tel:${escHtml(place.phone)}">${escHtml(place.phone)}</a></div>`);
+      if (place.website) {
+        let domain = place.website;
+        try { domain = new URL(place.website).hostname.replace(/^www\./, ''); } catch (_) {}
+        rows.push(`<div class="sheet-detail-row"><span class="sheet-icon">🌐</span><a href="${escHtml(place.website)}" target="_blank" rel="noopener noreferrer">${escHtml(domain)}</a></div>`);
+      }
+
+      const enrichmentId = `places-enrich-${place.id.replace(/[^a-z0-9]/gi, '')}`;
+
+      document.getElementById('sheetBody').innerHTML = `
+        <div class="sheet-merchant-name">${escHtml(place.name)}</div>
+        ${verifiedHtml || boostedHtml ? `<div class="sheet-meta-row">${verifiedHtml}${boostedHtml}</div>` : ''}
+        <div class="sheet-btcmap-badge">₿ Bitcoin Merchant</div>
+        ${rows.join('')}
+        <div class="sheet-places-enrichment" id="${enrichmentId}">
+          <div class="sheet-places-shimmer"></div>
+        </div>
+        <div class="sheet-actions">
+          <a href="${mapsUrl}" target="_blank" rel="noopener noreferrer" class="sheet-btn sheet-btn-primary">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0h6"/>
+            </svg>
+            Get Directions
+          </a>
+          ${btcmapUrl ? `
+          <a href="${btcmapUrl}" target="_blank" rel="noopener noreferrer" class="sheet-btn sheet-btn-secondary">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/>
+              <polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>
+            </svg>
+            Open in BTCMap
+          </a>` : ''}
+        </div>
+      `;
+
+      // Async-inject Google Places enrichment
+      enrichWithGooglePlaces(place, enrichmentId);
+
+      document.getElementById('mapSheet').classList.add('open');
+      document.getElementById('sheetBackdrop').classList.add('open');
+    }
+
+    /* ─────────────────────────────────────────
+       Google Places enrichment (ENG-192)
+    ───────────────────────────────────────── */
+    let _placesService = null;
+
+    function getPlacesService() {
+      if (!_placesService) {
+        _placesService = new google.maps.places.PlacesService(map);
+      }
+      return _placesService;
+    }
+
+    /**
+     * Async-inject Google Places photo + rating into a BTCMap info card.
+     * The enrichment section (#enrichmentId) shows a shimmer while loading,
+     * then is replaced with photo/rating, or removed silently if no match.
+     */
+    function enrichWithGooglePlaces(place, enrichmentId) {
+      const svc = getPlacesService();
+
+      // Build search query: name + address if available
+      const query = place.address
+        ? `${place.name} ${place.address}`
+        : place.name;
+
+      // Tight location bias — 1km bounding box around the merchant
+      const delta = 0.009; // ~1km
+      const locationBias = new google.maps.LatLngBounds(
+        { lat: place.lat - delta, lng: place.lon - delta },
+        { lat: place.lat + delta, lng: place.lon + delta }
+      );
+
+      svc.findPlaceFromQuery(
+        { query, fields: ['place_id'], locationBias },
+        (results, status) => {
+          const el = document.getElementById(enrichmentId);
+          if (!el) return; // sheet already closed
+
+          if (status !== google.maps.places.PlacesServiceStatus.OK || !results || !results.length) {
+            el.remove();
+            return;
+          }
+
+          svc.getDetails(
+            { placeId: results[0].place_id, fields: ['rating', 'user_ratings_total', 'photos'] },
+            (details, detailStatus) => {
+              const el2 = document.getElementById(enrichmentId);
+              if (!el2) return; // sheet closed during async fetch
+
+              if (detailStatus !== google.maps.places.PlacesServiceStatus.OK || !details) {
+                el2.remove();
+                return;
+              }
+
+              const hasRating = typeof details.rating === 'number';
+              const hasPhotos = details.photos && details.photos.length > 0;
+
+              if (!hasRating && !hasPhotos) {
+                el2.remove();
+                return;
+              }
+
+              // Build photo element
+              let photoHtml = '';
+              if (hasPhotos) {
+                const photoUrl = details.photos[0].getUrl({ maxWidth: 480, maxHeight: 200 });
+                photoHtml = `<img src="${photoUrl}" alt="Photo of ${escHtml(place.name)}" class="sheet-places-photo" loading="lazy">`;
+              }
+
+              // Build rating line
+              let metaHtml = '';
+              if (hasRating) {
+                const stars = '★'.repeat(Math.round(details.rating)) + '☆'.repeat(5 - Math.round(details.rating));
+                const reviewCount = details.user_ratings_total
+                  ? `(${details.user_ratings_total.toLocaleString()} reviews)`
+                  : '';
+                const photoCount = hasPhotos
+                  ? `· 📸 ${details.photos.length} photo${details.photos.length !== 1 ? 's' : ''}`
+                  : '';
+                metaHtml = `
+                  <div class="sheet-places-meta">
+                    <span class="sheet-places-rating">${details.rating.toFixed(1)} ${stars}</span>
+                    <span>${reviewCount} ${photoCount}</span>
+                  </div>`;
+              }
+
+              el2.innerHTML = photoHtml + metaHtml;
+            }
+          );
+        }
+      );
+    }
+
+    /* ─────────────────────────────────────────
+       Close sheet
+    ───────────────────────────────────────── */
     function closeSheet() {
       document.getElementById('mapSheet').classList.remove('open');
       document.getElementById('sheetBackdrop').classList.remove('open');
@@ -610,36 +1376,391 @@
 
     document.getElementById('sheetBackdrop').addEventListener('click', closeSheet);
 
-    /* ── Search ── */
-    document.getElementById('searchInput').addEventListener('input', function () {
-      const q = this.value.trim().toLowerCase();
-      const noResults = document.getElementById('mapNoResults');
-      const count = document.getElementById('mapCount');
+    /* ─────────────────────────────────────────
+       Unified search — Flash + BTCMap + Places (ENG-193)
+    ───────────────────────────────────────── */
 
-      if (!q) {
-        renderMarkers(allFlashpoints);
-        noResults.classList.remove('visible');
+    // Lazy-init Google Places AutocompleteService
+    let _autocompleteService = null;
+    function getAutocompleteService() {
+      if (!_autocompleteService) {
+        _autocompleteService = new google.maps.places.AutocompleteService();
+      }
+      return _autocompleteService;
+    }
+
+    // In-flight search state
+    let _searchResults = { flash: [], btc: [], places: [] };
+    let _btcSearchTimer = null;
+    let _searchVersion = 0; // increment to cancel stale results
+
+    const searchInput  = document.getElementById('searchInput');
+    const searchClear  = document.getElementById('searchClear');
+    const searchDropdown = document.getElementById('searchDropdown');
+
+    searchInput.addEventListener('input', function () {
+      const q = this.value.trim();
+      searchClear.classList.toggle('visible', q.length > 0);
+
+      if (q.length < 2) {
+        closeSearchDropdown();
         return;
       }
 
-      const filtered = allFlashpoints.filter(fp =>
-        fp.mapInfo.title.toLowerCase().includes(q) ||
-        fp.username.toLowerCase().includes(q)
+      const version = ++_searchVersion;
+
+      // ── Flash: instant client-side filter ──
+      _searchResults.flash = allFlashpoints
+        .filter(fp =>
+          fp.mapInfo.title.toLowerCase().includes(q.toLowerCase()) ||
+          fp.username.toLowerCase().includes(q.toLowerCase())
+        )
+        .slice(0, 3);
+      _searchResults.btc = [];
+      _searchResults.places = [];
+      renderSearchDropdown();
+
+      if (q.length < 3) return; // BTCMap + Places need ≥3 chars
+
+      // ── BTCMap: debounced API search ──
+      if (_btcSearchTimer) clearTimeout(_btcSearchTimer);
+      _btcSearchTimer = setTimeout(async () => {
+        try {
+          const url = `${BTCMAP_API}?name=${encodeURIComponent(q)}&fields=${BTCMAP_FIELDS}`;
+          const res = await fetch(url);
+          if (!res.ok || _searchVersion !== version) return;
+          const places = await res.json();
+          _searchResults.btc = (places || []).slice(0, 3);
+          if (_searchVersion === version) renderSearchDropdown();
+        } catch (_) {}
+      }, 320);
+
+      // ── Google Places autocomplete ──
+      getAutocompleteService().getPlacePredictions(
+        {
+          input: q,
+          // Bias toward Caribbean (1000km around Jamaica)
+          locationBias: new google.maps.Circle({
+            center: { lat: CARIB_LAT, lng: CARIB_LON },
+            radius: 1_000_000
+          }),
+          types: ['establishment', 'geocode']
+        },
+        (predictions, status) => {
+          if (_searchVersion !== version) return;
+          _searchResults.places = (status === google.maps.places.PlacesServiceStatus.OK && predictions)
+            ? predictions.slice(0, 3)
+            : [];
+          renderSearchDropdown();
+        }
       );
-
-      renderMarkers(filtered);
-
-      if (filtered.length === 0) {
-        noResults.classList.add('visible');
-        count.classList.add('hidden');
-      } else {
-        noResults.classList.remove('visible');
-      }
     });
 
-    /* ── Util ── */
+    searchInput.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') clearSearch();
+    });
+
+    searchClear.addEventListener('click', clearSearch);
+
+    // Close dropdown on outside click
+    document.addEventListener('click', function (e) {
+      if (!e.target.closest('.map-search-wrap')) closeSearchDropdown();
+    });
+
+    function clearSearch() {
+      searchInput.value = '';
+      searchClear.classList.remove('visible');
+      closeSearchDropdown();
+      // Restore markers respecting current filter state
+      renderFlashMarkers(allFlashpoints);
+      syncBTCMapMarkers(); // reads filters internally
+      document.getElementById('mapNoResults').classList.remove('visible');
+    }
+
+    function closeSearchDropdown() {
+      searchDropdown.classList.remove('open');
+    }
+
+    /* Build and inject the dropdown HTML */
+    function renderSearchDropdown() {
+      const { flash, btc, places } = _searchResults;
+
+      if (!flash.length && !btc.length && !places.length) {
+        searchDropdown.innerHTML = '<div class="search-empty">No results found</div>';
+        searchDropdown.classList.add('open');
+        return;
+      }
+
+      let html = '';
+
+      if (flash.length) {
+        html += '<div class="search-group-header">⚡ Flash Merchants</div>';
+        flash.forEach((fp, i) => {
+          html += `
+            <div class="search-item" role="option" data-type="flash" data-idx="${i}" tabindex="0">
+              <span class="search-item-icon">⚡</span>
+              <div class="search-item-text">
+                <div class="search-item-name">${escHtml(fp.mapInfo.title)}</div>
+                <div class="search-item-sub">@${escHtml(fp.username)}</div>
+              </div>
+            </div>`;
+        });
+      }
+
+      if (flash.length && (btc.length || places.length)) {
+        html += '<div class="search-divider"></div>';
+      }
+
+      if (btc.length) {
+        html += '<div class="search-group-header">₿ Bitcoin Merchants</div>';
+        btc.forEach((place, i) => {
+          html += `
+            <div class="search-item" role="option" data-type="btc" data-idx="${i}" tabindex="0">
+              <span class="search-item-icon">${categoryIcon(place.icon)}</span>
+              <div class="search-item-text">
+                <div class="search-item-name">${escHtml(place.name)}</div>
+                <div class="search-item-sub">${escHtml(place.address || '')}</div>
+              </div>
+            </div>`;
+        });
+      }
+
+      if (btc.length && places.length) {
+        html += '<div class="search-divider"></div>';
+      }
+
+      if (places.length) {
+        html += '<div class="search-group-header">📍 Places</div>';
+        places.forEach((p, i) => {
+          const main = p.structured_formatting ? p.structured_formatting.main_text : p.description;
+          const sub  = p.structured_formatting ? p.structured_formatting.secondary_text : '';
+          html += `
+            <div class="search-item" role="option" data-type="place" data-idx="${i}" tabindex="0">
+              <span class="search-item-icon">📍</span>
+              <div class="search-item-text">
+                <div class="search-item-name">${escHtml(main)}</div>
+                <div class="search-item-sub">${escHtml(sub)}</div>
+              </div>
+            </div>`;
+        });
+      }
+
+      searchDropdown.innerHTML = html;
+      searchDropdown.classList.add('open');
+
+      // Wire up item clicks (event delegation)
+      searchDropdown.querySelectorAll('.search-item').forEach(item => {
+        const activate = () => {
+          const type = item.dataset.type;
+          const idx  = parseInt(item.dataset.idx);
+          if (type === 'flash') selectFlashResult(_searchResults.flash[idx]);
+          if (type === 'btc')   selectBTCMapResult(_searchResults.btc[idx]);
+          if (type === 'place') selectPlacesResult(_searchResults.places[idx]);
+        };
+        item.addEventListener('click', activate);
+        item.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') activate(); });
+      });
+    }
+
+    /* ── Result selection handlers ── */
+
+    function selectFlashResult(fp) {
+      closeSearchDropdown();
+      const lat = parseFloat(fp.mapInfo.coordinates.latitude);
+      const lng = parseFloat(fp.mapInfo.coordinates.longitude);
+      map.setCenter({ lat, lng });
+      map.setZoom(16);
+      // Find matching Flash marker and open sheet
+      const marker = flashMarkers.find(m =>
+        Math.abs(m.position.lat - lat) < 0.0002 &&
+        Math.abs(m.position.lng - lng) < 0.0002
+      );
+      if (marker) openFlashSheet(fp, marker);
+    }
+
+    async function selectBTCMapResult(place) {
+      closeSearchDropdown();
+      // Add to cache so syncBTCMapMarkers creates a marker
+      if (!btcMapCache.has(place.id)) {
+        btcMapCache.set(place.id, place);
+        updateLocationCount();
+      }
+      map.setCenter({ lat: place.lat, lng: place.lon });
+      map.setZoom(16);
+      await syncBTCMapMarkers();
+      const marker = btcMapMarkerMap.get(place.id);
+      // marker will exist since zoom 16 >= BTCMAP_MIN_ZOOM
+      if (marker) openBTCMapSheet(place, marker);
+    }
+
+    function selectPlacesResult(prediction) {
+      closeSearchDropdown();
+      getPlacesService().getDetails(
+        { placeId: prediction.place_id, fields: ['geometry'] },
+        (result, status) => {
+          if (status !== google.maps.places.PlacesServiceStatus.OK || !result.geometry) return;
+          if (result.geometry.viewport) {
+            map.fitBounds(result.geometry.viewport);
+          } else {
+            map.setCenter(result.geometry.location);
+            map.setZoom(15);
+          }
+        }
+      );
+    }
+
+    /* ─────────────────────────────────────────
+       Filter state + logic (ENG-194)
+    ───────────────────────────────────────── */
+
+    const filters = {
+      flash:   true,   // show Flash merchants
+      btc:     true,   // show BTCMap merchants
+      openNow: false,  // only show currently-open merchants (BTCMap)
+      cat:     ''      // '' = all categories, or key from CAT_GROUPS
+    };
+
+    /**
+     * Category key → array of BTCMap icon values that belong to that group.
+     * Keeps filter logic decoupled from CATEGORY_ICONS display map.
+     */
+    const CAT_GROUPS = {
+      restaurant: ['restaurant', 'lunch_dining', 'food', 'fast_food'],
+      cafe:       ['local_cafe', 'cafe', 'coffee'],
+      hotel:      ['hotel', 'lodging', 'bed', 'accommodation'],
+      atm:        ['local_atm', 'atm'],
+      bar:        ['local_bar', 'bar', 'nightlife', 'pub'],
+      shop:       ['shopping_cart', 'store', 'shop', 'mall', 'shopping'],
+      service:    ['local_florist', 'spa', 'service', 'beauty', 'local_gas_station', 'gas_station', 'local_hospital', 'hospital', 'local_pharmacy', 'pharmacy'],
+    };
+
+    function placeMatchesCat(place, cat) {
+      if (!cat) return true; // "All" selected — show everything
+      const group = CAT_GROUPS[cat] || [];
+      if (!place.icon) return cat === ''; // no icon → only shown under "All"
+      return group.some(g => place.icon === g || place.icon.startsWith(g));
+    }
+
+    /**
+     * Naive OSM opening_hours parser.
+     * Handles: "24/7", "Mo-Fr 08:00-17:00", "Mo,We,Fr 09:00-18:00", semicolon-separated rules.
+     * On parse failure: returns true (show merchant, don't incorrectly hide).
+     */
+    function isOpenNow(openingHours) {
+      if (!openingHours) return false;
+      const h = openingHours.trim();
+      if (h === '24/7') return true;
+
+      const now = new Date();
+      const dayIdx = now.getDay(); // 0=Sun … 6=Sat
+      const nowMins = now.getHours() * 60 + now.getMinutes();
+
+      const DAY = { Mo: 1, Tu: 2, We: 3, Th: 4, Fr: 5, Sa: 6, Su: 0 };
+
+      // Split on semicolons → evaluate each rule independently
+      const rules = h.split(';').map(r => r.trim()).filter(Boolean);
+      for (const rule of rules) {
+        const m = rule.match(/^([\w,\-]+)\s+(\d{1,2}):(\d{2})-(\d{1,2}):(\d{2})$/);
+        if (!m) continue; // skip rules we can't parse (e.g. "PH off")
+
+        const daySpec = m[1];
+        const openMins  = parseInt(m[2]) * 60 + parseInt(m[3]);
+        const closeMins = parseInt(m[4]) * 60 + parseInt(m[5]);
+
+        if (nowMins < openMins || nowMins > closeMins) continue; // outside hours
+
+        // Check if today is covered by this rule's day spec
+        let dayMatch = false;
+        if (daySpec.includes('-')) {
+          // Range: "Mo-Fr"
+          const [s, e] = daySpec.split('-');
+          const si = DAY[s], ei = DAY[e];
+          if (si !== undefined && ei !== undefined) {
+            dayMatch = si <= ei
+              ? dayIdx >= si && dayIdx <= ei
+              : dayIdx >= si || dayIdx <= ei; // wraps weekend (e.g. Sa-Mo)
+          }
+        } else {
+          // List: "Mo,We,Fr"
+          dayMatch = daySpec.split(',').some(d => DAY[d.trim()] === dayIdx);
+        }
+        if (dayMatch) return true;
+      }
+      return false;
+    }
+
+    /**
+     * Apply all active filters to visible markers.
+     * Flash markers: toggled by filters.flash only.
+     * BTCMap markers: filtered by flash.btc + cat + openNow + zoom/bounds (via syncBTCMapMarkers).
+     */
+    function applyFilters() {
+      // Flash markers
+      flashMarkers.forEach(m => { m.map = filters.flash ? map : null; });
+
+      // BTCMap markers (syncBTCMapMarkers reads filter state)
+      syncBTCMapMarkers();
+
+      // Chip visual state
+      updateFilterChipStyles();
+      updateLocationCount();
+    }
+
+    /** Sync chip active/aria-pressed state and dimmed state */
+    function updateFilterChipStyles() {
+      // Source chips
+      document.getElementById('chipFlash').classList.toggle('active', filters.flash);
+      document.getElementById('chipFlash').setAttribute('aria-pressed', String(filters.flash));
+      document.getElementById('chipBTC').classList.toggle('active', filters.btc);
+      document.getElementById('chipBTC').setAttribute('aria-pressed', String(filters.btc));
+
+      // Open Now chip
+      document.getElementById('chipOpenNow').classList.toggle('active', filters.openNow);
+      document.getElementById('chipOpenNow').setAttribute('aria-pressed', String(filters.openNow));
+
+      // Category chips — active = matches current cat, dimmed if BTC layer is off
+      document.querySelectorAll('.filter-chip.cat').forEach(chip => {
+        const isCurrent = chip.dataset.cat === filters.cat;
+        chip.classList.toggle('active', isCurrent);
+        chip.setAttribute('aria-pressed', String(isCurrent));
+        chip.classList.toggle('dimmed', !filters.btc);
+      });
+    }
+
+    /* ── Wire up filter chip clicks ── */
+
+    document.getElementById('chipFlash').addEventListener('click', () => {
+      filters.flash = !filters.flash;
+      applyFilters();
+    });
+
+    document.getElementById('chipBTC').addEventListener('click', () => {
+      filters.btc = !filters.btc;
+      applyFilters();
+    });
+
+    document.getElementById('chipOpenNow').addEventListener('click', () => {
+      filters.openNow = !filters.openNow;
+      applyFilters();
+    });
+
+    document.querySelectorAll('.filter-chip.cat').forEach(chip => {
+      chip.addEventListener('click', () => {
+        filters.cat = chip.dataset.cat; // '' = All, or named category
+        applyFilters();
+      });
+    });
+
+    /* ─────────────────────────────────────────
+       Util
+    ───────────────────────────────────────── */
     function escHtml(str) {
-      return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
     }
   </script>
 </body>
