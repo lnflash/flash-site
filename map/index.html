@@ -540,11 +540,12 @@
     /* Photo strip */
     .sheet-places-photo {
       display: block;
-      width: 100%;
-      height: auto;        /* natural aspect ratio — no cropping */
+      width: auto;         /* natural width — no stretch */
+      max-width: 100%;     /* don't overflow card */
+      height: auto;        /* natural aspect ratio */
       max-height: 280px;   /* cap very tall portraits */
       border-radius: 10px;
-      margin-bottom: 8px;
+      margin: 0 auto 8px;  /* center horizontally */
       background: #f3f4f6;
     }
 
