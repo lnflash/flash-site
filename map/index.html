@@ -1331,7 +1331,7 @@
               // Build photo element
               let photoHtml = '';
               if (hasPhotos) {
-                const photoUrl = details.photos[0].getUrl({ maxWidth: 480, maxHeight: 200 });
+                const photoUrl = details.photos[0].getUrl({ maxWidth: 800, maxHeight: 400 });
                 photoHtml = `<img src="${photoUrl}" alt="Photo of ${escHtml(place.name)}" class="sheet-places-photo" loading="lazy">`;
               }
 
