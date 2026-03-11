@@ -435,6 +435,49 @@
       animation: pulse 1.4s ease infinite;
     }
 
+    /* ── Google Places enrichment (BTCMap info cards) ── */
+    .sheet-places-enrichment {
+      margin-bottom: 14px;
+    }
+
+    /* Shimmer loading state */
+    @keyframes shimmer {
+      0%   { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+    .sheet-places-shimmer {
+      height: 13px;
+      width: 160px;
+      background: linear-gradient(90deg, #f0f0f0 25%, #e4e4e4 50%, #f0f0f0 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.6s ease-in-out infinite;
+      border-radius: 4px;
+    }
+
+    /* Photo strip */
+    .sheet-places-photo {
+      width: 100%;
+      height: 136px;
+      object-fit: cover;
+      border-radius: 10px;
+      margin-bottom: 8px;
+      display: block;
+      background: #f3f4f6; /* placeholder while loading */
+    }
+
+    /* Rating + review count */
+    .sheet-places-meta {
+      font-size: 12px;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .sheet-places-rating {
+      color: #D97706;
+      font-weight: 600;
+    }
+
     /* Google Maps UI overrides */
     .gm-style .gm-style-iw-c { display: none !important; }
     .gm-style .gm-style-iw-tc { display: none !important; }
@@ -972,11 +1015,16 @@
         rows.push(`<div class="sheet-detail-row"><span class="sheet-icon">🌐</span><a href="${escHtml(place.website)}" target="_blank" rel="noopener noreferrer">${escHtml(domain)}</a></div>`);
       }
 
+      const enrichmentId = `places-enrich-${place.id.replace(/[^a-z0-9]/gi, '')}`;
+
       document.getElementById('sheetBody').innerHTML = `
         <div class="sheet-merchant-name">${escHtml(place.name)}</div>
         ${verifiedHtml || boostedHtml ? `<div class="sheet-meta-row">${verifiedHtml}${boostedHtml}</div>` : ''}
         <div class="sheet-btcmap-badge">₿ Bitcoin Merchant</div>
         ${rows.join('')}
+        <div class="sheet-places-enrichment" id="${enrichmentId}">
+          <div class="sheet-places-shimmer"></div>
+        </div>
         <div class="sheet-actions">
           <a href="${mapsUrl}" target="_blank" rel="noopener noreferrer" class="sheet-btn sheet-btn-primary">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
@@ -995,8 +1043,104 @@
         </div>
       `;
 
+      // Async-inject Google Places enrichment
+      enrichWithGooglePlaces(place, enrichmentId);
+
       document.getElementById('mapSheet').classList.add('open');
       document.getElementById('sheetBackdrop').classList.add('open');
+    }
+
+    /* ─────────────────────────────────────────
+       Google Places enrichment (ENG-192)
+    ───────────────────────────────────────── */
+    let _placesService = null;
+
+    function getPlacesService() {
+      if (!_placesService) {
+        _placesService = new google.maps.places.PlacesService(map);
+      }
+      return _placesService;
+    }
+
+    /**
+     * Async-inject Google Places photo + rating into a BTCMap info card.
+     * The enrichment section (#enrichmentId) shows a shimmer while loading,
+     * then is replaced with photo/rating, or removed silently if no match.
+     */
+    function enrichWithGooglePlaces(place, enrichmentId) {
+      const svc = getPlacesService();
+
+      // Build search query: name + address if available
+      const query = place.address
+        ? `${place.name} ${place.address}`
+        : place.name;
+
+      // Tight location bias — 1km bounding box around the merchant
+      const delta = 0.009; // ~1km
+      const locationBias = new google.maps.LatLngBounds(
+        { lat: place.lat - delta, lng: place.lon - delta },
+        { lat: place.lat + delta, lng: place.lon + delta }
+      );
+
+      svc.findPlaceFromQuery(
+        { query, fields: ['place_id'], locationBias },
+        (results, status) => {
+          const el = document.getElementById(enrichmentId);
+          if (!el) return; // sheet already closed
+
+          if (status !== google.maps.places.PlacesServiceStatus.OK || !results || !results.length) {
+            el.remove();
+            return;
+          }
+
+          svc.getDetails(
+            { placeId: results[0].place_id, fields: ['rating', 'user_ratings_total', 'photos'] },
+            (details, detailStatus) => {
+              const el2 = document.getElementById(enrichmentId);
+              if (!el2) return; // sheet closed during async fetch
+
+              if (detailStatus !== google.maps.places.PlacesServiceStatus.OK || !details) {
+                el2.remove();
+                return;
+              }
+
+              const hasRating = typeof details.rating === 'number';
+              const hasPhotos = details.photos && details.photos.length > 0;
+
+              if (!hasRating && !hasPhotos) {
+                el2.remove();
+                return;
+              }
+
+              // Build photo element
+              let photoHtml = '';
+              if (hasPhotos) {
+                const photoUrl = details.photos[0].getUrl({ maxWidth: 480, maxHeight: 200 });
+                photoHtml = `<img src="${photoUrl}" alt="Photo of ${escHtml(place.name)}" class="sheet-places-photo" loading="lazy">`;
+              }
+
+              // Build rating line
+              let metaHtml = '';
+              if (hasRating) {
+                const stars = '★'.repeat(Math.round(details.rating)) + '☆'.repeat(5 - Math.round(details.rating));
+                const reviewCount = details.user_ratings_total
+                  ? `(${details.user_ratings_total.toLocaleString()} reviews)`
+                  : '';
+                const photoCount = hasPhotos
+                  ? `· 📸 ${details.photos.length} photo${details.photos.length !== 1 ? 's' : ''}`
+                  : '';
+                metaHtml = `
+                  <div class="sheet-places-meta">
+                    <span class="sheet-places-rating">${details.rating.toFixed(1)} ${stars}</span>
+                    <span>${reviewCount} ${photoCount}</span>
+                  </div>`;
+              }
+
+              el2.innerHTML = photoHtml + metaHtml;
+            }
+          );
+        }
+      );
     }
 
     /* ─────────────────────────────────────────
