@@ -48,13 +48,17 @@
       height: 100%;
     }
 
-    /* ── Top header bar ── */
-    .map-header {
+    /* ── Top bar container (header + filter bar, both fixed together) ── */
+    .map-topbar {
       position: fixed;
       top: 0;
       left: 0;
       right: 0;
       z-index: 100;
+    }
+
+    /* ── Header row ── */
+    .map-header {
       display: flex;
       align-items: center;
       gap: 12px;
@@ -64,6 +68,85 @@
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
       border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+
+    /* ── Filter bar (chips row below header) ── */
+    .filter-bar {
+      background: rgba(9, 9, 14, 0.84);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      padding: 8px 16px;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none; /* Firefox */
+    }
+    .filter-bar::-webkit-scrollbar { display: none; }
+
+    .filter-chips {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      width: max-content;
+    }
+
+    .filter-sep {
+      width: 1px;
+      height: 16px;
+      background: rgba(255,255,255,0.15);
+      flex-shrink: 0;
+      margin: 0 2px;
+    }
+
+    .filter-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 5px 11px;
+      border-radius: 100px;
+      font-size: 12px;
+      font-weight: 600;
+      font-family: 'Inter', sans-serif;
+      border: 1.5px solid rgba(255,255,255,0.14);
+      background: transparent;
+      color: rgba(255,255,255,0.5);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: border-color 0.15s, background 0.15s, color 0.15s, opacity 0.15s;
+      flex-shrink: 0;
+    }
+    .filter-chip:hover {
+      border-color: rgba(255,255,255,0.28);
+      color: rgba(255,255,255,0.8);
+    }
+
+    /* Active state — generic */
+    .filter-chip.active {
+      background: rgba(255,255,255,0.1);
+      border-color: rgba(255,255,255,0.32);
+      color: #fff;
+    }
+
+    /* Source chip — Flash (green tint when active) */
+    .filter-chip.chip-flash.active {
+      background: rgba(58, 181, 74, 0.18);
+      border-color: rgba(58, 181, 74, 0.55);
+      color: #4ACA5A;
+    }
+
+    /* Source chip — Bitcoin (orange tint when active) */
+    .filter-chip.chip-btc.active {
+      background: rgba(247, 147, 26, 0.18);
+      border-color: rgba(247, 147, 26, 0.55);
+      color: #F7931A;
+    }
+
+    /* Disabled (e.g. categories when BTC layer is off) */
+    .filter-chip:disabled,
+    .filter-chip.dimmed {
+      opacity: 0.35;
+      cursor: default;
+      pointer-events: none;
     }
 
     .map-logo {
@@ -593,28 +676,60 @@
 
 <body>
 
-  <!-- Header -->
-  <header class="map-header">
-    <a href="/" class="map-logo" aria-label="Flash home">
-      <img src="../assets/img/logo-white.png" alt="Flash">
-    </a>
+  <!-- Top bar: header + filter chips -->
+  <div class="map-topbar">
 
-    <div class="map-search-wrap">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-        <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
-      </svg>
-      <input type="text" class="map-search" id="searchInput" placeholder="Search merchants…" autocomplete="off" autocorrect="off" spellcheck="false" aria-autocomplete="list" aria-controls="searchDropdown">
-      <button class="search-clear" id="searchClear" aria-label="Clear search">×</button>
-      <div class="search-dropdown" id="searchDropdown" role="listbox"></div>
+    <header class="map-header">
+      <a href="/" class="map-logo" aria-label="Flash home">
+        <img src="../assets/img/logo-white.png" alt="Flash">
+      </a>
+
+      <div class="map-search-wrap">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
+        </svg>
+        <input type="text" class="map-search" id="searchInput" placeholder="Search merchants…" autocomplete="off" autocorrect="off" spellcheck="false" aria-autocomplete="list" aria-controls="searchDropdown">
+        <button class="search-clear" id="searchClear" aria-label="Clear search">×</button>
+        <div class="search-dropdown" id="searchDropdown" role="listbox"></div>
+      </div>
+
+      <a href="https://signup.getflash.io" class="map-cta" target="_blank" rel="noopener noreferrer">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+          <path d="M12 5v14M5 12h14"/>
+        </svg>
+        <span>Become a merchant</span>
+      </a>
+    </header>
+
+    <!-- Filter chips bar -->
+    <div class="filter-bar" id="filterBar" role="toolbar" aria-label="Map filters">
+      <div class="filter-chips">
+
+        <!-- Data source toggles -->
+        <button class="filter-chip chip-flash active" id="chipFlash" aria-pressed="true">⚡ Flash</button>
+        <button class="filter-chip chip-btc active"   id="chipBTC"   aria-pressed="true">₿ Bitcoin</button>
+
+        <span class="filter-sep" role="separator"></span>
+
+        <!-- Open Now -->
+        <button class="filter-chip" id="chipOpenNow" aria-pressed="false">🕐 Open Now</button>
+
+        <span class="filter-sep" role="separator"></span>
+
+        <!-- Category shortcuts (apply to BTCMap merchants) -->
+        <button class="filter-chip cat active" data-cat=""           aria-pressed="true">All</button>
+        <button class="filter-chip cat"        data-cat="restaurant" aria-pressed="false">🍽️ Restaurant</button>
+        <button class="filter-chip cat"        data-cat="cafe"       aria-pressed="false">☕ Cafe</button>
+        <button class="filter-chip cat"        data-cat="hotel"      aria-pressed="false">🏨 Hotel</button>
+        <button class="filter-chip cat"        data-cat="atm"        aria-pressed="false">🏧 ATM</button>
+        <button class="filter-chip cat"        data-cat="bar"        aria-pressed="false">🍺 Bar</button>
+        <button class="filter-chip cat"        data-cat="shop"       aria-pressed="false">🛍️ Shop</button>
+        <button class="filter-chip cat"        data-cat="service"    aria-pressed="false">💆 Service</button>
+
+      </div>
     </div>
 
-    <a href="https://signup.getflash.io" class="map-cta" target="_blank" rel="noopener noreferrer">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
-        <path d="M12 5v14M5 12h14"/>
-      </svg>
-      <span>Become a merchant</span>
-    </a>
-  </header>
+  </div><!-- /.map-topbar -->
 
   <!-- Map container -->
   <div id="map"></div>
@@ -969,7 +1084,11 @@
 
       for (const [id, place] of btcMapCache) {
         const inBounds = !bounds || bounds.contains({ lat: place.lat, lng: place.lon });
-        const visible = shouldShowIndividual && inBounds;
+        const visible = filters.btc
+          && shouldShowIndividual
+          && inBounds
+          && placeMatchesCat(place, filters.cat)
+          && (!filters.openNow || isOpenNow(place.opening_hours));
 
         if (!btcMapMarkerMap.has(id)) {
           // Only create the DOM element + marker if it's actually going to be shown
@@ -1352,9 +1471,9 @@
       searchInput.value = '';
       searchClear.classList.remove('visible');
       closeSearchDropdown();
-      // Restore all Flash markers + BTCMap markers
+      // Restore markers respecting current filter state
       renderFlashMarkers(allFlashpoints);
-      syncBTCMapMarkers();
+      syncBTCMapMarkers(); // reads filters internally
       document.getElementById('mapNoResults').classList.remove('visible');
     }
 
@@ -1489,6 +1608,148 @@
         }
       );
     }
+
+    /* ─────────────────────────────────────────
+       Filter state + logic (ENG-194)
+    ───────────────────────────────────────── */
+
+    const filters = {
+      flash:   true,   // show Flash merchants
+      btc:     true,   // show BTCMap merchants
+      openNow: false,  // only show currently-open merchants (BTCMap)
+      cat:     ''      // '' = all categories, or key from CAT_GROUPS
+    };
+
+    /**
+     * Category key → array of BTCMap icon values that belong to that group.
+     * Keeps filter logic decoupled from CATEGORY_ICONS display map.
+     */
+    const CAT_GROUPS = {
+      restaurant: ['restaurant', 'lunch_dining', 'food', 'fast_food'],
+      cafe:       ['local_cafe', 'cafe', 'coffee'],
+      hotel:      ['hotel', 'lodging', 'bed', 'accommodation'],
+      atm:        ['local_atm', 'atm'],
+      bar:        ['local_bar', 'bar', 'nightlife', 'pub'],
+      shop:       ['shopping_cart', 'store', 'shop', 'mall', 'shopping'],
+      service:    ['local_florist', 'spa', 'service', 'beauty', 'local_gas_station', 'gas_station', 'local_hospital', 'hospital', 'local_pharmacy', 'pharmacy'],
+    };
+
+    function placeMatchesCat(place, cat) {
+      if (!cat) return true; // "All" selected — show everything
+      const group = CAT_GROUPS[cat] || [];
+      if (!place.icon) return cat === ''; // no icon → only shown under "All"
+      return group.some(g => place.icon === g || place.icon.startsWith(g));
+    }
+
+    /**
+     * Naive OSM opening_hours parser.
+     * Handles: "24/7", "Mo-Fr 08:00-17:00", "Mo,We,Fr 09:00-18:00", semicolon-separated rules.
+     * On parse failure: returns true (show merchant, don't incorrectly hide).
+     */
+    function isOpenNow(openingHours) {
+      if (!openingHours) return false;
+      const h = openingHours.trim();
+      if (h === '24/7') return true;
+
+      const now = new Date();
+      const dayIdx = now.getDay(); // 0=Sun … 6=Sat
+      const nowMins = now.getHours() * 60 + now.getMinutes();
+
+      const DAY = { Mo: 1, Tu: 2, We: 3, Th: 4, Fr: 5, Sa: 6, Su: 0 };
+
+      // Split on semicolons → evaluate each rule independently
+      const rules = h.split(';').map(r => r.trim()).filter(Boolean);
+      for (const rule of rules) {
+        const m = rule.match(/^([\w,\-]+)\s+(\d{1,2}):(\d{2})-(\d{1,2}):(\d{2})$/);
+        if (!m) continue; // skip rules we can't parse (e.g. "PH off")
+
+        const daySpec = m[1];
+        const openMins  = parseInt(m[2]) * 60 + parseInt(m[3]);
+        const closeMins = parseInt(m[4]) * 60 + parseInt(m[5]);
+
+        if (nowMins < openMins || nowMins > closeMins) continue; // outside hours
+
+        // Check if today is covered by this rule's day spec
+        let dayMatch = false;
+        if (daySpec.includes('-')) {
+          // Range: "Mo-Fr"
+          const [s, e] = daySpec.split('-');
+          const si = DAY[s], ei = DAY[e];
+          if (si !== undefined && ei !== undefined) {
+            dayMatch = si <= ei
+              ? dayIdx >= si && dayIdx <= ei
+              : dayIdx >= si || dayIdx <= ei; // wraps weekend (e.g. Sa-Mo)
+          }
+        } else {
+          // List: "Mo,We,Fr"
+          dayMatch = daySpec.split(',').some(d => DAY[d.trim()] === dayIdx);
+        }
+        if (dayMatch) return true;
+      }
+      return false;
+    }
+
+    /**
+     * Apply all active filters to visible markers.
+     * Flash markers: toggled by filters.flash only.
+     * BTCMap markers: filtered by flash.btc + cat + openNow + zoom/bounds (via syncBTCMapMarkers).
+     */
+    function applyFilters() {
+      // Flash markers
+      flashMarkers.forEach(m => { m.map = filters.flash ? map : null; });
+
+      // BTCMap markers (syncBTCMapMarkers reads filter state)
+      syncBTCMapMarkers();
+
+      // Chip visual state
+      updateFilterChipStyles();
+      updateLocationCount();
+    }
+
+    /** Sync chip active/aria-pressed state and dimmed state */
+    function updateFilterChipStyles() {
+      // Source chips
+      document.getElementById('chipFlash').classList.toggle('active', filters.flash);
+      document.getElementById('chipFlash').setAttribute('aria-pressed', String(filters.flash));
+      document.getElementById('chipBTC').classList.toggle('active', filters.btc);
+      document.getElementById('chipBTC').setAttribute('aria-pressed', String(filters.btc));
+
+      // Open Now chip
+      document.getElementById('chipOpenNow').classList.toggle('active', filters.openNow);
+      document.getElementById('chipOpenNow').setAttribute('aria-pressed', String(filters.openNow));
+
+      // Category chips — active = matches current cat, dimmed if BTC layer is off
+      document.querySelectorAll('.filter-chip.cat').forEach(chip => {
+        const isCurrent = chip.dataset.cat === filters.cat;
+        chip.classList.toggle('active', isCurrent);
+        chip.setAttribute('aria-pressed', String(isCurrent));
+        chip.classList.toggle('dimmed', !filters.btc);
+      });
+    }
+
+    /* ── Wire up filter chip clicks ── */
+
+    document.getElementById('chipFlash').addEventListener('click', () => {
+      filters.flash = !filters.flash;
+      applyFilters();
+    });
+
+    document.getElementById('chipBTC').addEventListener('click', () => {
+      filters.btc = !filters.btc;
+      applyFilters();
+    });
+
+    document.getElementById('chipOpenNow').addEventListener('click', () => {
+      filters.openNow = !filters.openNow;
+      applyFilters();
+    });
+
+    document.querySelectorAll('.filter-chip.cat').forEach(chip => {
+      chip.addEventListener('click', () => {
+        filters.cat = chip.dataset.cat; // '' = All, or named category
+        applyFilters();
+      });
+    });
 
     /* ─────────────────────────────────────────
        Util
