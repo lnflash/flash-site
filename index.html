@@ -615,8 +615,23 @@
   <script src="js/modules/animations.js"></script>
   <script src="js/modules/btcTracker.js"></script>
 
-  <!-- Tidio chat -->
-  <script src="//code.tidio.co/0kbm4jqybxrrarlw7cjflhnb8fzv6lyt.js" async></script>
+  <!-- Chatwoot -->
+<script>
+  window.chatwootSettings = {"position":"right","type":"standard","launcherTitle":""};
+  (function(d,t) {
+    var BASE_URL="https://app.chatwoot.com/";
+    var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+    g.src=BASE_URL+"/packs/js/sdk.js";
+    g.async = true;
+    s.parentNode.insertBefore(g,s);
+    g.onload=function(){
+      window.chatwootSDK.run({
+        websiteToken: 'iXmsgU54be2SiQvgBg77bn9S',
+        baseUrl: BASE_URL
+      })
+    }
+  })(document,"script");
+</script>
 
   <!-- Treasure Hunt Easter Egg -->
   <script>
