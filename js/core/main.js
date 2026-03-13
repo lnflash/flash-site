@@ -842,3 +842,29 @@ window.onload = () => {
     state ? bubbleRun.restart() : bubbleRun.pause(0);
   }
 };
+/* ── WhatsApp support outage banner ── */
+(function () {
+  const BANNER_KEY  = 'flash_support_banner_dismissed';
+  const BANNER_EXP  = 48 * 60 * 60 * 1000; // 48 hours in ms
+  const banner      = document.getElementById('support-banner');
+  const closeBtn    = document.getElementById('support-banner-close');
+  if (!banner) return;
+
+  const dismissed = localStorage.getItem(BANNER_KEY);
+  const expired   = dismissed && (Date.now() - parseInt(dismissed, 10)) > BANNER_EXP;
+
+  if (!dismissed || expired) {
+    if (expired) localStorage.removeItem(BANNER_KEY);
+    banner.style.display = 'flex';
+    const h = banner.offsetHeight;
+    document.documentElement.style.setProperty('--banner-h', h + 'px');
+    document.body.classList.add('has-support-banner');
+  }
+
+  closeBtn && closeBtn.addEventListener('click', function () {
+    banner.style.display = 'none';
+    document.body.classList.remove('has-support-banner');
+    document.documentElement.style.removeProperty('--banner-h');
+    localStorage.setItem(BANNER_KEY, Date.now().toString());
+  });
+}());
