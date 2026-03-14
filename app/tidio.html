@@ -4,59 +4,45 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tidio Chat</title>
+    <title>Flash Support</title>
     <style>
         body {
             margin: 0;
-            padding: 0 0 0 0;
+            padding: 0;
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background: #f9fafb;
         }
-
-        .chat-container {
-            padding: 50px 0 0 0;
-            height: calc(100vh - 60px);
-            width: 100vw;
-            overflow: hidden;
-            margin-top: 60px;
-            padding-top: env(safe-area-inset-top);
+        .redirect-msg {
+            text-align: center;
+            padding: 2rem;
+        }
+        .redirect-msg p {
+            color: #6b7280;
+            margin-bottom: 1rem;
+        }
+        .redirect-msg a {
+            display: inline-block;
+            background: #25D366;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
         }
     </style>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-FH0PPEWMBP"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-FH0PPEWMBP');
-</script>
 </head>
 
 <body>
-    <div>
-        <div class="chat-container">
-            <!-- This spacer is to ensure the chat widget does not overlap with the top of the page -->
-            <div id="top-spacer" style="height: 20px;"></div>
-        </div>
-
-        <!-- Tidio will inject the chat widget here -->
+    <div class="redirect-msg">
+        <p>Redirecting to WhatsApp support...</p>
+        <a href="https://wa.flashapp.me">Open WhatsApp</a>
     </div>
-
-    <script src="//code.tidio.co/0kbm4jqybxrrarlw7cjflhnb8fzv6lyt.js" async></script>
-
     <script>
-        // Ensure Tidio loads and opens automatically
-        document.addEventListener('tidioChat-ready', function () {
-            if (window.tidioChatApi) {
-                window.tidioChatApi.open();
-            }
-        });
-
-        // Fallback to open chat after a delay
-        setTimeout(function () {
-            if (window.tidioChatApi) {
-                window.tidioChatApi.open();
-            }
-        }, 2000);
+        window.location.href = 'https://wa.flashapp.me';
     </script>
 </body>
 
