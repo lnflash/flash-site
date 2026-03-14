@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tidio Chat</title>
+    <title>Chat</title>
     <style>
         body {
             margin: 0;
@@ -34,27 +34,38 @@
 <body>
     <div>
         <div class="chat-container">
-            <!-- This spacer is to ensure the chat widget does not overlap with the top of the page -->
             <div id="top-spacer" style="height: 20px;"></div>
         </div>
-
-        <!-- Tidio will inject the chat widget here -->
     </div>
 
-    <script src="//code.tidio.co/0kbm4jqybxrrarlw7cjflhnb8fzv6lyt.js" async></script>
+    <!-- Chatwoot -->
+    <script>
+      window.chatwootSettings = {"position":"right","type":"standard","launcherTitle":""};
+      (function(d,t) {
+        var BASE_URL="https://app.chatwoot.com/";
+        var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+        g.src=BASE_URL+"/packs/js/sdk.js";
+        g.async = true;
+        s.parentNode.insertBefore(g,s);
+        g.onload=function(){
+          window.chatwootSDK.run({
+            websiteToken: 'iXmsgU54be2SiQvgBg77bn9S',
+            baseUrl: BASE_URL
+          })
+        }
+      })(document,"script");
+    </script>
 
     <script>
-        // Ensure Tidio loads and opens automatically
-        document.addEventListener('tidioChat-ready', function () {
-            if (window.tidioChatApi) {
-                window.tidioChatApi.open();
-            }
+        // Open chat automatically once Chatwoot is ready
+        window.addEventListener('chatwoot:ready', function () {
+            window.$chatwoot.toggle('open');
         });
 
-        // Fallback to open chat after a delay
+        // Fallback: open after a short delay
         setTimeout(function () {
-            if (window.tidioChatApi) {
-                window.tidioChatApi.open();
+            if (window.$chatwoot) {
+                window.$chatwoot.toggle('open');
             }
         }, 2000);
     </script>

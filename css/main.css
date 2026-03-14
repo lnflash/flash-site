@@ -258,6 +258,63 @@ button:focus-visible:not(.accordion-head, .nav-hamburger, .nav-close) {
   color: var(--flash-white);
 }
 
+/* ── Support outage banner ── */
+#support-banner {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1100; /* above header (999) */
+  background: #1a1a2e;
+  border-bottom: 2px solid var(--flash-green, #3AB54A);
+  color: #fff;
+  font-size: 0.875rem;
+  line-height: 1.4;
+  padding: 10px 48px 10px 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+#support-banner strong { color: #fff; }
+#support-banner a {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: #fff;
+  font-weight: 600;
+  background: rgba(58,181,74,0.18);
+  border: 1px solid rgba(58,181,74,0.45);
+  border-radius: 5px;
+  padding: 1px 9px 2px;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background 0.15s, border-color 0.15s;
+}
+#support-banner a:hover {
+  background: rgba(58,181,74,0.32);
+  border-color: rgba(58,181,74,0.75);
+}
+#support-banner-close {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: rgba(255,255,255,0.7);
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 4px 6px;
+  line-height: 1;
+  border-radius: 4px;
+  transition: color 0.15s, background 0.15s;
+}
+#support-banner-close:hover { color: #fff; background: rgba(255,255,255,0.1); }
+
+/* Push page down when banner is visible */
+body.has-support-banner header { top: var(--banner-h, 40px); }
+body.has-support-banner main  { padding-top: var(--banner-h, 40px); }
+
 /* Header */
 /* ── Header ── */
 header {

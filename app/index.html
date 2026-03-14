@@ -222,7 +222,7 @@
 
         <p class="alt-help">
           App not showing up? Reach us on
-          <a href="https://wa.me/18762909250" target="_blank" rel="noopener">WhatsApp</a>,
+          <a href="https://wa.flashapp.me" target="_blank" rel="noopener">WhatsApp</a>,
           <a href="https://discord.gg/AkPpxJzC2R" target="_blank" rel="noopener">Discord</a>, or
           <a href="mailto:support@getflash.io">Email</a> — we'll sort you out.
         </p>
@@ -277,7 +277,132 @@
   <script src="../js/modules/btcTracker.js"></script>
 
   <!-- Tidio Chat -->
-  <script src="//code.tidio.co/0kbm4jqybxrrarlw7cjflhnb8fzv6lyt.js" async></script>
+  <!-- Chatwoot -->
+<style>
+  /* Hide Chatwoot's default bubble — Flash custom launcher replaces it */
+  .woot--bubble-holder,
+  iframe[title="Chatwoot Widget Button"] { display: none !important; }
+
+  /* Flash chat launcher button */
+  #flash-chat-launcher {
+    position: fixed;
+    bottom: 24px; right: 24px;
+    width: 56px; height: 56px;
+    border-radius: 50%;
+    background: linear-gradient(145deg, #42c954 0%, #3AB54A 50%, #2d9c3c 100%);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow:
+      0 4px 20px rgba(58,181,74,0.50),
+      0 2px 8px rgba(0,0,0,0.35),
+      inset 0 1px 0 rgba(255,255,255,0.18);
+    transition: transform 180ms cubic-bezier(.34,1.56,.64,1), box-shadow 180ms ease;
+    z-index: 99997;
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  #flash-chat-launcher:hover {
+    transform: scale(1.1);
+    box-shadow:
+      0 8px 32px rgba(58,181,74,0.65),
+      0 3px 12px rgba(0,0,0,0.35),
+      inset 0 1px 0 rgba(255,255,255,0.18);
+  }
+  #flash-chat-launcher:active {
+    transform: scale(0.93);
+    transition-duration: 80ms;
+  }
+  #flash-chat-launcher svg { width: 26px; height: 26px; display: block; flex-shrink: 0; }
+
+  /* Unread message badge */
+  #flash-chat-badge {
+    position: absolute;
+    top: -3px; right: -3px;
+    background: #E53935;
+    color: #fff;
+    font-family: Inter, -apple-system, sans-serif;
+    font-size: 10px; font-weight: 700; line-height: 1;
+    min-width: 18px; height: 18px;
+    border-radius: 9px;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 0 4px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.35);
+    pointer-events: none;
+  }
+
+  /* Attention pulse — fires twice on first load */
+  @keyframes flash-chat-pulse {
+    0%   { box-shadow: 0 0 0 0 rgba(58,181,74,0.6), 0 4px 20px rgba(58,181,74,0.50), 0 2px 8px rgba(0,0,0,0.35); }
+    65%  { box-shadow: 0 0 0 16px rgba(58,181,74,0), 0 4px 20px rgba(58,181,74,0.50), 0 2px 8px rgba(0,0,0,0.35); }
+    100% { box-shadow: 0 0 0 0 rgba(58,181,74,0),  0 4px 20px rgba(58,181,74,0.50), 0 2px 8px rgba(0,0,0,0.35); }
+  }
+  #flash-chat-launcher.is-pulsing { animation: flash-chat-pulse 1.8s ease-out 2; }
+</style>
+
+<button id="flash-chat-launcher" aria-label="Chat with Flash support" title="Need help? Chat with us">
+  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" fill="white"/>
+  </svg>
+  <span id="flash-chat-badge" role="status" aria-live="polite" aria-atomic="true"></span>
+</button>
+
+<script>
+  window.chatwootSettings = {"position":"right","type":"standard","launcherTitle":""};
+  (function(d,t) {
+    var BASE_URL="https://app.chatwoot.com/";
+    var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+    g.src=BASE_URL+"/packs/js/sdk.js";
+    g.async = true;
+    s.parentNode.insertBefore(g,s);
+    g.onload=function(){
+      window.chatwootSDK.run({
+        websiteToken: 'iXmsgU54be2SiQvgBg77bn9S',
+        baseUrl: BASE_URL
+      })
+    }
+  })(document,"script");
+
+  (function() {
+    var btn   = document.getElementById('flash-chat-launcher');
+    var badge = document.getElementById('flash-chat-badge');
+
+    if (!btn) return;
+
+    // Toggle Chatwoot on click
+    btn.addEventListener('click', function() {
+      if (window.$chatwoot) {
+        window.$chatwoot.toggle();
+        // Clear badge when user opens chat
+        if (badge) { badge.style.display = 'none'; badge.textContent = ''; }
+      }
+    });
+
+    // Pulse once Chatwoot is ready (gentle attention-grab)
+    window.addEventListener('chatwoot:ready', function() {
+      setTimeout(function() { btn.classList.add('is-pulsing'); }, 1500);
+      setTimeout(function() { btn.classList.remove('is-pulsing'); }, 6000);
+    });
+
+    // Unread message count badge
+    window.addEventListener('chatwoot:on-unread-message-count-changed', function(e) {
+      if (!badge) return;
+      var count = (e.detail && e.detail.unreadMessageCount) || 0;
+      if (count > 0) {
+        badge.style.display = 'flex';
+        badge.textContent = count > 9 ? '9+' : String(count);
+      } else {
+        badge.style.display = 'none';
+        badge.textContent = '';
+      }
+    });
+  })();
+</script>
+
 </body>
 
 </html>
