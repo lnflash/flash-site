@@ -276,6 +276,24 @@ button:focus-visible:not(.accordion-head, .nav-hamburger, .nav-close) {
   gap: 8px;
 }
 #support-banner strong { color: #fff; }
+#support-banner a {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: #fff;
+  font-weight: 600;
+  background: rgba(58,181,74,0.18);
+  border: 1px solid rgba(58,181,74,0.45);
+  border-radius: 5px;
+  padding: 1px 9px 2px;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background 0.15s, border-color 0.15s;
+}
+#support-banner a:hover {
+  background: rgba(58,181,74,0.32);
+  border-color: rgba(58,181,74,0.75);
+}
 #support-banner-close {
   position: absolute;
   right: 12px;
