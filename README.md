@@ -249,7 +249,7 @@ section:not(.pg-download) > * + * { padding-top: 120px }  → global section spa
 ## Contact
 
 - Website: https://getflash.io
-- Support: support@getflash.io / WhatsApp +18762909250
+- Support: support@getflash.io / WhatsApp +18762536977
 - X: [@LNFlash](https://x.com/LNFlash)
 - GitHub: [lnflash](https://github.com/lnflash)
 - Nostr: `npub1l080awn9wsw87ywm3flmpmccf5rmlvhd7vfgspj2pnavxupnlfesmflash`
