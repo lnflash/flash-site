@@ -177,7 +177,7 @@ padding: 6px 12px;
 - **Fiat First** — always show JMD amounts before Bitcoin/sats.
 - **No "remittance"** — replaced sitewide with "send money home" / "transfer" / "family payment".
 - **No Western Union brand mentions** anywhere on the site.
-- **Merchant POS signup** always → `https://signup.getflash.io`
+- **Merchant signup** always → `https://signup.getflash.io` (static one-pager; in-app upgrade is the primary path)
 - **Fee accuracy:** Flash transfer fee = 0%; on-ramp = 1–3% (third-party); cash-out to Jamaican bank = 2% (Flash fee).
 
 ### Navigation
