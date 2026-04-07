@@ -777,11 +777,20 @@
             <div class="quick-links-section">
                 <h2 class="section-header">QUICK ACCESS</h2>
                 <div class="quick-links-grid">
-                    <a href="https://kotc.islandbitcoin.com/terminal/" class="quick-link" target="_blank">
+                    <!-- R6: In-app NIP-05 path is the primary route for hunters.
+                         Browser terminal is available as a fallback for non-mobile users. -->
+                    <div class="quick-link quick-link-primary" style="background: rgba(65,173,73,0.1); border: 1px solid #41AD49;">
+                        <div class="quick-link-icon">📱</div>
+                        <div class="quick-link-content">
+                            <h3>IN-APP TERMINAL</h3>
+                            <p>Primary route: open Flash and look up <strong>satoshin@getflash.io</strong> via NIP-05 to enter the terminal</p>
+                        </div>
+                    </div>
+                    <a href="https://kotc.islandbitcoin.com/terminal/" class="quick-link" target="_blank" style="opacity: 0.7;">
                         <div class="quick-link-icon">🖥️</div>
                         <div class="quick-link-content">
-                            <h3>KEY TERMINAL</h3>
-                            <p>Access the hacker terminal to solve puzzles</p>
+                            <h3>BROWSER TERMINAL</h3>
+                            <p>Fallback only — open the terminal in your browser if you can't access the app</p>
                         </div>
                     </a>
                     <a href="leaderboard.html" class="quick-link">
