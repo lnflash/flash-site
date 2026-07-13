@@ -1616,8 +1616,8 @@ footer {
   gap: var(--padding-gen);
 }
 .footer-links .logo {
-  max-width: 175px;
-  margin: 25px 30px 25px 0;
+  max-width: 160px;
+  margin: 16px 24px 16px 0;
 }
 
 /* Footer is always dark — always show white logo */
@@ -1698,7 +1698,8 @@ footer {
 }
 .legal div {
   display: flex;
-  gap: 15px;
+  flex-wrap: wrap;
+  gap: 10px 15px;
   margin-bottom: 8px;
 }
 .powered { display: none; } /* handled inline in footer HTML */
@@ -1729,7 +1730,7 @@ footer {
   color: var(--flash-black);
 }
 .footer-mid {
-  padding: 20px 0;
+  padding: 14px 0;
 }
 .footer-mid > .container {
   height: inherit;
@@ -1748,6 +1749,33 @@ footer {
   padding: 10px 0;
   margin-top: 4px;
   text-align: center;
+}
+
+/* ── Footer: compact + phone-responsive ── */
+@media (max-width: 640px) {
+  .footer-top > .container {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    text-align: center;
+    gap: 20px;
+  }
+  .footer-top .legal {
+    align-self: center;
+  }
+  .legal div {
+    justify-content: center;
+  }
+  .footer-utils > .container {
+    justify-content: center;
+  }
+  .footer-mid > .container {
+    flex-direction: column;
+    gap: 4px;
+    text-align: center;
+  }
+  .footer-btm p {
+    padding: 0 12px;
+  }
 }
 
 /* KOTC Easter Egg - Floating Bottom Right */
