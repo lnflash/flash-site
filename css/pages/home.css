@@ -1263,13 +1263,9 @@ body.home-page {
     font-size: 36px;
   }
 
-  /* Trust strip: 2-col grid at mobile — cleaner than flex-wrap */
+  /* Trust pills: one row only — hide rather than wrap on small screens */
   .hero-trust-strip {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px 12px;
-    margin-top: 20px;
-    margin-bottom: 8px;
+    display: none;
   }
 
   /* Stats row: tighter gap on mobile */
@@ -1350,7 +1346,7 @@ body.home-page {
 /* ── Hero trust strip ─────────────────────────────────────── */
 .hero-trust-strip {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   gap: 8px;
   margin-top: 20px;
   margin-bottom: 28px; /* was 4px — needs real separation from stats */
