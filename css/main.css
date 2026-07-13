@@ -1637,7 +1637,8 @@ footer {
   display: flex;
   align-items: center;
   gap: 8px;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
+  white-space: nowrap;
   margin: 0;
 }
 
@@ -1775,6 +1776,10 @@ footer {
   }
   .footer-btm p {
     padding: 0 12px;
+  }
+  /* Trust pills: one row only — hide rather than wrap on small screens */
+  .footer-trust {
+    display: none;
   }
 }
 
