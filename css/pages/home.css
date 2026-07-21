@@ -457,8 +457,10 @@ body.home-page {
 
 .ways-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 20px;
+  max-width: 760px;
+  margin: 0 auto;
 }
 
 .way-card {
@@ -1135,6 +1137,199 @@ body.home-page {
   width: fit-content;
 }
 
+/* ── ② US & EUR ACCOUNTS ────────────────────────────────────── */
+#pg-accounts {
+  background: var(--bg);
+}
+
+.accounts-inner {
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: 64px;
+  align-items: center;
+}
+
+.accounts-left .section-subtitle {
+  margin-bottom: 28px;
+}
+
+.accounts-features {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 0;
+  margin: 0;
+}
+
+.accounts-features li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--text-1);
+}
+
+.accounts-features li::before {
+  content: '✓';
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--green-dim);
+  color: var(--green);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+/* Dark account card — mirrors the dark code block in the API section */
+.account-card {
+  background: linear-gradient(160deg, #14151C 0%, #0D0E13 100%);
+  border: 1px solid #23252F;
+  border-radius: var(--radius-lg);
+  padding: 32px;
+  box-shadow: 0 24px 60px rgba(9, 9, 14, 0.18);
+}
+
+.account-card-label {
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #C47A00;
+  margin: 0 0 24px;
+}
+
+.account-field {
+  margin-bottom: 20px;
+}
+
+.account-field-key {
+  display: block;
+  font-size: 13px;
+  color: #9497B4;
+  margin-bottom: 6px;
+}
+
+.account-field-val {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: #F0F0F6;
+}
+
+.account-field-val.account-mono {
+  font-family: "JetBrains Mono", "Fira Code", "Courier New", monospace;
+  font-size: 24px;
+  letter-spacing: 0.08em;
+}
+
+.account-card-divider {
+  height: 1px;
+  background: #23252F;
+  margin: 24px 0 20px;
+}
+
+.account-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.account-eur {
+  font-size: 15px;
+  color: #9497B4;
+}
+
+.account-badge {
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 700;
+  color: #08320D;
+  background: var(--green);
+  padding: 5px 14px;
+  border-radius: 100px;
+}
+
+/* CTA band — brand green, dark store buttons */
+.accounts-cta {
+  margin-top: 72px;
+  text-align: center;
+  background: linear-gradient(135deg, #42c954 0%, #3AB54A 45%, #2d9c3c 100%);
+  border-radius: var(--radius-xl);
+  padding: 64px 32px;
+}
+
+.accounts-cta-title {
+  font-family: var(--font-display);
+  font-size: clamp(28px, 4vw, 42px);
+  font-weight: 800;
+  color: #fff;
+  margin: 0 0 12px;
+  line-height: 1.1;
+}
+
+.accounts-cta-sub {
+  font-size: 18px;
+  color: rgba(255, 255, 255, 0.9);
+  max-width: 520px;
+  margin: 0 auto 32px;
+  line-height: 1.6;
+}
+
+.accounts-cta-actions {
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* Scoped under .accounts-cta to beat `.home-page a { color: inherit }` */
+.accounts-cta .store-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: #0D0E13;
+  color: #fff;
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 700;
+  padding: 14px 26px;
+  border-radius: 100px;
+  text-decoration: none;
+  transition: transform 120ms ease, box-shadow 120ms ease;
+}
+
+.accounts-cta .store-btn svg {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
+.accounts-cta .store-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.25);
+}
+
+@media (max-width: 860px) {
+  .accounts-inner {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .accounts-cta {
+    padding: 48px 24px;
+    margin-top: 56px;
+  }
+}
+
 /* ── RESPONSIVE ─────────────────────────────────────────────── */
 @media (max-width: 960px) {
   :root {
@@ -1263,8 +1458,12 @@ body.home-page {
     font-size: 36px;
   }
 
-  /* Trust pills: one row only — hide rather than wrap on small screens */
-  .hero-trust-strip {
+  /* Trust pills: one row only — hide rather than wrap on small screens.
+     #pg-hero prefix raises specificity (1,1,0) so this beats the base
+     `.hero-trust-strip { display: flex }` rule, which is defined LATER in
+     this file and would otherwise win on source order — leaving the nowrap
+     pill row to force the hero column ~534px wide and clip on mobile. */
+  #pg-hero .hero-trust-strip {
     display: none;
   }
 
