@@ -535,8 +535,8 @@
                 </div>
 
                 <div class="actions">
-                    <button class="btn btn-primary" id="acceptBtn" onclick="acceptInvite()" disabled>Accept
-                        Invitation</button>
+                    <button class="btn btn-primary" id="acceptBtn" onclick="acceptInvite()" disabled>Accept &amp; Open
+                        in Flash</button>
                     <button class="btn btn-ghost" onclick="openInApp()">I already have the app</button>
                 </div>
 
@@ -578,7 +578,7 @@
             const device = detectDevice();
             const deepLink = `flash://invite?token=${encodeURIComponent(token)}`;
             const appStore = device === 'ios'
-                ? 'https://apps.apple.com/app/flash-bitcoin-wallet/id6450380718'
+                ? 'https://apps.apple.com/jm/app/flash-send-spend-and-save/id6451129095'
                 : 'https://play.google.com/store/apps/details?id=com.lnflash';
             window.location.href = deepLink;
             setTimeout(() => {
@@ -640,62 +640,20 @@
                 });
             } catch (e) { console.warn('Consent log failed (non-blocking):', e); }
 
-            try {
-                const resp = await fetch('https://api.flashapp.me/graphql', {
-                    method: 'POST', headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        query: `
-              mutation RedeemInvite($token: String!, $consent: InviteConsentInput) {
-                redeemInvite(input: { token: $token, consent: $consent }) {
-                  success
-                  errors
-                }
-              }
-            `,
-                        variables: {
-                            token,
-                            consent: {
-                                version: CONSENT_VERSION,
-                                transactionalOptIn: !!transactionalEl.checked,
-                                marketingOptIn: !!marketingEl.checked,
-                                timestamp: consentRecord.timestamp,
-                                sourceUrl: consentRecord.page,
-                                userAgent: consentRecord.userAgent
-                            }
-                        }
-                    })
-                });
-                const data = await resp.json();
-                if (data.errors || (data.data && !data.data.redeemInvite?.success)) {
-                    const msg = data.data?.redeemInvite?.errors?.[0] || 'Invalid or expired invitation';
-                    if (msg.toLowerCase().includes('already been used')) { openInApp(); return; }
-                    showError(msg);
-                    document.querySelector('.loading').style.display = 'none';
-                    return;
-                }
-            } catch (err) {
-                console.error('Redeem error:', err);
-                // continue; app can validate
-            }
-
+            // Redemption is NOT attempted from the web: the API's redeemInvite is
+            // authenticated and account-bound (one redemption per account, applied
+            // after signup inside the app). This page's job is to carry the token
+            // into the app — the app previews and redeems against its own
+            // environment's API, which also keeps this page env-agnostic
+            // (TEST-created invites land here too).
             document.querySelector('.loading').style.display = 'none';
 
             const device = detectDevice();
-            if (device === 'ios') {
-                window.location.href = `flash://invite?token=${encodeURIComponent(token)}`;
-                setTimeout(() => {
-                    if (document.visibilityState === 'visible') {
-                        window.location.href = 'https://apps.apple.com/app/flash-bitcoin-wallet/id6450380718';
-                    }
-                }, 2500);
-            } else if (device === 'android') {
-                window.location.href = `flash://invite?token=${encodeURIComponent(token)}`;
-                setTimeout(() => {
-                    if (document.visibilityState === 'visible') {
-                        window.location.href = 'https://play.google.com/store/apps/details?id=com.lnflash';
-                    }
-                }, 2500);
+            if (device === 'desktop') {
+                showError('Open this invitation link on your phone to continue — or install Flash from the store badges below.');
+                return;
             }
+            openInApp();
         }
 
         function showError(message) {
