@@ -1,4 +1,8 @@
 User-agent: *
 Allow: /
+Disallow: /components/
+Disallow: /faq.html
+Disallow: /app/tidio.html
+Disallow: /treasure-hunt-for-real-this-time-2140/admin.html
 
 Sitemap: https://getflash.io/sitemap.xml
