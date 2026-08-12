@@ -480,7 +480,7 @@
 
         .quick-links-grid {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
+            grid-template-columns: repeat(5, 1fr);
             gap: 15px;
         }
 
@@ -526,6 +526,26 @@
 
         .quick-link.logout h3 {
             color: #ff6b6b;
+        }
+
+        /* R6: primary in-app route — informational card, not a link.
+           Suppress the clickable hover affordance so it doesn't read as
+           a dead-end button. */
+        .quick-link.quick-link-primary {
+            background: rgba(65, 173, 73, 0.1);
+            border-color: #41AD49;
+            cursor: default;
+        }
+
+        .quick-link.quick-link-primary:hover {
+            transform: none;
+            background: rgba(65, 173, 73, 0.1);
+            border-color: #41AD49;
+        }
+
+        /* R6: browser terminal is a de-emphasized fallback route */
+        .quick-link.quick-link-fallback {
+            opacity: 0.7;
         }
 
         /* Responsive */
@@ -777,11 +797,20 @@
             <div class="quick-links-section">
                 <h2 class="section-header">QUICK ACCESS</h2>
                 <div class="quick-links-grid">
-                    <a href="https://kotc.islandbitcoin.com/terminal/" class="quick-link" target="_blank">
+                    <!-- R6: In-app NIP-05 path is the primary route for hunters.
+                         Browser terminal is available as a fallback for non-mobile users. -->
+                    <div class="quick-link quick-link-primary">
+                        <div class="quick-link-icon">📱</div>
+                        <div class="quick-link-content">
+                            <h3>IN-APP TERMINAL</h3>
+                            <p>Primary route: open Flash and look up the Key Terminal's flash identity via NIP-05 — the signal in your console holds the name</p>
+                        </div>
+                    </div>
+                    <a href="https://kotc.islandbitcoin.com/terminal/" class="quick-link quick-link-fallback" target="_blank">
                         <div class="quick-link-icon">🖥️</div>
                         <div class="quick-link-content">
-                            <h3>KEY TERMINAL</h3>
-                            <p>Access the hacker terminal to solve puzzles</p>
+                            <h3>BROWSER TERMINAL</h3>
+                            <p>Fallback only — open the terminal in your browser if you can't access the app</p>
                         </div>
                     </a>
                     <a href="leaderboard.html" class="quick-link">

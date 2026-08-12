@@ -304,6 +304,17 @@ async function revealRabbitHole() {
       console.log('%c  STEP 1: Save this token in your Hunter Dashboard', 'font-size: 14px; color: #F6C453; font-weight: bold;');
       console.log('%c           → /treasure-hunt-for-real-this-time-2140/hunter-dashboard.html', 'font-size: 12px; color: #41AD49;');
       console.log('%c');
+      // Derive the validity line from the server's expires_in so the copy
+      // stays true for short-lived tokens and idempotently reissued tokens
+      // that only have part of their lifetime left. Static 24h copy is the
+      // fallback when expires_in is absent (see js/modules/token-validity.js).
+      const validityLine = typeof formatTokenValidity === 'function'
+        ? formatTokenValidity(data.expires_in)
+        : 'This token is valid for 24 hours from the time it was generated.';
+      console.log(`%c  ⏳ ${validityLine}`, 'font-size: 13px; color: #7C8A92;');
+      console.log('%c     If it expires before you use it, return to getflash.io,', 'font-size: 12px; color: #7C8A92;');
+      console.log('%c     watch the storm, and a new signal will be sent to your console.', 'font-size: 12px; color: #7C8A92;');
+      console.log('%c');
       console.log('%c  STEP 2: Find the Key Terminal...', 'font-size: 14px; color: #F6C453; font-weight: bold;');
       console.log('%c           His email was satoshin@gmx.com', 'font-size: 12px; color: #7C8A92; font-style: italic;');
       console.log('%c           What if he had a flash identity?', 'font-size: 12px; color: #7C8A92; font-style: italic;');
