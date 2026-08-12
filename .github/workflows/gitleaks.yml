@@ -1,0 +1,19 @@
+name: Secret Scan
+
+on:
+  push:
+    branches: [main, kotc]
+  pull_request:
+
+jobs:
+  gitleaks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Scans the checked-out tree (--no-git): the gate is "no secrets in the
+      # code as it stands", so a historical leak can't permanently fail CI.
+      - name: Run gitleaks
+        run: |
+          docker run --rm -v "$PWD:/repo" zricethezav/gitleaks:v8.30.1 \
+            detect --source=/repo --no-git --redact --no-banner

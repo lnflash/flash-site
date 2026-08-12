@@ -1,0 +1,9 @@
+# Gitleaks config — extends the default ruleset with allowlists for
+# client-side identifiers that are public by design.
+
+[extend]
+useDefault = true
+
+[[allowlists]]
+description = "Chatwoot website widget token — public by design, embedded on every page for visitors"
+regexes = ['''8J2iDCw5f6dgxGa1UFvP1aww''']
