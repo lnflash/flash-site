@@ -1,0 +1,20 @@
+# Gitleaks config — extends the default ruleset with allowlists for
+# client-side identifiers that are public by design.
+
+[extend]
+useDefault = true
+
+[[allowlists]]
+description = "Chatwoot website widget token — public by design, embedded on every page for visitors"
+regexes = ['''8J2iDCw5f6dgxGa1UFvP1aww''']
+
+[[allowlists]]
+# NWC connection for the donations lightning-messageboard. Deliberately embedded:
+# scoped receive-only in Alby Hub (create/lookup invoices + read history, no
+# pay_invoice) — verified 2026-08-12, Alby app ID 5 "Keys of the Caribbean".
+# Only NWC URIs on this one page are allowlisted; other secrets there still fail.
+description = "Receive-only NWC connection embedded for the donations message board"
+condition = "AND"
+paths = ['''treasure-hunt-for-real-this-time-2140/donate\.html''']
+regexTarget = "line"
+regexes = ['''nostr\+walletconnect://''']
