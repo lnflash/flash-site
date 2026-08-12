@@ -528,6 +528,26 @@
             color: #ff6b6b;
         }
 
+        /* R6: primary in-app route — informational card, not a link.
+           Suppress the clickable hover affordance so it doesn't read as
+           a dead-end button. */
+        .quick-link.quick-link-primary {
+            background: rgba(65, 173, 73, 0.1);
+            border-color: #41AD49;
+            cursor: default;
+        }
+
+        .quick-link.quick-link-primary:hover {
+            transform: none;
+            background: rgba(65, 173, 73, 0.1);
+            border-color: #41AD49;
+        }
+
+        /* R6: browser terminal is a de-emphasized fallback route */
+        .quick-link.quick-link-fallback {
+            opacity: 0.7;
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .dashboard-screen {
@@ -779,14 +799,14 @@
                 <div class="quick-links-grid">
                     <!-- R6: In-app NIP-05 path is the primary route for hunters.
                          Browser terminal is available as a fallback for non-mobile users. -->
-                    <div class="quick-link quick-link-primary" style="background: rgba(65,173,73,0.1); border: 1px solid #41AD49;">
+                    <div class="quick-link quick-link-primary">
                         <div class="quick-link-icon">📱</div>
                         <div class="quick-link-content">
                             <h3>IN-APP TERMINAL</h3>
                             <p>Primary route: open Flash and look up <strong>satoshin@getflash.io</strong> via NIP-05 to enter the terminal</p>
                         </div>
                     </div>
-                    <a href="https://kotc.islandbitcoin.com/terminal/" class="quick-link" target="_blank" style="opacity: 0.7;">
+                    <a href="https://kotc.islandbitcoin.com/terminal/" class="quick-link quick-link-fallback" target="_blank">
                         <div class="quick-link-icon">🖥️</div>
                         <div class="quick-link-content">
                             <h3>BROWSER TERMINAL</h3>
