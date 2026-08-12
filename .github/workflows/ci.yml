@@ -22,4 +22,4 @@ jobs:
           done
 
       - name: Run tests
-        run: node --test tests/
+        run: node --test tests/*.test.mjs
