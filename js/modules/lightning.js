@@ -28,7 +28,6 @@ const MAX_BRANCHES      = 5;    // max branch bolts per strike
 // ─── Easter egg state (preserved) ────────────────────────────────────────────
 let lightningStrikeCount = 0;
 let rabbitHoleRevealed   = false;
-let hunterToken          = null;
 
 // ─── DOM setup ────────────────────────────────────────────────────────────────
 const heroSection = document.getElementById('pg-hero');
@@ -263,67 +262,23 @@ if (!heroSection) {
   }, { threshold: 0.05 });
   heroObserver.observe(heroSection);
 
-  // ─── Easter egg: revealRabbitHole (preserved verbatim) ────────────────────
-  async function revealRabbitHole() {
+  // ─── Easter egg: revealRabbitHole ─────────────────────────────────────────
+  function revealRabbitHole() {
     rabbitHoleRevealed = true;
-    const token = localStorage.getItem('hunt_token');
-
-    if (!token) {
-      console.log('%c');
-      console.log('%c═══════════════════════════════════════════════════════════════', 'color: #F6C453;');
-      console.log('%c  ⚡ SIGNAL DETECTED ⚡', 'font-size: 20px; color: #F6C453; font-weight: bold;');
-      console.log('%c═══════════════════════════════════════════════════════════════', 'color: #F6C453;');
-      console.log('%c');
-      console.log('%c  "I\'ve been working on a new electronic cash system', 'font-size: 14px; color: #7C8A92; font-style: italic;');
-      console.log('%c   that\'s fully peer-to-peer, with no trusted third party."', 'font-size: 14px; color: #7C8A92; font-style: italic;');
-      console.log('%c                                        — Satoshi, 2008', 'font-size: 12px; color: #41AD49;');
-      console.log('%c');
-      console.log('%c  The hunt awaits, but first you must register...', 'font-size: 14px; color: #7C8A92;');
-      console.log('%c  → /treasure-hunt-for-real-this-time-2140/register.html', 'font-size: 14px; color: #41AD49;');
-      console.log('%c');
-      console.log('%c═══════════════════════════════════════════════════════════════', 'color: #F6C453;');
-      return;
-    }
-
-    try {
-      const response = await fetch('https://kotc.islandbitcoin.com/api/get-stage1-token.php', {
-        headers: { 'Authorization': `Bearer ${token}` }
-      });
-      const data = await response.json();
-
-      if (data.success && data.stage1_token) {
-        hunterToken = data.stage1_token;
-        console.log('%c');
-        console.log('%c╔═══════════════════════════════════════════════════════════════╗', 'color: #F6C453;');
-        console.log('%c║  ⚡ KEYS OF THE CARIBBEAN - SIGNAL ACQUIRED ⚡                 ║', 'font-size: 16px; color: #F6C453; font-weight: bold;');
-        console.log('%c╚═══════════════════════════════════════════════════════════════╝', 'color: #F6C453;');
-        console.log('%c');
-        console.log('%c  He posted one final message. Then silence.', 'font-size: 14px; color: #7C8A92;');
-        console.log('%c  But not forever...', 'font-size: 14px; color: #7C8A92;');
-        console.log('%c');
-        console.log('%c  ┌─────────────────────────────────────────────────────────┐', 'color: #41AD49;');
-        console.log('%c  │  YOUR ACCESS TOKEN:                                     │', 'color: #41AD49;');
-        console.log(`%c  │  ${hunterToken.padEnd(50)}│`, 'font-size: 16px; color: #00FFFF; font-weight: bold;');
-        console.log('%c  └─────────────────────────────────────────────────────────┘', 'color: #41AD49;');
-        console.log('%c');
-        console.log('%c  STEP 1: Save this token in your Hunter Dashboard', 'font-size: 14px; color: #F6C453; font-weight: bold;');
-        console.log('%c           → /treasure-hunt-for-real-this-time-2140/hunter-dashboard.html', 'font-size: 12px; color: #41AD49;');
-        console.log('%c');
-        console.log('%c  STEP 2: Find the Key Terminal...', 'font-size: 14px; color: #F6C453; font-weight: bold;');
-        console.log('%c           His email was satoshin@gmx.com', 'font-size: 12px; color: #7C8A92; font-style: italic;');
-        console.log('%c           What if he had a flash identity?', 'font-size: 12px; color: #7C8A92; font-style: italic;');
-        console.log('%c');
-        console.log('%c  "We are all Satoshi."', 'font-size: 14px; color: #41AD49; font-style: italic;');
-        console.log('%c');
-        console.log('%c╔═══════════════════════════════════════════════════════════════╗', 'color: #F6C453;');
-        console.log('%c║  The vault awaits those who prove themselves worthy...        ║', 'color: #7C8A92;');
-        console.log('%c╚═══════════════════════════════════════════════════════════════╝', 'color: #F6C453;');
-      } else {
-        console.log('%c⚠️ Signal interference detected...', 'font-size: 16px; color: #FCA5A5;');
-        console.log('%cPlease refresh and try again.', 'font-size: 14px; color: #7C8A92;');
-      }
-    } catch (error) {
-      console.error('Signal acquisition failed:', error);
-    }
+    console.log('%c');
+    console.log('%c═══════════════════════════════════════════════════════════════', 'color: #F6C453;');
+    console.log('%c  ⚡ SIGNAL DETECTED ⚡', 'font-size: 20px; color: #F6C453; font-weight: bold;');
+    console.log('%c═══════════════════════════════════════════════════════════════', 'color: #F6C453;');
+    console.log('%c');
+    console.log('%c  "I\'ve been working on a new electronic cash system', 'font-size: 14px; color: #7C8A92; font-style: italic;');
+    console.log('%c   that\'s fully peer-to-peer, with no trusted third party."', 'font-size: 14px; color: #7C8A92; font-style: italic;');
+    console.log('%c                                        — Satoshi, 2008', 'font-size: 12px; color: #41AD49;');
+    console.log('%c');
+    console.log('%c  The hunt sets sail soon — live, in the real world.', 'font-size: 14px; color: #7C8A92;');
+    console.log('%c  → https://kotc.islandbitcoin.com', 'font-size: 14px; color: #41AD49;');
+    console.log('%c');
+    console.log('%c  "We are all Satoshi."', 'font-size: 14px; color: #41AD49; font-style: italic;');
+    console.log('%c');
+    console.log('%c═══════════════════════════════════════════════════════════════', 'color: #F6C453;');
   }
 }

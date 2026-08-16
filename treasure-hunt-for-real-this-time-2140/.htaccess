@@ -1,7 +1,0 @@
-# Keys of the Caribbean - Directory Configuration
-
-# Default index file
-DirectoryIndex index.html
-
-# Prevent directory listing
-Options -Indexes
