@@ -171,25 +171,10 @@ body.mission-page h3 {
 /* ── Mission Hero ───────────────────────────────────────────── */
 .mission-hero {
   padding: 130px 0 100px;
-  background: #09090E url('../assets/img/kingston.svg') center bottom / 110% auto no-repeat;
+  background: linear-gradient(180deg, #0E0E16 0%, #09090E 55%, #050508 100%);
   text-align: center;
   position: relative;
   overflow: hidden;
-}
-
-/* Gradient overlay — deepens the kingston silhouette */
-.mission-hero::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    160deg,
-    rgba(0, 30, 15, 0.97) 0%,
-    rgba(0, 50, 25, 0.88) 50%,
-    rgba(9, 9, 14, 0.92) 100%
-  );
-  pointer-events: none;
-  z-index: 0;
 }
 
 /* Push content above overlay */
