@@ -238,7 +238,8 @@
             </svg>
           </a>
 
-          <a href="https://github.com/lnflash/flash-mobile/releases/latest/download/app-arm64-v8a-release.apk"
+          <a id="apk-download"
+            href="https://github.com/lnflash/flash-mobile/releases/download/android/v0.6.6/app-universal-release.apk"
             class="alt-card">
             <div class="alt-icon">
               <svg width="24" height="24" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true">
@@ -469,6 +470,61 @@
           badge.textContent = '';
         }
       });
+    })();
+  </script>
+
+  <!--
+    Direct APK link.
+
+    The href above is PINNED to a specific android/* tag on purpose. Do not
+    "simplify" it back to /releases/latest/download/... — flash-mobile cuts a
+    separate release per platform (android/vX.Y.Z and ios/vX.Y.Z, published
+    seconds apart), and GitHub's "latest" resolves to whichever landed last.
+    When that is the iOS release it carries no APK assets, so the download
+    404s. That is exactly how this link broke on v0.6.6.
+
+    The script below upgrades the href to the newest android/* release at
+    runtime. If the GitHub API is rate-limited, blocked, or JS is off, the
+    pinned href stands and still serves a working APK.
+  -->
+  <script>
+    (function () {
+      var link = document.getElementById('apk-download');
+      if (!link || !window.fetch) return;
+
+      var ASSET = 'app-universal-release.apk';
+
+      fetch('https://api.github.com/repos/lnflash/flash-mobile/releases?per_page=30', {
+        headers: { Accept: 'application/vnd.github+json' }
+      })
+        .then(function (res) {
+          if (!res.ok) throw new Error('github api ' + res.status);
+          return res.json();
+        })
+        .then(function (releases) {
+          if (!Array.isArray(releases)) return;
+
+          // Releases come back newest-first. Take the newest published
+          // android/* one; skip drafts and prereleases so the public link
+          // never points at a beta.
+          for (var i = 0; i < releases.length; i++) {
+            var rel = releases[i];
+            if (!rel || rel.draft || rel.prerelease) continue;
+            if (String(rel.tag_name || '').indexOf('android/') !== 0) continue;
+
+            var assets = rel.assets || [];
+            for (var j = 0; j < assets.length; j++) {
+              if (assets[j].name === ASSET && assets[j].browser_download_url) {
+                link.href = assets[j].browser_download_url;
+                return;
+              }
+            }
+            return; // newest android release has no universal APK — keep the pinned href
+          }
+        })
+        .catch(function () {
+          /* keep the pinned href */
+        });
     })();
   </script>
 
