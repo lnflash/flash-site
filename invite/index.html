@@ -559,6 +559,7 @@
         </div>
     </div>
 
+    <script src="precheck.js"></script>
     <script>
         // Token
         const urlParams = new URLSearchParams(window.location.search);
@@ -578,7 +579,7 @@
             const device = detectDevice();
             const deepLink = `flash://invite?token=${encodeURIComponent(token)}`;
             const appStore = device === 'ios'
-                ? 'https://apps.apple.com/app/flash-bitcoin-wallet/id6450380718'
+                ? 'https://apps.apple.com/jm/app/flash-send-spend-and-save/id6451129095'
                 : 'https://play.google.com/store/apps/details?id=com.lnflash';
             window.location.href = deepLink;
             setTimeout(() => {
@@ -640,62 +641,72 @@
                 });
             } catch (e) { console.warn('Consent log failed (non-blocking):', e); }
 
+            // Redemption happens IN THE APP, after the invitee signs up and
+            // has a session: this page hands the token to the app via the
+            // flash:// deep link, and the app's invite handler redeems it.
+            // The redeemInvite mutation requires an authenticated caller, so a
+            // brand-new invitee in a browser can never call it — this page
+            // only pre-checks the invite with the public invitePreview query
+            // so a dead link fails here with a useful message instead of
+            // deep-linking into the app and failing there.
             try {
                 const resp = await fetch('https://api.flashapp.me/graphql', {
                     method: 'POST', headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         query: `
-              mutation RedeemInvite($token: String!, $consent: InviteConsentInput) {
-                redeemInvite(input: { token: $token, consent: $consent }) {
-                  success
-                  errors
+              query InvitePreview($token: String!) {
+                invitePreview(token: $token) {
+                  isValid
+                  expiresAt
                 }
               }
             `,
-                        variables: {
-                            token,
-                            consent: {
-                                version: CONSENT_VERSION,
-                                transactionalOptIn: !!transactionalEl.checked,
-                                marketingOptIn: !!marketingEl.checked,
-                                timestamp: consentRecord.timestamp,
-                                sourceUrl: consentRecord.page,
-                                userAgent: consentRecord.userAgent
-                            }
-                        }
+                        variables: { token }
                     })
                 });
                 const data = await resp.json();
-                if (data.errors || (data.data && !data.data.redeemInvite?.success)) {
-                    const msg = data.data?.redeemInvite?.errors?.[0] || 'Invalid or expired invitation';
-                    if (msg.toLowerCase().includes('already been used')) { openInApp(); return; }
-                    showError(msg);
+                // Decision logic lives in precheck.js so it can be unit-tested
+                // (node --test invite/precheck.test.js). Fail-open on anything that isn't a
+                // definitive verdict about this token.
+                const verdict = classifyInvitePreview(data);
+                if (verdict === 'invalid-token') {
+                    // The resolver itself rejected this token.
+                    showError('This invitation link is not valid. Ask your friend to send you a new invite from the Flash app.');
+                    return;
+                }
+                if (verdict === 'expired') {
+                    showError('This invitation has expired. Ask your friend to send you a new invite from the Flash app.');
+                    return;
+                }
+                if (verdict === 'used-or-revoked') {
+                    // Not expired but not valid: it was already used (possibly
+                    // by this person) or revoked. If they already redeemed it,
+                    // the app is where they want to be anyway — but a desktop
+                    // browser can't follow the flash:// deep link, so give the
+                    // same guidance the valid-token desktop path gets instead
+                    // of bouncing them to an app store.
                     document.querySelector('.loading').style.display = 'none';
+                    if (detectDevice() === 'desktop') {
+                        showError('Almost there — open this same link on your phone, install Flash, and your invitation will be applied automatically.');
+                        return;
+                    }
+                    openInApp();
                     return;
                 }
             } catch (err) {
-                console.error('Redeem error:', err);
-                // continue; app can validate
+                // Network hiccup — don't block the invitee on a pre-check.
+                // The app validates the token again when it redeems.
+                console.warn('Invite pre-check failed (non-blocking):', err);
             }
 
             document.querySelector('.loading').style.display = 'none';
 
             const device = detectDevice();
-            if (device === 'ios') {
-                window.location.href = `flash://invite?token=${encodeURIComponent(token)}`;
-                setTimeout(() => {
-                    if (document.visibilityState === 'visible') {
-                        window.location.href = 'https://apps.apple.com/app/flash-bitcoin-wallet/id6450380718';
-                    }
-                }, 2500);
-            } else if (device === 'android') {
-                window.location.href = `flash://invite?token=${encodeURIComponent(token)}`;
-                setTimeout(() => {
-                    if (document.visibilityState === 'visible') {
-                        window.location.href = 'https://play.google.com/store/apps/details?id=com.lnflash';
-                    }
-                }, 2500);
+            if (device === 'desktop') {
+                showError('Almost there — open this same link on your phone, install Flash, and your invitation will be applied automatically.');
+                return;
             }
+            openInApp();
         }
 
         function showError(message) {
