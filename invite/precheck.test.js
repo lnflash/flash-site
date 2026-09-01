@@ -57,6 +57,18 @@ test('token error alongside a returned preview does not hard-fail', () => {
     assert.equal(classifyInvitePreview(data, NOW), 'proceed');
 });
 
+test('nested-path subfield error that null-bubbled the preview fails open', () => {
+    // Per the GraphQL spec, an error on a non-nullable subfield (e.g.
+    // invitePreview.isValid) nulls the parent object, so the response is
+    // preview === null with path: ["invitePreview", "isValid"]. That is a
+    // transient resolver failure, not a token verdict — must fail open.
+    const data = {
+        data: { invitePreview: null },
+        errors: [{ message: 'boom', path: ['invitePreview', 'isValid'] }]
+    };
+    assert.equal(classifyInvitePreview(data, NOW), 'proceed');
+});
+
 test('found but invalid and past expiry classifies as expired', () => {
     const data = { data: { invitePreview: { isValid: false, expiresAt: PAST } } };
     assert.equal(classifyInvitePreview(data, NOW), 'expired');

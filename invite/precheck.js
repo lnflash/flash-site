@@ -21,8 +21,14 @@ function classifyInvitePreview(data, now) {
     // transport/validation errors (schema drift, GRAPHQL_VALIDATION_FAILED,
     // rate limits, 500s) carry no path — those must fail open, not tell the
     // invitee their valid link is broken.
+    //
+    // The path must be EXACTLY ["invitePreview"]: a subfield error (e.g.
+    // path: ["invitePreview", "isValid"] from a transient resolver failure)
+    // null-bubbles the parent per the GraphQL spec, so preview === null with
+    // a nested path is NOT a verdict about the token — that must fail open.
     const tokenErr = Array.isArray(data && data.errors) &&
-        data.errors.some(e => Array.isArray(e && e.path) && e.path[0] === 'invitePreview');
+        data.errors.some(e => Array.isArray(e && e.path) &&
+            e.path.length === 1 && e.path[0] === 'invitePreview');
     if (tokenErr && !preview) return 'invalid-token';
 
     if (preview && !preview.isValid) {
