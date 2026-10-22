@@ -29,7 +29,7 @@
     <section id="privacy" class="legal-pages">
       <div class="container">
         <h1>Privacy Policy</h1>
-        <p><strong>Last Updated:</strong> January 21 2024</p>
+        <p><strong>Last Updated:</strong> October 22 2026</p>
         <h2>Introduction</h2>
         <p>Welcome to Flash, owned and operated by Island Bitcoin C.A. de S.V. We understand how important it is for our
           users to know what information we collect from them, why we collect this information, and how we use it. This
@@ -126,6 +126,43 @@
           <li><strong>Portability:</strong> You can request a copy of your Personal Data in a structured, commonly used,
             machine-readable format so that you can transfer it to another provider.</li>
         </ul>
+        <h2 id="cashu-provisioner">Cashu Provisioner privacy</h2>
+        <p>This section applies specifically to Cashu Provisioner (Operator) on Android and Cashu Card Provisioner
+          on iOS, published by Island Bitcoin. It describes the operator tool used to install and record Cashu cards.</p>
+        <h3>Information used to provide the tool</h3>
+        <ul>
+          <li><strong>Operator accounts:</strong> An administrator provides your account. The tool sends your username
+            and password to the configured operations service to sign in. The service stores password hashes and
+            session-token hashes. It associates provisioning work with your operator account.</li>
+          <li><strong>Device and card identifiers:</strong> The tool uses an app-generated device identifier, the card's
+            chip identity, and installation public-key identifiers to associate work with the correct device and card.</li>
+          <li><strong>Provisioning configuration and activity:</strong> The service stores batch settings, mint references,
+            attempt identifiers, installation outcomes, timestamps and interruption records. These support issuance,
+            recovery and prevention of unsafe card reuse. An interrupted-attempt journal also persists on your phone.</li>
+          <li><strong>Card-management recovery:</strong> The service derives and retains card-management keys needed for
+            installation and recovery. These are operational secrets, distinct from a card holder's ownership key or PIN.
+            Encrypted recovery exports contain the operational records and escrow needed to recover the service.</li>
+        </ul>
+        <h3>Purposes and hosting</h3>
+        <p>The provisioner uses these records for authentication, app functionality, account management, security,
+          interruption recovery and operational audit. Identifiers and provisioning activity are linked to your
+          operator account. The provisioner does not use them for advertising, cross-app tracking or sale to data brokers.</p>
+        <p>The configured operations service and its hosting providers process requests and may process network
+          metadata such as IP addresses. For the Cloudflare-hosted operations service, Cloudflare processes operational data
+          and encrypted recovery exports. The independent recovery setup stores encrypted copies in Nextcloud; the
+          recovery identity is held separately. Hosting and recovery providers process this information to provide
+          the service. The encryption of backup exports does not mean every operational database field is individually
+          encrypted by the application.</p>
+        <h3>Deletion and retention</h3>
+        <p>You can request deletion of your personal data or closure of operator access by emailing
+          <a href="mailto:support@getflash.io">support@getflash.io</a>. See the
+          <a href="provisioner-data-deletion.html">provisioner data-deletion request page</a> for the steps,
+          verification process and retained record categories. You do not need to sign in to make a request.</p>
+        <p>Necessary card-recovery and security records currently have no fixed automatic expiry. Card identities,
+          installation and interruption records, key-recovery records and security evidence may need to remain for
+          safe recovery, prevention of card reuse or applicable legal obligations. Support explains retained records
+          and their purpose when handling a request. Closing access does not automatically erase card recovery keys
+          or quarantine evidence.</p>
         <h2>Changes to this Policy</h2>
         <p>We reserve the right to modify this Privacy Policy at any time. When changes are made, we will notify you
           through a prominent notice on our website or by sending you an email notification. We encourage you to review
@@ -137,7 +174,7 @@
         <p>If you have questions, comments, or complaints concerning this Privacy Policy or our handling of your
           Personal Data, please contact us at privacy@getflash.io.</p>
         <h2>Date</h2>
-        <p><strong>This Privacy Policy was last updated on January 21, 2024</strong></p>
+        <p><strong>This Privacy Policy was last updated on October 22, 2026</strong></p>
       </div>
     </section>
   </main>
