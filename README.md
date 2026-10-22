@@ -4,7 +4,8 @@ The official website for [Flash](https://getflash.io) — Jamaica's Bitcoin wall
 
 **Live site:** https://getflash.io  
 **Staging:** https://staging.getflash.io  
-**Staging branch:** `staging-revamp` (Vercel)  
+**Staging branch:** `staging-revamp` (Vercel)
+
 **Production hosting:** DigitalOcean, served by Caddy behind Cloudflare
 
 ---
