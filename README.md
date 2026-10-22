@@ -4,7 +4,8 @@ The official website for [Flash](https://getflash.io) — Jamaica's Bitcoin wall
 
 **Live site:** https://getflash.io  
 **Staging:** https://staging.getflash.io  
-**Branch:** `staging-revamp` (production branch on Vercel)
+**Staging branch:** `staging-revamp` (Vercel)  
+**Production hosting:** DigitalOcean, served by Caddy behind Cloudflare
 
 ---
 
@@ -229,7 +230,11 @@ section:not(.pg-download) > * + * { padding-top: 120px }  → global section spa
 - **CI:** Vercel auto-deploys from `staging-revamp` branch → `staging.getflash.io`
 - **Deploy time:** ~36–48 seconds after `git push`
 - **Cache:** `index.html` is CDN-cached; `components/header.html` is fetched via XHR at runtime (bypasses cache)
-- **Production merge:** `staging-revamp` → `main` when approved
+- **Production serving (verified 2026-10-22):** Caddy serves `getflash.io` from `/srv/getflash.io`,
+  bind-mounted from `/opt/stack/getflash.io` on the DigitalOcean origin. Cloudflare proxies the public domain.
+- **Production publication:** A GitHub merge or Vercel preview alone does not update the live document root.
+  Publish only the approved files through the verified origin deployment path; preserve unrelated production files.
+  The provisioner deletion-request page was published as a single approved static file without a server restart.
 
 ### Known staging limitations
 - **Map CORS:** `api.test.flashapp.me` blocks requests from `staging.getflash.io` — map and merchant profile pages use mock fallback data on staging. Self-resolves on `getflash.io` production domain.
