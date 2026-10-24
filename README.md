@@ -1,6 +1,6 @@
-# Flash — Bitcoin Payments & Merchant Rewards
+# Flash: Bitcoin Payments & Merchant Rewards
 
-The official website for [Flash](https://getflash.io) — Jamaica's Bitcoin wallet and merchant rewards platform, powered by Lightning Network.
+The official website for [Flash](https://getflash.io), Jamaica's Bitcoin wallet and merchant rewards platform, powered by Lightning Network.
 
 **Live site:** https://getflash.io  
 **Staging:** https://staging.getflash.io  
@@ -14,7 +14,7 @@ The official website for [Flash](https://getflash.io) — Jamaica's Bitcoin wall
 
 | Product | Description |
 |---|---|
-| **Flash Mobile** | Bitcoin/Lightning wallet app — iOS & Android |
+| **Flash Mobile** | Bitcoin/Lightning wallet app, iOS & Android |
 | **Flash POS** | Point-of-sale system for merchants |
 | **Flash Card** | Physical tap-to-pay rewards card |
 | **Flash API** | RESTful + WebSocket API for developers |
@@ -23,13 +23,13 @@ The official website for [Flash](https://getflash.io) — Jamaica's Bitcoin wall
 
 ## Tech Stack
 
-- **Pure HTML/CSS/JS** — no frontend framework dependencies
-- **Component-based** — shared `header.html` and `footer.html` loaded via fetch at runtime
-- **CSS custom properties** — design tokens in `css/main.css`; page-scoped tokens in `css/pages/`
-- **Google Maps API** — `AdvancedMarkerElement`, Places TextQuery (merchant map)
-- **Nostr (`nostr-tools@2.23.3`)** — NIP-17 gift wrap DMs on merchant profile pages
-- **GSAP** — lightning animation on homepage (`js/modules/lightning.js`)
-- **Fonts** — Sora (700/800 headings) + Inter (400/500 body) via Google Fonts
+- **Pure HTML/CSS/JS**: no frontend framework dependencies
+- **Component-based**: shared `header.html` and `footer.html` loaded via fetch at runtime
+- **CSS custom properties**: design tokens in `css/main.css`; page-scoped tokens in `css/pages/`
+- **Google Maps API**: `AdvancedMarkerElement`, Places TextQuery (merchant map)
+- **Nostr (`nostr-tools@2.23.3`)**: NIP-17 gift wrap DMs on merchant profile pages
+- **GSAP**: lightning animation on homepage (`js/modules/lightning.js`)
+- **Fonts**: Sora (700/800 headings) + Inter (400/500 body) via Google Fonts
 
 ---
 
@@ -95,14 +95,14 @@ flash-site/
 
 ### Homepage (`index.html`)
 Dark-themed landing page. Sections in order:
-1. `#pg-hero` — headline, subhead, app store CTAs, trust strip, stat bar
-2. `#pg-ways` — 3 use cases (Send Money Home, Buy Bitcoin, Spend)
-3. `#pg-remittance` — how it works + fee breakdown
-4. `.mid-page-CTA` — download CTA
-5. `#pg-merchants` — merchant ecosystem
-6. `#pg-testimonials` — customer testimonials
-7. `.merchant-CTA` — merchant sign-up CTA
-8. `.contact-strip` — email + WhatsApp contact strip
+1. `#pg-hero`: headline, subhead, app store CTAs, trust strip, stat bar
+2. `#pg-ways`: 3 use cases (Send Money Home, Buy Bitcoin, Spend)
+3. `#pg-remittance`: how it works + fee breakdown
+4. `.mid-page-CTA`: download CTA
+5. `#pg-merchants`: merchant ecosystem
+6. `#pg-testimonials`: customer testimonials
+7. `.merchant-CTA`: merchant sign-up CTA
+8. `.contact-strip`: email + WhatsApp contact strip
 
 **Hero stats:** `0% transfer fee` · `<3s transfer speed` · `34+ Merchants 🇯🇲`  
 **Hero subhead:** `"Receive in seconds — no bank account needed."`
@@ -119,9 +119,9 @@ Full-screen map centered on Jamaica (`{lat: 18.1096, lng: -77.2975}`, zoom 10).
 ### Merchant Profile (`merchant/index.html`)
 URL: `/merchant/?u={username}`
 
-1. **Hero** — merchant name, avatar, "Flash Merchant" badge, Google Places enrichment (address, phone, rating, open/closed, website)
-2. **Pay with Flash** — QR code for `pay.flashapp.me/{username}` + button
-3. **Nostr chat** — NIP-17 gift wrap DMs, ephemeral keypair per session, no login required
+1. **Hero**: merchant name, avatar, "Flash Merchant" badge, Google Places enrichment (address, phone, rating, open/closed, website)
+2. **Pay with Flash**: QR code for `pay.flashapp.me/{username}` + button
+3. **Nostr chat**: NIP-17 gift wrap DMs, ephemeral keypair per session, no login required
 
 **API queries:**
 - `npubByUsername(username)` → `{npub}` → decoded to hex via `NostrTools.nip19.decode()`
@@ -142,7 +142,7 @@ URL: `/merchant/?u={username}`
 | `--mid` | `#0D0D14` | Footer utils row |
 | `--text` | `#111218` | Body text (light mode) |
 
-**Green is sacred** — never use decoratively. Reserved for: primary CTAs, success states, balance/key numbers, brand moments, logo.
+**Green is sacred**: never use decoratively. Reserved for: primary CTAs, success states, balance/key numbers, brand moments, logo.
 
 ### Typography
 - **Headings:** Sora 700/800
@@ -151,8 +151,8 @@ URL: `/merchant/?u={username}`
 
 ### Themes
 - **Site default:** light mode
-- **Homepage:** always dark — `body.home-page` scoped CSS tokens
-- **Footer:** always dark — hardcoded `#09090E`/`#0D0D14` regardless of theme
+- **Homepage:** always dark: `body.home-page` scoped CSS tokens
+- **Footer:** always dark: hardcoded `#09090E`/`#0D0D14` regardless of theme
 
 ### Trust Badge Pills (approved pattern)
 Hero trust strip + footer trust badges use frosted glass pill:
@@ -171,19 +171,19 @@ padding: 6px 12px;
 - **El Salvador disclaimer** MUST remain on every page in `.footer-btm`:
   > *"Island Bitcoin C.A. de S.V. entity is regulated by BCR and by the Superintendent of the Financial System of El Salvador"*
 - Privacy Policy and Terms of Service links must remain in footer.
-- **Never use "Banking"** — regulatory flag.
-- **Never claim BOJ/regulatory compliance** — Flash is not yet regulated by BOJ.
-- **No investment language** — no "earn", "grow", "profit", "returns".
+- **Never use "Banking"**: regulatory flag.
+- **Never claim BOJ/regulatory compliance**: Flash is not yet regulated by BOJ.
+- **No investment language**: no "earn", "grow", "profit", "returns".
 
 ### Copy Rules
-- **Fiat First** — always show JMD amounts before Bitcoin/sats.
-- **No "remittance"** — replaced sitewide with "send money home" / "transfer" / "family payment".
+- **Fiat First**: always show JMD amounts before Bitcoin/sats.
+- **No "remittance"**: replaced sitewide with "send money home" / "transfer" / "family payment".
 - **No Western Union brand mentions** anywhere on the site.
 - **Merchant signup** always → `https://signup.getflash.io` (static one-pager; in-app upgrade is the primary path)
 - **Fee accuracy:** Flash transfer fee = 0%; on-ramp = 1–3% (third-party); cash-out to Jamaican bank = 2% (Flash fee).
 
 ### Navigation
-- No "Home" nav link — logo handles home navigation.
+- No "Home" nav link: the logo handles home navigation.
 - Do NOT touch `/treasure-hunt` or `/treasure-hunt-for-real-this-time-2140` (KOTC pages).
 
 ### Stats (verified, do not change without confirmation)
@@ -207,7 +207,7 @@ section:not(.pg-download) > * + * { padding-top: 120px }  → global section spa
 ```
 
 ### Known CSS contracts
-- **Nav:** `.main-nav` is the SAME `<ul>` on desktop and mobile. Scope drawer-only styles to `@media (max-width: 799px)` — never apply unscoped rules to `.main-nav`.
+- **Nav:** `.main-nav` is the SAME `<ul>` on desktop and mobile. Scope drawer-only styles to `@media (max-width: 799px)`; never apply unscoped rules to `.main-nav`.
 - **Job cards:** HTML has `class="job-card collapsed"`. JS toggles `.expanded`. CSS keys on `.job-card.expanded`.
 - **Mobile logo:** `position: absolute; left: 50%; transform: translateX(-50%)` at ≤799px.
 - **Hero body DOM:** `<canvas>` (display:none) and `.hero-bg` (position:absolute) are DOM siblings of `.hero-body`, causing it to match `> * + *` rule. Override: `#pg-hero .hero-body { padding-top: 0 }`.
@@ -238,14 +238,14 @@ section:not(.pg-download) > * + * { padding-top: 120px }  → global section spa
   The provisioner deletion-request page was published as a single approved static file without a server restart.
 
 ### Known staging limitations
-- **Map CORS:** `api.test.flashapp.me` blocks requests from `staging.getflash.io` — map and merchant profile pages use mock fallback data on staging. Self-resolves on `getflash.io` production domain.
+- **Map CORS:** `api.test.flashapp.me` blocks requests from `staging.getflash.io`. The map and merchant profile pages use mock fallback data on staging. This resolves itself on `getflash.io` production domain.
 - **Map filter icons:** broken on staging (CORS). Self-resolves on prod.
 
 ---
 
 ## Post-Launch TODO
 
-- [ ] Wire job application email backend (recommend Formspree — 5-min setup)
+- [ ] Wire job application email backend (recommend Formspree; 5-min setup)
 - [ ] Fix team.html modal dark mode: `#application-modal` form inputs invisible in dark mode
 - [ ] Map page: CORS issue self-resolves on prod domain
 - [ ] Consider adding `/merchant/?u=username` to sitemap

@@ -1,4 +1,4 @@
-# Sparkliness Animation Pass — Design Doc
+# Sparkliness Animation Pass: Design Doc
 **Date:** 2026-03-04  
 **Branch:** staging-revamp  
 **Approved by:** Dread
@@ -6,7 +6,7 @@
 ---
 
 ## Goal
-Add purposeful motion to the Flash homepage to make it feel alive and premium — not gratuitous, never distracting. Respect `prefers-reduced-motion`.
+Add purposeful motion to the Flash homepage to make it feel alive and premium. Keep it unobtrusive and respect `prefers-reduced-motion`.
 
 ## Approach: Hybrid CSS scroll-reveal + vanilla JS counter + CSS keyframe float
 
@@ -43,6 +43,6 @@ Add purposeful motion to the Flash homepage to make it feel alive and premium �
 ```
 
 ## Files
-- `js/modules/animations.js` — new module (scroll-reveal observer + counter)
-- `css/pages/home.css` — reveal classes, float keyframe, stagger delays
-- `index.html` — add `data-reveal` attrs, add `<script src="js/modules/animations.js">`
+- `js/modules/animations.js`: new module (scroll-reveal observer + counter)
+- `css/pages/home.css`: reveal classes, float keyframe, stagger delays
+- `index.html`: add `data-reveal` attrs, add `<script src="js/modules/animations.js">`
